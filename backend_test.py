@@ -215,19 +215,18 @@ class OrthoConnectAPITester:
             return False
 
     def test_search_surgeons(self):
-        """Test surgeon search"""
+        """Test surgeon search using smart search"""
         try:
             # Wait a moment for the approval to take effect
             time.sleep(2)
             
             params = {
-                "location": "400001",  # Mumbai pincode
-                "radius_km": 10,
-                "subspecialty": "Knee"
+                "q": "knee specialist near 400001",
+                "radius_km": 10
             }
             
             response = requests.get(
-                f"{self.base_url}/api/surgeons/search",
+                f"{self.base_url}/api/profiles/smart-search",
                 params=params,
                 timeout=15
             )
@@ -245,10 +244,10 @@ class OrthoConnectAPITester:
                 else:
                     details += " (Test surgeon not found - may need more time for indexing)"
             
-            self.log_test("Search Surgeons", success, details)
+            self.log_test("Smart Search Surgeons", success, details)
             return success
         except Exception as e:
-            self.log_test("Search Surgeons", False, str(e))
+            self.log_test("Smart Search Surgeons", False, str(e))
             return False
 
     def test_get_surgeon_by_slug(self):
