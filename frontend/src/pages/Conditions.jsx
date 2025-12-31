@@ -1,62 +1,78 @@
-import { Link } from "react-router-dom";
-import { CONDITION_PAGES, SUBSPECIALTIES } from "@/lib/constants";
+import { Link, useSearchParams } from "react-router-dom";
+import { CONDITION_CATEGORIES } from "@/lib/conditions";
 
 export default function Conditions() {
+  const [searchParams] = useSearchParams();
+  const preselect = searchParams.get("cat") || "";
+
   return (
     <main data-testid="conditions-page" className="bg-white">
       <section className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
-        <h1
-          data-testid="conditions-title"
-          className="text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl"
-        >
-          Orthopaedic Conditions
-        </h1>
-        <p
-          data-testid="conditions-subtitle"
-          className="mt-2 max-w-2xl text-sm leading-relaxed text-slate-600"
-        >
-          Simple, patient-friendly explanations. If you have a pincode, you can
-          search for an appropriate subspecialist after reading.
-        </p>
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <h1
+              data-testid="conditions-title"
+              className="text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl"
+            >
+              Know your condition
+            </h1>
+            <p
+              data-testid="conditions-subtitle"
+              className="mt-2 max-w-2xl text-sm leading-relaxed text-slate-600"
+            >
+              Start with a category. Each page uses simple language and includes
+              a search prompt to find the right subspecialist.
+            </p>
+          </div>
+
+          {preselect ? (
+            <div
+              data-testid="conditions-preselect"
+              className="rounded-full border border-sky-200 bg-sky-50 px-4 py-2 text-xs font-semibold text-sky-900"
+            >
+              Suggested: {preselect}
+            </div>
+          ) : null}
+        </div>
 
         <div className="mt-8 grid gap-4 md:grid-cols-3">
-          {CONDITION_PAGES.map((c) => (
+          {CONDITION_CATEGORIES.map((c) => (
             <Link
-              data-testid={`conditions-card-${c.slug}`}
-              key={c.slug}
-              to={`/conditions/${c.slug}`}
-              className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm hover:border-sky-200 hover:shadow-md transition-[box-shadow,border-color]"
+              data-testid={`conditions-category-${c.key}`}
+              key={c.key}
+              to={`/conditions/category/${c.key}`}
+              className="group relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-5 shadow-sm transition-[box-shadow,border-color] hover:border-sky-200 hover:shadow-md"
             >
-              <div className="text-sm font-semibold text-slate-900">{c.title}</div>
-              <div className="mt-1 text-xs font-medium text-sky-700">
-                Category: {c.category}
+              <div className="absolute inset-0">
+                <img
+                  data-testid={`conditions-category-image-${c.key}`}
+                  src={c.image}
+                  alt=""
+                  className="h-full w-full object-cover opacity-[0.18] transition-[opacity] group-hover:opacity-[0.22]"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-white via-white/80 to-white/30" />
               </div>
-              <div className="mt-3 text-sm leading-relaxed text-slate-600">
-                {c.summary}
+              <div className="relative">
+                <div className="text-base font-semibold text-slate-900">
+                  {c.title}
+                </div>
+                <div className="mt-2 text-sm text-slate-600">
+                  Symptoms, causes, when to consult, and treatment options.
+                </div>
+                <div className="mt-4 text-sm font-medium text-sky-700 transition-colors group-hover:text-sky-800">
+                  View conditions →
+                </div>
               </div>
             </Link>
           ))}
         </div>
 
-        <div className="mt-12 rounded-3xl border border-slate-200 bg-slate-50 p-6">
-          <div
-            data-testid="conditions-sub-specialty-title"
-            className="text-sm font-semibold text-slate-900"
-          >
-            Find surgeons by subspecialty
-          </div>
-          <div className="mt-3 flex flex-wrap gap-2">
-            {SUBSPECIALTIES.map((s) => (
-              <Link
-                data-testid={`conditions-subspecialty-chip-${s.toLowerCase()}`}
-                key={s}
-                to={`/?sub=${encodeURIComponent(s)}`}
-                className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm text-slate-700 hover:border-sky-200 hover:bg-white transition-[border-color,background-color]"
-              >
-                {s}
-              </Link>
-            ))}
-          </div>
+        <div
+          data-testid="conditions-disclaimer"
+          className="mt-10 rounded-2xl border border-slate-200 bg-slate-50 p-5 text-sm text-slate-600"
+        >
+          Medical disclaimer: Information is for education only. OrthoConnect does
+          not recommend or rank doctors.
         </div>
       </section>
     </main>
