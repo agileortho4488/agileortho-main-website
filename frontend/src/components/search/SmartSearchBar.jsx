@@ -30,6 +30,12 @@ export default function SmartSearchBar({
           data-testid="smart-search-input"
           value={q}
           onChange={(e) => setQ(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              if (canSearch) onSearch({ q: q.trim() });
+            }
+          }}
           placeholder='Try: "knee specialist near 500001" or "hand surgeon in Hyderabad"'
           className="h-12 flex-1 rounded-xl border-slate-200 bg-slate-50/60 text-base focus-visible:ring-sky-500"
         />
