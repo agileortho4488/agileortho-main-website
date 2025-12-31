@@ -722,6 +722,29 @@ async def get_profile_by_slug(slug: str):
 # -----------------------------
 
 
+@api_router.get("/surgeon/me/profile")
+async def surgeon_get_profile(auth: Dict[str, Any] = Depends(surgeon_dep)):
+    user_id = auth["sub"]
+    doc = await db.surgeons.find_one({"user_id": user_id}, {"_id": 0, "upload_token": 0})
+    if not doc:
+        return {"exists": False}
+
+    locs = _ensure_locations(doc)
+    return {
+        "exists": True,
+        "status": doc.get("status"),
+        "slug": doc.get("slug"),
+        "qualifications": doc.get("qualifications", ""),
+        "registration_number": doc.get("registration_number", ""),
+        "subspecialties": doc.get("subspecialties", []),
+        "about": doc.get("about", ""),
+        "conditions_treated": doc.get("conditions_treated", []),
+        "procedures_performed": doc.get("procedures_performed", []),
+        "locations": locs,
+        "documents_count": len(doc.get("documents", []) or []),
+    }
+
+
 @api_router.put("/surgeon/me/profile")
 async def surgeon_upsert_profile(payload: SurgeonProfileUpsert, auth: Dict[str, Any] = Depends(surgeon_dep)):
     user_id = auth["sub"]
@@ -1131,7 +1154,10 @@ app.add_middleware(
 @app.on_event("startup")
 async def ensure_indexes():
     try:
-        await db.users.create_index("email", unique=True)
+        await db.users.create_index("email", unique=True, sparse=True)
+        await db.users.create_index("mobile", unique=True, sparse=True)
+        await db.otp_codes.create_index([("mobile", 1), ("created_at", -1)])
+        await db.otp_codes.create_index("expires_at")
         await db.geo_cache.create_index("query", unique=True)
 
         await db.surgeons.create_index("slug", unique=True)
