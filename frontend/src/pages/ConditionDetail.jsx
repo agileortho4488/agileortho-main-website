@@ -17,10 +17,10 @@ export default function ConditionDetail() {
   const [searchParams] = useSearchParams();
   const location = searchParams.get("location") || "";
 
-  const page = useMemo(
-    () => CONDITION_PAGES.find((c) => c.slug === slug) || null,
-    [slug],
-  );
+  const page = useMemo(() => {
+    const all = Object.values(CONDITIONS_BY_CATEGORY).flat();
+    return all.find((c) => c.slug === slug) || null;
+  }, [slug]);
 
   if (!page) {
     return (
