@@ -7,6 +7,10 @@ import SiteHeader from "@/components/layout/SiteHeader";
 import SiteFooter from "@/components/layout/SiteFooter";
 
 import Home from "@/pages/Home";
+import EducationHub from "@/pages/EducationHub";
+import EducationCategory from "@/pages/EducationCategory";
+import EducationTopic from "@/pages/EducationTopic";
+
 import Conditions from "@/pages/Conditions";
 import ConditionCategory from "@/pages/ConditionCategory";
 import ConditionDetail from "@/pages/ConditionDetail";
@@ -24,6 +28,13 @@ export default function App() {
         <SiteHeader />
         <Routes>
           <Route path="/" element={<Home />} />
+
+          {/* Patient education library */}
+          <Route path="/education" element={<EducationHub />} />
+          <Route path="/education/:categoryKey" element={<EducationCategory />} />
+          <Route path="/education/:categoryKey/:topicSlug" element={<EducationTopic />} />
+
+          {/* Curated condition pages (separate from full library) */}
           <Route path="/conditions" element={<Conditions />} />
           <Route path="/conditions/category/:categoryKey" element={<ConditionCategory />} />
           <Route path="/conditions/:slug" element={<ConditionDetail />} />

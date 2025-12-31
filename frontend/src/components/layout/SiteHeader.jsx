@@ -60,7 +60,7 @@ export default function SiteHeader() {
           data-testid="site-nav"
           className="hidden items-center gap-6 md:flex"
         >
-          <NavItem testId="nav-conditions-link" to="/conditions">
+          <NavItem testId="nav-conditions-link" to="/education">
             Conditions
           </NavItem>
           <NavItem testId="nav-about-link" to="/about">
