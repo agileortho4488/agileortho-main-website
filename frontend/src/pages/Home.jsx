@@ -7,7 +7,6 @@ import ResultsMap from "@/components/search/ResultsMap";
 
 import { Button } from "@/components/ui/button";
 import { apiClient } from "@/lib/api";
-import { SUBSPECIALTIES } from "@/lib/constants";
 
 const HERO_IMAGE =
   "https://images.unsplash.com/photo-1593824261342-fd6ee146f73d?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Nzh8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBob3NwaXRhbCUyMGNvcnJpZG9yJTIwY2xlYW58ZW58MHx8fGJsdWV8MTc2NzE2Mjk4OXww&ixlib=rb-4.1.0&q=85";
@@ -26,28 +25,8 @@ export default function Home() {
   async function runSmartSearch(next) {
     setLoading(true);
     setError("");
-    setQuery(next.q);
     try {
       const res = await api.get("/profiles/smart-search", {
-
-  const shouldAutoSearch = useMemo(() => {
-    const t = query.trim();
-    if (t.length < 4) return false;
-    // Basic heuristics to avoid spamming API: require explicit location hint or pincode
-    const hasNearOrIn = /\b(near|in)\b/i.test(t);
-    const hasPincode = /\b\d{6}\b/.test(t);
-    return hasNearOrIn || hasPincode;
-  }, [query]);
-
-  useEffect(() => {
-    if (!shouldAutoSearch) return;
-    const handle = setTimeout(() => {
-      runSmartSearch({ q: query });
-    }, 600);
-    return () => clearTimeout(handle);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [query, radiusKm, shouldAutoSearch]);
-
         params: {
           q: next.q,
           radius_km: radiusKm,
@@ -55,14 +34,20 @@ export default function Home() {
       });
       setResults(res.data || []);
     } catch (e) {
-      setError(
-        e?.response?.data?.detail || "Search failed. Please try again.",
-      );
+      setError(e?.response?.data?.detail || "Search failed. Please try again.");
       setResults([]);
     } finally {
       setLoading(false);
     }
   }
+
+  const shouldAutoSearch = useMemo(() => {
+    const t = query.trim();
+    if (t.length < 4) return false;
+    const hasNearOrIn = /\b(near|in)\b/i.test(t);
+    const hasPincode = /\b\d{6}\b/.test(t);
+    return hasNearOrIn || hasPincode;
+  }, [query]);
 
   useEffect(() => {
     const q = searchParams.get("q") || "";
@@ -72,6 +57,15 @@ export default function Home() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (!shouldAutoSearch) return;
+    const handle = setTimeout(() => {
+      runSmartSearch({ q: query.trim() });
+    }, 650);
+    return () => clearTimeout(handle);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query, radiusKm, shouldAutoSearch]);
 
   return (
     <main data-testid="home-page" className="bg-white">
@@ -110,8 +104,10 @@ export default function Home() {
                 <SmartSearchBar
                   value={query}
                   onChange={(v) => setQuery(v)}
-                  initialQuery={query}
-                  onSearch={(v) => runSmartSearch(v)}
+                  onSearch={(v) => {
+                    setQuery(v.q);
+                    runSmartSearch(v);
+                  }}
                 />
 
                 <div className="mt-3 flex items-center justify-between gap-3">
@@ -119,7 +115,7 @@ export default function Home() {
                     data-testid="home-radius-info"
                     className="text-xs text-slate-500"
                   >
-                    Radius: {radiusKm} km (pincode/city-based)
+                    Radius: {radiusKm} km
                   </div>
                   <div className="flex gap-2">
                     {[5, 10, 25].map((n) => (
@@ -187,7 +183,10 @@ export default function Home() {
         </div>
       </section>
 
-      <section data-testid="home-segments" className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+      <section
+        data-testid="home-segments"
+        className="mx-auto max-w-6xl px-4 py-12 sm:px-6"
+      >
         <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr]">
           <div>
             <div
