@@ -600,7 +600,7 @@ async def get_profile_by_slug(slug: str):
     if not doc:
         raise HTTPException(status_code=404, detail="Surgeon not found")
 
-    locs = doc.get("locations") or []
+    locs = _ensure_locations(doc)
     return SurgeonPublic(
         id=doc["id"],
         slug=doc["slug"],
