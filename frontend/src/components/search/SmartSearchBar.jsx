@@ -2,8 +2,18 @@ import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-export default function SmartSearchBar({ initialQuery = "", onSearch }) {
-  const [q, setQ] = useState(initialQuery);
+export default function SmartSearchBar({
+  value,
+  initialQuery = "",
+  onChange,
+  onSearch,
+}) {
+  const [internal, setInternal] = useState(initialQuery);
+  const q = value !== undefined ? value : internal;
+  const setQ = (next) => {
+    if (value !== undefined) onChange?.(next);
+    else setInternal(next);
+  };
 
   const canSearch = useMemo(() => q.trim().length >= 3, [q]);
 

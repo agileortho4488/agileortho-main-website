@@ -29,6 +29,25 @@ export default function Home() {
     setQuery(next.q);
     try {
       const res = await api.get("/profiles/smart-search", {
+
+  const shouldAutoSearch = useMemo(() => {
+    const t = query.trim();
+    if (t.length < 4) return false;
+    // Basic heuristics to avoid spamming API: require explicit location hint or pincode
+    const hasNearOrIn = /\b(near|in)\b/i.test(t);
+    const hasPincode = /\b\d{6}\b/.test(t);
+    return hasNearOrIn || hasPincode;
+  }, [query]);
+
+  useEffect(() => {
+    if (!shouldAutoSearch) return;
+    const handle = setTimeout(() => {
+      runSmartSearch({ q: query });
+    }, 600);
+    return () => clearTimeout(handle);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query, radiusKm, shouldAutoSearch]);
+
         params: {
           q: next.q,
           radius_km: radiusKm,
@@ -48,6 +67,7 @@ export default function Home() {
   useEffect(() => {
     const q = searchParams.get("q") || "";
     if (q.trim()) {
+      setQuery(q);
       runSmartSearch({ q });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -88,6 +108,8 @@ export default function Home() {
 
               <div className="mt-7">
                 <SmartSearchBar
+                  value={query}
+                  onChange={(v) => setQuery(v)}
                   initialQuery={query}
                   onSearch={(v) => runSmartSearch(v)}
                 />
