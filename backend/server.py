@@ -183,6 +183,11 @@ class SurgeonPublic(BaseModel):
     conditions_treated: List[str]
     procedures_performed: List[str]
 
+    # Photo controls
+    has_profile_photo: bool = False
+    photo_visibility: Literal["admin_only", "public"] = "admin_only"
+    public_photo_url: Optional[str] = None
+
     # Backward compat (first clinic) + multi locations
     clinic: Optional[Clinic] = None
     locations: List[Location] = Field(default_factory=list)
@@ -231,6 +236,8 @@ class AdminSurgeonUpdate(BaseModel):
     about: Optional[str] = None
     conditions_treated: Optional[List[str]] = None
     procedures_performed: Optional[List[str]] = None
+
+    photo_visibility: Optional[Literal["admin_only", "public"]] = None
 
 
 class SurgeonSignupRequest(BaseModel):
@@ -681,6 +688,11 @@ async def profiles_search(
 @api_router.get("/profiles/smart-search", response_model=List[SurgeonSearchResult])
 async def profiles_smart_search(q: Optional[str] = None, radius_km: float = 10.0):
     query = (q or "").strip()
+
+
+def _public_photo_url(slug: str) -> str:
+    return f"/api/public/surgeons/{slug}/photo"
+
     if not query:
         raise HTTPException(status_code=400, detail="q is required")
 
@@ -720,6 +732,98 @@ async def get_profile_by_slug(slug: str):
 # -----------------------------
 # Surgeon profile management (JWT)
 # -----------------------------
+
+
+@api_router.post("/surgeon/me/profile/photo")
+async def surgeon_upload_profile_photo(
+    file: UploadFile = File(...),
+    auth: Dict[str, Any] = Depends(surgeon_dep),
+):
+    user_id = auth["sub"]
+    profile = await db.surgeons.find_one({"user_id": user_id}, {"_id": 0})
+    if not profile:
+        raise HTTPException(status_code=404, detail="Profile not found. Submit your profile details first.")
+
+    surgeon_id = profile["id"]
+    safe_name = re.sub(r"[^a-zA-Z0-9._-]", "_", file.filename or "photo")
+    ext = (Path(safe_name).suffix or ".jpg").lower()
+    if ext not in {".jpg", ".jpeg", ".png", ".webp"}:
+        raise HTTPException(status_code=400, detail="Please upload a JPG, PNG, or WEBP image")
+
+    photo_id = str(uuid.uuid4())
+    dest_dir = UPLOADS_DIR / surgeon_id
+    dest_dir.mkdir(parents=True, exist_ok=True)
+    dest_path = dest_dir / f"profile_{photo_id}{ext}"
+    dest_path.write_bytes(await file.read())
+
+    await db.surgeons.update_one(
+        {"id": surgeon_id},
+        {
+            "$set": {
+                "updated_at": now_iso(),
+                "profile_photo": {
+                    "id": photo_id,
+                    "filename": safe_name,
+                    "path": str(dest_path),
+                    "uploaded_at": now_iso(),
+                },
+                # Default: admin-only until admin explicitly makes it public
+                "photo_visibility": "admin_only",
+            }
+        },
+    )
+
+    return {"ok": True, "photo_visibility": "admin_only"}
+
+
+@api_router.get("/public/surgeons/{slug}/photo")
+async def public_profile_photo(slug: str):
+    doc = await db.surgeons.find_one({"slug": slug, "status": "approved"}, {"_id": 0})
+    if not doc:
+        raise HTTPException(status_code=404, detail="Not found")
+
+    if doc.get("photo_visibility") != "public":
+        raise HTTPException(status_code=404, detail="Not found")
+
+    photo = doc.get("profile_photo") or {}
+    path = photo.get("path")
+    filename = photo.get("filename") or "profile.jpg"
+    if not path or not Path(path).exists():
+        raise HTTPException(status_code=404, detail="Not found")
+
+    return FileResponse(path=path, filename=filename)
+
+
+@api_router.get("/admin/surgeons/{surgeon_id}/photo")
+async def admin_profile_photo(
+    surgeon_id: str,
+    token: Optional[str] = None,
+    authorization: Optional[str] = Header(default=None),
+):
+    # same auth scheme as admin document download
+    if authorization:
+        payload = require_bearer(authorization)
+        if payload.get("role") != "admin":
+            raise HTTPException(status_code=401, detail="Admin access required")
+    elif token:
+        payload = decode_token(token)
+        if payload.get("role") != "admin":
+            raise HTTPException(status_code=401, detail="Admin access required")
+    else:
+        raise HTTPException(status_code=401, detail="Missing admin token")
+
+    doc = await db.surgeons.find_one({"id": surgeon_id}, {"_id": 0})
+    if not doc:
+        raise HTTPException(status_code=404, detail="Not found")
+
+    photo = doc.get("profile_photo") or {}
+    path = photo.get("path")
+    filename = photo.get("filename") or "profile.jpg"
+    if not path or not Path(path).exists():
+        raise HTTPException(status_code=404, detail="Not found")
+
+    return FileResponse(path=path, filename=filename)
+
 
 
 @api_router.get("/surgeon/me/profile")
