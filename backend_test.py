@@ -299,14 +299,14 @@ class OrthoConnectAPITester:
     def test_invalid_endpoints(self):
         """Test error handling for invalid requests"""
         try:
-            # Test invalid surgeon search (no location)
-            response = requests.get(f"{self.base_url}/api/surgeons/search", timeout=10)
+            # Test invalid smart search (no query)
+            response = requests.get(f"{self.base_url}/api/profiles/smart-search", timeout=10)
             success = response.status_code == 400  # Should return bad request
             details = f"Invalid search status: {response.status_code}"
             self.log_test("Invalid Search Handling", success, details)
             
             # Test invalid slug
-            response = requests.get(f"{self.base_url}/api/surgeons/by-slug/nonexistent", timeout=10)
+            response = requests.get(f"{self.base_url}/api/profiles/by-slug/nonexistent", timeout=10)
             success = response.status_code == 404  # Should return not found
             details = f"Invalid slug status: {response.status_code}"
             self.log_test("Invalid Slug Handling", success, details)
