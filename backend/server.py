@@ -503,7 +503,7 @@ async def upload_surgeon_documents(
 
 @api_router.get("/surgeons/search", response_model=List[SurgeonSearchResult])
 async def search_surgeons(
-    location: str,
+    location: Optional[str] = None,
     radius_km: float = 10.0,
     subspecialty: Optional[str] = None,
 ):
