@@ -308,13 +308,73 @@ async def geocode_location(query: str) -> Optional[Dict[str, float]]:
 # -----------------------------
 
 
+class SurgeonCreateJson(BaseModel):
+    name: str
+    qualifications: str
+    registration_number: str
+    subspecialties: List[str] = Field(default_factory=list)
+    about: str = ""
+    conditions_treated: List[str] = Field(default_factory=list)
+    procedures_performed: List[str] = Field(default_factory=list)
+    clinic_address: str
+    clinic_city: str = ""
+    clinic_pincode: str
+    clinic_opd_timings: str = ""
+    clinic_phone: str = ""
+
+
 @api_router.post("/surgeons", response_model=SurgeonCreateResponse)
-async def create_surgeon(
-    name: str = Field(..., alias="name"),
-):
-    # This endpoint is implemented as multipart in the actual join flow.
-    # Keeping a JSON-friendly signature is hard with file uploads, so we accept multipart in a separate route.
-    raise HTTPException(status_code=415, detail="Use /api/surgeons/join (multipart)")
+async def create_surgeon_json(payload: SurgeonCreateJson):
+    # JSON-only variant (no files). Creates a PENDING profile.
+    if not payload.registration_number.strip():
+        raise HTTPException(status_code=400, detail="Medical registration number is required")
+
+    subs_list = [normalize_subspecialty(s) for s in payload.subspecialties if s.strip()]
+
+    geo = await geocode_location(payload.clinic_pincode) if is_pincode(payload.clinic_pincode) else await geocode_location(
+        f"{payload.clinic_pincode}, {payload.clinic_city}" if payload.clinic_city else payload.clinic_pincode
+    )
+    geo_point = None
+    if geo:
+        geo_point = {"type": "Point", "coordinates": [geo["lng"], geo["lat"]]}
+
+    surgeon_id = str(uuid.uuid4())
+    upload_token = str(uuid.uuid4())
+    slug = make_slug(
+        name=payload.name,
+        primary_sub=(subs_list[0] if subs_list else None),
+        city=payload.clinic_city,
+    )
+
+    doc = {
+        "id": surgeon_id,
+        "slug": slug,
+        "status": "pending",
+        "created_at": now_iso(),
+        "updated_at": now_iso(),
+        "upload_token": upload_token,
+        "rejection_reason": None,
+        "name": payload.name.strip(),
+        "qualifications": payload.qualifications.strip(),
+        "registration_number": payload.registration_number.strip(),
+        "subspecialties": subs_list,
+        "about": payload.about.strip(),
+        "conditions_treated": [c.strip() for c in payload.conditions_treated if c.strip()],
+        "procedures_performed": [p.strip() for p in payload.procedures_performed if p.strip()],
+        "clinic": {
+            "address": payload.clinic_address.strip(),
+            "city": payload.clinic_city.strip(),
+            "pincode": payload.clinic_pincode.strip(),
+            "opd_timings": payload.clinic_opd_timings.strip(),
+            "phone": payload.clinic_phone.strip(),
+            "geo": geo_point,
+        },
+        "profile_photo": None,
+        "documents": [],
+    }
+
+    await db.surgeons.insert_one(doc)
+    return SurgeonCreateResponse(id=surgeon_id, slug=slug, status="pending", upload_token=upload_token)
 
 
 @api_router.post("/surgeons/join", response_model=SurgeonCreateResponse)
