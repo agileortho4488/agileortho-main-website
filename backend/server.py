@@ -7,7 +7,7 @@ import math
 import logging
 from pathlib import Path
 from datetime import datetime, timezone, timedelta
-from typing import Any, Dict, List, Literal, Optional
+from typing import Any, Dict, List, Literal, Optional, Tuple
 
 import jwt
 import requests
@@ -23,6 +23,7 @@ from fastapi import (
 )
 from fastapi.responses import FileResponse
 from motor.motor_asyncio import AsyncIOMotorClient
+from passlib.context import CryptContext
 from pydantic import BaseModel, ConfigDict, Field
 from slugify import slugify
 from starlette.middleware.cors import CORSMiddleware
@@ -42,6 +43,8 @@ api_router = APIRouter(prefix="/api")
 # Logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger("orthoconnect")
+
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 # Security / config
 JWT_SECRET = os.environ.get("JWT_SECRET", "dev-secret-change-me")
@@ -65,7 +68,6 @@ def normalize_subspecialty(value: str) -> str:
     v = (value or "").strip()
     if not v:
         return ""
-    # keep title-case but preserve known uppercase abbreviations if ever used
     return v.title()
 
 
@@ -80,40 +82,48 @@ def make_slug(name: str, primary_sub: Optional[str], city: Optional[str]) -> str
     return f"{base}-{str(uuid.uuid4())[:4]}"
 
 
-def encode_admin_token() -> str:
+def encode_token(sub: str, role: str) -> str:
     payload = {
-        "sub": "admin",
+        "sub": sub,
+        "role": role,
         "exp": datetime.now(timezone.utc) + timedelta(minutes=JWT_EXP_MINUTES),
         "iat": datetime.now(timezone.utc),
     }
     return jwt.encode(payload, JWT_SECRET, algorithm=JWT_ALG)
 
 
-def decode_admin_token(token: str) -> Dict[str, Any]:
+def decode_token(token: str) -> Dict[str, Any]:
     try:
         return jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALG])
     except jwt.ExpiredSignatureError as e:
-        raise HTTPException(status_code=401, detail="Admin session expired") from e
+        raise HTTPException(status_code=401, detail="Session expired") from e
     except Exception as e:
-        raise HTTPException(status_code=401, detail="Invalid admin token") from e
-
-
-def require_admin(authorization: Optional[str] = None) -> Dict[str, Any]:
-    if not authorization or not authorization.lower().startswith("bearer "):
-        raise HTTPException(status_code=401, detail="Missing admin token")
-    token = authorization.split(" ", 1)[1].strip()
-    payload = decode_admin_token(token)
-    if payload.get("sub") != "admin":
-        raise HTTPException(status_code=401, detail="Invalid admin token")
-    return payload
+        raise HTTPException(status_code=401, detail="Invalid token") from e
 
 
 # Dependency wrapper to access headers
 from fastapi import Header  # noqa: E402
 
 
+def require_bearer(authorization: Optional[str]) -> Dict[str, Any]:
+    if not authorization or not authorization.lower().startswith("bearer "):
+        raise HTTPException(status_code=401, detail="Missing token")
+    token = authorization.split(" ", 1)[1].strip()
+    return decode_token(token)
+
+
 async def admin_dep(authorization: Optional[str] = Header(default=None)) -> Dict[str, Any]:
-    return require_admin(authorization)
+    payload = require_bearer(authorization)
+    if payload.get("role") != "admin":
+        raise HTTPException(status_code=401, detail="Admin access required")
+    return payload
+
+
+async def surgeon_dep(authorization: Optional[str] = Header(default=None)) -> Dict[str, Any]:
+    payload = require_bearer(authorization)
+    if payload.get("role") != "surgeon":
+        raise HTTPException(status_code=401, detail="Surgeon access required")
+    return payload
 
 
 # -----------------------------
@@ -134,6 +144,19 @@ class Clinic(BaseModel):
     geo: Optional[Dict[str, Any]] = None  # {type:'Point', coordinates:[lng,lat]}
 
 
+class Location(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    facility_name: str = ""
+    address: str = ""
+    city: str = ""
+    pincode: str = ""
+    opd_timings: str = ""
+    phone: str = ""
+    geo: Optional[Dict[str, Any]] = None
+
+
 class Document(BaseModel):
     model_config = ConfigDict(extra="ignore")
 
@@ -142,33 +165,6 @@ class Document(BaseModel):
     filename: str
     path: str
     uploaded_at: str = Field(default_factory=now_iso)
-
-
-class FileRef(BaseModel):
-    model_config = ConfigDict(extra="ignore")
-
-    path: str
-    filename: str
-
-
-class SurgeonBase(BaseModel):
-    model_config = ConfigDict(extra="ignore")
-
-    name: str
-    qualifications: str
-    registration_number: str
-
-    subspecialties: List[str] = Field(default_factory=list)
-
-    about: str = ""
-    conditions_treated: List[str] = Field(default_factory=list)
-    procedures_performed: List[str] = Field(default_factory=list)
-
-    clinic: Clinic
-
-
-class SurgeonCreate(SurgeonBase):
-    profile_photo: Optional[UploadFile] = None  # handled separately via multipart
 
 
 class SurgeonPublic(BaseModel):
@@ -187,8 +183,9 @@ class SurgeonPublic(BaseModel):
     conditions_treated: List[str]
     procedures_performed: List[str]
 
-    clinic: Clinic
-    profile_photo_url: Optional[str] = None
+    # Backward compat (first clinic) + multi locations
+    clinic: Optional[Clinic] = None
+    locations: List[Location] = Field(default_factory=list)
 
 
 class SurgeonAdmin(SurgeonPublic):
@@ -197,6 +194,7 @@ class SurgeonAdmin(SurgeonPublic):
     created_at: str
     updated_at: str
     rejection_reason: Optional[str] = None
+    user_id: Optional[str] = None
 
 
 class SurgeonCreateResponse(BaseModel):
@@ -212,7 +210,8 @@ class SurgeonSearchResult(BaseModel):
     name: str
     qualifications: str
     subspecialties: List[str]
-    clinic: Clinic
+    clinic: Optional[Clinic] = None
+    locations: List[Location] = Field(default_factory=list)
     distance_km: Optional[float] = None
 
 
@@ -233,26 +232,63 @@ class AdminSurgeonUpdate(BaseModel):
     conditions_treated: Optional[List[str]] = None
     procedures_performed: Optional[List[str]] = None
 
-    clinic_address: Optional[str] = None
-    clinic_city: Optional[str] = None
-    clinic_pincode: Optional[str] = None
-    clinic_opd_timings: Optional[str] = None
-    clinic_phone: Optional[str] = None
+
+class SurgeonSignupRequest(BaseModel):
+    name: str
+    email: str
+    mobile: str
+    password: str
+
+
+class SurgeonLoginRequest(BaseModel):
+    email: str
+    password: str
+
+
+class SurgeonAuthResponse(BaseModel):
+    token: str
+
+
+class SurgeonMeResponse(BaseModel):
+    id: str
+    name: str
+    email: str
+    mobile: str
+
+
+class SurgeonProfileUpsert(BaseModel):
+    qualifications: str
+    registration_number: str
+    subspecialties: List[str] = Field(default_factory=list)
+    about: str = ""
+    conditions_treated: List[str] = Field(default_factory=list)
+    procedures_performed: List[str] = Field(default_factory=list)
+    locations: List[Location] = Field(default_factory=list)
 
 
 # -----------------------------
 # Meta / constants
 # -----------------------------
 
-SUBSPECIALTIES = [
-    "Shoulder",
-    "Elbow",
-    "Hand",
-    "Hip",
-    "Knee",
-    "Oncology",
-    "Paediatrics",
-]
+SUBSPECIALTIES = ["Shoulder", "Elbow", "Hand", "Hip", "Knee", "Oncology", "Paediatrics"]
+
+# synonym phrases (very lightweight)
+SUBSPECIALTY_SYNONYMS: Dict[str, str] = {
+    "shoulder": "Shoulder",
+    "shoulder specialist": "Shoulder",
+    "elbow": "Elbow",
+    "hand": "Hand",
+    "hand & wrist": "Hand",
+    "wrist": "Hand",
+    "hip": "Hip",
+    "knee": "Knee",
+    "joint replacement": "Hip",
+    "oncology": "Oncology",
+    "bone cancer": "Oncology",
+    "kids ortho": "Paediatrics",
+    "pediatric": "Paediatrics",
+    "paediatric": "Paediatrics",
+}
 
 
 @api_router.get("/meta/subspecialties")
@@ -272,13 +308,11 @@ async def geocode_location(query: str) -> Optional[Dict[str, float]]:
     if not q:
         return None
 
-    # Cache first
     cached = await db.geo_cache.find_one({"query": q}, {"_id": 0})
     if cached and "lat" in cached and "lng" in cached:
         return {"lat": float(cached["lat"]), "lng": float(cached["lng"])}
 
     try:
-        # Nominatim usage policy: provide a User-Agent
         resp = requests.get(
             NOMINATIM_URL,
             params={"q": q, "format": "json", "limit": 1, "countrycodes": "in"},
@@ -304,176 +338,358 @@ async def geocode_location(query: str) -> Optional[Dict[str, float]]:
 
 
 # -----------------------------
-# Public surgeon endpoints
+# Smart search parsing
 # -----------------------------
 
 
-class SurgeonCreateJson(BaseModel):
-    name: str
-    qualifications: str
-    registration_number: str
-    subspecialties: List[str] = Field(default_factory=list)
-    about: str = ""
-    conditions_treated: List[str] = Field(default_factory=list)
-    procedures_performed: List[str] = Field(default_factory=list)
-    clinic_address: str
-    clinic_city: str = ""
-    clinic_pincode: str
-    clinic_opd_timings: str = ""
-    clinic_phone: str = ""
+def extract_subspecialty(q: str) -> Optional[str]:
+    text = (q or "").lower()
+    # longest phrase match first
+    for phrase in sorted(SUBSPECIALTY_SYNONYMS.keys(), key=len, reverse=True):
+        if phrase in text:
+            return SUBSPECIALTY_SYNONYMS[phrase]
+    return None
 
 
-@api_router.post("/surgeons", response_model=SurgeonCreateResponse)
-async def create_surgeon_json(payload: SurgeonCreateJson):
-    # JSON-only variant (no files). Creates a PENDING profile.
+def extract_location_hint(q: str) -> str:
+    # Simple heuristic: take part after "near" or "in"
+    text = (q or "").strip()
+    m = re.search(r"\bnear\b\s+(.+)$", text, flags=re.IGNORECASE)
+    if m:
+        return m.group(1).strip()
+    m = re.search(r"\bin\b\s+(.+)$", text, flags=re.IGNORECASE)
+    if m:
+        return m.group(1).strip()
+    # fallback: if user typed only pincode/city
+    return text
+
+
+# -----------------------------
+# Surgeon auth
+# -----------------------------
+
+
+def normalize_email(email: str) -> str:
+    return (email or "").strip().lower()
+
+
+@api_router.post("/auth/surgeon/signup", response_model=SurgeonAuthResponse)
+async def surgeon_signup(payload: SurgeonSignupRequest):
+    email = normalize_email(payload.email)
+    if not email or "@" not in email:
+        raise HTTPException(status_code=400, detail="Valid email is required")
+    if len(payload.password) < 6:
+        raise HTTPException(status_code=400, detail="Password must be at least 6 characters")
+
+    existing = await db.users.find_one({"email": email}, {"_id": 0})
+    if existing:
+        raise HTTPException(status_code=409, detail="Email already registered")
+
+    user_id = str(uuid.uuid4())
+    doc = {
+        "id": user_id,
+        "role": "surgeon",
+        "name": payload.name.strip(),
+        "email": email,
+        "mobile": payload.mobile.strip(),
+        "password_hash": pwd_context.hash(payload.password),
+        "created_at": now_iso(),
+        "updated_at": now_iso(),
+    }
+    await db.users.insert_one(doc)
+    return SurgeonAuthResponse(token=encode_token(sub=user_id, role="surgeon"))
+
+
+@api_router.post("/auth/surgeon/login", response_model=SurgeonAuthResponse)
+async def surgeon_login(payload: SurgeonLoginRequest):
+    email = normalize_email(payload.email)
+    user = await db.users.find_one({"email": email, "role": "surgeon"}, {"_id": 0})
+    if not user or not pwd_context.verify(payload.password, user.get("password_hash", "")):
+        raise HTTPException(status_code=401, detail="Invalid email or password")
+    return SurgeonAuthResponse(token=encode_token(sub=user["id"], role="surgeon"))
+
+
+@api_router.get("/surgeon/me", response_model=SurgeonMeResponse)
+async def surgeon_me(payload: Dict[str, Any] = Depends(surgeon_dep)):
+    user_id = payload["sub"]
+    user = await db.users.find_one({"id": user_id}, {"_id": 0, "password_hash": 0})
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    return SurgeonMeResponse(id=user["id"], name=user["name"], email=user["email"], mobile=user.get("mobile", ""))
+
+
+# -----------------------------
+# Public search endpoints
+# -----------------------------
+
+
+def _clinic_from_locations(locs: List[Dict[str, Any]]) -> Optional[Clinic]:
+    if not locs:
+        return None
+    return Clinic(
+        address=(locs[0].get("address") or ""),
+        city=(locs[0].get("city") or ""),
+        pincode=(locs[0].get("pincode") or ""),
+        opd_timings=(locs[0].get("opd_timings") or ""),
+        phone=(locs[0].get("phone") or ""),
+        geo=(locs[0].get("geo")),
+    )
+
+
+def haversine_km(lat1: float, lng1: float, lat2: float, lng2: float) -> float:
+    r = 6371.0
+    phi1 = math.radians(lat1)
+    phi2 = math.radians(lat2)
+    dphi = math.radians(lat2 - lat1)
+    dlambda = math.radians(lng2 - lng1)
+    a = math.sin(dphi / 2) ** 2 + math.cos(phi1) * math.cos(phi2) * math.sin(dlambda / 2) ** 2
+    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+    return r * c
+
+
+async def search_profiles(location: Optional[str], radius_km: float, subspecialty: Optional[str]) -> List[SurgeonSearchResult]:
+    loc = (location or "").strip()
+    if not loc:
+        raise HTTPException(status_code=400, detail="location is required")
+
+    subs = normalize_subspecialty(subspecialty or "")
+
+    query: Dict[str, Any] = {"status": "approved"}
+    if subs:
+        query["subspecialties"] = {"$in": [subs]}
+
+    geo = await geocode_location(loc)
+    if geo:
+        radius_km = max(1.0, min(float(radius_km), 100.0))
+        radius_radians = radius_km / 6378.1
+
+        # Search across any location geo
+        query_geo = {
+            **query,
+            "locations.geo": {"$geoWithin": {"$centerSphere": [[geo["lng"], geo["lat"]], radius_radians]}},
+        }
+
+        docs = await db.surgeons.find(query_geo, {"_id": 0}).limit(200).to_list(200)
+        results: List[SurgeonSearchResult] = []
+
+        for d in docs:
+            locs = d.get("locations") or []
+            # compute min distance to any location
+            dist_km: Optional[float] = None
+            for l in locs:
+                pt = (l or {}).get("geo")
+                if pt and pt.get("type") == "Point":
+                    lng, lat = pt.get("coordinates", [None, None])
+                    if lng is None or lat is None:
+                        continue
+                    km = haversine_km(geo["lat"], geo["lng"], float(lat), float(lng))
+                    dist_km = km if dist_km is None else min(dist_km, km)
+
+            results.append(
+                SurgeonSearchResult(
+                    id=d["id"],
+                    slug=d["slug"],
+                    name=d.get("name", ""),
+                    qualifications=d.get("qualifications", ""),
+                    subspecialties=d.get("subspecialties", []),
+                    locations=[Location(**x) for x in locs],
+                    clinic=_clinic_from_locations(locs),
+                    distance_km=(round(dist_km, 1) if dist_km is not None else None),
+                )
+            )
+
+        results.sort(key=lambda x: (x.distance_km is None, x.distance_km or 9999, x.name.lower()))
+        return results
+
+    # fallback text match
+    safe = re.escape(loc)
+    query_text = {
+        **query,
+        "$or": [
+            {"locations.city": {"$regex": safe, "$options": "i"}},
+            {"locations.address": {"$regex": safe, "$options": "i"}},
+            {"locations.pincode": {"$regex": safe, "$options": "i"}},
+        ],
+    }
+    docs = await db.surgeons.find(query_text, {"_id": 0}).limit(200).to_list(200)
+    return [
+        SurgeonSearchResult(
+            id=d["id"],
+            slug=d["slug"],
+            name=d.get("name", ""),
+            qualifications=d.get("qualifications", ""),
+            subspecialties=d.get("subspecialties", []),
+            locations=[Location(**x) for x in (d.get("locations") or [])],
+            clinic=_clinic_from_locations(d.get("locations") or []),
+            distance_km=None,
+        )
+        for d in docs
+    ]
+
+
+@api_router.get("/profiles/search", response_model=List[SurgeonSearchResult])
+async def profiles_search(
+    location: Optional[str] = None,
+    radius_km: float = 10.0,
+    subspecialty: Optional[str] = None,
+):
+    return await search_profiles(location=location, radius_km=radius_km, subspecialty=subspecialty)
+
+
+@api_router.get("/profiles/smart-search", response_model=List[SurgeonSearchResult])
+async def profiles_smart_search(q: Optional[str] = None, radius_km: float = 10.0):
+    query = (q or "").strip()
+    if not query:
+        raise HTTPException(status_code=400, detail="q is required")
+
+    subs = extract_subspecialty(query)
+    loc = extract_location_hint(query)
+
+    # If query is only subspecialty words, require location
+    if subs and (loc.lower() == subs.lower() or len(loc) <= 2):
+        raise HTTPException(status_code=400, detail="Please include a location (city/area/pincode)")
+
+    return await search_profiles(location=loc, radius_km=radius_km, subspecialty=subs)
+
+
+@api_router.get("/profiles/by-slug/{slug}", response_model=SurgeonPublic)
+async def get_profile_by_slug(slug: str):
+    doc = await db.surgeons.find_one({"slug": slug, "status": "approved"}, {"_id": 0, "upload_token": 0})
+    if not doc:
+        raise HTTPException(status_code=404, detail="Surgeon not found")
+
+    locs = doc.get("locations") or []
+    return SurgeonPublic(
+        id=doc["id"],
+        slug=doc["slug"],
+        status=doc["status"],
+        name=doc.get("name", ""),
+        qualifications=doc.get("qualifications", ""),
+        registration_number=doc.get("registration_number", ""),
+        subspecialties=doc.get("subspecialties", []),
+        about=doc.get("about", ""),
+        conditions_treated=doc.get("conditions_treated", []),
+        procedures_performed=doc.get("procedures_performed", []),
+        clinic=_clinic_from_locations(locs),
+        locations=[Location(**x) for x in locs],
+    )
+
+
+# -----------------------------
+# Surgeon profile management (JWT)
+# -----------------------------
+
+
+@api_router.put("/surgeon/me/profile")
+async def surgeon_upsert_profile(payload: SurgeonProfileUpsert, auth: Dict[str, Any] = Depends(surgeon_dep)):
+    user_id = auth["sub"]
+    user = await db.users.find_one({"id": user_id, "role": "surgeon"}, {"_id": 0})
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
     if not payload.registration_number.strip():
         raise HTTPException(status_code=400, detail="Medical registration number is required")
 
     subs_list = [normalize_subspecialty(s) for s in payload.subspecialties if s.strip()]
 
-    geo = await geocode_location(payload.clinic_pincode) if is_pincode(payload.clinic_pincode) else await geocode_location(
-        f"{payload.clinic_pincode}, {payload.clinic_city}" if payload.clinic_city else payload.clinic_pincode
-    )
-    geo_point = None
-    if geo:
-        geo_point = {"type": "Point", "coordinates": [geo["lng"], geo["lat"]]}
+    # Geocode each location
+    locations: List[Dict[str, Any]] = []
+    for loc in payload.locations:
+        geo = None
+        if is_pincode(loc.pincode):
+            geo = await geocode_location(loc.pincode)
+        elif (loc.city or "").strip() or (loc.address or "").strip():
+            geo = await geocode_location(f"{loc.pincode}, {loc.city}" if loc.pincode else f"{loc.address}, {loc.city}")
+
+        geo_point = None
+        if geo:
+            geo_point = {"type": "Point", "coordinates": [geo["lng"], geo["lat"]]}
+
+        locations.append(
+            {
+                "id": loc.id or str(uuid.uuid4()),
+                "facility_name": (loc.facility_name or "").strip(),
+                "address": (loc.address or "").strip(),
+                "city": (loc.city or "").strip(),
+                "pincode": (loc.pincode or "").strip(),
+                "opd_timings": (loc.opd_timings or "").strip(),
+                "phone": (loc.phone or "").strip(),
+                "geo": geo_point,
+            }
+        )
+
+    if not locations:
+        raise HTTPException(status_code=400, detail="At least one clinic/hospital location is required")
+
+    # existing profile? (user_id)
+    existing = await db.surgeons.find_one({"user_id": user_id}, {"_id": 0})
+
+    if existing:
+        await db.surgeons.update_one(
+            {"user_id": user_id},
+            {
+                "$set": {
+                    "updated_at": now_iso(),
+                    "status": "pending",  # re-review on changes
+                    "name": user.get("name", ""),
+                    "qualifications": payload.qualifications.strip(),
+                    "registration_number": payload.registration_number.strip(),
+                    "subspecialties": subs_list,
+                    "about": payload.about.strip(),
+                    "conditions_treated": [c.strip() for c in payload.conditions_treated if c.strip()],
+                    "procedures_performed": [p.strip() for p in payload.procedures_performed if p.strip()],
+                    "locations": locations,
+                }
+            },
+        )
+        return {"ok": True, "id": existing["id"], "status": "pending"}
 
     surgeon_id = str(uuid.uuid4())
     upload_token = str(uuid.uuid4())
-    slug = make_slug(
-        name=payload.name,
-        primary_sub=(subs_list[0] if subs_list else None),
-        city=payload.clinic_city,
-    )
+    slug = make_slug(name=user.get("name", ""), primary_sub=(subs_list[0] if subs_list else None), city=locations[0].get("city"))
 
     doc = {
         "id": surgeon_id,
+        "user_id": user_id,
         "slug": slug,
         "status": "pending",
         "created_at": now_iso(),
         "updated_at": now_iso(),
         "upload_token": upload_token,
         "rejection_reason": None,
-        "name": payload.name.strip(),
+        "name": user.get("name", ""),
         "qualifications": payload.qualifications.strip(),
         "registration_number": payload.registration_number.strip(),
         "subspecialties": subs_list,
         "about": payload.about.strip(),
         "conditions_treated": [c.strip() for c in payload.conditions_treated if c.strip()],
         "procedures_performed": [p.strip() for p in payload.procedures_performed if p.strip()],
-        "clinic": {
-            "address": payload.clinic_address.strip(),
-            "city": payload.clinic_city.strip(),
-            "pincode": payload.clinic_pincode.strip(),
-            "opd_timings": payload.clinic_opd_timings.strip(),
-            "phone": payload.clinic_phone.strip(),
-            "geo": geo_point,
-        },
+        "locations": locations,
+        "documents": [],
         "profile_photo": None,
-        "documents": [],
     }
 
     await db.surgeons.insert_one(doc)
-    return SurgeonCreateResponse(id=surgeon_id, slug=slug, status="pending", upload_token=upload_token)
+    return {"ok": True, "id": surgeon_id, "status": "pending"}
 
 
-@api_router.post("/surgeons/join", response_model=SurgeonCreateResponse)
-async def join_as_surgeon(
-    name: str = Form(...),
-    qualifications: str = Form(...),
-    registration_number: str = Form(...),
-    subspecialties: str = Form(default=""),  # comma separated
-    about: str = Form(default=""),
-    conditions_treated: str = Form(default=""),  # comma separated
-    procedures_performed: str = Form(default=""),  # comma separated
-    clinic_address: str = Form(...),
-    clinic_city: str = Form(default=""),
-    clinic_pincode: str = Form(...),
-    clinic_opd_timings: str = Form(default=""),
-    clinic_phone: str = Form(default=""),
-    profile_photo: Optional[UploadFile] = File(default=None),
-):
-    # Basic validation
-    if not registration_number.strip():
-        raise HTTPException(status_code=400, detail="Medical registration number is required")
-
-    subs_list = [normalize_subspecialty(s) for s in subspecialties.split(",") if s.strip()]
-    subs_list = [s for s in subs_list if s]
-    if not subs_list:
-        subs_list = []
-
-    conds = [c.strip() for c in conditions_treated.split(",") if c.strip()]
-    procs = [p.strip() for p in procedures_performed.split(",") if p.strip()]
-
-    geo = await geocode_location(clinic_pincode) if is_pincode(clinic_pincode) else await geocode_location(
-        f"{clinic_pincode}, {clinic_city}" if clinic_city else clinic_pincode
-    )
-    geo_point = None
-    if geo:
-        geo_point = {"type": "Point", "coordinates": [geo["lng"], geo["lat"]]}
-
-    surgeon_id = str(uuid.uuid4())
-    upload_token = str(uuid.uuid4())
-    slug = make_slug(name=name, primary_sub=(subs_list[0] if subs_list else None), city=clinic_city)
-
-    photo_ref: Optional[Dict[str, str]] = None
-    if profile_photo is not None:
-        safe_name = re.sub(r"[^a-zA-Z0-9._-]", "_", profile_photo.filename or "photo")
-        dest_dir = UPLOADS_DIR / surgeon_id
-        dest_dir.mkdir(parents=True, exist_ok=True)
-        dest_path = dest_dir / f"profile_{safe_name}"
-        content = await profile_photo.read()
-        dest_path.write_bytes(content)
-        photo_ref = {"path": str(dest_path), "filename": safe_name}
-
-    doc = {
-        "id": surgeon_id,
-        "slug": slug,
-        "status": "pending",
-        "created_at": now_iso(),
-        "updated_at": now_iso(),
-        "upload_token": upload_token,
-        "rejection_reason": None,
-        "name": name.strip(),
-        "qualifications": qualifications.strip(),
-        "registration_number": registration_number.strip(),
-        "subspecialties": subs_list,
-        "about": about.strip(),
-        "conditions_treated": conds,
-        "procedures_performed": procs,
-        "clinic": {
-            "address": clinic_address.strip(),
-            "city": clinic_city.strip(),
-            "pincode": clinic_pincode.strip(),
-            "opd_timings": clinic_opd_timings.strip(),
-            "phone": clinic_phone.strip(),
-            "geo": geo_point,
-        },
-        "profile_photo": photo_ref,
-        "documents": [],
-    }
-
-    await db.surgeons.insert_one(doc)
-    return SurgeonCreateResponse(id=surgeon_id, slug=slug, status="pending", upload_token=upload_token)
-
-
-@api_router.post("/surgeons/{surgeon_id}/documents")
-async def upload_surgeon_documents(
-    surgeon_id: str,
-    upload_token: str = Header(default="", alias="X-Upload-Token"),
+@api_router.post("/surgeon/me/profile/documents")
+async def surgeon_upload_documents(
     doc_type: str = Form(default="other"),
     files: List[UploadFile] = File(...),
+    auth: Dict[str, Any] = Depends(surgeon_dep),
 ):
-    surgeon = await db.surgeons.find_one({"id": surgeon_id})
-    if not surgeon:
-        raise HTTPException(status_code=404, detail="Surgeon not found")
-    if not upload_token or upload_token != surgeon.get("upload_token"):
-        raise HTTPException(status_code=401, detail="Invalid upload token")
+    user_id = auth["sub"]
+    profile = await db.surgeons.find_one({"user_id": user_id}, {"_id": 0})
+    if not profile:
+        raise HTTPException(status_code=404, detail="Profile not found")
 
     doc_type = (doc_type or "other").strip().lower()
     allowed = {"registration", "degree", "other"}
     if doc_type not in allowed:
         doc_type = "other"
+
+    surgeon_id = profile["id"]
 
     saved_docs = []
     for f in files:
@@ -498,127 +714,136 @@ async def upload_surgeon_documents(
         {"id": surgeon_id},
         {"$push": {"documents": {"$each": saved_docs}}, "$set": {"updated_at": now_iso()}},
     )
+
     return {"ok": True, "uploaded": len(saved_docs)}
 
 
-@api_router.get("/surgeons/search", response_model=List[SurgeonSearchResult])
-async def search_surgeons(
-    location: Optional[str] = None,
-    radius_km: float = 10.0,
-    subspecialty: Optional[str] = None,
+# -----------------------------
+# Backward-compatible public join (no login) — kept for transition
+# -----------------------------
+
+
+@api_router.post("/surgeons/join", response_model=SurgeonCreateResponse)
+async def join_as_surgeon_legacy(
+    name: str = Form(...),
+    qualifications: str = Form(...),
+    registration_number: str = Form(...),
+    subspecialties: str = Form(default=""),
+    about: str = Form(default=""),
+    conditions_treated: str = Form(default=""),
+    procedures_performed: str = Form(default=""),
+    clinic_address: str = Form(...),
+    clinic_city: str = Form(default=""),
+    clinic_pincode: str = Form(...),
+    clinic_opd_timings: str = Form(default=""),
+    clinic_phone: str = Form(default=""),
+    profile_photo: Optional[UploadFile] = File(default=None),
 ):
-    loc = (location or "").strip()
-    if not loc:
-        raise HTTPException(status_code=400, detail="location is required")
+    if not registration_number.strip():
+        raise HTTPException(status_code=400, detail="Medical registration number is required")
 
-    subs = normalize_subspecialty(subspecialty or "")
+    subs_list = [normalize_subspecialty(s) for s in subspecialties.split(",") if s.strip()]
+    conds = [c.strip() for c in conditions_treated.split(",") if c.strip()]
+    procs = [p.strip() for p in procedures_performed.split(",") if p.strip()]
 
-    query: Dict[str, Any] = {"status": "approved"}
-    if subs:
-        query["subspecialties"] = {"$in": [subs]}
-
-    # Geo search first (pincode best)
-    geo = await geocode_location(loc)
+    geo = await geocode_location(clinic_pincode) if is_pincode(clinic_pincode) else await geocode_location(
+        f"{clinic_pincode}, {clinic_city}" if clinic_city else clinic_pincode
+    )
+    geo_point = None
     if geo:
-        radius_km = max(1.0, min(float(radius_km), 100.0))
-        radius_radians = radius_km / 6378.1
-        query_geo = {
-            **query,
-            "clinic.geo": {
-                "$geoWithin": {"$centerSphere": [[geo["lng"], geo["lat"]], radius_radians]}
-            },
+        geo_point = {"type": "Point", "coordinates": [geo["lng"], geo["lat"]]}
+
+    surgeon_id = str(uuid.uuid4())
+    upload_token = str(uuid.uuid4())
+    slug = make_slug(name=name, primary_sub=(subs_list[0] if subs_list else None), city=clinic_city)
+
+    photo_ref: Optional[Dict[str, str]] = None
+    if profile_photo is not None:
+        safe_name = re.sub(r"[^a-zA-Z0-9._-]", "_", profile_photo.filename or "photo")
+        dest_dir = UPLOADS_DIR / surgeon_id
+        dest_dir.mkdir(parents=True, exist_ok=True)
+        dest_path = dest_dir / f"profile_{safe_name}"
+        dest_path.write_bytes(await profile_photo.read())
+        photo_ref = {"path": str(dest_path), "filename": safe_name}
+
+    locations = [
+        {
+            "id": str(uuid.uuid4()),
+            "facility_name": "",
+            "address": clinic_address.strip(),
+            "city": clinic_city.strip(),
+            "pincode": clinic_pincode.strip(),
+            "opd_timings": clinic_opd_timings.strip(),
+            "phone": clinic_phone.strip(),
+            "geo": geo_point,
         }
-        docs = await db.surgeons.find(query_geo, {"_id": 0}).limit(200).to_list(200)
-
-        results: List[SurgeonSearchResult] = []
-        for d in docs:
-            dist_km = None
-            try:
-                pt = (d.get("clinic") or {}).get("geo")
-                if pt and pt.get("type") == "Point":
-                    lng, lat = pt.get("coordinates", [None, None])
-                    if lng is not None and lat is not None:
-                        # Haversine
-                        r = 6371.0
-                        phi1 = math.radians(geo["lat"])
-                        phi2 = math.radians(float(lat))
-                        dphi = math.radians(float(lat) - geo["lat"])
-                        dlambda = math.radians(float(lng) - geo["lng"])
-                        a = (
-                            math.sin(dphi / 2) ** 2
-                            + math.cos(phi1) * math.cos(phi2) * math.sin(dlambda / 2) ** 2
-                        )
-                        c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
-                        dist_km = round(r * c, 1)
-            except Exception:
-                dist_km = None
-
-            results.append(
-                SurgeonSearchResult(
-                    id=d["id"],
-                    slug=d["slug"],
-                    name=d.get("name", ""),
-                    qualifications=d.get("qualifications", ""),
-                    subspecialties=d.get("subspecialties", []),
-                    clinic=Clinic(**(d.get("clinic") or {})),
-                    distance_km=dist_km,
-                )
-            )
-
-        # Distance sort if available
-        results.sort(key=lambda x: (x.distance_km is None, x.distance_km or 9999, x.name.lower()))
-        return results
-
-    # Fallback to simple text match
-    safe = re.escape(loc)
-    query_text = {
-        **query,
-        "$or": [
-            {"clinic.city": {"$regex": safe, "$options": "i"}},
-            {"clinic.address": {"$regex": safe, "$options": "i"}},
-            {"clinic.pincode": {"$regex": safe, "$options": "i"}},
-        ],
-    }
-    docs = await db.surgeons.find(query_text, {"_id": 0}).limit(200).to_list(200)
-    return [
-        SurgeonSearchResult(
-            id=d["id"],
-            slug=d["slug"],
-            name=d.get("name", ""),
-            qualifications=d.get("qualifications", ""),
-            subspecialties=d.get("subspecialties", []),
-            clinic=Clinic(**(d.get("clinic") or {})),
-            distance_km=None,
-        )
-        for d in docs
     ]
 
+    doc = {
+        "id": surgeon_id,
+        "slug": slug,
+        "status": "pending",
+        "created_at": now_iso(),
+        "updated_at": now_iso(),
+        "upload_token": upload_token,
+        "rejection_reason": None,
+        "name": name.strip(),
+        "qualifications": qualifications.strip(),
+        "registration_number": registration_number.strip(),
+        "subspecialties": subs_list,
+        "about": about.strip(),
+        "conditions_treated": conds,
+        "procedures_performed": procs,
+        "locations": locations,
+        "profile_photo": photo_ref,
+        "documents": [],
+    }
 
-@api_router.get("/surgeons/by-slug/{slug}", response_model=SurgeonPublic)
-async def get_surgeon_by_slug(slug: str):
-    doc = await db.surgeons.find_one({"slug": slug, "status": "approved"}, {"_id": 0, "upload_token": 0})
-    if not doc:
+    await db.surgeons.insert_one(doc)
+    return SurgeonCreateResponse(id=surgeon_id, slug=slug, status="pending", upload_token=upload_token)
+
+
+@api_router.post("/surgeons/{surgeon_id}/documents")
+async def upload_surgeon_documents_legacy(
+    surgeon_id: str,
+    upload_token: str = Header(default="", alias="X-Upload-Token"),
+    doc_type: str = Form(default="other"),
+    files: List[UploadFile] = File(...),
+):
+    surgeon = await db.surgeons.find_one({"id": surgeon_id})
+    if not surgeon:
         raise HTTPException(status_code=404, detail="Surgeon not found")
+    if not upload_token or upload_token != surgeon.get("upload_token"):
+        raise HTTPException(status_code=401, detail="Invalid upload token")
 
-    photo_url = None
-    if doc.get("profile_photo") and doc["profile_photo"].get("path"):
-        # served via admin download only in MVP; keep public photo hidden unless needed
-        photo_url = None
+    doc_type = (doc_type or "other").strip().lower()
+    allowed = {"registration", "degree", "other"}
+    if doc_type not in allowed:
+        doc_type = "other"
 
-    return SurgeonPublic(
-        id=doc["id"],
-        slug=doc["slug"],
-        status=doc["status"],
-        name=doc.get("name", ""),
-        qualifications=doc.get("qualifications", ""),
-        registration_number=doc.get("registration_number", ""),
-        subspecialties=doc.get("subspecialties", []),
-        about=doc.get("about", ""),
-        conditions_treated=doc.get("conditions_treated", []),
-        procedures_performed=doc.get("procedures_performed", []),
-        clinic=Clinic(**(doc.get("clinic") or {})),
-        profile_photo_url=photo_url,
+    saved_docs = []
+    for f in files:
+        safe_name = re.sub(r"[^a-zA-Z0-9._-]", "_", f.filename or "document")
+        doc_id = str(uuid.uuid4())
+        dest_dir = UPLOADS_DIR / surgeon_id
+        dest_dir.mkdir(parents=True, exist_ok=True)
+        dest_path = dest_dir / f"{doc_id}_{safe_name}"
+        dest_path.write_bytes(await f.read())
+        saved_docs.append(
+            {
+                "id": doc_id,
+                "type": doc_type,
+                "filename": safe_name,
+                "path": str(dest_path),
+                "uploaded_at": now_iso(),
+            }
+        )
+
+    await db.surgeons.update_one(
+        {"id": surgeon_id},
+        {"$push": {"documents": {"$each": saved_docs}}, "$set": {"updated_at": now_iso()}},
     )
+    return {"ok": True, "uploaded": len(saved_docs)}
 
 
 # -----------------------------
@@ -630,7 +855,7 @@ async def get_surgeon_by_slug(slug: str):
 async def admin_login(payload: AdminLoginRequest):
     if payload.password != ADMIN_PASSWORD:
         raise HTTPException(status_code=401, detail="Incorrect password")
-    return AdminLoginResponse(token=encode_admin_token())
+    return AdminLoginResponse(token=encode_token(sub="admin", role="admin"))
 
 
 @api_router.get("/admin/surgeons", response_model=List[SurgeonAdmin])
@@ -641,6 +866,7 @@ async def admin_list_surgeons(status: Optional[SurgeonStatus] = None, _: Dict[st
     docs = await db.surgeons.find(query, {"_id": 0}).sort("created_at", -1).limit(500).to_list(500)
     out: List[SurgeonAdmin] = []
     for d in docs:
+        locs = d.get("locations") or []
         out.append(
             SurgeonAdmin(
                 id=d["id"],
@@ -653,13 +879,14 @@ async def admin_list_surgeons(status: Optional[SurgeonStatus] = None, _: Dict[st
                 about=d.get("about", ""),
                 conditions_treated=d.get("conditions_treated", []),
                 procedures_performed=d.get("procedures_performed", []),
-                clinic=Clinic(**(d.get("clinic") or {})),
-                profile_photo_url=None,
+                clinic=_clinic_from_locations(locs),
+                locations=[Location(**x) for x in locs],
                 upload_token=d.get("upload_token", ""),
                 documents=[Document(**doc) for doc in d.get("documents", [])],
                 created_at=d.get("created_at", ""),
                 updated_at=d.get("updated_at", ""),
                 rejection_reason=d.get("rejection_reason"),
+                user_id=d.get("user_id"),
             )
         )
     return out
@@ -695,27 +922,7 @@ async def admin_update_surgeon(
     if payload.procedures_performed is not None:
         update["procedures_performed"] = payload.procedures_performed
 
-    # Clinic updates
-    clinic_update: Dict[str, Any] = {}
-    if payload.clinic_address is not None:
-        clinic_update["clinic.address"] = payload.clinic_address
-    if payload.clinic_city is not None:
-        clinic_update["clinic.city"] = payload.clinic_city
-    if payload.clinic_pincode is not None:
-        clinic_update["clinic.pincode"] = payload.clinic_pincode
-    if payload.clinic_opd_timings is not None:
-        clinic_update["clinic.opd_timings"] = payload.clinic_opd_timings
-    if payload.clinic_phone is not None:
-        clinic_update["clinic.phone"] = payload.clinic_phone
-
-    # If pincode changed, re-geocode
-    if payload.clinic_pincode is not None and payload.clinic_pincode.strip():
-        geo = await geocode_location(payload.clinic_pincode.strip())
-        if geo:
-            clinic_update["clinic.geo"] = {"type": "Point", "coordinates": [geo["lng"], geo["lat"]]}
-
-    combined = {"$set": {**update, **clinic_update}}
-    await db.surgeons.update_one({"id": surgeon_id}, combined)
+    await db.surgeons.update_one({"id": surgeon_id}, {"$set": update})
     return {"ok": True}
 
 
@@ -725,13 +932,17 @@ async def admin_download_document(
     token: Optional[str] = None,
     authorization: Optional[str] = Header(default=None),
 ):
-    # Allow either Authorization: Bearer <token> OR token query param (MVP convenience)
     if authorization:
-        _ = require_admin(authorization)
+        payload = require_bearer(authorization)
+        if payload.get("role") != "admin":
+            raise HTTPException(status_code=401, detail="Admin access required")
     elif token:
-        _ = decode_admin_token(token)
+        payload = decode_token(token)
+        if payload.get("role") != "admin":
+            raise HTTPException(status_code=401, detail="Admin access required")
     else:
         raise HTTPException(status_code=401, detail="Missing admin token")
+
     surgeon = await db.surgeons.find_one({"documents.id": doc_id}, {"_id": 0})
     if not surgeon:
         raise HTTPException(status_code=404, detail="Document not found")
@@ -778,11 +989,14 @@ app.add_middleware(
 @app.on_event("startup")
 async def ensure_indexes():
     try:
+        await db.users.create_index("email", unique=True)
+        await db.geo_cache.create_index("query", unique=True)
+
         await db.surgeons.create_index("slug", unique=True)
         await db.surgeons.create_index("status")
         await db.surgeons.create_index("subspecialties")
-        await db.surgeons.create_index([("clinic.geo", "2dsphere")])
-        await db.geo_cache.create_index("query", unique=True)
+        await db.surgeons.create_index([("locations.geo", "2dsphere")])
+        await db.surgeons.create_index("user_id")
     except Exception as e:
         logger.warning("Index creation warning: %s", e)
 
