@@ -8,67 +8,67 @@
       "name": "API Health Check",
       "success": true,
       "details": "Status: 200, Message: OrthoConnect API",
-      "timestamp": "2025-12-31T07:06:38.478526"
+      "timestamp": "2025-12-31T07:37:22.687904"
     },
     {
       "name": "Get Subspecialties",
       "success": true,
       "details": "Status: 200, Count: 7 (All expected subspecialties found)",
-      "timestamp": "2025-12-31T07:06:38.515240"
+      "timestamp": "2025-12-31T07:37:22.731844"
     },
     {
       "name": "Admin Login",
       "success": true,
       "details": "Status: 200 (Token received)",
-      "timestamp": "2025-12-31T07:06:38.552047"
+      "timestamp": "2025-12-31T07:37:22.766389"
     },
     {
       "name": "Admin List Surgeons",
       "success": true,
       "details": "Status: 200 (Found: 0 pending profiles)",
-      "timestamp": "2025-12-31T07:06:38.590173"
+      "timestamp": "2025-12-31T07:37:22.805122"
     },
     {
       "name": "Create Surgeon Profile",
       "success": true,
-      "details": "Status: 200 (ID: 0373e12b...)",
-      "timestamp": "2025-12-31T07:06:38.636739"
+      "details": "Status: 200 (ID: 7f073cd5...)",
+      "timestamp": "2025-12-31T07:37:22.842356"
     },
     {
       "name": "Upload Document",
       "success": true,
       "details": "Status: 200 (Uploaded: 1)",
-      "timestamp": "2025-12-31T07:06:38.677377"
+      "timestamp": "2025-12-31T07:37:22.887222"
     },
     {
       "name": "Admin Approve Surgeon",
       "success": true,
       "details": "Status: 200",
-      "timestamp": "2025-12-31T07:06:38.755700"
+      "timestamp": "2025-12-31T07:37:22.924218"
     },
     {
       "name": "Smart Search Surgeons",
       "success": true,
-      "details": "Status: 200 (Found: 3 surgeons) (Test surgeon found in results)",
-      "timestamp": "2025-12-31T07:06:40.804416"
+      "details": "Status: 200 (Found: 5 surgeons) (Test surgeon found in results)",
+      "timestamp": "2025-12-31T07:37:24.968514"
     },
     {
       "name": "Get Surgeon by Slug",
       "success": true,
-      "details": "Status: 200, Slug: dr-test-surgeon-knee-mumbai-eab5 (Name: Dr. Test Surgeon)",
-      "timestamp": "2025-12-31T07:06:40.880774"
+      "details": "Status: 200, Slug: dr-test-surgeon-knee-mumbai-488a (Name: Dr. Test Surgeon)",
+      "timestamp": "2025-12-31T07:37:25.046970"
     },
     {
       "name": "Invalid Search Handling",
       "success": true,
       "details": "Invalid search status: 400",
-      "timestamp": "2025-12-31T07:06:40.920580"
+      "timestamp": "2025-12-31T07:37:25.086256"
     },
     {
       "name": "Invalid Slug Handling",
       "success": true,
       "details": "Invalid slug status: 404",
-      "timestamp": "2025-12-31T07:06:40.957925"
+      "timestamp": "2025-12-31T07:37:25.125367"
     }
   ]
 }
