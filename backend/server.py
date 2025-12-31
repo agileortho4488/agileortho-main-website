@@ -1275,10 +1275,31 @@ app.add_middleware(
 @app.on_event("startup")
 async def ensure_indexes():
     try:
-        await db.users.create_index("email", unique=True, sparse=True)
-        await db.users.create_index("mobile", unique=True, sparse=True)
+        # Migration safety: if older docs stored email as null, remove the field
+        await db.users.update_many({"email": None}, {"$unset": {"email": ""}})
+
+        # If an older non-sparse unique index exists, drop it and recreate with a safe partial filter.
+        try:
+            idx = await db.users.index_information()
+            if "email_1" in idx:
+                await db.users.drop_index("email_1")
+        except Exception:
+            pass
+
+        await db.users.create_index(
+            "email",
+            unique=True,
+            partialFilterExpression={"email": {"$type": "string"}},
+        )
+        await db.users.create_index(
+            "mobile",
+            unique=True,
+            partialFilterExpression={"mobile": {"$type": "string"}},
+        )
+
         await db.otp_codes.create_index([("mobile", 1), ("created_at", -1)])
         await db.otp_codes.create_index("expires_at")
+
         await db.geo_cache.create_index("query", unique=True)
 
         await db.surgeons.create_index("slug", unique=True)
