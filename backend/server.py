@@ -688,11 +688,6 @@ async def profiles_search(
 @api_router.get("/profiles/smart-search", response_model=List[SurgeonSearchResult])
 async def profiles_smart_search(q: Optional[str] = None, radius_km: float = 10.0):
     query = (q or "").strip()
-
-
-def _public_photo_url(slug: str) -> str:
-    return f"/api/public/surgeons/{slug}/photo"
-
     if not query:
         raise HTTPException(status_code=400, detail="q is required")
 
@@ -704,6 +699,10 @@ def _public_photo_url(slug: str) -> str:
         raise HTTPException(status_code=400, detail="Please include a location (city/area/pincode)")
 
     return await search_profiles(location=loc, radius_km=radius_km, subspecialty=subs)
+
+
+def _public_photo_url(slug: str) -> str:
+    return f"/api/public/surgeons/{slug}/photo"
 
 
 @api_router.get("/profiles/by-slug/{slug}", response_model=SurgeonPublic)
