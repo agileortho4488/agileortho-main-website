@@ -81,6 +81,7 @@ export default function AdminDashboard() {
           .split(",")
           .map((s) => s.trim())
           .filter(Boolean),
+        photo_visibility: photoVisibility,
       },
       { headers: { Authorization: `Bearer ${getToken()}` } },
     );
