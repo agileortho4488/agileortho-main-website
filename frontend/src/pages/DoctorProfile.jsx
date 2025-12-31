@@ -3,6 +3,12 @@ import { useParams } from "react-router-dom";
 import { apiClient } from "@/lib/api";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 export default function DoctorProfile() {
   const { slug } = useParams();
@@ -17,7 +23,7 @@ export default function DoctorProfile() {
       setLoading(true);
       setError("");
       try {
-        const res = await api.get(`/surgeons/by-slug/${slug}`);
+        const res = await api.get(`/profiles/by-slug/${slug}`);
         if (mounted) setData(res.data);
       } catch (e) {
         if (mounted)
@@ -34,9 +40,9 @@ export default function DoctorProfile() {
 
   const jsonLd = useMemo(() => {
     if (!data) return null;
-    const address = data?.clinic?.address || "";
-    const city = data?.clinic?.city || "";
-    const pincode = data?.clinic?.pincode || "";
+    const city = data?.locations?.[0]?.city || data?.clinic?.city || "";
+    const pincode = data?.locations?.[0]?.pincode || data?.clinic?.pincode || "";
+    const address = data?.locations?.[0]?.address || data?.clinic?.address || "";
     return {
       "@context": "https://schema.org",
       "@type": "Physician",
@@ -54,7 +60,10 @@ export default function DoctorProfile() {
 
   if (loading) {
     return (
-      <main data-testid="doctor-profile-loading" className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+      <main
+        data-testid="doctor-profile-loading"
+        className="mx-auto max-w-6xl px-4 py-10 sm:px-6"
+      >
         <div className="text-sm text-slate-600">Loading profile…</div>
       </main>
     );
@@ -62,7 +71,10 @@ export default function DoctorProfile() {
 
   if (error) {
     return (
-      <main data-testid="doctor-profile-error" className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+      <main
+        data-testid="doctor-profile-error"
+        className="mx-auto max-w-6xl px-4 py-10 sm:px-6"
+      >
         <div className="rounded-2xl border border-rose-200 bg-rose-50 p-4 text-sm text-rose-800">
           {error}
         </div>
@@ -72,11 +84,7 @@ export default function DoctorProfile() {
 
   if (!data) return null;
 
-  const mapQuery = encodeURIComponent(
-    [data?.clinic?.address, data?.clinic?.city, data?.clinic?.pincode]
-      .filter(Boolean)
-      .join(", "),
-  );
+  const locations = data.locations || [];
 
   return (
     <main data-testid="doctor-profile-page" className="bg-white">
@@ -215,62 +223,95 @@ export default function DoctorProfile() {
           <div className="space-y-4">
             <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
               <div
-                data-testid="doctor-profile-clinic-title"
+                data-testid="doctor-profile-locations-title"
                 className="text-sm font-semibold text-slate-900"
               >
-                Clinic / Hospital location
-              </div>
-              <div
-                data-testid="doctor-profile-clinic-address"
-                className="mt-2 text-sm leading-relaxed text-slate-600"
-              >
-                {data?.clinic?.address || "—"}
-                {data?.clinic?.city ? `, ${data.clinic.city}` : ""}
-                {data?.clinic?.pincode ? ` - ${data.clinic.pincode}` : ""}
+                Clinic / Hospital locations
               </div>
 
-              <a
-                data-testid="doctor-profile-google-maps-link"
-                href={`https://www.google.com/maps/search/?api=1&query=${mapQuery}`}
-                target="_blank"
-                rel="noreferrer"
-                className="mt-4 inline-flex text-sm font-medium text-sky-700 hover:text-sky-800 transition-colors"
-              >
-                Open in Google Maps →
-              </a>
+              {!locations.length ? (
+                <div
+                  data-testid="doctor-profile-locations-empty"
+                  className="mt-2 text-sm text-slate-600"
+                >
+                  —
+                </div>
+              ) : (
+                <Accordion
+                  data-testid="doctor-profile-locations-accordion"
+                  type="single"
+                  collapsible
+                  className="mt-3"
+                >
+                  {locations.map((l, idx) => {
+                    const mapQuery = encodeURIComponent(
+                      [l.facility_name, l.address, l.city, l.pincode]
+                        .filter(Boolean)
+                        .join(", "),
+                    );
+                    return (
+                      <AccordionItem
+                        data-testid={`doctor-profile-location-item-${idx}`}
+                        key={l.id}
+                        value={l.id}
+                        className="rounded-2xl border border-slate-200 px-3"
+                      >
+                        <AccordionTrigger
+                          data-testid={`doctor-profile-location-trigger-${idx}`}
+                          className="text-left"
+                        >
+                          <div>
+                            <div className="text-sm font-semibold text-slate-900">
+                              {l.facility_name || `Location ${idx + 1}`}
+                            </div>
+                            <div className="mt-1 text-xs text-slate-500">
+                              {l.city} {l.pincode ? `· ${l.pincode}` : ""}
+                            </div>
+                          </div>
+                        </AccordionTrigger>
+                        <AccordionContent
+                          data-testid={`doctor-profile-location-content-${idx}`}
+                        >
+                          <div className="space-y-3 pb-3 text-sm text-slate-600">
+                            <div>
+                              {l.address || "—"}
+                              {l.city ? `, ${l.city}` : ""}
+                              {l.pincode ? ` - ${l.pincode}` : ""}
+                            </div>
+                            <div>
+                              <span className="text-xs font-semibold text-slate-700">
+                                OPD:
+                              </span>{" "}
+                              {l.opd_timings || "—"}
+                            </div>
+                            <div>
+                              <span className="text-xs font-semibold text-slate-700">
+                                Phone:
+                              </span>{" "}
+                              {l.phone || "—"}
+                            </div>
+                            <a
+                              data-testid={`doctor-profile-location-maps-${idx}`}
+                              href={`https://www.google.com/maps/search/?api=1&query=${mapQuery}`}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="inline-flex text-sm font-medium text-sky-700 hover:text-sky-800 transition-colors"
+                            >
+                              Open in Google Maps →
+                            </a>
+                          </div>
+                        </AccordionContent>
+                      </AccordionItem>
+                    );
+                  })}
+                </Accordion>
+              )}
             </div>
 
             <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-              <div
-                data-testid="doctor-profile-opd-title"
-                className="text-sm font-semibold text-slate-900"
-              >
-                OPD timings
-              </div>
-              <div
-                data-testid="doctor-profile-opd-body"
-                className="mt-2 text-sm text-slate-600"
-              >
-                {data?.clinic?.opd_timings || "—"}
-              </div>
-            </div>
-
-            <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-              <div
-                data-testid="doctor-profile-contact-title"
-                className="text-sm font-semibold text-slate-900"
-              >
-                Contact (clinic phone)
-              </div>
-              <div
-                data-testid="doctor-profile-contact-phone"
-                className="mt-2 text-sm font-semibold text-slate-900"
-              >
-                {data?.clinic?.phone || "—"}
-              </div>
               <div
                 data-testid="doctor-profile-contact-note"
-                className="mt-2 text-xs text-slate-500"
+                className="text-xs text-slate-500"
               >
                 Note: OrthoConnect does not provide appointment booking.
               </div>

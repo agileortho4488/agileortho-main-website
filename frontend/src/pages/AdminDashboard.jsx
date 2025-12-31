@@ -5,12 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 function getToken() {
   return localStorage.getItem("oc_admin_token") || "";
@@ -78,7 +73,13 @@ export default function AdminDashboard() {
     if (!selected) return;
     await api.patch(
       `/admin/surgeons/${selected.id}`,
-      { status: "approved", subspecialties: subspecialties.split(",").map((s) => s.trim()).filter(Boolean) },
+      {
+        status: "approved",
+        subspecialties: subspecialties
+          .split(",")
+          .map((s) => s.trim())
+          .filter(Boolean),
+      },
       { headers: { Authorization: `Bearer ${getToken()}` } },
     );
     load(tab);
@@ -159,9 +160,7 @@ export default function AdminDashboard() {
             <TabsContent value={tab}>
               <div className="mt-6 grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
                 <div>
-                  <div className="text-sm font-semibold text-slate-900">
-                    Profiles
-                  </div>
+                  <div className="text-sm font-semibold text-slate-900">Profiles</div>
                   <div className="mt-3 space-y-3">
                     {loading ? (
                       <div
@@ -206,14 +205,20 @@ export default function AdminDashboard() {
                           <Badge
                             data-testid={`admin-status-badge-${i.id}`}
                             className={
-                              "rounded-full " + statusBadge(i.status) + " hover:" + statusBadge(i.status)
+                              "rounded-full " +
+                              statusBadge(i.status) +
+                              " hover:" +
+                              statusBadge(i.status)
                             }
                           >
                             {i.status}
                           </Badge>
                         </div>
                         <div className="mt-2 text-xs text-slate-500">
-                          {i.clinic?.city} {i.clinic?.pincode ? `· ${i.clinic.pincode}` : ""}
+                          {i.locations?.[0]?.city || i.clinic?.city || ""}{" "}
+                          {i.locations?.[0]?.pincode || i.clinic?.pincode
+                            ? `· ${i.locations?.[0]?.pincode || i.clinic?.pincode}`
+                            : ""}
                         </div>
                       </button>
                     ))}
@@ -221,9 +226,7 @@ export default function AdminDashboard() {
                 </div>
 
                 <div>
-                  <div className="text-sm font-semibold text-slate-900">
-                    Review
-                  </div>
+                  <div className="text-sm font-semibold text-slate-900">Review</div>
 
                   {!selected ? (
                     <div
@@ -255,7 +258,10 @@ export default function AdminDashboard() {
                         <Badge
                           data-testid="admin-review-status"
                           className={
-                            "rounded-full " + statusBadge(selected.status) + " hover:" + statusBadge(selected.status)
+                            "rounded-full " +
+                            statusBadge(selected.status) +
+                            " hover:" +
+                            statusBadge(selected.status)
                           }
                         >
                           {selected.status}
@@ -289,41 +295,45 @@ export default function AdminDashboard() {
                       </div>
 
                       <div className="mt-5">
-                        <div className="text-xs font-semibold text-slate-700">Clinic</div>
-                        <div
-                          data-testid="admin-review-clinic"
-                          className="mt-1 text-sm text-slate-600"
-                        >
-                          {selected.clinic?.address}
-                          {selected.clinic?.city ? `, ${selected.clinic.city}` : ""}
-                          {selected.clinic?.pincode ? ` - ${selected.clinic.pincode}` : ""}
+                        <div className="text-xs font-semibold text-slate-700">
+                          Locations
                         </div>
-                        <div
-                          data-testid="admin-review-opd"
-                          className="mt-1 text-xs text-slate-500"
-                        >
-                          OPD: {selected.clinic?.opd_timings || "—"}
-                        </div>
-                        <div
-                          data-testid="admin-review-phone"
-                          className="mt-1 text-xs text-slate-500"
-                        >
-                          Phone: {selected.clinic?.phone || "—"}
+                        <div className="mt-2 space-y-2">
+                          {(selected.locations || []).length ? (
+                            selected.locations.map((l, idx) => (
+                              <div
+                                data-testid={`admin-location-${idx}`}
+                                key={l.id}
+                                className="rounded-2xl border border-slate-200 bg-white p-4 text-sm text-slate-700"
+                              >
+                                <div className="font-semibold text-slate-900">
+                                  {l.facility_name || `Location ${idx + 1}`}
+                                </div>
+                                <div className="mt-1 text-slate-600">
+                                  {l.address}
+                                  {l.city ? `, ${l.city}` : ""}
+                                  {l.pincode ? ` - ${l.pincode}` : ""}
+                                </div>
+                                <div className="mt-1 text-xs text-slate-500">
+                                  OPD: {l.opd_timings || "—"} · Phone: {l.phone || "—"}
+                                </div>
+                              </div>
+                            ))
+                          ) : (
+                            <div
+                              data-testid="admin-locations-empty"
+                              className="rounded-2xl border border-dashed border-slate-200 bg-white p-4 text-sm text-slate-600"
+                            >
+                              —
+                            </div>
+                          )}
                         </div>
                       </div>
 
                       <div className="mt-5">
-                        <div className="text-xs font-semibold text-slate-700">About</div>
-                        <div
-                          data-testid="admin-review-about"
-                          className="mt-2 rounded-2xl bg-slate-50 p-4 text-sm text-slate-700"
-                        >
-                          {selected.about || "—"}
+                        <div className="text-xs font-semibold text-slate-700">
+                          Documents
                         </div>
-                      </div>
-
-                      <div className="mt-5">
-                        <div className="text-xs font-semibold text-slate-700">Documents</div>
                         <div className="mt-2 space-y-2">
                           {(selected.documents || []).length ? (
                             selected.documents.map((d) => (
@@ -375,7 +385,7 @@ export default function AdminDashboard() {
                             data-testid="admin-rejection-reason-textarea"
                             value={rejectionReason}
                             onChange={(e) => setRejectionReason(e.target.value)}
-                            placeholder="Rejection reason (visible to internal admin)"
+                            placeholder="Rejection reason"
                             className="min-h-[64px] rounded-2xl border-slate-200 bg-slate-50/60"
                           />
                           <Button

@@ -8,43 +8,52 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Card } from "@/components/ui/card";
 
 const steps = [
-  { key: "identity", label: "Identity" },
+  { key: "account", label: "Account" },
   { key: "practice", label: "Practice" },
-  { key: "clinic", label: "Clinic" },
+  { key: "locations", label: "Locations" },
   { key: "uploads", label: "Uploads" },
 ];
+
+function emptyLocation() {
+  return {
+    id: crypto.randomUUID(),
+    facility_name: "",
+    address: "",
+    city: "",
+    pincode: "",
+    opd_timings: "",
+    phone: "",
+  };
+}
 
 export default function JoinSurgeon() {
   const api = useMemo(() => apiClient(), []);
   const [stepIndex, setStepIndex] = useState(0);
   const [subspecialtySet, setSubspecialtySet] = useState(new Set());
-  const [form, setForm] = useState({
+
+  const [account, setAccount] = useState({
     name: "",
-    qualifications: "",
-    registrationNumber: "",
-    about: "",
-    conditionsTreated: "",
-    proceduresPerformed: "",
-    clinicAddress: "",
-    clinicCity: "",
-    clinicPincode: "",
-    clinicOpdTimings: "",
-    clinicPhone: "",
+    email: "",
+    mobile: "",
+    password: "",
   });
 
-  const [photoFile, setPhotoFile] = useState(null);
+  const [profile, setProfile] = useState({
+    qualifications: "",
+    registration_number: "",
+    about: "",
+    conditions_treated: "",
+    procedures_performed: "",
+  });
+
+  const [locations, setLocations] = useState([emptyLocation()]);
+
   const [docType, setDocType] = useState("registration");
   const [docFiles, setDocFiles] = useState([]);
 
   const [submitting, setSubmitting] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState("");
-
-  function setField(key, val) {
-    setForm((f) => ({ ...f, [key]: val }));
-  }
-
-  const activeStep = steps[stepIndex];
 
   function toggleSub(s) {
     setSubspecialtySet((prev) => {
@@ -55,16 +64,19 @@ export default function JoinSurgeon() {
     });
   }
 
+  const activeStep = steps[stepIndex];
+
   function canContinue() {
-    if (activeStep.key === "identity") {
+    if (activeStep.key === "account") {
       return (
-        form.name.trim() &&
-        form.qualifications.trim() &&
-        form.registrationNumber.trim()
+        account.name.trim() &&
+        account.email.trim().includes("@") &&
+        account.mobile.trim().length >= 8 &&
+        account.password.trim().length >= 6
       );
     }
-    if (activeStep.key === "clinic") {
-      return form.clinicAddress.trim() && form.clinicPincode.trim().length >= 3;
+    if (activeStep.key === "locations") {
+      return locations.every((l) => l.address.trim() && l.pincode.trim().length >= 3);
     }
     if (activeStep.key === "uploads") {
       return docFiles.length >= 1;
@@ -75,42 +87,52 @@ export default function JoinSurgeon() {
   async function submit() {
     setSubmitting(true);
     setError("");
+
     try {
+      const signup = await api.post("/auth/surgeon/signup", account);
+      const token = signup.data.token;
+
       const subs = Array.from(subspecialtySet);
+      const payload = {
+        qualifications: profile.qualifications,
+        registration_number: profile.registration_number,
+        subspecialties: subs,
+        about: profile.about,
+        conditions_treated: profile.conditions_treated
+          .split(",")
+          .map((s) => s.trim())
+          .filter(Boolean),
+        procedures_performed: profile.procedures_performed
+          .split(",")
+          .map((s) => s.trim())
+          .filter(Boolean),
+        locations: locations.map((l) => ({
+          id: l.id,
+          facility_name: l.facility_name,
+          address: l.address,
+          city: l.city,
+          pincode: l.pincode,
+          opd_timings: l.opd_timings,
+          phone: l.phone,
+        })),
+      };
 
-      const fd = new FormData();
-      fd.append("name", form.name);
-      fd.append("qualifications", form.qualifications);
-      fd.append("registration_number", form.registrationNumber);
-      fd.append("subspecialties", subs.join(","));
-      fd.append("about", form.about);
-      fd.append("conditions_treated", form.conditionsTreated);
-      fd.append("procedures_performed", form.proceduresPerformed);
-      fd.append("clinic_address", form.clinicAddress);
-      fd.append("clinic_city", form.clinicCity);
-      fd.append("clinic_pincode", form.clinicPincode);
-      fd.append("clinic_opd_timings", form.clinicOpdTimings);
-      fd.append("clinic_phone", form.clinicPhone);
-      if (photoFile) fd.append("profile_photo", photoFile);
-
-      const created = await api.post("/surgeons/join", fd, {
-        headers: { "Content-Type": "multipart/form-data" },
+      await api.put("/surgeon/me/profile", payload, {
+        headers: { Authorization: `Bearer ${token}` },
       });
-
-      const { id, upload_token } = created.data;
 
       const docsFd = new FormData();
       docsFd.append("doc_type", docType);
       docFiles.forEach((f) => docsFd.append("files", f));
 
-      await api.post(`/surgeons/${id}/documents`, docsFd, {
+      await api.post("/surgeon/me/profile/documents", docsFd, {
         headers: {
+          Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
-          "X-Upload-Token": upload_token,
         },
       });
 
-      setResult({ ...created.data, uploadedDocs: docFiles.length });
+      setResult({ email: account.email, uploadedDocs: docFiles.length });
     } catch (e) {
       setError(e?.response?.data?.detail || "Submission failed");
     } finally {
@@ -127,24 +149,22 @@ export default function JoinSurgeon() {
               data-testid="join-success-title"
               className="text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl"
             >
-              Profile submitted for review
+              Account created — profile submitted
             </h1>
             <p
               data-testid="join-success-subtext"
               className="mt-3 text-sm leading-relaxed text-slate-600"
             >
-              Thank you. Your profile is currently <b>pending admin approval</b>.
-              Once approved, it will appear in public search.
+              Your profile is currently <b>pending admin approval</b>. Once
+              approved, it will appear in public search.
             </p>
-
             <div
               data-testid="join-success-details"
               className="mt-5 rounded-2xl bg-slate-50 p-4 text-sm text-slate-700"
             >
-              <div>Profile ID: {result.id}</div>
+              <div>Login email: {result.email}</div>
               <div>Documents uploaded: {result.uploadedDocs}</div>
             </div>
-
             <div
               data-testid="join-success-disclaimer"
               className="mt-5 text-xs text-slate-500"
@@ -173,11 +193,14 @@ export default function JoinSurgeon() {
               data-testid="join-subtitle"
               className="mt-2 text-sm leading-relaxed text-slate-600"
             >
-              Create your professional profile. Profiles go live only after admin
-              approval. No paid listings.
+              Create an account first, then submit your professional profile.
+              Profiles go live only after admin approval.
             </p>
           </div>
-          <div data-testid="join-step-indicator" className="text-xs text-slate-500">
+          <div
+            data-testid="join-step-indicator"
+            className="text-xs text-slate-500"
+          >
             Step {stepIndex + 1} of {steps.length}
           </div>
         </div>
@@ -211,49 +234,102 @@ export default function JoinSurgeon() {
         ) : null}
 
         <div className="mt-6 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-          {activeStep.key === "identity" ? (
-            <div data-testid="join-step-identity" className="grid gap-4">
+          {activeStep.key === "account" ? (
+            <div data-testid="join-step-account" className="grid gap-4">
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="space-y-1.5">
                   <div className="text-xs font-semibold text-slate-700">Name</div>
                   <Input
-                    data-testid="join-name-input"
-                    value={form.name}
-                    onChange={(e) => setField("name", e.target.value)}
+                    data-testid="join-account-name"
+                    value={account.name}
+                    onChange={(e) =>
+                      setAccount((a) => ({ ...a, name: e.target.value }))
+                    }
                     placeholder="Dr. First Last"
                     className="h-11 rounded-xl border-slate-200 bg-slate-50/60"
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <div className="text-xs font-semibold text-slate-700">
-                    Qualification
-                  </div>
+                  <div className="text-xs font-semibold text-slate-700">Email</div>
                   <Input
-                    data-testid="join-qualification-input"
-                    value={form.qualifications}
-                    onChange={(e) => setField("qualifications", e.target.value)}
-                    placeholder="MS Ortho, DNB, Fellowship…"
+                    data-testid="join-account-email"
+                    value={account.email}
+                    onChange={(e) =>
+                      setAccount((a) => ({ ...a, email: e.target.value }))
+                    }
+                    placeholder="name@clinic.com"
                     className="h-11 rounded-xl border-slate-200 bg-slate-50/60"
                   />
                 </div>
               </div>
-              <div className="space-y-1.5">
-                <div className="text-xs font-semibold text-slate-700">
-                  Medical Registration Number (mandatory)
+              <div className="grid gap-4 md:grid-cols-2">
+                <div className="space-y-1.5">
+                  <div className="text-xs font-semibold text-slate-700">Mobile</div>
+                  <Input
+                    data-testid="join-account-mobile"
+                    value={account.mobile}
+                    onChange={(e) =>
+                      setAccount((a) => ({ ...a, mobile: e.target.value }))
+                    }
+                    placeholder="10-digit mobile"
+                    className="h-11 rounded-xl border-slate-200 bg-slate-50/60"
+                  />
                 </div>
-                <Input
-                  data-testid="join-registration-input"
-                  value={form.registrationNumber}
-                  onChange={(e) => setField("registrationNumber", e.target.value)}
-                  placeholder="e.g., MCI/State Reg. No."
-                  className="h-11 rounded-xl border-slate-200 bg-slate-50/60"
-                />
+                <div className="space-y-1.5">
+                  <div className="text-xs font-semibold text-slate-700">Password</div>
+                  <Input
+                    data-testid="join-account-password"
+                    type="password"
+                    value={account.password}
+                    onChange={(e) =>
+                      setAccount((a) => ({ ...a, password: e.target.value }))
+                    }
+                    className="h-11 rounded-xl border-slate-200 bg-slate-50/60"
+                  />
+                  <div
+                    data-testid="join-account-password-hint"
+                    className="text-xs text-slate-500"
+                  >
+                    Minimum 6 characters.
+                  </div>
+                </div>
               </div>
             </div>
           ) : null}
 
           {activeStep.key === "practice" ? (
             <div data-testid="join-step-practice" className="grid gap-5">
+              <div className="grid gap-4 md:grid-cols-2">
+                <div className="space-y-1.5">
+                  <div className="text-xs font-semibold text-slate-700">
+                    Qualification
+                  </div>
+                  <Input
+                    data-testid="join-qualification-input"
+                    value={profile.qualifications}
+                    onChange={(e) =>
+                      setProfile((p) => ({ ...p, qualifications: e.target.value }))
+                    }
+                    placeholder="MS Ortho, DNB, Fellowship…"
+                    className="h-11 rounded-xl border-slate-200 bg-slate-50/60"
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <div className="text-xs font-semibold text-slate-700">
+                    Medical Registration Number
+                  </div>
+                  <Input
+                    data-testid="join-registration-input"
+                    value={profile.registration_number}
+                    onChange={(e) =>
+                      setProfile((p) => ({ ...p, registration_number: e.target.value }))
+                    }
+                    placeholder="State/MCI Reg. No."
+                    className="h-11 rounded-xl border-slate-200 bg-slate-50/60"
+                  />
+                </div>
+              </div>
+
               <div>
                 <div
                   data-testid="join-subspecialty-title"
@@ -283,8 +359,10 @@ export default function JoinSurgeon() {
                 <div className="text-xs font-semibold text-slate-700">About</div>
                 <Textarea
                   data-testid="join-about-textarea"
-                  value={form.about}
-                  onChange={(e) => setField("about", e.target.value)}
+                  value={profile.about}
+                  onChange={(e) =>
+                    setProfile((p) => ({ ...p, about: e.target.value }))
+                  }
                   placeholder="Short professional bio (no marketing, no pricing, no claims)"
                   className="min-h-[110px] rounded-2xl border-slate-200 bg-slate-50/60"
                 />
@@ -297,8 +375,10 @@ export default function JoinSurgeon() {
                   </div>
                   <Textarea
                     data-testid="join-conditions-textarea"
-                    value={form.conditionsTreated}
-                    onChange={(e) => setField("conditionsTreated", e.target.value)}
+                    value={profile.conditions_treated}
+                    onChange={(e) =>
+                      setProfile((p) => ({ ...p, conditions_treated: e.target.value }))
+                    }
                     placeholder="e.g., knee arthritis, meniscus tear"
                     className="min-h-[110px] rounded-2xl border-slate-200 bg-slate-50/60"
                   />
@@ -309,8 +389,10 @@ export default function JoinSurgeon() {
                   </div>
                   <Textarea
                     data-testid="join-procedures-textarea"
-                    value={form.proceduresPerformed}
-                    onChange={(e) => setField("proceduresPerformed", e.target.value)}
+                    value={profile.procedures_performed}
+                    onChange={(e) =>
+                      setProfile((p) => ({ ...p, procedures_performed: e.target.value }))
+                    }
                     placeholder="e.g., arthroscopy, joint replacement"
                     className="min-h-[110px] rounded-2xl border-slate-200 bg-slate-50/60"
                   />
@@ -319,90 +401,175 @@ export default function JoinSurgeon() {
             </div>
           ) : null}
 
-          {activeStep.key === "clinic" ? (
-            <div data-testid="join-step-clinic" className="grid gap-4">
-              <div className="space-y-1.5">
-                <div className="text-xs font-semibold text-slate-700">
-                  Clinic / Hospital address
+          {activeStep.key === "locations" ? (
+            <div data-testid="join-step-locations" className="grid gap-4">
+              <div className="flex items-center justify-between">
+                <div
+                  data-testid="join-locations-title"
+                  className="text-sm font-semibold text-slate-900"
+                >
+                  Clinic / Hospital locations
                 </div>
-                <Textarea
-                  data-testid="join-clinic-address-textarea"
-                  value={form.clinicAddress}
-                  onChange={(e) => setField("clinicAddress", e.target.value)}
-                  placeholder="Full address"
-                  className="min-h-[110px] rounded-2xl border-slate-200 bg-slate-50/60"
-                />
+                <Button
+                  data-testid="join-add-location"
+                  type="button"
+                  variant="secondary"
+                  onClick={() => setLocations((ls) => [...ls, emptyLocation()])}
+                  className="h-9 rounded-full bg-slate-100 text-slate-800 hover:bg-slate-200"
+                >
+                  Add location
+                </Button>
               </div>
 
-              <div className="grid gap-4 md:grid-cols-3">
-                <div className="space-y-1.5">
-                  <div className="text-xs font-semibold text-slate-700">City</div>
-                  <Input
-                    data-testid="join-city-input"
-                    value={form.clinicCity}
-                    onChange={(e) => setField("clinicCity", e.target.value)}
-                    placeholder="e.g., Mumbai"
-                    className="h-11 rounded-xl border-slate-200 bg-slate-50/60"
-                  />
-                </div>
-                <div className="space-y-1.5">
-                  <div className="text-xs font-semibold text-slate-700">
-                    Pincode
-                  </div>
-                  <Input
-                    data-testid="join-pincode-input"
-                    value={form.clinicPincode}
-                    onChange={(e) => setField("clinicPincode", e.target.value)}
-                    placeholder="e.g., 400001"
-                    className="h-11 rounded-xl border-slate-200 bg-slate-50/60"
-                  />
-                </div>
-                <div className="space-y-1.5">
-                  <div className="text-xs font-semibold text-slate-700">
-                    Clinic phone
-                  </div>
-                  <Input
-                    data-testid="join-phone-input"
-                    value={form.clinicPhone}
-                    onChange={(e) => setField("clinicPhone", e.target.value)}
-                    placeholder="Clinic phone (no personal numbers)"
-                    className="h-11 rounded-xl border-slate-200 bg-slate-50/60"
-                  />
-                </div>
+              <div className="grid gap-4">
+                {locations.map((l, idx) => (
+                  <Card
+                    data-testid={`join-location-card-${idx}`}
+                    key={l.id}
+                    className="rounded-3xl border-slate-200 p-5 shadow-none"
+                  >
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="text-sm font-semibold text-slate-900">
+                        Location {idx + 1}
+                      </div>
+                      {locations.length > 1 ? (
+                        <button
+                          data-testid={`join-remove-location-${idx}`}
+                          type="button"
+                          className="text-xs font-semibold text-slate-600 hover:text-slate-900 transition-colors"
+                          onClick={() =>
+                            setLocations((ls) => ls.filter((x) => x.id !== l.id))
+                          }
+                        >
+                          Remove
+                        </button>
+                      ) : null}
+                    </div>
+
+                    <div className="mt-4 grid gap-4 md:grid-cols-2">
+                      <div className="space-y-1.5">
+                        <div className="text-xs font-semibold text-slate-700">
+                          Clinic/Hospital name
+                        </div>
+                        <Input
+                          data-testid={`join-location-facility-${idx}`}
+                          value={l.facility_name}
+                          onChange={(e) =>
+                            setLocations((ls) =>
+                              ls.map((x) =>
+                                x.id === l.id
+                                  ? { ...x, facility_name: e.target.value }
+                                  : x,
+                              ),
+                            )
+                          }
+                          className="h-11 rounded-xl border-slate-200 bg-slate-50/60"
+                        />
+                      </div>
+                      <div className="space-y-1.5">
+                        <div className="text-xs font-semibold text-slate-700">City</div>
+                        <Input
+                          data-testid={`join-location-city-${idx}`}
+                          value={l.city}
+                          onChange={(e) =>
+                            setLocations((ls) =>
+                              ls.map((x) =>
+                                x.id === l.id ? { ...x, city: e.target.value } : x,
+                              ),
+                            )
+                          }
+                          className="h-11 rounded-xl border-slate-200 bg-slate-50/60"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="mt-4 space-y-1.5">
+                      <div className="text-xs font-semibold text-slate-700">Address</div>
+                      <Textarea
+                        data-testid={`join-location-address-${idx}`}
+                        value={l.address}
+                        onChange={(e) =>
+                          setLocations((ls) =>
+                            ls.map((x) =>
+                              x.id === l.id
+                                ? { ...x, address: e.target.value }
+                                : x,
+                            ),
+                          )
+                        }
+                        className="min-h-[90px] rounded-2xl border-slate-200 bg-slate-50/60"
+                      />
+                    </div>
+
+                    <div className="mt-4 grid gap-4 md:grid-cols-3">
+                      <div className="space-y-1.5">
+                        <div className="text-xs font-semibold text-slate-700">Pincode</div>
+                        <Input
+                          data-testid={`join-location-pincode-${idx}`}
+                          value={l.pincode}
+                          onChange={(e) =>
+                            setLocations((ls) =>
+                              ls.map((x) =>
+                                x.id === l.id
+                                  ? { ...x, pincode: e.target.value }
+                                  : x,
+                              ),
+                            )
+                          }
+                          className="h-11 rounded-xl border-slate-200 bg-slate-50/60"
+                        />
+                      </div>
+                      <div className="space-y-1.5">
+                        <div className="text-xs font-semibold text-slate-700">OPD timings</div>
+                        <Input
+                          data-testid={`join-location-opd-${idx}`}
+                          value={l.opd_timings}
+                          onChange={(e) =>
+                            setLocations((ls) =>
+                              ls.map((x) =>
+                                x.id === l.id
+                                  ? { ...x, opd_timings: e.target.value }
+                                  : x,
+                              ),
+                            )
+                          }
+                          className="h-11 rounded-xl border-slate-200 bg-slate-50/60"
+                        />
+                      </div>
+                      <div className="space-y-1.5">
+                        <div className="text-xs font-semibold text-slate-700">Phone</div>
+                        <Input
+                          data-testid={`join-location-phone-${idx}`}
+                          value={l.phone}
+                          onChange={(e) =>
+                            setLocations((ls) =>
+                              ls.map((x) =>
+                                x.id === l.id
+                                  ? { ...x, phone: e.target.value }
+                                  : x,
+                              ),
+                            )
+                          }
+                          className="h-11 rounded-xl border-slate-200 bg-slate-50/60"
+                        />
+                      </div>
+                    </div>
+                  </Card>
+                ))}
               </div>
 
-              <div className="space-y-1.5">
-                <div className="text-xs font-semibold text-slate-700">OPD timings</div>
-                <Input
-                  data-testid="join-opd-input"
-                  value={form.clinicOpdTimings}
-                  onChange={(e) => setField("clinicOpdTimings", e.target.value)}
-                  placeholder="e.g., Mon–Sat 6–8pm"
-                  className="h-11 rounded-xl border-slate-200 bg-slate-50/60"
-                />
+              <div
+                data-testid="join-locations-note"
+                className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-xs text-slate-600"
+              >
+                You can add multiple clinics/hospitals. Search will match you if
+                any location is nearby.
               </div>
             </div>
           ) : null}
 
           {activeStep.key === "uploads" ? (
             <div data-testid="join-step-uploads" className="grid gap-5">
-              <Card className="rounded-2xl border-slate-200 p-4 shadow-none">
-                <div
-                  data-testid="join-photo-title"
-                  className="text-sm font-semibold text-slate-900"
-                >
-                  Profile photo (optional)
-                </div>
-                <div className="mt-3">
-                  <Input
-                    data-testid="join-photo-input"
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => setPhotoFile(e.target.files?.[0] || null)}
-                  />
-                </div>
-              </Card>
-
               <Card className="rounded-2xl border-slate-200 p-4 shadow-none">
                 <div
                   data-testid="join-docs-title"
@@ -482,7 +649,9 @@ export default function JoinSurgeon() {
               <Button
                 data-testid="join-next-button"
                 disabled={!canContinue() || submitting}
-                onClick={() => setStepIndex((i) => Math.min(steps.length - 1, i + 1))}
+                onClick={() =>
+                  setStepIndex((i) => Math.min(steps.length - 1, i + 1))
+                }
                 className="h-10 rounded-full bg-sky-700 px-6 text-white hover:bg-sky-800 disabled:opacity-50"
               >
                 Continue
@@ -494,7 +663,7 @@ export default function JoinSurgeon() {
                 onClick={submit}
                 className="h-10 rounded-full bg-slate-900 px-6 text-white hover:bg-slate-800 disabled:opacity-50"
               >
-                {submitting ? "Submitting…" : "Submit for approval"}
+                {submitting ? "Submitting…" : "Create account & submit"}
               </Button>
             )}
           </div>
