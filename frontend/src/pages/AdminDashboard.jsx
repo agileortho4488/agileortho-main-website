@@ -36,6 +36,7 @@ export default function AdminDashboard() {
 
   const [rejectionReason, setRejectionReason] = useState("");
   const [subspecialties, setSubspecialties] = useState("");
+  const [photoVisibility, setPhotoVisibility] = useState("admin_only");
 
   async function load(status) {
     setLoading(true);
@@ -67,6 +68,7 @@ export default function AdminDashboard() {
   useEffect(() => {
     setRejectionReason(selected?.rejection_reason || "");
     setSubspecialties((selected?.subspecialties || []).join(", "));
+    setPhotoVisibility(selected?.photo_visibility || "admin_only");
   }, [selected]);
 
   async function approve() {
@@ -89,7 +91,11 @@ export default function AdminDashboard() {
     if (!selected) return;
     await api.patch(
       `/admin/surgeons/${selected.id}`,
-      { status: "rejected", rejection_reason: rejectionReason || "Not specified" },
+      {
+        status: "rejected",
+        rejection_reason: rejectionReason || "Not specified",
+        photo_visibility: photoVisibility,
+      },
       { headers: { Authorization: `Bearer ${getToken()}` } },
     );
     load(tab);
@@ -293,6 +299,72 @@ export default function AdminDashboard() {
                           <div className="text-xs font-semibold text-slate-700">
                             Subspecialties (edit)
                           </div>
+
+
+                      <div className="mt-5">
+                        <div className="text-xs font-semibold text-slate-700">
+                          Profile photo
+                        </div>
+
+                        {selected.has_profile_photo ? (
+                          <div className="mt-3 grid gap-4 md:grid-cols-[120px_1fr] md:items-start">
+                            <img
+                              data-testid="admin-photo-preview"
+                              src={adminPhotoUrl(selected.id)}
+                              alt=""
+                              className="h-[120px] w-[120px] rounded-2xl border border-slate-200 object-cover"
+                            />
+                            <div>
+                              <div
+                                data-testid="admin-photo-visibility-label"
+                                className="text-xs font-semibold text-slate-700"
+                              >
+                                Visibility
+                              </div>
+                              <div className="mt-2 flex flex-wrap gap-2">
+                                {[
+                                  {
+                                    value: "admin_only",
+                                    label: "Admin only (default)",
+                                  },
+                                  { value: "public", label: "Public" },
+                                ].map((o) => (
+                                  <button
+                                    data-testid={`admin-photo-visibility-${o.value}`}
+                                    key={o.value}
+                                    type="button"
+                                    onClick={() => setPhotoVisibility(o.value)}
+                                    className={[
+                                      "rounded-full border px-3 py-1.5 text-xs",
+                                      "transition-[background-color,border-color,color]",
+                                      photoVisibility === o.value
+                                        ? "border-sky-200 bg-sky-50 text-sky-900"
+                                        : "border-slate-200 bg-white text-slate-700 hover:bg-slate-50",
+                                    ].join(" ")}
+                                  >
+                                    {o.label}
+                                  </button>
+                                ))}
+                              </div>
+                              <div
+                                data-testid="admin-photo-visibility-note"
+                                className="mt-2 text-xs text-slate-500"
+                              >
+                                If set to Public, the photo will be visible on the
+                                doctor’s public profile.
+                              </div>
+                            </div>
+                          </div>
+                        ) : (
+                          <div
+                            data-testid="admin-photo-empty"
+                            className="mt-2 rounded-2xl border border-dashed border-slate-200 bg-white p-4 text-sm text-slate-600"
+                          >
+                            No photo uploaded.
+                          </div>
+                        )}
+                      </div>
+
                           <Input
                             data-testid="admin-review-subspecialties-input"
                             value={subspecialties}

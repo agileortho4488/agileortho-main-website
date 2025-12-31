@@ -1141,6 +1141,9 @@ async def admin_list_surgeons(status: Optional[SurgeonStatus] = None, _: Dict[st
     out: List[SurgeonAdmin] = []
     for d in docs:
         locs = d.get("locations") or []
+        photo = d.get("profile_photo") or None
+        visibility = d.get("photo_visibility") or "admin_only"
+
         out.append(
             SurgeonAdmin(
                 id=d["id"],
@@ -1153,6 +1156,9 @@ async def admin_list_surgeons(status: Optional[SurgeonStatus] = None, _: Dict[st
                 about=d.get("about", ""),
                 conditions_treated=d.get("conditions_treated", []),
                 procedures_performed=d.get("procedures_performed", []),
+                has_profile_photo=bool(photo),
+                photo_visibility=visibility,
+                public_photo_url=_public_photo_url(d["slug"]) if (photo and visibility == "public") else None,
                 clinic=_clinic_from_locations(locs),
                 locations=[Location(**x) for x in locs],
                 upload_token=d.get("upload_token", ""),
