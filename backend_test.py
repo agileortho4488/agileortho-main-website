@@ -282,7 +282,7 @@ class OrthoConnectAPITester:
                 return False
             
             # Now test the public endpoint
-            response = requests.get(f"{self.base_url}/api/surgeons/by-slug/{slug}", timeout=10)
+            response = requests.get(f"{self.base_url}/api/profiles/by-slug/{slug}", timeout=10)
             success = response.status_code == 200
             details = f"Status: {response.status_code}, Slug: {slug}"
             
