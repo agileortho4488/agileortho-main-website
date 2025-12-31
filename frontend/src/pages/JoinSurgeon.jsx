@@ -89,8 +89,23 @@ export default function JoinSurgeon() {
     setError("");
 
     try {
-      const signup = await api.post("/auth/surgeon/signup", account);
-      const token = signup.data.token;
+      let token = "";
+      try {
+        const signup = await api.post("/auth/surgeon/signup", account);
+        token = signup.data.token;
+      } catch (err) {
+        const status = err?.response?.status;
+        if (status === 409) {
+          // If email already exists, treat this as "continue" and log in.
+          const login = await api.post("/auth/surgeon/login", {
+            email: account.email,
+            password: account.password,
+          });
+          token = login.data.token;
+        } else {
+          throw err;
+        }
+      }
 
       const subs = Array.from(subspecialtySet);
       const payload = {
