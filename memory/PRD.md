@@ -55,7 +55,9 @@ OrthoConnect is an ethical, patient-first orthopaedic healthcare platform for In
 - **4 Status Tabs**: Pending, Needs Info, Approved, Rejected
 - **Needs Clarification Status**: Request more info from surgeons
 - Photo visibility control
-- Document download
+- **Document Viewing**: View button opens documents in new tab, inline preview for images (jpg, jpeg, png, gif, webp)
+- **Document Download**: Download button for all document types
+- **Empty Documents Warning**: Red warning shown when surgeon has no documents uploaded
 - **Analytics Dashboard**: `/admin/analytics`
   - Platform statistics (total, approved, pending, etc.)
   - City distribution chart
@@ -69,6 +71,8 @@ OrthoConnect is an ethical, patient-first orthopaedic healthcare platform for In
 - Website field for personal/clinic URL
 - Profile editing (even after approval)
 - WhatsApp contact button on profile
+- **Mandatory Document Upload**: Surgeons must upload at least one document (registration proof or degree certificate) before submitting profile
+- **Existing Documents Display**: Green box showing previously uploaded documents
 - **Referral System**:
   - Generate unique referral code
   - Share via WhatsApp or Email
@@ -198,8 +202,10 @@ Email: Zoho Mail SMTP (info@agileortho.in)
   - Bulk WhatsApp link generation
 
 ## Upcoming Tasks
-- Loading Skeletons for better UX
-- Admin events/blog content management UI
+- **P1: Launch Broadcast Campaign**: Send Email & WhatsApp invitations to 575 Telangana surgeons
+- **P1: Loading Skeletons**: Add loading skeletons for Surgeons list, Admin Dashboard, CRM
+- **P2: Populate Content Pages**: Add initial content for Events and Blog pages
+- **P2: Full WhatsApp Automation**: Backend WhatsApp chatbot (requires dedicated WhatsApp Business API)
 
 ## Deployment
 ✅ Ready for production deployment
@@ -208,5 +214,10 @@ Email: Zoho Mail SMTP (info@agileortho.in)
 - Environment variables configured
 - SMTP credentials configured
 
+## Completed This Session (January 1, 2026 - Session 2)
+- ✅ **Mandatory Document Upload for Surgeons**: Profile submission blocked without documents, toast error shown
+- ✅ **Admin Document Viewing**: View button for documents, inline image preview, red warning for missing docs
+- ✅ **Testing**: All features verified via testing agent (iteration 11)
+
 ---
-Last Updated: January 1, 2026
+Last Updated: January 1, 2026 (Session 2)
