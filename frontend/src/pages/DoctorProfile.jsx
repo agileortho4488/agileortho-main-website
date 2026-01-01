@@ -199,6 +199,8 @@ export default function DoctorProfile() {
                 <TrustBadge type="approved" label="Admin Verified" />
                 {data.registration_number && <TrustBadge type="documents" label="Registration Submitted" />}
                 {data.public_photo_url && <TrustBadge type="profile" label="Photo Verified" />}
+                {data.locations?.length > 0 && <TrustBadge type="location" label="Location Verified" />}
+                {data.about && data.about.length > 50 && <TrustBadge type="experience" label="Profile Complete" />}
               </motion.div>
 
               <h1
