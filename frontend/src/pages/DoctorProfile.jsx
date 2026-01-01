@@ -53,6 +53,9 @@ export default function DoctorProfile() {
       try {
         const res = await api.get(`/profiles/by-slug/${slug}`);
         if (mounted) setData(res.data);
+        
+        // Track profile view (fire and forget)
+        api.post(`/profiles/${slug}/view`).catch(() => {});
       } catch (e) {
         if (mounted)
           setError(e?.response?.data?.detail || "Unable to load profile");
