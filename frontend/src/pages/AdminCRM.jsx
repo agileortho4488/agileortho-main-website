@@ -370,6 +370,14 @@ export default function AdminCRM() {
             <div className="flex items-center gap-2">
               <span className="text-sm text-slate-600">{selectedIds.size} selected</span>
               <Button
+                onClick={handleBulkSyncToZoho}
+                disabled={syncing}
+                className="rounded-full bg-violet-600 hover:bg-violet-700"
+              >
+                <Zap className="h-4 w-4 mr-2" />
+                {syncing ? "Syncing..." : "Sync to Zoho"}
+              </Button>
+              <Button
                 onClick={() => setShowBroadcastModal(true)}
                 className="rounded-full bg-teal-600 hover:bg-teal-700"
               >
