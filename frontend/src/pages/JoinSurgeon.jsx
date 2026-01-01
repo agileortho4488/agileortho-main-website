@@ -356,20 +356,32 @@ export default function JoinSurgeon() {
               </div>
 
               <div className="mt-5">
-                <div className="text-xs font-semibold text-slate-700">
-                  Subspecialty focus
+                <div className="flex items-center justify-between">
+                  <div className="text-xs font-semibold text-slate-700">
+                    Subspecialty focus (select up to 2)
+                  </div>
+                  <div className="text-xs text-slate-500">
+                    {subspecialtySet.size}/2 selected
+                  </div>
                 </div>
                 <div className="mt-3 grid gap-2 sm:grid-cols-2">
                   {SUBSPECIALTIES.map((s) => (
                     <label
                       data-testid={`surgeon-subspecialty-${s.toLowerCase()}`}
                       key={s}
-                      className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white p-3"
+                      className={`flex items-center gap-3 rounded-2xl border p-3 transition-all ${
+                        subspecialtySet.has(s)
+                          ? "border-teal-300 bg-teal-50"
+                          : subspecialtySet.size >= 2
+                          ? "border-slate-100 bg-slate-50 opacity-50 cursor-not-allowed"
+                          : "border-slate-200 bg-white hover:border-slate-300"
+                      }`}
                     >
                       <Checkbox
                         data-testid={`surgeon-subspecialty-checkbox-${s.toLowerCase()}`}
                         checked={subspecialtySet.has(s)}
                         onCheckedChange={() => toggleSub(s)}
+                        disabled={!subspecialtySet.has(s) && subspecialtySet.size >= 2}
                       />
                       <div className="text-sm font-medium text-slate-800">{s}</div>
                     </label>
