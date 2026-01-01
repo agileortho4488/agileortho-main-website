@@ -1853,6 +1853,22 @@ async def admin_update_surgeon(
     if payload.rejection_reason is not None:
         update["rejection_reason"] = payload.rejection_reason
 
+    # New editable fields
+    if payload.name is not None and payload.name.strip():
+        update["name"] = payload.name.strip()
+    
+    if payload.email is not None and payload.email.strip():
+        update["email"] = payload.email.strip().lower()
+    
+    if payload.qualifications is not None:
+        update["qualifications"] = payload.qualifications.strip()
+    
+    if payload.registration_number is not None:
+        update["registration_number"] = payload.registration_number.strip()
+    
+    if payload.website is not None:
+        update["website"] = payload.website.strip()
+
     if payload.subspecialties is not None:
         update["subspecialties"] = [normalize_subspecialty(s) for s in payload.subspecialties if s.strip()]
 
@@ -1865,6 +1881,34 @@ async def admin_update_surgeon(
 
     if payload.photo_visibility is not None:
         update["photo_visibility"] = payload.photo_visibility
+    
+    # Handle location updates
+    if payload.locations is not None:
+        locations: List[Dict[str, Any]] = []
+        for loc in payload.locations:
+            geo = None
+            if is_pincode(loc.pincode):
+                geo = await geocode_location(loc.pincode)
+            elif (loc.city or "").strip() or (loc.address or "").strip():
+                geo = await geocode_location(f"{loc.pincode}, {loc.city}" if loc.pincode else f"{loc.address}, {loc.city}")
+
+            geo_point = None
+            if geo:
+                geo_point = {"type": "Point", "coordinates": [geo["lng"], geo["lat"]]}
+
+            locations.append({
+                "id": loc.id or str(uuid.uuid4()),
+                "facility_name": (loc.facility_name or "").strip(),
+                "address": (loc.address or "").strip(),
+                "city": (loc.city or "").strip(),
+                "pincode": (loc.pincode or "").strip(),
+                "opd_timings": (loc.opd_timings or "").strip(),
+                "phone": (loc.phone or "").strip(),
+                "geo": geo_point,
+            })
+        
+        if locations:
+            update["locations"] = locations
 
     await db.surgeons.update_one({"id": surgeon_id}, {"$set": update})
     
