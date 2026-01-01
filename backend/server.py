@@ -1467,6 +1467,7 @@ async def admin_update_surgeon(
         raise HTTPException(status_code=404, detail="Surgeon not found")
 
     update: Dict[str, Any] = {"updated_at": now_iso()}
+    old_status = surgeon.get("status")
 
     if payload.status:
         update["status"] = payload.status
@@ -1490,6 +1491,19 @@ async def admin_update_surgeon(
         update["photo_visibility"] = payload.photo_visibility
 
     await db.surgeons.update_one({"id": surgeon_id}, {"$set": update})
+    
+    # Send email notification if status changed
+    if payload.status and payload.status != old_status:
+        surgeon_email = surgeon.get("email")
+        surgeon_name = surgeon.get("name", "Doctor")
+        if surgeon_email:
+            send_status_notification(
+                surgeon_email=surgeon_email,
+                surgeon_name=surgeon_name,
+                new_status=payload.status,
+                reason=payload.rejection_reason
+            )
+    
     return {"ok": True}
 
 
