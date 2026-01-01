@@ -4742,11 +4742,15 @@ async def discovery_stats(auth: Dict[str, Any] = Depends(admin_dep)):
     matched = await db.discovered_surgeons.count_documents({"status": "matched"})
     new = await db.discovered_surgeons.count_documents({"status": "new"})
     
+    # Check if SerpAPI is configured
+    serpapi_configured = bool(os.environ.get("SERPAPI_KEY"))
+    
     return {
         "total": total,
         "imported": imported,
         "matched": matched,
         "new": new,
+        "serpapi_configured": serpapi_configured,
     }
 
 
