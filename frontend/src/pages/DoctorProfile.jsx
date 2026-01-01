@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Phone, Globe, MapPin, Clock, ChevronRight, Shield, AlertCircle, CheckCircle2, BadgeCheck, FileCheck, UserCheck } from "lucide-react";
+import { Phone, Globe, MapPin, Clock, ChevronRight, Shield, AlertCircle, CheckCircle2, BadgeCheck, FileCheck, UserCheck, MessageCircle } from "lucide-react";
 import { apiClient } from "@/lib/api";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -447,14 +447,26 @@ export default function DoctorProfile() {
               <h2 className="text-lg font-bold text-slate-900">Contact</h2>
               <div className="mt-4 space-y-3">
                 {locations[0]?.phone && (
-                  <a
-                    href={`tel:${locations[0].phone}`}
-                    data-testid="doctor-profile-phone-cta"
-                    className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-teal-500 to-emerald-500 py-3.5 text-sm font-semibold text-white shadow-lg shadow-teal-500/25 transition-all hover:shadow-teal-500/40 hover:scale-[1.02]"
-                  >
-                    <Phone className="h-4 w-4" />
-                    Call Clinic
-                  </a>
+                  <>
+                    <a
+                      href={`tel:${locations[0].phone}`}
+                      data-testid="doctor-profile-phone-cta"
+                      className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-teal-500 to-emerald-500 py-3.5 text-sm font-semibold text-white shadow-lg shadow-teal-500/25 transition-all hover:shadow-teal-500/40 hover:scale-[1.02]"
+                    >
+                      <Phone className="h-4 w-4" />
+                      Call Clinic
+                    </a>
+                    <a
+                      href={`https://wa.me/${locations[0].phone.replace(/\D/g, "").replace(/^0+/, "91")}?text=${encodeURIComponent(`Hi Dr. ${data.name}, I found your profile on OrthoConnect and would like to consult regarding my orthopaedic concern.`)}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      data-testid="doctor-profile-whatsapp-cta"
+                      className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-green-500 to-emerald-600 py-3.5 text-sm font-semibold text-white shadow-lg shadow-green-500/25 transition-all hover:shadow-green-500/40 hover:scale-[1.02]"
+                    >
+                      <MessageCircle className="h-4 w-4" />
+                      WhatsApp
+                    </a>
+                  </>
                 )}
                 
                 {hasWebsite && (

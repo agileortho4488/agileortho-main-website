@@ -46,6 +46,7 @@ export default function JoinSurgeon() {
     about: "",
     conditions_treated: "",
     procedures_performed: "",
+    website: "",
   });
   const [locations, setLocations] = useState([emptyLocation()]);
 
@@ -96,6 +97,7 @@ export default function JoinSurgeon() {
           about: res.data.about || "",
           conditions_treated: (res.data.conditions_treated || []).join(", "),
           procedures_performed: (res.data.procedures_performed || []).join(", "),
+          website: res.data.website || "",
         });
         setSubspecialtySet(new Set(res.data.subspecialties || []));
         setLocations(
@@ -136,6 +138,7 @@ export default function JoinSurgeon() {
         registration_number: profile.registration_number,
         subspecialties: Array.from(subspecialtySet),
         about: profile.about,
+        website: profile.website,
         conditions_treated: profile.conditions_treated
           .split(",")
           .map((s) => s.trim())
@@ -367,6 +370,21 @@ export default function JoinSurgeon() {
                 </div>
               </div>
 
+              <div className="mt-5 space-y-1.5">
+                <div className="text-xs font-semibold text-slate-700">
+                  Personal/Clinic Website (optional)
+                </div>
+                <Input
+                  data-testid="surgeon-website-input"
+                  value={profile.website}
+                  onChange={(e) =>
+                    setProfile((p) => ({ ...p, website: e.target.value }))
+                  }
+                  placeholder="https://www.example.com"
+                  className="h-11 rounded-xl border-slate-200 bg-slate-50/60"
+                />
+              </div>
+
               <div className="mt-5 grid gap-4 md:grid-cols-2">
                 <div className="space-y-1.5">
                   <div className="text-xs font-semibold text-slate-700">About</div>
@@ -389,6 +407,7 @@ export default function JoinSurgeon() {
                     onChange={(e) =>
                       setProfile((p) => ({ ...p, conditions_treated: e.target.value }))
                     }
+                    placeholder="e.g., ACL tear, Meniscus injury, Knee arthritis"
                     className="min-h-[110px] rounded-2xl border-slate-200 bg-slate-50/60"
                   />
                 </div>
@@ -404,6 +423,7 @@ export default function JoinSurgeon() {
                   onChange={(e) =>
                     setProfile((p) => ({ ...p, procedures_performed: e.target.value }))
                   }
+                  placeholder="e.g., ACL reconstruction, Knee replacement, Arthroscopy"
                   className="min-h-[110px] rounded-2xl border-slate-200 bg-slate-50/60"
                 />
               </div>
