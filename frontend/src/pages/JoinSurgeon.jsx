@@ -249,6 +249,17 @@ export default function JoinSurgeon() {
   async function submitProfile() {
     setLoading(true);
     setError("");
+    
+    // Validate required documents
+    if (docFiles.length === 0 && !profileExists) {
+      setError("Please upload at least one document (registration proof or degree certificate) for verification.");
+      toast.error("Document Required", {
+        description: "Upload registration proof or degree certificate before submitting.",
+      });
+      setLoading(false);
+      return;
+    }
+    
     try {
       const token = getToken();
       const payload = {
