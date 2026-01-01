@@ -1,0 +1,31 @@
+{
+  "name": "OrthoConnect - Find Orthopaedic Surgeons",
+  "short_name": "OrthoConnect",
+  "description": "India's ethical, patient-first orthopaedic surgeon directory. Find trusted orthopaedic specialists near you.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0d9488",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/logo192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/logo512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "categories": ["health", "medical"],
+  "lang": "en-IN",
+  "dir": "ltr"
+}
