@@ -1,108 +1,30 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
-import { MapPin, Users, Stethoscope, TrendingUp, ChevronRight, Search } from "lucide-react";
+import { MapPin, Users, ChevronRight, Search } from "lucide-react";
 import { apiClient } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { DistanceSearch } from "@/components/DistanceSearch";
 
-// Floating stats that flow behind the hero
-function FloatingStats({ surgeons }) {
-  const [stats, setStats] = useState([]);
-
-  useEffect(() => {
-    if (!surgeons.length) return;
-
-    const items = [];
-    const cityCount = {};
-    const subCount = {};
-    
-    surgeons.forEach(s => {
-      const city = s.locations?.[0]?.city || s.clinic?.city;
-      if (city) cityCount[city] = (cityCount[city] || 0) + 1;
-      (s.subspecialties || []).forEach(sub => {
-        subCount[sub] = (subCount[sub] || 0) + 1;
-      });
-    });
-
-    // Add city stats
-    Object.entries(cityCount).forEach(([city, count]) => {
-      items.push({ text: `${count} surgeons in ${city}`, type: "city" });
-    });
-
-    // Add subspecialty stats
-    Object.entries(subCount).forEach(([sub, count]) => {
-      items.push({ text: `${count} ${sub} specialists`, type: "sub" });
-    });
-
-    // Add general stats
-    items.push({ text: `${surgeons.length} verified surgeons`, type: "total" });
-    items.push({ text: "100% Free listings", type: "free" });
-    items.push({ text: "No paid rankings", type: "trust" });
-    items.push({ text: "Join the community", type: "cta" });
-
-    // Duplicate for continuous flow
-    setStats([...items, ...items, ...items]);
-  }, [surgeons]);
-
-  if (!stats.length) return null;
-
+// Skeleton loader for surgeon cards
+function SurgeonCardSkeleton() {
   return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {/* Row 1 - flows left */}
-      <div className="absolute top-[15%] left-0 right-0">
-        <motion.div
-          className="flex gap-8 whitespace-nowrap"
-          animate={{ x: [0, -2000] }}
-          transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-        >
-          {stats.map((stat, i) => (
-            <span
-              key={i}
-              className="text-white/[0.07] text-2xl sm:text-3xl font-bold tracking-wide"
-            >
-              {stat.text}
-            </span>
-          ))}
-        </motion.div>
+    <div className="rounded-2xl border border-slate-200 bg-white p-5 animate-pulse">
+      <div className="flex items-start gap-4">
+        <div className="w-14 h-14 rounded-xl bg-slate-200" />
+        <div className="flex-1">
+          <div className="h-5 w-3/4 bg-slate-200 rounded mb-2" />
+          <div className="h-4 w-1/2 bg-slate-100 rounded" />
+        </div>
       </div>
-
-      {/* Row 2 - flows right */}
-      <div className="absolute top-[40%] left-0 right-0">
-        <motion.div
-          className="flex gap-8 whitespace-nowrap"
-          animate={{ x: [-1500, 500] }}
-          transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
-        >
-          {stats.slice().reverse().map((stat, i) => (
-            <span
-              key={i}
-              className="text-white/[0.05] text-3xl sm:text-4xl font-bold tracking-wide"
-            >
-              {stat.text}
-            </span>
-          ))}
-        </motion.div>
+      <div className="flex gap-2 mt-4">
+        <div className="h-6 w-16 bg-slate-100 rounded-full" />
+        <div className="h-6 w-20 bg-slate-100 rounded-full" />
       </div>
-
-      {/* Row 3 - flows left slower */}
-      <div className="absolute top-[70%] left-0 right-0">
-        <motion.div
-          className="flex gap-12 whitespace-nowrap"
-          animate={{ x: [0, -2500] }}
-          transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
-        >
-          {stats.map((stat, i) => (
-            <span
-              key={i}
-              className="text-white/[0.04] text-4xl sm:text-5xl font-bold tracking-wide"
-            >
-              {stat.text}
-            </span>
-          ))}
-        </motion.div>
+      <div className="flex items-center justify-between mt-4 pt-4 border-t border-slate-100">
+        <div className="h-4 w-24 bg-slate-100 rounded" />
+        <div className="h-4 w-4 bg-slate-100 rounded" />
       </div>
     </div>
   );
