@@ -44,6 +44,7 @@ export default function JoinSurgeon() {
 
   const [subspecialtySet, setSubspecialtySet] = useState(new Set());
   const [profile, setProfile] = useState({
+    name: "",
     qualifications: "",
     registration_number: "",
     about: "",
