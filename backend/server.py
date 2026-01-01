@@ -341,6 +341,28 @@ class AdminSurgeonUpdate(BaseModel):
     locations: Optional[List[Location]] = None
 
 
+# Bulk Import Models
+class BulkImportContact(BaseModel):
+    name: str
+    mobile: str
+    email: str = ""
+    city: str = ""
+    hospital: str = ""
+    qualifications: str = ""
+    subspecialty: str = ""
+
+
+class BulkImportRequest(BaseModel):
+    contacts: List[BulkImportContact]
+    send_sms: bool = False
+    send_email: bool = False
+
+
+class ClaimProfileRequest(BaseModel):
+    mobile: str
+    otp: str
+
+
 class SurgeonSignupRequest(BaseModel):
     name: str
     email: str
