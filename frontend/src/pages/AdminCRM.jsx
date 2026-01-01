@@ -71,7 +71,7 @@ export default function AdminCRM() {
 
   async function testZohoConnection() {
     try {
-      const res = await api.get("/campaigns/lists", { headers: { Authorization: `Bearer ${token}` } });
+      const res = await api.get("/admin/zoho-campaigns/lists", { headers: { Authorization: `Bearer ${token}` } });
       if (res.data?.lists || res.data?.message) {
         setZohoConnected(true);
         toast.success("Zoho Campaigns connected!");
