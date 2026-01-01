@@ -10,17 +10,17 @@ import {
 import { Input } from "@/components/ui/input";
 
 const CATEGORY_STYLES = {
-  "trauma-injury-care": { gradient: "from-red-500 to-rose-600", bg: "from-red-50 to-rose-50", accent: "red" },
-  "spine": { gradient: "from-blue-500 to-indigo-600", bg: "from-blue-50 to-indigo-50", accent: "blue" },
-  "shoulder-elbow": { gradient: "from-violet-500 to-purple-600", bg: "from-violet-50 to-purple-50", accent: "violet" },
-  "knee-sports": { gradient: "from-emerald-500 to-teal-600", bg: "from-emerald-50 to-teal-50", accent: "emerald" },
-  "pediatric-orthopaedics": { gradient: "from-cyan-500 to-sky-600", bg: "from-cyan-50 to-sky-50", accent: "cyan" },
-  "recon-arthroplasty": { gradient: "from-amber-500 to-orange-600", bg: "from-amber-50 to-orange-50", accent: "amber" },
-  "hand-wrist": { gradient: "from-pink-500 to-rose-600", bg: "from-pink-50 to-rose-50", accent: "pink" },
-  "foot-ankle": { gradient: "from-lime-500 to-green-600", bg: "from-lime-50 to-green-50", accent: "lime" },
-  "pathology-orthopaedic-oncology": { gradient: "from-slate-500 to-gray-600", bg: "from-slate-50 to-gray-50", accent: "slate" },
-  "basic-science-patient-knowledge": { gradient: "from-indigo-500 to-blue-600", bg: "from-indigo-50 to-blue-50", accent: "indigo" },
-  "anatomy-patient-reference": { gradient: "from-fuchsia-500 to-pink-600", bg: "from-fuchsia-50 to-pink-50", accent: "fuchsia" },
+  "trauma-injury-care": { gradient: "from-rose-400 to-red-500", bg: "from-rose-50 to-red-50", accent: "rose" },
+  "spine": { gradient: "from-sky-400 to-blue-500", bg: "from-sky-50 to-blue-50", accent: "sky" },
+  "shoulder-elbow": { gradient: "from-indigo-400 to-violet-500", bg: "from-indigo-50 to-violet-50", accent: "indigo" },
+  "knee-sports": { gradient: "from-teal-400 to-emerald-500", bg: "from-teal-50 to-emerald-50", accent: "teal" },
+  "pediatric-orthopaedics": { gradient: "from-cyan-400 to-teal-500", bg: "from-cyan-50 to-teal-50", accent: "cyan" },
+  "recon-arthroplasty": { gradient: "from-amber-400 to-orange-500", bg: "from-amber-50 to-orange-50", accent: "amber" },
+  "hand-wrist": { gradient: "from-pink-400 to-rose-500", bg: "from-pink-50 to-rose-50", accent: "pink" },
+  "foot-ankle": { gradient: "from-emerald-400 to-green-500", bg: "from-emerald-50 to-green-50", accent: "emerald" },
+  "pathology-orthopaedic-oncology": { gradient: "from-slate-400 to-slate-500", bg: "from-slate-50 to-gray-50", accent: "slate" },
+  "basic-science-patient-knowledge": { gradient: "from-blue-400 to-indigo-500", bg: "from-blue-50 to-indigo-50", accent: "blue" },
+  "anatomy-patient-reference": { gradient: "from-purple-400 to-fuchsia-500", bg: "from-purple-50 to-fuchsia-50", accent: "purple" },
 };
 
 const fadeInUp = {
