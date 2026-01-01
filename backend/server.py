@@ -4369,7 +4369,6 @@ async def search_justdial(city: str, query: str) -> List[Dict[str, Any]]:
     results = []
     
     try:
-        city_slug = city.lower().replace(" ", "-")
         url = f"https://www.justdial.com/{city}/Orthopaedic-Doctors"
         
         headers = {
