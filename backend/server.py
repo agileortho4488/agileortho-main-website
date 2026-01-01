@@ -4388,11 +4388,14 @@ async def search_practo(city: str, query: str) -> List[Dict[str, Any]]:
     try:
         city_slug = city.lower().replace(" ", "-")
         
-        # Try multiple Practo URLs for better coverage
+        # Better Practo URLs for orthopaedic doctors
         urls = [
+            f"https://www.practo.com/{city_slug}/orthopedist",  # Main orthopedist page
+            f"https://www.practo.com/{city_slug}/clinics/orthopedic-clinics",  # Clinics listing
             f"https://www.practo.com/{city_slug}/doctors-for-orthopaedic-problems",
             f"https://www.practo.com/{city_slug}/orthopedic-surgeon",
-            f"https://www.practo.com/{city_slug}/doctors?specialization=Orthopedist",
+            f"https://www.practo.com/{city_slug}/doctors-for-knee-pain",
+            f"https://www.practo.com/{city_slug}/doctors-for-joint-pain",
         ]
         
         headers = {
@@ -4400,6 +4403,7 @@ async def search_practo(city: str, query: str) -> List[Dict[str, Any]]:
             "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
             "Accept-Language": "en-US,en;q=0.5",
             "Connection": "keep-alive",
+            "Cache-Control": "no-cache",
         }
         
         seen_names = set()
