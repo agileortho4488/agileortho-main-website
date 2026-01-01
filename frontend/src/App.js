@@ -69,6 +69,7 @@ export default function App() {
             <Route path="/admin/bulk-import" element={<AdminBulkImport />} />
           <Route path="/admin/outreach" element={<AdminOutreach />} />
           <Route path="/admin/crm" element={<AdminCRM />} />
+          <Route path="/admin/discovery" element={<AdminSurgeonDiscovery />} />
           
           {/* SEO City Landing Pages */}
           {CITIES.map((city) => (
