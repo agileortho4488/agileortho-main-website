@@ -368,7 +368,9 @@ export default function AdminCRM() {
             className="h-10 px-4 rounded-full border border-slate-200 bg-white text-sm"
           >
             <option value="">All Tags</option>
-            {allTags.map(tag => (
+            <option value="discovery">🔍 Discovery Imports</option>
+            <option value="unclaimed">📋 Unclaimed Profiles</option>
+            {allTags.filter(t => t !== 'discovery' && t !== 'unclaimed').map(tag => (
               <option key={tag} value={tag}>{tag}</option>
             ))}
           </select>
