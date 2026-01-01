@@ -9,6 +9,7 @@ import io
 import ssl
 import smtplib
 import logging
+import secrets
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from pathlib import Path
