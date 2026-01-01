@@ -25,6 +25,7 @@ import Contact from "@/pages/Contact";
 import AdminLogin from "@/pages/AdminLogin";
 import AdminDashboard from "@/pages/AdminDashboard";
 import AdminAnalytics from "@/pages/AdminAnalytics";
+import AdminOutreach from "@/pages/AdminOutreach";
 import NotFound from "@/pages/NotFound";
 import CityLanding, { CITIES } from "@/pages/CityLanding";
 
