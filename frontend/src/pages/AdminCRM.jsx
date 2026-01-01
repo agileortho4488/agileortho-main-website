@@ -91,6 +91,13 @@ export default function AdminCRM() {
     testZohoConnection();
   }, []);
 
+  // Reload when tag filter changes to important tags
+  useEffect(() => {
+    if (tagFilter === 'discovery' || tagFilter === 'unclaimed') {
+      loadData(tagFilter);
+    }
+  }, [tagFilter]);
+
   const filteredContacts = useMemo(() => {
     return contacts.filter(c => {
       const matchesSearch = !searchQuery || 
