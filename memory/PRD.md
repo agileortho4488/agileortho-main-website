@@ -1,11 +1,13 @@
 # OrthoConnect - Product Requirements Document
 
 ## Overview
-OrthoConnect is a fully-featured, ethical, patient-first orthopaedic healthcare platform for India. It provides:
-- Research-backed patient education about 700+ orthopaedic conditions
+OrthoConnect is an ethical, patient-first orthopaedic healthcare platform for India — **An initiative of AgileOrtho**.
+
+It provides:
+- Research-backed patient education about orthopaedic conditions
 - Intelligent surgeon discovery with Hindi/Telugu support
-- Free professional profiles for surgeons
-- Trust badges and verification system
+- Free professional profiles for surgeons (max 2 subspecialties)
+- Real OTP authentication via 2Factor.in
 
 ## Core Principles (Non-Negotiable)
 - **No appointment booking** - Only show contact details
@@ -14,77 +16,70 @@ OrthoConnect is a fully-featured, ethical, patient-first orthopaedic healthcare 
 - **No advertisements** - Clean, ad-free experience
 - **No reviews/testimonials** - Can be gamed
 
-## Design System
-- **Style**: Modern health-tech with animations and glow effects
-- **Colors**: Softer gradients (400 shade) - teal, sky, indigo, pink, amber, cyan
-- **Typography**: Inter font family
-- **Components**: Shadcn/UI + Framer Motion animations
-- **Effects**: Floating orbs, glow on hover, scroll animations
+## Branding
+- **Logo**: "A" in teal gradient + "OrthoConnect" title
+- **Tagline**: "An initiative of AgileOrtho"
+- **Footer**: "© 2026 OrthoConnect by AgileOrtho"
 
 ## Key Features
 
-### 1. Intelligent Search System ✅
-- Auto-suggest dropdown with categories
-- Hindi/Telugu keyword support (घुटने का दर्द, कमर दर्द, మోకాలు నొప్పి)
-- Synonym matching (knee = ghutna = mokalu, mumbai = bombay)
-- Recent searches saved locally
-- Near me geolocation button
-- Radius controls (5/10/25/50 km)
+### 1. Real OTP Authentication ✅ (NEW)
+- **Provider**: 2Factor.in
+- **API Key**: Configured in backend/.env
+- **Flow**: Mobile → SMS OTP → Verify → JWT Token
+- **Fallback**: Mocked OTP if SMS fails (development mode)
 
-### 2. Research-Backed Education Content ✅
-**13 conditions with full medical content:**
-- ACL Tear, Meniscal Tears, Knee Osteoarthritis
-- Lumbar Disc Herniation, Sciatica, Spinal Stenosis
-- Rotator Cuff Tear, Frozen Shoulder
-- Hip Osteoarthritis
-- Carpal Tunnel Syndrome, Trigger Finger
-- Clubfoot, Scoliosis
+### 2. Surgeon Registration with Limits ✅ (UPDATED)
+- **Max 2 subspecialties** enforced in frontend & backend
+- Website field for personal/clinic website
+- Structured tags for conditions and procedures
+- Multi-location support with geocoding
 
-**Content structure:**
-- Key Takeaways, Symptoms, Causes, Risk Factors
-- Treatment (Non-Surgical + Surgical)
-- Recovery & Rehabilitation, Prevention
+### 3. Intelligent Search ✅
+- Hindi keywords (घुटने का दर्द, कमर दर्द)
+- Telugu keywords (మోకాలు, నడుము నొప్పి)
+- City aliases (Mumbai/Bombay, Bangalore/Bengaluru)
+- Auto-suggest dropdown
+
+### 4. Doctor Profile with Contact ✅
+- **WhatsApp Button** - Opens WhatsApp with pre-filled message
+- **Call Clinic Button** - Direct tel: link
+- **Visit Website Button** - Links to surgeon's website
+- Trust badges (Admin Verified, Registration Submitted)
+
+### 5. Patient Education Hub ✅
+- 13 conditions with full medical content
+- Key takeaways, symptoms, causes, treatments
 - References to AAOS, NHS, Mayo Clinic
 
-### 3. Trust Badges on Profiles ✅
-- Admin Verified (blue)
-- Registration Submitted (amber)
-- Photo Verified (violet)
+## Subspecialties
+1. Shoulder
+2. Elbow
+3. Hand
+4. Hip
+5. Knee
+6. Spine
+7. Sports Medicine
+8. Trauma
+9. Oncology
+10. Paediatrics
 
-### 4. Premium UI/UX ✅
-- Animated backgrounds with floating orbs
-- Softer color gradients (400 shade)
-- Scroll animations
-- Dark gradient headers
-- Glassmorphism elements
+## About Page - Advisory Board
+- **B. Nagi Reddy** - Director, Finance & Legal
+  - 35+ years in Banking and Legal
+  - Qualified CA and LLB
 
-### 5. Full Platform ✅
-- Homepage with search and 4 content sections
-- Education Hub with 11 categories
-- Topic pages with accordions
-- Doctor profiles with trust badges, WhatsApp, Call, Website buttons
-- Surgeon registration with OTP and website field
-- Admin dashboard
-
-### 6. Contact Features ✅ (NEW)
-- **WhatsApp Button** on doctor profile - Opens WhatsApp with pre-filled message to surgeon's number
-- **Call Clinic Button** - Direct tel: link to clinic phone
-- **Visit Website Button** - Links to surgeon's personal/clinic website
-
-## Subspecialties (Expanded)
-- Shoulder, Elbow, Hand, Hip, Knee
-- Spine, Sports Medicine, Trauma
-- Oncology, Paediatrics
+*(Note: Dr. Harsha, Dr. Madhav, Dr. Deepthi removed for conflict of interest)*
 
 ## Pages
 - `/` - Homepage with smart search
-- `/about` - About OrthoConnect & AgileOrtho ✅
-- `/contact` - Contact page with form & details ✅
+- `/about` - About OrthoConnect & AgileOrtho
+- `/contact` - Contact page with form
 - `/education` - Education Hub
 - `/education/:category` - Category listing
 - `/education/:category/:topic` - Topic page
-- `/doctor/:slug` - Doctor profile with WhatsApp/Call/Website buttons
-- `/join` - Surgeon registration with website field
+- `/doctor/:slug` - Doctor profile
+- `/join` - Surgeon registration
 - `/admin` - Admin login
 - `/admin/dashboard` - Admin review
 
@@ -93,35 +88,42 @@ OrthoConnect is a fully-featured, ethical, patient-first orthopaedic healthcare 
 - AgileOrtho: https://www.agileortho.in
 
 ## Test Credentials
-- Admin: password `admin`
-- Mobile: Any 10-digit number (OTP mocked)
-- Test Surgeon: slug `dr-test-playwright-knee-mumbai-7ab3`
+- **Admin**: password `admin`
+- **Surgeon OTP**: Real SMS via 2Factor.in
 
-## Testing Status
-✅ All backend tests passing (100% - 15/15)
-✅ All frontend tests passing (100%)
-✅ UI components verified
-✅ Mobile responsive
-✅ Search with Hindi/Telugu support working
-✅ WhatsApp/Call/Website buttons verified
+## API Configuration
+```
+Backend: FastAPI on port 8001
+Frontend: React on port 3000
+Database: MongoDB
+OTP Provider: 2Factor.in
+```
 
-## Completed This Session (Jan 2026)
-- ✅ WhatsApp button on doctor profile page
-- ✅ Website field for surgeon registration
-- ✅ Expanded subspecialties (Spine, Sports Medicine, Trauma)
-- ✅ Enhanced search synonyms (Hindi, Telugu, city aliases)
-- ✅ About page integration verified
-- ✅ Contact page integration verified
-- ✅ Header navigation links working
-- ✅ Shop link opens in new tab
-- ✅ Full testing with 15 backend tests + frontend UI tests
+## Environment Variables
+```
+# Backend (.env)
+MONGO_URL=mongodb://localhost:27017
+DB_NAME=test_database
+TWOFACTOR_API_KEY=a95afc45-e6f0-11f0-a6b2-0200cd936042
+ADMIN_PASSWORD=admin
+JWT_SECRET=change-me
+```
 
-## Future/Backlog (P2)
+## Completed This Session
+- ✅ AgileOrtho branding (logo, tagline, footer)
+- ✅ About page updated - only B. Nagi Reddy
+- ✅ Max 2 subspecialties limit (frontend + backend)
+- ✅ Real OTP via 2Factor.in integration
+- ✅ WhatsApp button on doctor profile
+- ✅ Website field for surgeons
+- ✅ Expanded subspecialties
+- ✅ Hindi/Telugu search keywords
+
+## Future/Backlog
 - Trust badge system improvements
-- Admin workflow upgrade ("Needs Clarification" status)
-- SEO-focused city landing pages
+- Admin "Needs Clarification" status
+- SEO city landing pages
 - Surgeon profile editing post-approval
-- AI Chatbot integration (blocked - library installation issue)
 
 ---
 Last Updated: January 2026
