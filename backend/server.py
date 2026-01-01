@@ -4381,86 +4381,121 @@ async def search_google_maps(city: str, query: str) -> List[Dict[str, Any]]:
 
 
 async def search_practo(city: str, query: str) -> List[Dict[str, Any]]:
-    """Search Practo for orthopaedic surgeons using SerpAPI"""
+    """Search Practo for orthopaedic surgeons using BeautifulSoup"""
+    from bs4 import BeautifulSoup
     results = []
-    serpapi_key = os.environ.get("SERPAPI_KEY")
     
-    if serpapi_key:
-        try:
-            from serpapi import GoogleSearch
-            
-            # Search Google for Practo listings
-            params = {
-                "engine": "google",
-                "q": f"site:practo.com orthopaedic surgeon {city}",
-                "hl": "en",
-                "gl": "in",
-                "num": 20,
-                "api_key": serpapi_key
-            }
-            
-            search = GoogleSearch(params)
-            data = search.get_dict()
-            
-            organic_results = data.get("organic_results", [])
-            for result in organic_results:
-                title = result.get("title", "")
-                link = result.get("link", "")
-                snippet = result.get("snippet", "")
+    try:
+        city_slug = city.lower().replace(" ", "-")
+        
+        # Try multiple Practo URLs for better coverage
+        urls = [
+            f"https://www.practo.com/{city_slug}/doctors-for-orthopaedic-problems",
+            f"https://www.practo.com/{city_slug}/orthopedic-surgeon",
+            f"https://www.practo.com/{city_slug}/doctors?specialization=Orthopedist",
+        ]
+        
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+            "Accept-Language": "en-US,en;q=0.5",
+            "Connection": "keep-alive",
+        }
+        
+        seen_names = set()
+        
+        for url in urls:
+            try:
+                resp = requests.get(url, headers=headers, timeout=20)
                 
-                # Extract doctor name from title
-                if "/doctor/" in link or "orthopaedic" in title.lower() or "orthopedic" in title.lower():
-                    # Clean up title
-                    name = title.split("-")[0].strip() if "-" in title else title.split("|")[0].strip()
+                if resp.status_code == 200:
+                    soup = BeautifulSoup(resp.text, 'lxml')
                     
-                    # Extract qualifications from snippet
-                    quals = ""
-                    if "MBBS" in snippet:
-                        qual_match = re.search(r'(MBBS[^.]*)', snippet)
-                        if qual_match:
-                            quals = qual_match.group(1).strip()
+                    # Method 1: Find doctor cards by data-qa-id
+                    doctor_cards = soup.find_all(attrs={"data-qa-id": "doctor_card"})
                     
-                    results.append({
-                        "name": name,
-                        "qualifications": quals or "MBBS, MS Ortho",
-                        "city": city,
-                        "source": "practo",
-                        "profile_url": link,
-                        "description": snippet[:200] if snippet else "",
-                    })
+                    for card in doctor_cards[:30]:
+                        try:
+                            # Extract name
+                            name_elem = card.find(attrs={"data-qa-id": "doctor_name"})
+                            name = name_elem.get_text(strip=True) if name_elem else ""
+                            
+                            if not name or name.lower() in seen_names:
+                                continue
+                            seen_names.add(name.lower())
+                            
+                            # Extract qualifications
+                            qual_elem = card.find(attrs={"data-qa-id": "doctor_specialization"})
+                            quals = qual_elem.get_text(strip=True) if qual_elem else ""
+                            
+                            # Extract experience
+                            exp_elem = card.find(attrs={"data-qa-id": "doctor_experience"})
+                            experience = exp_elem.get_text(strip=True) if exp_elem else ""
+                            
+                            # Extract clinic/hospital
+                            clinic_elem = card.find(attrs={"data-qa-id": "clinic_name"})
+                            clinic = clinic_elem.get_text(strip=True) if clinic_elem else ""
+                            
+                            # Extract locality
+                            loc_elem = card.find(attrs={"data-qa-id": "doctor_locality"})
+                            locality = loc_elem.get_text(strip=True) if loc_elem else ""
+                            
+                            # Extract fee
+                            fee_elem = card.find(attrs={"data-qa-id": "consultation_fee"})
+                            fee = fee_elem.get_text(strip=True) if fee_elem else ""
+                            
+                            # Extract profile URL
+                            profile_link = card.find('a', href=True)
+                            profile_url = ""
+                            if profile_link:
+                                href = profile_link.get('href', '')
+                                if href.startswith('/'):
+                                    profile_url = f"https://www.practo.com{href}"
+                                elif href.startswith('http'):
+                                    profile_url = href
+                            
+                            results.append({
+                                "name": f"Dr. {name}" if not name.lower().startswith("dr") else name,
+                                "qualifications": quals or "Orthopaedic Surgeon",
+                                "hospital": clinic,
+                                "address": locality,
+                                "city": city,
+                                "experience": experience,
+                                "consultation_fee": fee,
+                                "source": "practo",
+                                "profile_url": profile_url or f"https://www.practo.com/{city_slug}/doctor/{name.lower().replace(' ', '-').replace('.', '')}",
+                            })
+                            
+                        except Exception as e:
+                            logger.debug(f"Error parsing Practo card: {e}")
+                            continue
                     
-            logger.info(f"SerpAPI Practo found {len(results)} results for {city}")
-            
-        except Exception as e:
-            logger.error("SerpAPI Practo search failed: %s", e)
-    else:
-        # Fallback to direct scraping
-        try:
-            city_slug = city.lower().replace(" ", "-")
-            url = f"https://www.practo.com/{city_slug}/doctors-for-orthopaedic-problems"
-            
-            headers = {
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
-            }
-            resp = requests.get(url, headers=headers, timeout=15)
-            
-            if resp.status_code == 200:
-                content = resp.text
-                doctor_pattern = r'data-qa-id="doctor_name"[^>]*>([^<]+)<'
-                matches = re.findall(doctor_pattern, content)
-                
-                for match in matches[:20]:
-                    name = match.strip()
-                    if name:
-                        results.append({
-                            "name": f"Dr. {name}" if not name.lower().startswith("dr") else name,
-                            "source": "practo",
-                            "city": city,
-                            "profile_url": f"https://www.practo.com/{city_slug}/doctor/{name.lower().replace(' ', '-')}",
-                            "qualifications": "MBBS, MS Ortho",
-                        })
-        except Exception as e:
-            logger.error("Practo fallback search failed: %s", e)
+                    # Method 2: Fallback - find by common class patterns
+                    if not doctor_cards:
+                        # Try finding doctor name spans
+                        name_elements = soup.find_all('h2', class_=lambda c: c and 'doctor-name' in c.lower()) or \
+                                       soup.find_all('a', attrs={"data-qa-id": "doctor_name"})
+                        
+                        for name_elem in name_elements[:20]:
+                            name = name_elem.get_text(strip=True)
+                            if name and name.lower() not in seen_names:
+                                seen_names.add(name.lower())
+                                results.append({
+                                    "name": f"Dr. {name}" if not name.lower().startswith("dr") else name,
+                                    "qualifications": "Orthopaedic Surgeon",
+                                    "city": city,
+                                    "source": "practo",
+                                    "profile_url": f"https://www.practo.com/{city_slug}/doctor/{name.lower().replace(' ', '-').replace('.', '')}",
+                                })
+                    
+            except requests.RequestException as e:
+                logger.debug(f"Practo URL {url} failed: {e}")
+                continue
+        
+        logger.info(f"Practo BeautifulSoup found {len(results)} results for {city}")
+        
+    except Exception as e:
+        logger.error("Practo search failed: %s", e)
     
     return results
 
