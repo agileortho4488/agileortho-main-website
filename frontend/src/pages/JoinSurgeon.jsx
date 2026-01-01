@@ -154,12 +154,72 @@ export default function JoinSurgeon() {
         setLocations(
           (res.data.locations || []).length ? res.data.locations : [emptyLocation()],
         );
+        
+        // Load referral data
+        loadReferralData();
       } else {
         setProfileExists(false);
       }
     } catch {
       // ignore
     }
+  }
+  
+  async function loadReferralData() {
+    const token = getToken();
+    if (!token) return;
+    try {
+      const res = await api.get("/surgeon/me/referrals", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setReferralCode(res.data.referral_code || "");
+      setReferralCount(res.data.referral_count || 0);
+      setReferrals(res.data.referrals || []);
+    } catch {
+      // ignore - referrals might not be generated yet
+    }
+  }
+  
+  async function generateReferralCode() {
+    const token = getToken();
+    if (!token) return;
+    try {
+      const res = await api.post("/surgeon/me/referral-code", {}, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setReferralCode(res.data.referral_code);
+      toast.success("Referral code generated!");
+    } catch (e) {
+      toast.error("Failed to generate referral code");
+    }
+  }
+  
+  async function handleApplyReferral() {
+    if (!applyReferralCode.trim()) return;
+    const token = getToken();
+    if (!token) return;
+    try {
+      const res = await api.post(`/surgeon/apply-referral?referral_code=${applyReferralCode.toUpperCase()}`, {}, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      toast.success(`Referred by ${res.data.referred_by}!`);
+      setApplyReferralCode("");
+    } catch (e) {
+      toast.error(e?.response?.data?.detail || "Invalid referral code");
+    }
+  }
+  
+  function shareOnWhatsApp() {
+    const url = `https://orthoconnect.agileortho.in/join?ref=${referralCode}`;
+    const text = encodeURIComponent(`Join OrthoConnect - India's ethical orthopaedic surgeon directory! Use my referral code: ${referralCode}\n\n${url}`);
+    window.open(`https://api.whatsapp.com/send?text=${text}`, "_blank");
+  }
+  
+  function shareViaEmail() {
+    const url = `https://orthoconnect.agileortho.in/join?ref=${referralCode}`;
+    const subject = encodeURIComponent("Join OrthoConnect - India's Ethical Orthopaedic Directory");
+    const body = encodeURIComponent(`Dear Colleague,\n\nI'd like to invite you to join OrthoConnect - India's first ethical, patient-first orthopaedic surgeon directory.\n\nUse my referral code: ${referralCode}\n\nRegister here: ${url}\n\nBest regards`);
+    window.open(`mailto:?subject=${subject}&body=${body}`, "_blank");
   }
 
   useEffect(() => {
