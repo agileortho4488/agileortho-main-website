@@ -517,7 +517,7 @@ export default function JoinSurgeon() {
                   <div>
                     <div className="font-semibold text-amber-900">Under Review</div>
                     <div className="text-sm text-amber-700 mt-1">
-                      Your profile is being reviewed by our admin team. We'll notify you once approved.
+                      Your profile is being reviewed by our admin team. We&apos;ll notify you once approved.
                     </div>
                   </div>
                 </div>
@@ -976,7 +976,7 @@ export default function JoinSurgeon() {
                     {referralCount > 0 && (
                       <div className="flex items-center gap-2 text-sm text-slate-600">
                         <Users className="h-4 w-4 text-slate-400" />
-                        <span>You've referred <strong>{referralCount}</strong> colleague{referralCount > 1 ? "s" : ""}</span>
+                        <span>You&apos;ve referred <strong>{referralCount}</strong> colleague{referralCount > 1 ? "s" : ""}</span>
                       </div>
                     )}
                   </div>
