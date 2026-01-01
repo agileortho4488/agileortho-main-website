@@ -20,6 +20,8 @@ import About from "@/pages/About";
 import Contact from "@/pages/Contact";
 import AdminLogin from "@/pages/AdminLogin";
 import AdminDashboard from "@/pages/AdminDashboard";
+import NotFound from "@/pages/NotFound";
+import CityLanding, { CITIES } from "@/pages/CityLanding";
 
 export default function App() {
   return (
@@ -44,6 +46,18 @@ export default function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/admin" element={<AdminLogin />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          
+          {/* SEO City Landing Pages */}
+          {CITIES.map((city) => (
+            <Route
+              key={city.slug}
+              path={`/orthopaedic-surgeons-${city.slug}`}
+              element={<CityLanding citySlug={city.slug} />}
+            />
+          ))}
+          
+          {/* 404 Not Found */}
+          <Route path="*" element={<NotFound />} />
         </Routes>
         <SiteFooter />
       </BrowserRouter>
