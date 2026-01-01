@@ -440,10 +440,12 @@ async def geocode_location(query: str) -> Optional[Dict[str, float]]:
         return None
 
 # -----------------------------
-# Mocked OTP auth (MVP)
+# 2Factor.in OTP Integration
 # -----------------------------
 
 OTP_TTL_MINUTES = int(os.environ.get("OTP_TTL_MINUTES", "5"))
+TWOFACTOR_API_KEY = os.environ.get("TWOFACTOR_API_KEY", "")
+TWOFACTOR_SMS_URL = "https://2factor.in/API/V1/{api_key}/SMS/{mobile}/{otp}/OrthoConnect+OTP"
 
 
 def normalize_mobile(mobile: str) -> str:
@@ -456,6 +458,28 @@ def normalize_mobile(mobile: str) -> str:
 
 def generate_otp() -> str:
     return f"{uuid.uuid4().int % 1000000:06d}"
+
+
+async def send_otp_via_2factor(mobile: str, otp: str) -> bool:
+    """Send OTP via 2Factor.in SMS API"""
+    if not TWOFACTOR_API_KEY:
+        logger.warning("2Factor API key not configured, OTP not sent")
+        return False
+    
+    try:
+        url = TWOFACTOR_SMS_URL.format(api_key=TWOFACTOR_API_KEY, mobile=mobile, otp=otp)
+        resp = requests.get(url, timeout=10)
+        data = resp.json()
+        
+        if data.get("Status") == "Success":
+            logger.info("OTP sent successfully to %s via 2Factor.in", mobile[-4:].rjust(10, '*'))
+            return True
+        else:
+            logger.error("2Factor.in OTP failed: %s", data.get("Details", "Unknown error"))
+            return False
+    except Exception as e:
+        logger.error("2Factor.in API error: %s", e)
+        return False
 
 
 @api_router.post("/auth/otp/request")
@@ -475,8 +499,15 @@ async def otp_request(payload: OtpRequest):
     }
     await db.otp_codes.insert_one(doc)
 
-    # MVP: return OTP in response (MOCKED)
-    return {"ok": True, "mobile": mobile, "mocked_otp": code, "ttl_minutes": OTP_TTL_MINUTES}
+    # Send OTP via 2Factor.in
+    sms_sent = await send_otp_via_2factor(mobile, code)
+    
+    if sms_sent:
+        return {"ok": True, "mobile": mobile, "sms_sent": True, "ttl_minutes": OTP_TTL_MINUTES}
+    else:
+        # Fallback: return OTP in response for development/testing
+        logger.warning("SMS not sent, returning OTP in response (development mode)")
+        return {"ok": True, "mobile": mobile, "sms_sent": False, "mocked_otp": code, "ttl_minutes": OTP_TTL_MINUTES}
 
 
 @api_router.post("/auth/otp/verify", response_model=SurgeonAuthResponse)
