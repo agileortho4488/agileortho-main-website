@@ -10,6 +10,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { LocationMap } from "@/components/LocationMap";
 
 // Trust badge component
 function TrustBadge({ type, label, verified = true }) {
