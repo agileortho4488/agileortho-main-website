@@ -5,17 +5,17 @@ import { BookOpen, ChevronRight, AlertCircle, Sparkles, Search } from "lucide-re
 import { EDUCATION_CATEGORIES } from "@/lib/educationTopics";
 
 const CATEGORY_DATA = {
-  "trauma-injury-care": { icon: "🩹", gradient: "from-red-500 to-rose-600", glow: "shadow-red-500/30" },
-  "spine": { icon: "🦴", gradient: "from-blue-500 to-indigo-600", glow: "shadow-blue-500/30" },
-  "shoulder-elbow": { icon: "💪", gradient: "from-violet-500 to-purple-600", glow: "shadow-violet-500/30" },
-  "knee-sports": { icon: "🦵", gradient: "from-emerald-500 to-teal-600", glow: "shadow-emerald-500/30" },
-  "pediatric-orthopaedics": { icon: "👶", gradient: "from-cyan-500 to-sky-600", glow: "shadow-cyan-500/30" },
-  "recon-arthroplasty": { icon: "🦿", gradient: "from-amber-500 to-orange-600", glow: "shadow-amber-500/30" },
-  "hand-wrist": { icon: "✋", gradient: "from-pink-500 to-rose-600", glow: "shadow-pink-500/30" },
-  "foot-ankle": { icon: "🦶", gradient: "from-lime-500 to-green-600", glow: "shadow-lime-500/30" },
-  "pathology-orthopaedic-oncology": { icon: "🔬", gradient: "from-slate-500 to-gray-600", glow: "shadow-slate-500/30" },
-  "basic-science-patient-knowledge": { icon: "📚", gradient: "from-indigo-500 to-blue-600", glow: "shadow-indigo-500/30" },
-  "anatomy-patient-reference": { icon: "🧬", gradient: "from-fuchsia-500 to-pink-600", glow: "shadow-fuchsia-500/30" },
+  "trauma-injury-care": { icon: "🩹", gradient: "from-rose-400 to-red-500", glow: "shadow-rose-400/20" },
+  "spine": { icon: "🦴", gradient: "from-sky-400 to-blue-500", glow: "shadow-sky-400/20" },
+  "shoulder-elbow": { icon: "💪", gradient: "from-indigo-400 to-violet-500", glow: "shadow-indigo-400/20" },
+  "knee-sports": { icon: "🦵", gradient: "from-teal-400 to-emerald-500", glow: "shadow-teal-400/20" },
+  "pediatric-orthopaedics": { icon: "👶", gradient: "from-cyan-400 to-teal-500", glow: "shadow-cyan-400/20" },
+  "recon-arthroplasty": { icon: "🦿", gradient: "from-amber-400 to-orange-500", glow: "shadow-amber-400/20" },
+  "hand-wrist": { icon: "✋", gradient: "from-pink-400 to-rose-500", glow: "shadow-pink-400/20" },
+  "foot-ankle": { icon: "🦶", gradient: "from-emerald-400 to-green-500", glow: "shadow-emerald-400/20" },
+  "pathology-orthopaedic-oncology": { icon: "🔬", gradient: "from-slate-400 to-slate-500", glow: "shadow-slate-400/20" },
+  "basic-science-patient-knowledge": { icon: "📚", gradient: "from-blue-400 to-indigo-500", glow: "shadow-blue-400/20" },
+  "anatomy-patient-reference": { icon: "🧬", gradient: "from-purple-400 to-fuchsia-500", glow: "shadow-purple-400/20" },
 };
 
 const fadeInUp = {
