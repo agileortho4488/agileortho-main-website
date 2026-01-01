@@ -4614,7 +4614,11 @@ async def discovery_history(
     return history
 
 
+# -----------------------------
+# Include Router and Middleware (MUST BE AT END after all routes are defined)
+# -----------------------------
 
+app.include_router(api_router)
 
 app.add_middleware(
     CORSMiddleware,
