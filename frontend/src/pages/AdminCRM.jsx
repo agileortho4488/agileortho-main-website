@@ -153,12 +153,58 @@ export default function AdminCRM() {
       });
       if (res.data.ok) {
         toast.success("Synced to Zoho Desk");
+        // Open Zoho Desk contact page
+        if (res.data.desk_url) {
+          window.open(res.data.desk_url, "_blank");
+        }
         loadData();
       } else {
         toast.error(res.data.error || "Sync failed");
       }
     } catch (e) {
       toast.error("Failed to sync to Zoho");
+    }
+  }
+
+  async function handleBulkSyncToZoho() {
+    if (selectedIds.size === 0) {
+      toast.error("Select contacts first");
+      return;
+    }
+    
+    setSyncing(true);
+    try {
+      const res = await api.post("/admin/crm/zoho/bulk-sync", 
+        { contact_ids: Array.from(selectedIds), limit: 50 },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      toast.success(`Synced ${res.data.synced} contacts to Zoho Desk (${res.data.failed} failed)`);
+      setSelectedIds(new Set());
+      loadData();
+    } catch (e) {
+      toast.error("Failed to bulk sync");
+    } finally {
+      setSyncing(false);
+    }
+  }
+
+  async function openZohoWhatsApp(contactId) {
+    try {
+      const res = await api.get(`/admin/crm/zoho/whatsapp-url/${contactId}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      
+      if (res.data.ok) {
+        // Open Zoho Desk contact page where they can send WhatsApp
+        window.open(res.data.desk_url, "_blank");
+        toast.success(`Opening Zoho Desk for ${res.data.contact_name}. Click "Send WhatsApp message" to send.`);
+      } else {
+        // Contact not synced, sync first
+        toast.info("Syncing contact to Zoho Desk first...");
+        await handleSyncToZoho(contactId);
+      }
+    } catch (e) {
+      toast.error("Failed to get Zoho URL");
     }
   }
 
