@@ -9,3 +9,10 @@ export function apiClient() {
     timeout: 20000,
   });
 }
+
+export function getToken(type = "admin") {
+  if (type === "admin") {
+    return localStorage.getItem("oc_admin_token") || "";
+  }
+  return localStorage.getItem("oc_surgeon_token") || "";
+}

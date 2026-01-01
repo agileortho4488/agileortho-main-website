@@ -1,4 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
+import { motion } from "framer-motion";
+import { CheckCircle, AlertTriangle, XCircle, Clock } from "lucide-react";
 import { apiClient } from "@/lib/api";
 import { SUBSPECIALTIES } from "@/lib/constants";
 
