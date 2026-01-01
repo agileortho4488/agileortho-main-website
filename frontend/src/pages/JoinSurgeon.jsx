@@ -45,6 +45,7 @@ export default function JoinSurgeon() {
   const [subspecialtySet, setSubspecialtySet] = useState(new Set());
   const [profile, setProfile] = useState({
     name: "",
+    email: "",
     qualifications: "",
     registration_number: "",
     about: "",
@@ -133,6 +134,7 @@ export default function JoinSurgeon() {
         setStatus(res.data.status);
         setProfile({
           name: res.data.name || "",
+          email: res.data.email || "",
           qualifications: res.data.qualifications || "",
           registration_number: res.data.registration_number || "",
           about: res.data.about || "",
@@ -183,6 +185,7 @@ export default function JoinSurgeon() {
       const token = getToken();
       const payload = {
         name: profile.name,
+        email: profile.email,
         qualifications: profile.qualifications,
         registration_number: profile.registration_number,
         subspecialties: Array.from(subspecialtySet),
