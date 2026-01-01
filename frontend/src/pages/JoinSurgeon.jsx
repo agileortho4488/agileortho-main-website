@@ -106,8 +106,15 @@ export default function JoinSurgeon() {
       const res = await api.post("/auth/otp/verify", { mobile, code: otp });
       localStorage.setItem("oc_surgeon_token", res.data.token);
       setAuthStep("dashboard");
+      toast.success("Login successful!", {
+        description: "Welcome to your surgeon portal.",
+      });
     } catch (e) {
-      setError(e?.response?.data?.detail || "OTP verification failed");
+      const errorMsg = e?.response?.data?.detail || "OTP verification failed";
+      setError(errorMsg);
+      toast.error("Verification failed", {
+        description: errorMsg,
+      });
     } finally {
       setLoading(false);
     }
