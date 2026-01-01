@@ -29,6 +29,7 @@ import AdminAnalytics from "@/pages/AdminAnalytics";
 import AdminOutreach from "@/pages/AdminOutreach";
 import AdminCRM from "@/pages/AdminCRM";
 import AdminBulkImport from "@/pages/AdminBulkImport";
+import AdminSurgeonDiscovery from "@/pages/AdminSurgeonDiscovery";
 import ClaimProfile from "@/pages/ClaimProfile";
 import CitySurgeons from "@/pages/CitySurgeons";
 import NotFound from "@/pages/NotFound";
