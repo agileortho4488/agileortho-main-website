@@ -181,6 +181,7 @@ export default function JoinSurgeon() {
     try {
       const token = getToken();
       const payload = {
+        name: profile.name,
         qualifications: profile.qualifications,
         registration_number: profile.registration_number,
         subspecialties: Array.from(subspecialtySet),
