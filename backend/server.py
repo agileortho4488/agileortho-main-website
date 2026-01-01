@@ -2143,6 +2143,306 @@ async def get_my_referrals(auth: Dict[str, Any] = Depends(surgeon_dep)):
     }
 
 
+# -----------------------------
+# Outreach & Marketing Automation Endpoints
+# -----------------------------
+
+@api_router.get("/admin/outreach/contacts")
+async def get_outreach_contacts(
+    status: Optional[str] = None,
+    auth: Dict[str, Any] = Depends(admin_dep)
+):
+    """Get all outreach contacts with optional status filter"""
+    query = {}
+    if status:
+        query["status"] = status
+    
+    docs = await db.outreach_contacts.find(query, {"_id": 0}).sort("created_at", -1).to_list(10000)
+    return docs
+
+
+@api_router.post("/admin/outreach/contacts/import")
+async def import_outreach_contacts(
+    payload: ContactImport,
+    auth: Dict[str, Any] = Depends(admin_dep)
+):
+    """Import contacts from CSV data"""
+    imported = 0
+    duplicates = 0
+    
+    for contact_data in payload.contacts:
+        email = contact_data.get("email", "").strip().lower()
+        if not email:
+            continue
+        
+        # Check if already exists
+        existing = await db.outreach_contacts.find_one({"email": email})
+        if existing:
+            duplicates += 1
+            continue
+        
+        # Create contact
+        contact = OutreachContact(
+            name=contact_data.get("name", "").strip(),
+            email=email,
+            mobile=contact_data.get("mobile", "").strip(),
+            city=contact_data.get("city", "").strip(),
+            subspecialty=contact_data.get("subspecialty", "").strip(),
+            clinic_name=contact_data.get("clinic_name", "").strip(),
+            notes=contact_data.get("notes", "").strip(),
+        )
+        
+        await db.outreach_contacts.insert_one(contact.model_dump())
+        imported += 1
+    
+    return {"imported": imported, "duplicates": duplicates}
+
+
+@api_router.post("/admin/outreach/contacts")
+async def add_single_contact(
+    name: str,
+    email: str,
+    mobile: str = "",
+    city: str = "",
+    subspecialty: str = "",
+    clinic_name: str = "",
+    notes: str = "",
+    auth: Dict[str, Any] = Depends(admin_dep)
+):
+    """Add a single contact manually"""
+    email = email.strip().lower()
+    
+    # Check if already exists
+    existing = await db.outreach_contacts.find_one({"email": email})
+    if existing:
+        raise HTTPException(status_code=400, detail="Contact with this email already exists")
+    
+    contact = OutreachContact(
+        name=name.strip(),
+        email=email,
+        mobile=mobile.strip(),
+        city=city.strip(),
+        subspecialty=subspecialty.strip(),
+        clinic_name=clinic_name.strip(),
+        notes=notes.strip(),
+        source="manual",
+    )
+    
+    await db.outreach_contacts.insert_one(contact.model_dump())
+    return {"ok": True, "id": contact.id}
+
+
+@api_router.delete("/admin/outreach/contacts/{contact_id}")
+async def delete_outreach_contact(
+    contact_id: str,
+    auth: Dict[str, Any] = Depends(admin_dep)
+):
+    """Delete an outreach contact"""
+    result = await db.outreach_contacts.delete_one({"id": contact_id})
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Contact not found")
+    return {"ok": True}
+
+
+@api_router.post("/admin/outreach/send")
+async def send_outreach_emails(
+    payload: SendCampaignRequest,
+    auth: Dict[str, Any] = Depends(admin_dep)
+):
+    """Send marketing emails to selected contacts"""
+    sent = 0
+    failed = 0
+    
+    for contact_id in payload.contact_ids:
+        contact = await db.outreach_contacts.find_one({"id": contact_id})
+        if not contact or not contact.get("email"):
+            failed += 1
+            continue
+        
+        # Generate tracking ID
+        tracking_id = str(uuid.uuid4())
+        
+        # Get email template
+        subject, html = get_email_template(payload.template_type, contact, tracking_id)
+        
+        # Send email
+        success = send_email(contact["email"], subject, html)
+        
+        if success:
+            # Update contact status
+            await db.outreach_contacts.update_one(
+                {"id": contact_id},
+                {
+                    "$set": {
+                        "status": "invited",
+                        "last_email_sent": now_iso(),
+                        "updated_at": now_iso(),
+                    },
+                    "$inc": {"emails_sent": 1}
+                }
+            )
+            
+            # Store tracking record
+            await db.email_tracking.insert_one({
+                "id": tracking_id,
+                "contact_id": contact_id,
+                "email": contact["email"],
+                "template_type": payload.template_type,
+                "sent_at": now_iso(),
+                "opened": False,
+                "clicked": False,
+            })
+            
+            sent += 1
+        else:
+            failed += 1
+    
+    return {"sent": sent, "failed": failed}
+
+
+@api_router.get("/outreach/track/open/{tracking_id}")
+async def track_email_open(tracking_id: str):
+    """Track email opens (1x1 pixel)"""
+    # Update tracking record
+    await db.email_tracking.update_one(
+        {"id": tracking_id, "opened": False},
+        {"$set": {"opened": True, "opened_at": now_iso()}}
+    )
+    
+    # Update contact status
+    track_record = await db.email_tracking.find_one({"id": tracking_id})
+    if track_record:
+        await db.outreach_contacts.update_one(
+            {"id": track_record["contact_id"], "status": {"$nin": ["clicked", "signed_up"]}},
+            {"$set": {"status": "opened", "email_opened_at": now_iso()}}
+        )
+    
+    # Return 1x1 transparent GIF
+    gif_bytes = b'GIF89a\x01\x00\x01\x00\x80\x00\x00\xff\xff\xff\x00\x00\x00!\xf9\x04\x01\x00\x00\x00\x00,\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02\x02D\x01\x00;'
+    return StreamingResponse(io.BytesIO(gif_bytes), media_type="image/gif")
+
+
+@api_router.get("/outreach/track/click/{tracking_id}")
+async def track_email_click(tracking_id: str):
+    """Track link clicks and redirect to join page"""
+    # Update tracking record
+    await db.email_tracking.update_one(
+        {"id": tracking_id},
+        {"$set": {"clicked": True, "clicked_at": now_iso()}}
+    )
+    
+    # Update contact status
+    track_record = await db.email_tracking.find_one({"id": tracking_id})
+    if track_record:
+        await db.outreach_contacts.update_one(
+            {"id": track_record["contact_id"], "status": {"$nin": ["signed_up"]}},
+            {"$set": {"status": "clicked", "link_clicked_at": now_iso()}}
+        )
+    
+    # Redirect to join page
+    from fastapi.responses import RedirectResponse
+    return RedirectResponse(url="https://orthoconnect.agileortho.in/join?ref=email")
+
+
+@api_router.get("/admin/outreach/stats")
+async def get_outreach_stats(auth: Dict[str, Any] = Depends(admin_dep)):
+    """Get outreach campaign statistics"""
+    total = await db.outreach_contacts.count_documents({})
+    new = await db.outreach_contacts.count_documents({"status": "new"})
+    invited = await db.outreach_contacts.count_documents({"status": "invited"})
+    opened = await db.outreach_contacts.count_documents({"status": "opened"})
+    clicked = await db.outreach_contacts.count_documents({"status": "clicked"})
+    signed_up = await db.outreach_contacts.count_documents({"status": "signed_up"})
+    unsubscribed = await db.outreach_contacts.count_documents({"status": "unsubscribed"})
+    
+    # Calculate rates
+    open_rate = (opened / invited * 100) if invited > 0 else 0
+    click_rate = (clicked / opened * 100) if opened > 0 else 0
+    conversion_rate = (signed_up / total * 100) if total > 0 else 0
+    
+    return {
+        "total_contacts": total,
+        "by_status": {
+            "new": new,
+            "invited": invited,
+            "opened": opened,
+            "clicked": clicked,
+            "signed_up": signed_up,
+            "unsubscribed": unsubscribed,
+        },
+        "rates": {
+            "open_rate": round(open_rate, 1),
+            "click_rate": round(click_rate, 1),
+            "conversion_rate": round(conversion_rate, 1),
+        }
+    }
+
+
+@api_router.get("/admin/outreach/whatsapp/{contact_id}")
+async def get_whatsapp_link(contact_id: str, auth: Dict[str, Any] = Depends(admin_dep)):
+    """Generate WhatsApp link for a contact"""
+    contact = await db.outreach_contacts.find_one({"id": contact_id}, {"_id": 0})
+    if not contact:
+        raise HTTPException(status_code=404, detail="Contact not found")
+    
+    mobile = contact.get("mobile", "")
+    if not mobile:
+        raise HTTPException(status_code=400, detail="Contact has no mobile number")
+    
+    # Ensure mobile has country code
+    mobile_clean = re.sub(r"\D", "", mobile)
+    if len(mobile_clean) == 10:
+        mobile_clean = "91" + mobile_clean
+    
+    message = get_whatsapp_message(contact)
+    encoded_message = requests.utils.quote(message)
+    
+    whatsapp_url = f"https://api.whatsapp.com/send?phone={mobile_clean}&text={encoded_message}"
+    
+    return {"whatsapp_url": whatsapp_url, "message": message}
+
+
+@api_router.get("/admin/outreach/export")
+async def export_outreach_contacts(auth: Dict[str, Any] = Depends(admin_dep)):
+    """Export outreach contacts as CSV"""
+    docs = await db.outreach_contacts.find({}, {"_id": 0}).to_list(50000)
+    
+    output = io.StringIO()
+    writer = csv.writer(output)
+    
+    writer.writerow([
+        "Name", "Email", "Mobile", "City", "Subspecialty", "Clinic Name",
+        "Status", "Emails Sent", "Last Email Sent", "Opened At", "Clicked At",
+        "Source", "Notes", "Created At"
+    ])
+    
+    for d in docs:
+        writer.writerow([
+            d.get("name", ""),
+            d.get("email", ""),
+            d.get("mobile", ""),
+            d.get("city", ""),
+            d.get("subspecialty", ""),
+            d.get("clinic_name", ""),
+            d.get("status", ""),
+            d.get("emails_sent", 0),
+            d.get("last_email_sent", ""),
+            d.get("email_opened_at", ""),
+            d.get("link_clicked_at", ""),
+            d.get("source", ""),
+            d.get("notes", ""),
+            d.get("created_at", ""),
+        ])
+    
+    output.seek(0)
+    
+    return StreamingResponse(
+        io.BytesIO(output.getvalue().encode("utf-8")),
+        media_type="text/csv",
+        headers={"Content-Disposition": f"attachment; filename=outreach_contacts_{datetime.now().strftime('%Y%m%d')}.csv"}
+    )
+
+
 @app.on_event("startup")
 async def ensure_indexes():
     try:
