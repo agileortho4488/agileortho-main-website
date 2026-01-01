@@ -193,19 +193,44 @@ export default function DoctorProfile() {
 
             {/* Info */}
             <div className="flex-1">
+              {/* Unclaimed Banner */}
+              {data.status === "unclaimed" && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mb-4 p-4 rounded-xl bg-amber-500/20 border border-amber-400/30 backdrop-blur"
+                >
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                    <div>
+                      <p className="text-amber-100 font-medium">This profile is unclaimed</p>
+                      <p className="text-amber-200/70 text-sm">If this is you, verify your mobile to claim and manage this profile.</p>
+                    </div>
+                    <Link
+                      to="/claim"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-amber-500 hover:bg-amber-400 text-amber-900 font-semibold text-sm transition-colors"
+                    >
+                      <UserCheck className="w-4 h-4" />
+                      Claim Profile
+                    </Link>
+                  </div>
+                </motion.div>
+              )}
+
               {/* Trust Badges */}
-              <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-                className="flex flex-wrap gap-2 mb-4"
-              >
-                <TrustBadge type="approved" label="Admin Verified" />
-                {data.registration_number && <TrustBadge type="documents" label="Registration Submitted" />}
-                {data.public_photo_url && <TrustBadge type="profile" label="Photo Verified" />}
-                {data.locations?.length > 0 && <TrustBadge type="location" label="Location Verified" />}
-                {data.about && data.about.length > 50 && <TrustBadge type="experience" label="Profile Complete" />}
-              </motion.div>
+              {data.status !== "unclaimed" && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
+                  className="flex flex-wrap gap-2 mb-4"
+                >
+                  <TrustBadge type="approved" label="Admin Verified" />
+                  {data.registration_number && <TrustBadge type="documents" label="Registration Submitted" />}
+                  {data.public_photo_url && <TrustBadge type="profile" label="Photo Verified" />}
+                  {data.locations?.length > 0 && <TrustBadge type="location" label="Location Verified" />}
+                  {data.about && data.about.length > 50 && <TrustBadge type="experience" label="Profile Complete" />}
+                </motion.div>
+              )}
 
               <h1
                 data-testid="doctor-profile-name"
