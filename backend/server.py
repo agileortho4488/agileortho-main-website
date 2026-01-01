@@ -130,7 +130,7 @@ async def surgeon_dep(authorization: Optional[str] = Header(default=None)) -> Di
 # Models
 # -----------------------------
 
-SurgeonStatus = Literal["pending", "approved", "rejected"]
+SurgeonStatus = Literal["pending", "approved", "rejected", "needs_clarification"]
 
 
 class Clinic(BaseModel):
