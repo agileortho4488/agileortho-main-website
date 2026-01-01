@@ -377,6 +377,79 @@ export default function JoinSurgeon() {
           </div>
         ) : (
           <div className="mt-6 space-y-6">
+            {/* Status Banner */}
+            {status === "approved" && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4"
+              >
+                <div className="flex items-start gap-3">
+                  <CheckCircle className="h-5 w-5 text-emerald-600 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <div className="font-semibold text-emerald-900">Profile Approved!</div>
+                    <div className="text-sm text-emerald-700 mt-1">
+                      Your profile is now live. You can still update your details below.
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+            
+            {status === "needs_clarification" && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="rounded-2xl border border-blue-200 bg-blue-50 p-4"
+              >
+                <div className="flex items-start gap-3">
+                  <AlertTriangle className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <div className="font-semibold text-blue-900">Additional Information Needed</div>
+                    <div className="text-sm text-blue-700 mt-1">
+                      Please review and update your profile with the requested information, then resubmit.
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+            
+            {status === "rejected" && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="rounded-2xl border border-rose-200 bg-rose-50 p-4"
+              >
+                <div className="flex items-start gap-3">
+                  <XCircle className="h-5 w-5 text-rose-600 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <div className="font-semibold text-rose-900">Profile Rejected</div>
+                    <div className="text-sm text-rose-700 mt-1">
+                      Please review the feedback, make necessary changes, and resubmit your profile.
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+            
+            {status === "pending" && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="rounded-2xl border border-amber-200 bg-amber-50 p-4"
+              >
+                <div className="flex items-start gap-3">
+                  <Clock className="h-5 w-5 text-amber-600 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <div className="font-semibold text-amber-900">Under Review</div>
+                    <div className="text-sm text-amber-700 mt-1">
+                      Your profile is being reviewed by our admin team. We'll notify you once approved.
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+
             <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
               <div className="flex items-start justify-between gap-3">
                 <div>
@@ -390,14 +463,14 @@ export default function JoinSurgeon() {
                     data-testid="surgeon-profile-status"
                     className="mt-1 text-sm text-slate-600"
                   >
-                    {status ? status : "not submitted yet"}
+                    {status === "needs_clarification" ? "Needs clarification" : status ? status : "not submitted yet"}
                   </div>
                 </div>
                 <div
                   data-testid="surgeon-profile-status-note"
                   className="text-xs text-slate-500"
                 >
-                  Admin will make it live after review.
+                  {status === "approved" ? "Your profile is live!" : "Admin will make it live after review."}
                 </div>
               </div>
             </div>
