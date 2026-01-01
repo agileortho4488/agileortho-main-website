@@ -18,6 +18,8 @@ function TrustBadge({ type, label, verified = true }) {
     approved: { bg: "bg-blue-50", border: "border-blue-200", text: "text-blue-700", icon: CheckCircle2 },
     documents: { bg: "bg-amber-50", border: "border-amber-200", text: "text-amber-700", icon: FileCheck },
     profile: { bg: "bg-violet-50", border: "border-violet-200", text: "text-violet-700", icon: UserCheck },
+    experience: { bg: "bg-teal-50", border: "border-teal-200", text: "text-teal-700", icon: Shield },
+    location: { bg: "bg-cyan-50", border: "border-cyan-200", text: "text-cyan-700", icon: MapPin },
   };
   
   const style = styles[type] || styles.verified;
