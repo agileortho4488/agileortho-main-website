@@ -1948,3 +1948,18 @@ async def ensure_indexes():
 @app.on_event("shutdown")
 async def shutdown_db_client():
     client.close()
+
+
+# -----------------------------
+# Include Router and Middleware (MUST BE AT END after all routes are defined)
+# -----------------------------
+
+app.include_router(api_router)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_credentials=True,
+    allow_origins=os.environ.get("CORS_ORIGINS", "*").split(","),
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
