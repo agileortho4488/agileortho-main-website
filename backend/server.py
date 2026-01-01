@@ -3192,6 +3192,268 @@ async def export_outreach_contacts(auth: Dict[str, Any] = Depends(admin_dep)):
 
 
 # -----------------------------
+# Zoho Campaigns Integration
+# -----------------------------
+
+@api_router.get("/admin/zoho-campaigns/lists")
+async def get_zoho_campaigns_lists(auth: Dict[str, Any] = Depends(admin_dep)):
+    """Get all mailing lists from Zoho Campaigns"""
+    result = zoho_campaigns_api("GET", "getmailinglists")
+    
+    if "error" in result:
+        raise HTTPException(status_code=500, detail=result["error"])
+    
+    lists = result.get("list_of_details", result.get("mailinglist", []))
+    return {"lists": lists}
+
+
+@api_router.get("/admin/zoho-campaigns/subscribers/{list_key}")
+async def get_zoho_campaigns_subscribers(
+    list_key: str,
+    from_index: int = 1,
+    limit: int = 100,
+    auth: Dict[str, Any] = Depends(admin_dep)
+):
+    """Get subscribers from a Zoho Campaigns mailing list"""
+    result = zoho_campaigns_api("GET", "getlistsubscribers", {
+        "listkey": list_key,
+        "fromindex": from_index,
+        "range": min(limit, 500),
+        "status": "active"
+    })
+    
+    if "error" in result:
+        raise HTTPException(status_code=500, detail=result["error"])
+    
+    subscribers = result.get("list_of_details", [])
+    return {"subscribers": subscribers, "count": len(subscribers)}
+
+
+@api_router.post("/admin/zoho-campaigns/sync")
+async def sync_zoho_campaigns_contacts(auth: Dict[str, Any] = Depends(admin_dep)):
+    """Sync all contacts from Zoho Campaigns to local CRM"""
+    list_key = ZOHO_CAMPAIGNS_LIST_KEY
+    
+    all_contacts = []
+    from_index = 1
+    
+    # Fetch all contacts (paginated)
+    while True:
+        result = zoho_campaigns_api("GET", "getlistsubscribers", {
+            "listkey": list_key,
+            "fromindex": from_index,
+            "range": 500,
+            "status": "active"
+        })
+        
+        if "error" in result:
+            break
+        
+        contacts = result.get("list_of_details", [])
+        if not contacts:
+            break
+        
+        all_contacts.extend(contacts)
+        
+        if len(contacts) < 500:
+            break
+        from_index += 500
+    
+    # Sync to local CRM
+    synced = 0
+    skipped = 0
+    invalid = 0
+    now = datetime.now(timezone.utc)
+    
+    invalid_patterns = [r'\.com\.$', r'\s', r'@.*@', r'^[^@]+$', r'@\.', r'\.\.', r'@$', r'^@']
+    
+    for contact in all_contacts:
+        email = contact.get("contact_email", "").strip().lower()
+        
+        if not email or "@" not in email:
+            invalid += 1
+            continue
+        
+        is_invalid = False
+        for pattern in invalid_patterns:
+            if re.search(pattern, email):
+                is_invalid = True
+                break
+        
+        if is_invalid:
+            invalid += 1
+            continue
+        
+        existing = await db.crm_contacts.find_one({"email": email})
+        if existing:
+            skipped += 1
+            continue
+        
+        first_name = contact.get("first_name", "").strip()
+        last_name = contact.get("last_name", "").strip()
+        name = f"{first_name} {last_name}".strip() or "Unknown"
+        
+        doc = {
+            "id": str(uuid.uuid4()),
+            "name": name,
+            "email": email,
+            "mobile": contact.get("phone", ""),
+            "city": contact.get("city", ""),
+            "status": "lead",
+            "source": "Zoho Campaigns Sync",
+            "tags": ["zoho_campaigns", "synced"],
+            "notes": "",
+            "zoho_contact_id": contact.get("contactid", ""),
+            "created_at": now,
+            "updated_at": now,
+        }
+        
+        await db.crm_contacts.insert_one(doc)
+        synced += 1
+    
+    return {
+        "total_fetched": len(all_contacts),
+        "synced": synced,
+        "skipped": skipped,
+        "invalid": invalid,
+    }
+
+
+@api_router.post("/admin/zoho-campaigns/add-contacts")
+async def add_contacts_to_zoho_campaigns(
+    contact_ids: List[str] = [],
+    auth: Dict[str, Any] = Depends(admin_dep)
+):
+    """Add CRM contacts to Zoho Campaigns mailing list"""
+    if not contact_ids:
+        # Get all CRM contacts with email not in Zoho
+        contacts = await db.crm_contacts.find({
+            "email": {"$exists": True, "$ne": "", "$regex": "@"},
+            "zoho_contact_id": {"$in": [None, ""]}
+        }).limit(100).to_list(100)
+    else:
+        contacts = await db.crm_contacts.find({"id": {"$in": contact_ids}}).to_list(len(contact_ids))
+    
+    if not contacts:
+        return {"added": 0, "message": "No contacts to add"}
+    
+    # Zoho allows max 10 emails per request
+    added = 0
+    failed = 0
+    
+    for i in range(0, len(contacts), 10):
+        batch = contacts[i:i+10]
+        email_ids = ",".join([c["email"] for c in batch if c.get("email")])
+        
+        if not email_ids:
+            continue
+        
+        result = zoho_campaigns_api("POST", "addlistsubscribersinbulk", data={
+            "listkey": ZOHO_CAMPAIGNS_LIST_KEY,
+            "emailids": email_ids,
+        })
+        
+        if result.get("status") == "success" or "added" in str(result).lower():
+            added += len(batch)
+            # Update local records
+            for c in batch:
+                await db.crm_contacts.update_one(
+                    {"id": c["id"]},
+                    {"$set": {"zoho_contact_id": "synced", "updated_at": now_iso()}}
+                )
+        else:
+            failed += len(batch)
+            logger.warning("Failed to add batch to Zoho: %s", result)
+    
+    return {"added": added, "failed": failed}
+
+
+@api_router.delete("/admin/zoho-campaigns/remove-invalid")
+async def remove_invalid_from_zoho(auth: Dict[str, Any] = Depends(admin_dep)):
+    """Remove invalid/bounced emails from Zoho Campaigns"""
+    # First get all subscribers
+    list_key = ZOHO_CAMPAIGNS_LIST_KEY
+    
+    all_contacts = []
+    from_index = 1
+    
+    while True:
+        result = zoho_campaigns_api("GET", "getlistsubscribers", {
+            "listkey": list_key,
+            "fromindex": from_index,
+            "range": 500,
+            "status": "active"
+        })
+        
+        contacts = result.get("list_of_details", [])
+        if not contacts:
+            break
+        
+        all_contacts.extend(contacts)
+        
+        if len(contacts) < 500:
+            break
+        from_index += 500
+    
+    # Find invalid emails
+    invalid_patterns = [r'\.com\.$', r'\s', r'@.*@', r'^[^@]+$', r'@\.', r'\.\.', r'@$', r'^@']
+    invalid_domains = ['example.com', 'test.com', 'null', 'temp-mail.org', 'guerrillamail.com']
+    
+    to_remove = []
+    
+    for contact in all_contacts:
+        email = contact.get("contact_email", "").strip().lower()
+        
+        if not email:
+            continue
+        
+        is_invalid = False
+        
+        for pattern in invalid_patterns:
+            if re.search(pattern, email):
+                is_invalid = True
+                break
+        
+        domain = email.split("@")[-1] if "@" in email else ""
+        if domain in invalid_domains:
+            is_invalid = True
+        
+        if is_invalid:
+            to_remove.append(email)
+    
+    # Remove invalid contacts (Zoho API)
+    removed = 0
+    for email in to_remove[:100]:  # Limit to 100 per request
+        try:
+            result = zoho_campaigns_api("POST", "listunsubscribe", data={
+                "listkey": list_key,
+                "emails": email,
+            })
+            if "success" in str(result).lower():
+                removed += 1
+        except Exception as e:
+            logger.warning("Failed to remove %s: %s", email, e)
+    
+    return {
+        "total_checked": len(all_contacts),
+        "invalid_found": len(to_remove),
+        "removed": removed,
+    }
+
+
+@api_router.get("/admin/zoho-campaigns/campaigns")
+async def get_zoho_campaigns(auth: Dict[str, Any] = Depends(admin_dep)):
+    """Get list of campaigns from Zoho"""
+    result = zoho_campaigns_api("GET", "recentcampaigns")
+    
+    if "error" in result:
+        raise HTTPException(status_code=500, detail=result["error"])
+    
+    campaigns = result.get("recent_campaigns", result.get("list_of_details", []))
+    return {"campaigns": campaigns}
+
+
+# -----------------------------
 # Surgeon CRM & Zoho Desk Integration
 # -----------------------------
 
