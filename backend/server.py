@@ -84,7 +84,7 @@ _zoho_campaigns_token = {"token": None, "expires_at": 0}
 # -----------------------------
 
 def get_zoho_access_token() -> str:
-    """Get or refresh Zoho access token"""
+    """Get or refresh Zoho Desk access token"""
     global _zoho_access_token
     
     # Check if token is still valid (with 5 min buffer)
@@ -108,13 +108,76 @@ def get_zoho_access_token() -> str:
         if "access_token" in data:
             _zoho_access_token["token"] = data["access_token"]
             _zoho_access_token["expires_at"] = datetime.now(timezone.utc).timestamp() + data.get("expires_in", 3600)
-            logger.info("Zoho access token refreshed")
+            logger.info("Zoho Desk access token refreshed")
             return data["access_token"]
         else:
             logger.error("Failed to refresh Zoho token: %s", data)
             return ""
     except Exception as e:
         logger.error("Error refreshing Zoho token: %s", e)
+        return ""
+
+
+# -----------------------------
+# Zoho Campaigns API Helper
+# -----------------------------
+
+def get_zoho_campaigns_token() -> str:
+    """Get or refresh Zoho Campaigns access token"""
+    global _zoho_campaigns_token
+    
+    if _zoho_campaigns_token["token"] and _zoho_campaigns_token["expires_at"] > datetime.now(timezone.utc).timestamp() + 300:
+        return _zoho_campaigns_token["token"]
+    
+    try:
+        resp = requests.post(
+            "https://accounts.zoho.in/oauth/v2/token",
+            data={
+                "grant_type": "refresh_token",
+                "client_id": ZOHO_CAMPAIGNS_CLIENT_ID,
+                "client_secret": ZOHO_CAMPAIGNS_CLIENT_SECRET,
+                "refresh_token": ZOHO_CAMPAIGNS_REFRESH_TOKEN,
+            },
+            timeout=10
+        )
+        data = resp.json()
+        
+        if "access_token" in data:
+            _zoho_campaigns_token["token"] = data["access_token"]
+            _zoho_campaigns_token["expires_at"] = datetime.now(timezone.utc).timestamp() + data.get("expires_in", 3600)
+            logger.info("Zoho Campaigns access token refreshed")
+            return data["access_token"]
+        else:
+            logger.error("Failed to refresh Zoho Campaigns token: %s", data)
+            return ""
+    except Exception as e:
+        logger.error("Error refreshing Zoho Campaigns token: %s", e)
+        return ""
+
+
+def zoho_campaigns_api(method: str, endpoint: str, params: dict = None, data: dict = None) -> dict:
+    """Make Zoho Campaigns API request"""
+    token = get_zoho_campaigns_token()
+    if not token:
+        return {"error": "Failed to get Zoho Campaigns token"}
+    
+    headers = {"Authorization": f"Zoho-oauthtoken {token}"}
+    url = f"https://campaigns.zoho.in/api/v1.1/{endpoint}"
+    
+    if params is None:
+        params = {}
+    params["resfmt"] = "JSON"
+    
+    try:
+        if method.upper() == "GET":
+            resp = requests.get(url, headers=headers, params=params, timeout=30)
+        else:
+            resp = requests.post(url, headers=headers, params=params, data=data, timeout=30)
+        
+        return resp.json()
+    except Exception as e:
+        logger.error("Zoho Campaigns API error: %s", e)
+        return {"error": str(e)}
         return ""
 
 
