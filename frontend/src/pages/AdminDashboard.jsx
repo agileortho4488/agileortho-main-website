@@ -147,6 +147,13 @@ export default function AdminDashboard() {
               <Link to="/admin/analytics">📊 Analytics</Link>
             </Button>
             <Button
+              asChild
+              variant="outline"
+              className="h-10 rounded-full border-slate-200 text-slate-800 hover:bg-slate-100"
+            >
+              <Link to="/admin/outreach">📧 Outreach</Link>
+            </Button>
+            <Button
               data-testid="admin-logout-button"
               variant="secondary"
               onClick={() => {
