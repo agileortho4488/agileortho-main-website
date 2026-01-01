@@ -2337,9 +2337,9 @@ async def get_unclaimed_stats(auth: Dict[str, Any] = Depends(admin_dep)):
     by_city = await db.surgeons.aggregate(pipeline).to_list(10)
     
     # Recently claimed
+    week_ago = (datetime.now(timezone.utc) - timedelta(days=7)).isoformat()
     recently_claimed = await db.surgeons.count_documents({
-        "claimed_at": {"$exists": True},
-        "claimed_at": {"$gte": (datetime.now(timezone.utc) - timedelta(days=7)).isoformat()}
+        "claimed_at": {"$exists": True, "$gte": week_ago}
     })
     
     return {
