@@ -455,6 +455,125 @@ OTP_TTL_MINUTES = int(os.environ.get("OTP_TTL_MINUTES", "5"))
 TWOFACTOR_API_KEY = os.environ.get("TWOFACTOR_API_KEY", "")
 TWOFACTOR_SMS_URL = "https://2factor.in/API/V1/{api_key}/SMS/{mobile}/{otp}/OrthoConnect+OTP"
 
+# SMTP Email Configuration
+SMTP_HOST = os.environ.get("SMTP_HOST", "")
+SMTP_PORT = int(os.environ.get("SMTP_PORT", "465"))
+SMTP_EMAIL = os.environ.get("SMTP_EMAIL", "")
+SMTP_PASSWORD = os.environ.get("SMTP_PASSWORD", "")
+SMTP_FROM_NAME = os.environ.get("SMTP_FROM_NAME", "AgileOrtho Team")
+
+
+def send_email(to_email: str, subject: str, html_content: str) -> bool:
+    """Send email via Zoho SMTP"""
+    if not all([SMTP_HOST, SMTP_EMAIL, SMTP_PASSWORD]):
+        logger.warning("SMTP not configured, email not sent")
+        return False
+    
+    try:
+        msg = MIMEMultipart("alternative")
+        msg["Subject"] = subject
+        msg["From"] = f"{SMTP_FROM_NAME} <{SMTP_EMAIL}>"
+        msg["To"] = to_email
+        
+        # Attach HTML content
+        part = MIMEText(html_content, "html")
+        msg.attach(part)
+        
+        # Connect with SSL
+        context = ssl.create_default_context()
+        with smtplib.SMTP_SSL(SMTP_HOST, SMTP_PORT, context=context) as server:
+            server.login(SMTP_EMAIL, SMTP_PASSWORD)
+            server.sendmail(SMTP_EMAIL, to_email, msg.as_string())
+        
+        logger.info("Email sent successfully to %s", to_email[:5] + "***")
+        return True
+    except Exception as e:
+        logger.error("Failed to send email: %s", e)
+        return False
+
+
+def send_status_notification(surgeon_email: str, surgeon_name: str, new_status: str, reason: str = None):
+    """Send email notification when surgeon profile status changes"""
+    if not surgeon_email:
+        return
+    
+    status_messages = {
+        "approved": {
+            "subject": "🎉 Your OrthoConnect Profile is Live!",
+            "color": "#059669",
+            "message": f"""
+                <p>Dear Dr. {surgeon_name},</p>
+                <p>Great news! Your profile on OrthoConnect has been <strong style="color: #059669;">approved</strong> and is now live.</p>
+                <p>Patients can now find and contact you through our platform.</p>
+                <p>View your profile: <a href="https://orthoconnect.agileortho.in/surgeons">OrthoConnect Surgeons</a></p>
+            """
+        },
+        "rejected": {
+            "subject": "OrthoConnect Profile Update Required",
+            "color": "#DC2626",
+            "message": f"""
+                <p>Dear Dr. {surgeon_name},</p>
+                <p>Unfortunately, your profile submission could not be approved at this time.</p>
+                {f'<p><strong>Reason:</strong> {reason}</p>' if reason else ''}
+                <p>Please update your profile and resubmit for review.</p>
+                <p><a href="https://orthoconnect.agileortho.in/join">Update Profile</a></p>
+            """
+        },
+        "needs_clarification": {
+            "subject": "Action Required: OrthoConnect Profile",
+            "color": "#2563EB",
+            "message": f"""
+                <p>Dear Dr. {surgeon_name},</p>
+                <p>We need some additional information to complete your profile verification.</p>
+                {f'<p><strong>Details:</strong> {reason}</p>' if reason else ''}
+                <p>Please update your profile with the requested information.</p>
+                <p><a href="https://orthoconnect.agileortho.in/join">Update Profile</a></p>
+            """
+        },
+        "pending": {
+            "subject": "OrthoConnect Profile Received",
+            "color": "#D97706",
+            "message": f"""
+                <p>Dear Dr. {surgeon_name},</p>
+                <p>Thank you for submitting your profile on OrthoConnect.</p>
+                <p>Your profile is currently <strong style="color: #D97706;">under review</strong>. We'll notify you once it's approved.</p>
+            """
+        }
+    }
+    
+    status_info = status_messages.get(new_status)
+    if not status_info:
+        return
+    
+    html = f"""
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #1e293b; margin: 0; padding: 0;">
+        <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+            <div style="text-align: center; padding: 20px 0; border-bottom: 1px solid #e2e8f0;">
+                <h1 style="color: #0d9488; margin: 0; font-size: 24px;">OrthoConnect</h1>
+                <p style="color: #64748b; margin: 5px 0 0; font-size: 12px;">An initiative of AgileOrtho</p>
+            </div>
+            
+            <div style="padding: 30px 0;">
+                {status_info['message']}
+            </div>
+            
+            <div style="border-top: 1px solid #e2e8f0; padding: 20px 0; text-align: center; color: #64748b; font-size: 12px;">
+                <p>This is an automated message from OrthoConnect.</p>
+                <p>For support, contact us at info@agileortho.in</p>
+            </div>
+        </div>
+    </body>
+    </html>
+    """
+    
+    send_email(surgeon_email, status_info["subject"], html)
+
 
 def normalize_mobile(mobile: str) -> str:
     m = re.sub(r"\D", "", mobile or "")
