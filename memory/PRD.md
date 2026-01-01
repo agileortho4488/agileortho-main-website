@@ -43,6 +43,15 @@ OrthoConnect is an ethical, patient-first orthopaedic healthcare platform for In
 - **Status Banners**: Color-coded (approved/pending/rejected/needs_clarification)
 - **Page Transitions**: Smooth Framer Motion animations
 
+### ✅ Google Maps Integration
+- **Interactive Map on Doctor Profiles**: Shows clinic location with teal marker
+- **Distance Search on Surgeons Page**: "Find Surgeons Near You" feature
+  - Use browser geolocation
+  - Search by pincode (6-digit)
+  - Radius filters (10, 25, 50, 100 km)
+- **Distance Display**: Shows "X km away" on surgeon cards when location is selected
+- **Address Autocomplete**: Google Places autocomplete for address entry (JoinSurgeon page)
+
 ### ✅ Trust & Verification
 - **5 Trust Badges** on doctor profiles:
   1. Admin Verified (blue)
