@@ -32,11 +32,10 @@ OrthoConnect is an ethical, patient-first orthopaedic healthcare platform for In
 
 ### ✅ SEO & Marketing
 - **12 City Landing Pages**: /orthopaedic-surgeons-{city}
-  - Hyderabad, Mumbai, Delhi, Bangalore, Chennai, Kolkata
-  - Pune, Ahmedabad, Jaipur, Lucknow, Chandigarh, Kochi
 - **Social Meta Tags**: og:title, og:description, twitter:card
 - **Schema.org Markup**: Physician, MedicalBusiness
 - **Google Analytics**: G-MXXC41JFLG
+- **robots.txt** and **sitemap.xml**
 
 ### ✅ User Experience
 - **404 Page**: Animated design with quick links
@@ -57,14 +56,53 @@ OrthoConnect is an ethical, patient-first orthopaedic healthcare platform for In
 - **Needs Clarification Status**: Request more info from surgeons
 - Photo visibility control
 - Document download
+- **Analytics Dashboard**: `/admin/analytics`
+  - Platform statistics (total, approved, pending, etc.)
+  - City distribution chart
+  - Subspecialty distribution chart
+  - Recent signups (30 days)
+  - Total profile views
+- **CSV Export**: Download all surgeon data as CSV
 
 ### ✅ Surgeon Features
 - Max 2 subspecialties limit
 - Website field for personal/clinic URL
 - Profile editing (even after approval)
 - WhatsApp contact button on profile
+- **Referral System**:
+  - Generate unique referral code
+  - Share via WhatsApp or Email
+  - Track referral count
+
+### ✅ Events & Blog (January 2026)
+- **Events Page** (`/events`):
+  - Admin-managed CRUD
+  - Filter by type (Conference, CME, Workshop, Webinar)
+  - Event registration URLs
+- **Blog Page** (`/blog`):
+  - Admin-managed articles
+  - Filter by category (Patient Education, Industry News, Research, Health Tips)
+  - Individual article pages with view tracking
+
+### ✅ Profile Analytics
+- Profile view tracking on each doctor visit
+- View count displayed in admin analytics
+- Stored in `profile_views` collection
+
+### ✅ Email Notifications (January 2026)
+- **Zoho Mail SMTP Integration**
+- Email sent when admin changes surgeon status:
+  - Approved: Congratulations email
+  - Rejected: Update required email
+  - Needs Clarification: Action required email
+
+### ✅ PWA Support (January 2026)
+- `manifest.json` with OrthoConnect branding
+- Service worker with offline caching
+- Installable on mobile devices
 
 ## Pages
+
 | Route | Description |
 |-------|-------------|
 | `/` | Homepage with search |
@@ -75,8 +113,13 @@ OrthoConnect is an ethical, patient-first orthopaedic healthcare platform for In
 | `/education/:cat/:topic` | Topic |
 | `/doctor/:slug` | Doctor profile |
 | `/join` | Surgeon portal |
+| `/surgeons` | Surgeons listing |
+| `/events` | Events/CME listing |
+| `/blog` | Blog articles |
+| `/blog/:slug` | Article detail |
 | `/admin` | Admin login |
 | `/admin/dashboard` | Admin dashboard |
+| `/admin/analytics` | Platform analytics |
 | `/orthopaedic-surgeons-{city}` | City landing (12 cities) |
 | `/*` | 404 Not Found |
 
@@ -92,29 +135,51 @@ Frontend: React (port 3000)
 Database: MongoDB
 OTP: 2Factor.in
 Analytics: Google Analytics (G-MXXC41JFLG)
+Email: Zoho Mail SMTP (info@agileortho.in)
 ```
 
 ## Test Credentials
 - **Admin**: password `admin`
 - **OTP**: Real SMS via 2Factor.in
 
-## Completed This Session
-- ✅ 404 Not Found page
-- ✅ 12 SEO city landing pages
-- ✅ Admin "Needs Clarification" status
-- ✅ 5 trust badges on doctor profile
-- ✅ Success toast notifications
-- ✅ Status-specific banners in surgeon portal
-- ✅ Favicon (teal "A")
-- ✅ Social meta tags (OG, Twitter)
-- ✅ Surgeon profile editing post-approval
-- ✅ Shop link in header navigation
+## API Endpoints (New in January 2026)
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/admin/analytics` | GET | Platform statistics |
+| `/api/admin/export/surgeons` | GET | CSV export |
+| `/api/profiles/{slug}/view` | POST | Track profile view |
+| `/api/profiles/{slug}/stats` | GET | Get view count |
+| `/api/events` | GET | List events |
+| `/api/admin/events` | POST | Create event |
+| `/api/admin/events/{id}` | DELETE | Delete event |
+| `/api/articles` | GET | List articles |
+| `/api/articles/{slug}` | GET | Article detail |
+| `/api/admin/articles` | POST | Create article |
+| `/api/surgeon/me/referral-code` | POST | Generate referral code |
+| `/api/surgeon/apply-referral` | POST | Apply referral code |
+| `/api/surgeon/me/referrals` | GET | Get referral list |
+
+## Completed This Session (January 1, 2026)
+- ✅ Admin Analytics page with charts
+- ✅ CSV Export for surgeons
+- ✅ Profile view tracking
+- ✅ Events page (admin-managed)
+- ✅ Blog page (admin-managed)
+- ✅ Email notifications via Zoho SMTP
+- ✅ Referral system with unique codes
+- ✅ PWA support (manifest + service worker)
+- ✅ Fixed route registration bug (routes after app.include_router)
+
+## Upcoming Tasks
+- Loading Skeletons for better UX
+- Admin events/blog content management UI
 
 ## Deployment
 ✅ Ready for production deployment
 - All health checks passed
 - No hardcoded values
 - Environment variables configured
+- SMTP credentials configured
 
 ---
-Last Updated: January 2026
+Last Updated: January 1, 2026
