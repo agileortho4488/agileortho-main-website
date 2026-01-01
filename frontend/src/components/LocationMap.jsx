@@ -14,6 +14,28 @@ const defaultCenter = {
   lng: 78.9629,
 };
 
+// Helper to extract lat/lng from geo object (handles both formats)
+function getLatLng(geo) {
+  if (!geo) return null;
+  
+  // Format 1: { lat, lng } (our format)
+  if (typeof geo.lat === 'number' && typeof geo.lng === 'number') {
+    return { lat: geo.lat, lng: geo.lng };
+  }
+  
+  // Format 2: { coordinates: [lng, lat] } (GeoJSON format)
+  if (geo.coordinates && Array.isArray(geo.coordinates) && geo.coordinates.length === 2) {
+    return { lat: geo.coordinates[1], lng: geo.coordinates[0] };
+  }
+  
+  // Format 3: { latitude, longitude } (Google format)
+  if (typeof geo.latitude === 'number' && typeof geo.longitude === 'number') {
+    return { lat: geo.latitude, lng: geo.longitude };
+  }
+  
+  return null;
+}
+
 export function LocationMap({ 
   locations = [], 
   zoom = 12,
@@ -31,13 +53,12 @@ export function LocationMap({
     setSelectedMarker(null);
   }, []);
 
+  // Filter locations with valid coordinates
+  const validLocations = locations.filter(loc => getLatLng(loc.geo) !== null);
+
   // Calculate center based on locations
-  const center = locations.length > 0 && locations[0].geo
-    ? {
-        lat: locations[0].geo.coordinates[1],
-        lng: locations[0].geo.coordinates[0],
-      }
-    : defaultCenter;
+  const firstValidGeo = validLocations.length > 0 ? getLatLng(validLocations[0].geo) : null;
+  const center = firstValidGeo || defaultCenter;
 
   if (loadError) {
     return (
