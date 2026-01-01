@@ -154,6 +154,13 @@ export default function AdminDashboard() {
               <Link to="/admin/outreach">📧 Outreach</Link>
             </Button>
             <Button
+              asChild
+              variant="outline"
+              className="h-10 rounded-full border-teal-300 text-teal-700 hover:bg-teal-50"
+            >
+              <Link to="/admin/crm">👥 CRM</Link>
+            </Button>
+            <Button
               data-testid="admin-logout-button"
               variant="secondary"
               onClick={() => {
