@@ -525,6 +525,15 @@ export default function AdminCRM() {
                                 <Phone className="h-4 w-4" />
                               </button>
                             )}
+                            {zohoConnected && contact.zoho_contact_id && (
+                              <button
+                                onClick={() => openZohoWhatsApp(contact.id)}
+                                className="p-2 rounded-lg hover:bg-green-100 text-green-700 border border-green-200"
+                                title="Send WhatsApp via Zoho Desk"
+                              >
+                                <Send className="h-4 w-4" />
+                              </button>
+                            )}
                             {zohoConnected && !contact.zoho_contact_id && (
                               <button
                                 onClick={() => handleSyncToZoho(contact.id)}
