@@ -1443,7 +1443,11 @@ def _public_photo_url(slug: str) -> str:
 
 @api_router.get("/profiles/by-slug/{slug}", response_model=SurgeonPublic)
 async def get_profile_by_slug(slug: str):
-    doc = await db.surgeons.find_one({"slug": slug, "status": "approved"}, {"_id": 0, "upload_token": 0})
+    # Allow both approved AND unclaimed profiles to be viewed
+    doc = await db.surgeons.find_one(
+        {"slug": slug, "status": {"$in": ["approved", "unclaimed"]}}, 
+        {"_id": 0, "upload_token": 0}
+    )
     if not doc:
         raise HTTPException(status_code=404, detail="Surgeon not found")
 
