@@ -135,6 +135,11 @@ OrthoConnect is an ethical, patient-first orthopaedic healthcare platform for In
 | `/admin` | Admin login |
 | `/admin/dashboard` | Admin dashboard |
 | `/admin/analytics` | Platform analytics |
+| `/admin/outreach` | Outreach campaigns |
+| `/admin/crm` | Surgeon CRM |
+| `/admin/discovery` | Surgeon discovery (web scraping) |
+| `/admin/bulk-import` | Bulk import surgeons |
+| `/claim` | Claim unclaimed profile |
 | `/orthopaedic-surgeons-{city}` | City landing (12 cities) |
 | `/*` | 404 Not Found |
 
