@@ -1,17 +1,20 @@
+import { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-function NavItem({ to, children, testId }) {
+function NavItem({ to, children, testId, onClick }) {
   return (
     <NavLink
       data-testid={testId}
       to={to}
+      onClick={onClick}
       className={({ isActive }) =>
         [
-          "text-sm font-medium",
-          "text-slate-700 hover:text-slate-900",
-          "transition-colors",
-          isActive ? "text-slate-900" : "",
+          "text-sm font-medium transition-colors",
+          isActive
+            ? "text-slate-900"
+            : "text-slate-600 hover:text-slate-900",
         ].join(" ")
       }
     >
@@ -22,46 +25,49 @@ function NavItem({ to, children, testId }) {
 
 export default function SiteHeader() {
   const navigate = useNavigate();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
     <header
       data-testid="site-header"
-      className="sticky top-0 z-40 border-b border-slate-200/70 bg-white/80 backdrop-blur"
+      className="sticky top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80"
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
-        <div className="flex items-center gap-3">
-          <Link
-            data-testid="site-logo-link"
-            to="/"
-            className="flex items-center gap-2"
+        {/* Logo */}
+        <Link
+          data-testid="site-logo-link"
+          to="/"
+          className="flex items-center gap-2.5"
+        >
+          <div
+            data-testid="site-logo-mark"
+            className="flex h-9 w-9 items-center justify-center rounded-lg bg-slate-900"
           >
+            <span className="text-sm font-bold text-white">O</span>
+          </div>
+          <div className="hidden sm:block">
             <div
-              data-testid="site-logo-mark"
-              className="h-9 w-9 rounded-xl bg-gradient-to-br from-teal-600 to-sky-600 shadow-sm"
-            />
-            <div className="leading-tight">
-              <div
-                data-testid="site-logo-text"
-                className="text-base font-semibold tracking-tight text-slate-900"
-              >
-                OrthoConnect
-              </div>
-              <div
-                data-testid="site-logo-tagline"
-                className="text-xs text-slate-500"
-              >
-                Ethical orthopaedic care discovery
-              </div>
+              data-testid="site-logo-text"
+              className="text-base font-semibold tracking-tight text-slate-900"
+            >
+              OrthoConnect
             </div>
-          </Link>
-        </div>
+            <div
+              data-testid="site-logo-tagline"
+              className="text-xs text-slate-500"
+            >
+              Ethical care discovery
+            </div>
+          </div>
+        </Link>
 
+        {/* Desktop Nav */}
         <nav
           data-testid="site-nav"
-          className="hidden items-center gap-6 md:flex"
+          className="hidden items-center gap-8 md:flex"
         >
-          <NavItem testId="nav-conditions-link" to="/education">
-            Conditions
+          <NavItem testId="nav-education-link" to="/education">
+            Patient Education
           </NavItem>
           <NavItem testId="nav-about-link" to="/about">
             About
@@ -71,16 +77,68 @@ export default function SiteHeader() {
           </NavItem>
         </nav>
 
-        <div className="flex items-center gap-2">
+        {/* CTA + Mobile Menu Toggle */}
+        <div className="flex items-center gap-3">
           <Button
             data-testid="join-as-surgeon-button"
             onClick={() => navigate("/join")}
-            className="rounded-full bg-slate-900 px-4 py-2 text-white hover:bg-slate-800"
+            className="hidden rounded-full bg-slate-900 px-5 py-2 text-sm font-medium text-white hover:bg-slate-800 sm:inline-flex"
           >
-            Join as Surgeon (Free)
+            Join as Surgeon
           </Button>
+
+          {/* Mobile Menu Button */}
+          <button
+            data-testid="mobile-menu-toggle"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 md:hidden"
+          >
+            {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
         </div>
       </div>
+
+      {/* Mobile Menu */}
+      {mobileMenuOpen && (
+        <div
+          data-testid="mobile-menu"
+          className="border-t border-slate-200 bg-white px-4 py-4 md:hidden"
+        >
+          <nav className="flex flex-col gap-4">
+            <NavItem
+              testId="nav-education-link-mobile"
+              to="/education"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Patient Education
+            </NavItem>
+            <NavItem
+              testId="nav-about-link-mobile"
+              to="/about"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              About
+            </NavItem>
+            <NavItem
+              testId="nav-contact-link-mobile"
+              to="/contact"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Contact
+            </NavItem>
+            <Button
+              data-testid="join-as-surgeon-button-mobile"
+              onClick={() => {
+                setMobileMenuOpen(false);
+                navigate("/join");
+              }}
+              className="mt-2 w-full rounded-full bg-slate-900 px-5 py-2.5 text-sm font-medium text-white hover:bg-slate-800"
+            >
+              Join as Surgeon
+            </Button>
+          </nav>
+        </div>
+      )}
     </header>
   );
 }
