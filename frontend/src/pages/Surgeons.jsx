@@ -308,23 +308,11 @@ export default function Surgeons() {
         {loading ? (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {[1, 2, 3, 4, 5, 6].map(i => (
-              <div key={i} className="rounded-2xl border border-slate-200 bg-white p-5 animate-pulse">
-                <div className="flex items-start gap-4">
-                  <div className="w-14 h-14 rounded-xl bg-slate-200" />
-                  <div className="flex-1">
-                    <div className="h-5 w-3/4 bg-slate-200 rounded mb-2" />
-                    <div className="h-4 w-1/2 bg-slate-100 rounded" />
-                  </div>
-                </div>
-              </div>
+              <SurgeonCardSkeleton key={i} />
             ))}
           </div>
         ) : filteredSurgeons.length === 0 ? (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="text-center py-16"
-          >
+          <div className="text-center py-16">
             <div className="w-20 h-20 rounded-full bg-slate-100 flex items-center justify-center mx-auto mb-4">
               <Users className="w-10 h-10 text-slate-300" />
             </div>
@@ -337,7 +325,7 @@ export default function Surgeons() {
             <Button asChild className="mt-6 rounded-full bg-teal-600 hover:bg-teal-700">
               <Link to="/join">Join as Surgeon</Link>
             </Button>
-          </motion.div>
+          </div>
         ) : (
           <>
             <div className="flex items-center justify-between mb-6">
@@ -348,8 +336,8 @@ export default function Surgeons() {
               </h2>
             </div>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {filteredSurgeons.map((surgeon, idx) => (
-                <SurgeonCard key={surgeon.id} surgeon={surgeon} index={idx} />
+              {filteredSurgeons.map((surgeon) => (
+                <SurgeonCard key={surgeon.id} surgeon={surgeon} />
               ))}
             </div>
           </>
