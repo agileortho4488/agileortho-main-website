@@ -30,6 +30,7 @@ import AdminOutreach from "@/pages/AdminOutreach";
 import AdminCRM from "@/pages/AdminCRM";
 import AdminBulkImport from "@/pages/AdminBulkImport";
 import ClaimProfile from "@/pages/ClaimProfile";
+import CitySurgeons from "@/pages/CitySurgeons";
 import NotFound from "@/pages/NotFound";
 import CityLanding, { CITIES } from "@/pages/CityLanding";
 
