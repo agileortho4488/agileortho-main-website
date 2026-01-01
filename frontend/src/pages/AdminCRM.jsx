@@ -149,21 +149,27 @@ export default function AdminCRM() {
 
   async function handleSyncToZoho(contactId) {
     try {
-      const res = await api.post(`/admin/crm/zoho/sync-contact/${contactId}`, {}, {
+      // Sync single contact to Zoho Campaigns
+      const contact = contacts.find(c => c.id === contactId);
+      if (!contact?.email) {
+        toast.error("Contact needs an email address");
+        return;
+      }
+      
+      const res = await api.post(`/campaigns/add-contacts?sync_all=false`, {
+        contact_ids: [contactId]
+      }, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      if (res.data.ok) {
-        toast.success("Synced to Zoho Desk");
-        // Open Zoho Desk contact page
-        if (res.data.desk_url) {
-          window.open(res.data.desk_url, "_blank");
-        }
+      
+      if (res.data.ok || res.data.added > 0) {
+        toast.success("Synced to Zoho Campaigns");
         loadData();
       } else {
         toast.error(res.data.error || "Sync failed");
       }
     } catch (e) {
-      toast.error("Failed to sync to Zoho");
+      toast.error("Failed to sync to Zoho Campaigns");
     }
   }
 
