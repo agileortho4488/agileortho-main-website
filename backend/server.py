@@ -68,8 +68,15 @@ ZOHO_DESK_ORG_ID = os.environ.get("ZOHO_DESK_ORG_ID", "")
 ZOHO_DESK_REFRESH_TOKEN = os.environ.get("ZOHO_DESK_REFRESH_TOKEN", "")
 ZOHO_API_DOMAIN = os.environ.get("ZOHO_API_DOMAIN", "https://www.zohoapis.in")
 
+# Zoho Campaigns Config
+ZOHO_CAMPAIGNS_CLIENT_ID = os.environ.get("ZOHO_CAMPAIGNS_CLIENT_ID", "")
+ZOHO_CAMPAIGNS_CLIENT_SECRET = os.environ.get("ZOHO_CAMPAIGNS_CLIENT_SECRET", "")
+ZOHO_CAMPAIGNS_REFRESH_TOKEN = os.environ.get("ZOHO_CAMPAIGNS_REFRESH_TOKEN", "")
+ZOHO_CAMPAIGNS_LIST_KEY = "3z4fa9b755c1b8ccc466e4c3ef177272ab1163beac175df5424ba343a5961b37ca"  # "all" list
+
 # In-memory token cache
 _zoho_access_token = {"token": None, "expires_at": 0}
+_zoho_campaigns_token = {"token": None, "expires_at": 0}
 
 
 # -----------------------------
