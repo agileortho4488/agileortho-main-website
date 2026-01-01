@@ -410,7 +410,7 @@ export default function Home() {
             <h2 className="text-2xl font-bold text-slate-900 sm:text-3xl">Red Flags — When to Seek Urgent Care</h2>
           </div>
           <p className="max-w-2xl text-slate-600 mb-8">
-            Some symptoms require immediate medical attention. Don't wait if you experience any of these.
+            Some symptoms require immediate medical attention. Don&apos;t wait if you experience any of these.
           </p>
 
           <div className="grid gap-4 sm:grid-cols-2">
