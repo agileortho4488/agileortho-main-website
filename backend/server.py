@@ -3070,6 +3070,99 @@ async def create_zoho_ticket(
     return {"ok": True, "ticket_id": ticket_id}
 
 
+@api_router.post("/admin/crm/zoho/bulk-sync")
+async def bulk_sync_to_zoho(
+    contact_ids: List[str] = None,
+    limit: int = 50,
+    auth: Dict[str, Any] = Depends(admin_dep)
+):
+    """Bulk sync contacts to Zoho Desk"""
+    # Get contacts to sync
+    if contact_ids:
+        contacts = await db.crm_contacts.find(
+            {"id": {"$in": contact_ids}, "zoho_contact_id": {"$exists": False}},
+            {"_id": 0}
+        ).to_list(limit)
+    else:
+        # Get unsynced contacts with mobile numbers
+        contacts = await db.crm_contacts.find(
+            {"zoho_contact_id": {"$exists": False}, "mobile": {"$ne": ""}},
+            {"_id": 0}
+        ).limit(limit).to_list(limit)
+    
+    synced = 0
+    failed = 0
+    results = []
+    
+    for contact in contacts:
+        # Parse name
+        name = contact.get("name", "Unknown")
+        name_parts = name.replace("Dr.", "").replace("DR.", "").strip().split()
+        first_name = name_parts[0] if name_parts else "Doctor"
+        last_name = " ".join(name_parts[1:]) if len(name_parts) > 1 else name
+        
+        # Ensure phone has country code
+        mobile = contact.get("mobile", "")
+        if mobile and len(mobile) == 10:
+            mobile = "91" + mobile
+        
+        zoho_data = {
+            "firstName": first_name,
+            "lastName": last_name,
+            "email": contact.get("email") or None,
+            "phone": mobile or None,
+            "mobile": mobile or None,
+            "city": contact.get("city", ""),
+        }
+        zoho_data = {k: v for k, v in zoho_data.items() if v}
+        
+        result = await zoho_desk_request("POST", "/contacts", zoho_data)
+        
+        if "error" not in result and result.get("id"):
+            zoho_id = result["id"]
+            zoho_url = result.get("webUrl", f"https://desk.zoho.in/support/agileortho/ShowHomePage.do#Contacts/dv/{zoho_id}")
+            
+            await db.crm_contacts.update_one(
+                {"id": contact["id"]},
+                {"$set": {
+                    "zoho_contact_id": zoho_id,
+                    "zoho_web_url": zoho_url,
+                    "updated_at": now_iso()
+                }}
+            )
+            synced += 1
+            results.append({"name": contact.get("name"), "zoho_id": zoho_id, "status": "synced"})
+        else:
+            failed += 1
+            results.append({"name": contact.get("name"), "status": "failed", "error": result.get("error", "Unknown")})
+    
+    return {"synced": synced, "failed": failed, "total": len(contacts), "results": results[:10]}
+
+
+@api_router.get("/admin/crm/zoho/whatsapp-url/{contact_id}")
+async def get_zoho_whatsapp_url(contact_id: str, auth: Dict[str, Any] = Depends(admin_dep)):
+    """Get Zoho Desk URL to send WhatsApp to this contact"""
+    contact = await db.crm_contacts.find_one({"id": contact_id}, {"_id": 0})
+    if not contact:
+        raise HTTPException(status_code=404, detail="Contact not found")
+    
+    zoho_id = contact.get("zoho_contact_id")
+    if not zoho_id:
+        return {"ok": False, "error": "Contact not synced to Zoho Desk. Sync first."}
+    
+    # Zoho Desk IM send URL
+    desk_url = f"https://desk.zoho.in/support/agileortho/ShowHomePage.do#Contacts/dv/{zoho_id}"
+    im_url = f"https://desk.zoho.in/support/agileortho/im?action=sendWhatsApp&contactId={zoho_id}"
+    
+    return {
+        "ok": True,
+        "contact_name": contact.get("name"),
+        "zoho_contact_id": zoho_id,
+        "desk_url": desk_url,
+        "whatsapp_send_url": im_url,
+    }
+
+
 @api_router.post("/admin/crm/broadcast")
 async def send_broadcast(payload: BroadcastMessage, auth: Dict[str, Any] = Depends(admin_dep)):
     """Send broadcast message to multiple contacts"""
