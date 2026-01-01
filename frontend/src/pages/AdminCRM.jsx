@@ -71,12 +71,13 @@ export default function AdminCRM() {
 
   async function testZohoConnection() {
     try {
-      const res = await api.get("/admin/crm/zoho/test", { headers: { Authorization: `Bearer ${token}` } });
-      setZohoConnected(res.data.connected);
-      if (res.data.connected) {
-        toast.success("Zoho Desk connected!");
+      const res = await api.get("/campaigns/lists", { headers: { Authorization: `Bearer ${token}` } });
+      if (res.data?.lists || res.data?.message) {
+        setZohoConnected(true);
+        toast.success("Zoho Campaigns connected!");
       } else {
-        toast.error("Zoho Desk connection failed");
+        setZohoConnected(false);
+        toast.error("Zoho Campaigns connection failed");
       }
     } catch (e) {
       setZohoConnected(false);
