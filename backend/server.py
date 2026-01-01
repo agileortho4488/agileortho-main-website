@@ -1495,6 +1495,10 @@ async def surgeon_upsert_profile(payload: SurgeonProfileUpsert, auth: Dict[str, 
 
     if not payload.registration_number.strip():
         raise HTTPException(status_code=400, detail="Medical registration number is required")
+    
+    # Email is now mandatory
+    if not payload.email.strip() or "@" not in payload.email:
+        raise HTTPException(status_code=400, detail="Valid email address is required")
 
     subs_list = [normalize_subspecialty(s) for s in payload.subspecialties if s.strip()]
     
