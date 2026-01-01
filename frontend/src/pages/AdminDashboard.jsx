@@ -458,7 +458,7 @@ export default function AdminDashboard() {
                         </div>
                       </div>
 
-                      <div className="mt-6 grid gap-3 md:grid-cols-2">
+                      <div className="mt-6 grid gap-3 md:grid-cols-3">
                         <Button
                           data-testid="admin-approve-button"
                           onClick={approve}
@@ -466,12 +466,31 @@ export default function AdminDashboard() {
                         >
                           Approve
                         </Button>
+                        <Button
+                          data-testid="admin-needs-clarification-button"
+                          onClick={async () => {
+                            if (!selected) return;
+                            await api.patch(
+                              `/admin/surgeons/${selected.id}`,
+                              {
+                                status: "needs_clarification",
+                                rejection_reason: rejectionReason || "Please provide additional information",
+                                photo_visibility: photoVisibility,
+                              },
+                              { headers: { Authorization: `Bearer ${getToken()}` } },
+                            );
+                            load(tab);
+                          }}
+                          className="h-11 rounded-xl bg-blue-600 text-white hover:bg-blue-700"
+                        >
+                          Needs Info
+                        </Button>
                         <div className="space-y-2">
                           <Textarea
                             data-testid="admin-rejection-reason-textarea"
                             value={rejectionReason}
                             onChange={(e) => setRejectionReason(e.target.value)}
-                            placeholder="Rejection reason"
+                            placeholder="Reason / clarification needed"
                             className="min-h-[64px] rounded-2xl border-slate-200 bg-slate-50/60"
                           />
                           <Button
