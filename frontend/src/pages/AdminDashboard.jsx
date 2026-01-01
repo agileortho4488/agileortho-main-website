@@ -441,41 +441,66 @@ export default function AdminDashboard() {
 
                       <div className="mt-5">
                         <div className="text-xs font-semibold text-slate-700">
-                          Documents
+                          Documents <span className="text-red-500">*</span>
                         </div>
                         <div className="mt-2 space-y-2">
                           {(selected.documents || []).length ? (
-                            selected.documents.map((d) => (
-                              <div
-                                data-testid={`admin-doc-row-${d.id}`}
-                                key={d.id}
-                                className="flex items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3"
-                              >
-                                <div>
-                                  <div className="text-sm font-medium text-slate-900">
-                                    {d.filename}
-                                  </div>
-                                  <div className="text-xs text-slate-500">
-                                    type: {d.type}
-                                  </div>
-                                </div>
-                                <a
-                                  data-testid={`admin-doc-download-${d.id}`}
-                                  href={downloadLink(d.id)}
-                                  target="_blank"
-                                  rel="noreferrer"
-                                  className="rounded-full bg-slate-900 px-3 py-1.5 text-xs font-medium text-white hover:bg-slate-800 transition-colors"
+                            selected.documents.map((d) => {
+                              const isImage = d.filename?.match(/\.(jpg|jpeg|png|gif|webp)$/i);
+                              return (
+                                <div
+                                  data-testid={`admin-doc-row-${d.id}`}
+                                  key={d.id}
+                                  className="rounded-2xl border border-slate-200 bg-white p-4"
                                 >
-                                  Download
-                                </a>
-                              </div>
-                            ))
+                                  <div className="flex items-start justify-between gap-3">
+                                    <div className="flex-1">
+                                      <div className="text-sm font-medium text-slate-900">
+                                        {d.filename}
+                                      </div>
+                                      <div className="text-xs text-slate-500 mt-1">
+                                        Type: <span className="font-medium capitalize">{d.type}</span>
+                                      </div>
+                                    </div>
+                                    <div className="flex gap-2">
+                                      <a
+                                        data-testid={`admin-doc-view-${d.id}`}
+                                        href={downloadLink(d.id)}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        className="rounded-full bg-blue-100 px-3 py-1.5 text-xs font-medium text-blue-700 hover:bg-blue-200 transition-colors"
+                                      >
+                                        View
+                                      </a>
+                                      <a
+                                        data-testid={`admin-doc-download-${d.id}`}
+                                        href={downloadLink(d.id)}
+                                        download
+                                        className="rounded-full bg-slate-900 px-3 py-1.5 text-xs font-medium text-white hover:bg-slate-800 transition-colors"
+                                      >
+                                        Download
+                                      </a>
+                                    </div>
+                                  </div>
+                                  {isImage && (
+                                    <div className="mt-3">
+                                      <img
+                                        src={downloadLink(d.id)}
+                                        alt={d.filename}
+                                        className="max-w-full max-h-48 rounded-xl border border-slate-200 object-contain"
+                                        onError={(e) => e.target.style.display = 'none'}
+                                      />
+                                    </div>
+                                  )}
+                                </div>
+                              );
+                            })
                           ) : (
                             <div
                               data-testid="admin-docs-empty"
-                              className="rounded-2xl border border-dashed border-slate-200 bg-white p-4 text-sm text-slate-600"
+                              className="rounded-2xl border border-dashed border-red-200 bg-red-50 p-4 text-sm text-red-600"
                             >
-                              No documents uploaded.
+                              ⚠️ No documents uploaded. Documents are required for verification.
                             </div>
                           )}
                         </div>
