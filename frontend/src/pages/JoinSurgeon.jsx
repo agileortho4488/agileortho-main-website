@@ -483,6 +483,21 @@ export default function JoinSurgeon() {
                 Professional details
               </div>
 
+              <div className="mt-4 space-y-1.5">
+                <div className="text-xs font-semibold text-slate-700">
+                  Full Name (as per medical registration)
+                </div>
+                <Input
+                  data-testid="surgeon-name-input"
+                  value={profile.name}
+                  onChange={(e) =>
+                    setProfile((p) => ({ ...p, name: e.target.value }))
+                  }
+                  placeholder="Dr. Full Name"
+                  className="h-11 rounded-xl border-slate-200 bg-slate-50/60"
+                />
+              </div>
+
               <div className="mt-4 grid gap-4 md:grid-cols-2">
                 <div className="space-y-1.5">
                   <div className="text-xs font-semibold text-slate-700">
@@ -494,6 +509,7 @@ export default function JoinSurgeon() {
                     onChange={(e) =>
                       setProfile((p) => ({ ...p, qualifications: e.target.value }))
                     }
+                    placeholder="e.g., MBBS, MS Orthopaedics, DNB"
                     className="h-11 rounded-xl border-slate-200 bg-slate-50/60"
                   />
                 </div>
@@ -507,6 +523,7 @@ export default function JoinSurgeon() {
                     onChange={(e) =>
                       setProfile((p) => ({ ...p, registration_number: e.target.value }))
                     }
+                    placeholder="e.g., TSMC-12345"
                     className="h-11 rounded-xl border-slate-200 bg-slate-50/60"
                   />
                 </div>
