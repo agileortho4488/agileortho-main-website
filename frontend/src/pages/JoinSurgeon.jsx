@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { CheckCircle, AlertTriangle, XCircle, Clock, Share2, MessageCircle, Mail, Copy, Users } from "lucide-react";
+import { CheckCircle, AlertTriangle, XCircle, Clock, Share2, MessageCircle, Mail, Copy, Users, MapPin } from "lucide-react";
 import { apiClient } from "@/lib/api";
 import { SUBSPECIALTIES } from "@/lib/constants";
 
@@ -11,6 +11,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Card } from "@/components/ui/card";
 import ProfilePhotoBlock from "@/components/profile/ProfilePhotoBlock";
 import { toast } from "@/components/ui/sonner";
+import { AddressAutocomplete } from "@/components/AddressAutocomplete";
 
 function emptyLocation() {
   const id = globalThis.crypto?.randomUUID?.() || String(Date.now());
@@ -22,6 +23,7 @@ function emptyLocation() {
     pincode: "",
     opd_timings: "",
     phone: "",
+    geo: null,
   };
 }
 
