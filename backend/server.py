@@ -4657,24 +4657,6 @@ async def search_justdial(city: str, query: str) -> List[Dict[str, Any]]:
             logger.debug(f"SerpAPI JustDial supplement failed: {e}")
     
     return results
-            
-            if resp.status_code == 200:
-                content = resp.text
-                name_pattern = r'font-r[^>]*>([^<]*(?:Dr|Hospital|Clinic)[^<]*)<'
-                matches = re.findall(name_pattern, content, re.IGNORECASE)
-                
-                for match in matches[:20]:
-                    name = match.strip()
-                    if name and len(name) > 5:
-                        results.append({
-                            "name": name,
-                            "source": "justdial",
-                            "city": city,
-                        })
-        except Exception as e:
-            logger.error("JustDial fallback search failed: %s", e)
-    
-    return results
 
 
 async def search_nmc_registry(city: str, state: str) -> List[Dict[str, Any]]:
