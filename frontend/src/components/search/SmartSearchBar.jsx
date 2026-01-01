@@ -58,7 +58,7 @@ export default function SmartSearchBar({
         data-testid="smart-search-hints"
         className="border-t border-slate-100 bg-slate-50/50 px-4 py-2.5 text-xs text-slate-500"
       >
-        <span className="font-medium text-slate-600">Tip:</span> Use phrases like "shoulder specialist", "hand & wrist", "kids ortho", or include a 6-digit pincode.
+        <span className="font-medium text-slate-600">Tip:</span> Use phrases like &quot;shoulder specialist&quot;, &quot;hand &amp; wrist&quot;, &quot;kids ortho&quot;, or include a 6-digit pincode.
       </div>
     </div>
   );
