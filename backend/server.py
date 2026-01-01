@@ -182,6 +182,7 @@ class SurgeonPublic(BaseModel):
     about: str
     conditions_treated: List[str]
     procedures_performed: List[str]
+    website: str = ""
 
     # Photo controls
     has_profile_photo: bool = False
@@ -277,6 +278,7 @@ class SurgeonProfileUpsert(BaseModel):
     registration_number: str
     subspecialties: List[str] = Field(default_factory=list)
     about: str = ""
+    website: str = ""
     conditions_treated: List[str] = Field(default_factory=list)
     procedures_performed: List[str] = Field(default_factory=list)
     locations: List[Location] = Field(default_factory=list)
@@ -288,22 +290,106 @@ class SurgeonProfileUpsert(BaseModel):
 
 SUBSPECIALTIES = ["Shoulder", "Elbow", "Hand", "Hip", "Knee", "Oncology", "Paediatrics"]
 
-# synonym phrases (very lightweight)
+# synonym phrases (comprehensive list for India)
 SUBSPECIALTY_SYNONYMS: Dict[str, str] = {
+    # English
     "shoulder": "Shoulder",
     "shoulder specialist": "Shoulder",
+    "shoulder surgeon": "Shoulder",
+    "rotator cuff": "Shoulder",
+    "frozen shoulder": "Shoulder",
     "elbow": "Elbow",
+    "elbow surgeon": "Elbow",
+    "tennis elbow": "Elbow",
     "hand": "Hand",
     "hand & wrist": "Hand",
     "wrist": "Hand",
+    "carpal tunnel": "Hand",
+    "trigger finger": "Hand",
     "hip": "Hip",
+    "hip replacement": "Hip",
+    "hip surgeon": "Hip",
+    "avascular necrosis": "Hip",
+    "avn": "Hip",
     "knee": "Knee",
+    "knee surgeon": "Knee",
+    "knee replacement": "Knee",
+    "acl": "Knee",
+    "acl tear": "Knee",
+    "meniscus": "Knee",
     "joint replacement": "Hip",
+    "arthroplasty": "Hip",
     "oncology": "Oncology",
     "bone cancer": "Oncology",
+    "tumor": "Oncology",
+    "tumour": "Oncology",
     "kids ortho": "Paediatrics",
     "pediatric": "Paediatrics",
     "paediatric": "Paediatrics",
+    "children": "Paediatrics",
+    "child bone": "Paediatrics",
+    "clubfoot": "Paediatrics",
+    "spine": "Spine",
+    "back pain": "Spine",
+    "disc": "Spine",
+    "slipped disc": "Spine",
+    "sciatica": "Spine",
+    "spinal": "Spine",
+    "sports": "Sports Medicine",
+    "sports injury": "Sports Medicine",
+    "sports medicine": "Sports Medicine",
+    "athlete": "Sports Medicine",
+    "trauma": "Trauma",
+    "fracture": "Trauma",
+    "accident": "Trauma",
+    "broken bone": "Trauma",
+    # Hindi keywords
+    "घुटने": "Knee",
+    "घुटना": "Knee",
+    "घुटने का दर्द": "Knee",
+    "कमर": "Spine",
+    "कमर दर्द": "Spine",
+    "पीठ दर्द": "Spine",
+    "पीठ": "Spine",
+    "कंधा": "Shoulder",
+    "कंधे": "Shoulder",
+    "कंधे का दर्द": "Shoulder",
+    "कूल्हा": "Hip",
+    "कूल्हे": "Hip",
+    "हड्डी": "Trauma",
+    "हड्डी टूटना": "Trauma",
+    "फ्रैक्चर": "Trauma",
+    "हाथ": "Hand",
+    "कलाई": "Hand",
+    "बच्चों": "Paediatrics",
+    # Telugu keywords
+    "మోకాలు": "Knee",
+    "మోకాళ్ల నొప్పి": "Knee",
+    "నడుము": "Spine",
+    "నడుము నొప్పి": "Spine",
+    "భుజం": "Shoulder",
+    "తుంటి": "Hip",
+    "ఎముక": "Trauma",
+    "చేయి": "Hand",
+    # City synonyms
+    "hyderabad": "Hyderabad",
+    "hyd": "Hyderabad",
+    "secunderabad": "Hyderabad",
+    "nizamabad": "Nizamabad",
+    "warangal": "Warangal",
+    "mumbai": "Mumbai",
+    "bombay": "Mumbai",
+    "delhi": "Delhi",
+    "new delhi": "Delhi",
+    "ncr": "Delhi",
+    "bangalore": "Bangalore",
+    "bengaluru": "Bangalore",
+    "chennai": "Chennai",
+    "madras": "Chennai",
+    "kolkata": "Kolkata",
+    "calcutta": "Kolkata",
+    "pune": "Pune",
+    "ahmedabad": "Ahmedabad",
 }
 
 
