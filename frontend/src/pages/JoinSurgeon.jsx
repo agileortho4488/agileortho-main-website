@@ -59,6 +59,7 @@ export default function JoinSurgeon() {
 
   const [docType, setDocType] = useState("registration");
   const [docFiles, setDocFiles] = useState([]);
+  const [existingDocs, setExistingDocs] = useState([]);
   
   // Referral system state
   const [referralCode, setReferralCode] = useState("");
