@@ -4821,8 +4821,36 @@ async def discovery_import(
             hospital = surgeon.get("hospital", "").strip()
             qualifications = surgeon.get("qualifications", "").strip()
             subspecialty = surgeon.get("subspecialty", "").strip()
+            address = surgeon.get("address", "").strip()
+            experience = surgeon.get("experience", "").strip()
+            consultation_fee = surgeon.get("consultation_fee", "").strip()
+            profile_url = surgeon.get("profile_url", "").strip()
+            rating = surgeon.get("rating")
             
-            if not name:
+            # Extract GPS coordinates
+            gps = surgeon.get("gps_coordinates", {})
+            geo = None
+            if gps and gps.get("latitude") and gps.get("longitude"):
+                geo = {"lat": gps["latitude"], "lng": gps["longitude"]}
+            
+            # Clean up name - remove extra info like "Best Orthopedic..."
+            clean_name = name
+            if "|" in name:
+                clean_name = name.split("|")[0].strip()
+            
+            # Extract hospital name from full name if needed
+            clean_hospital = hospital
+            if "|" in hospital:
+                parts = hospital.split("|")
+                # Find the part that looks like a hospital name
+                for p in parts:
+                    if any(kw in p.lower() for kw in ['hospital', 'clinic', 'centre', 'center', 'care']):
+                        clean_hospital = p.strip()
+                        break
+                else:
+                    clean_hospital = parts[-1].strip() if len(parts) > 1 else parts[0].strip()
+            
+            if not clean_name:
                 errors.append("Missing name")
                 continue
             
@@ -4833,7 +4861,7 @@ async def discovery_import(
             if email:
                 query["$or"].append({"email": email.lower()})
             query["$or"].append({
-                "name": {"$regex": re.escape(name), "$options": "i"},
+                "name": {"$regex": re.escape(clean_name), "$options": "i"},
                 "locations.city": {"$regex": re.escape(city), "$options": "i"}
             })
             
@@ -4843,33 +4871,43 @@ async def discovery_import(
                     skipped += 1
                     continue
             
+            # Build about section from available data
+            about_parts = []
+            if experience:
+                about_parts.append(f"Experience: {experience}")
+            if consultation_fee:
+                about_parts.append(f"Consultation Fee: {consultation_fee}")
+            if rating:
+                about_parts.append(f"Rating: {rating}")
+            about = ". ".join(about_parts) if about_parts else ""
+            
             # Create unclaimed profile
             surgeon_id = str(uuid.uuid4())
-            slug = make_slug(name=name, primary_sub=subspecialty or None, city=city)
+            slug = make_slug(name=clean_name, primary_sub=subspecialty or None, city=city)
             
             doc = {
                 "id": surgeon_id,
                 "slug": slug,
                 "status": "unclaimed",
-                "name": name,
+                "name": clean_name,
                 "mobile": phone if len(phone) == 10 else "",
                 "email": email.lower() if email else "",
                 "qualifications": qualifications or "MBBS, MS Ortho",
                 "registration_number": "",
                 "subspecialties": [subspecialty] if subspecialty else [],
-                "about": "",
-                "website": "",
+                "about": about,
+                "website": profile_url if profile_url and profile_url.startswith("http") else "",
                 "conditions_treated": [],
                 "procedures_performed": [],
                 "locations": [{
                     "id": str(uuid.uuid4()),
-                    "facility_name": hospital,
-                    "address": surgeon.get("address", ""),
+                    "facility_name": clean_hospital,
+                    "address": address,
                     "city": city,
                     "pincode": "",
                     "opd_timings": "",
                     "phone": phone if len(phone) == 10 else "",
-                    "geo": None,
+                    "geo": geo,
                 }],
                 "documents": [],
                 "profile_photo": None,
