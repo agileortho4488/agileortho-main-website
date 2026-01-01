@@ -354,6 +354,18 @@ export default function DoctorProfile() {
                 Clinic / Hospital Locations
               </h2>
 
+              {/* Google Maps */}
+              {locations.length > 0 && (
+                <div className="mt-4">
+                  <LocationMap 
+                    locations={locations} 
+                    zoom={14}
+                    showInfoWindow={true}
+                    className="mb-4"
+                  />
+                </div>
+              )}
+
               {locations.length === 0 ? (
                 <p className="mt-4 text-sm text-slate-400">No locations added</p>
               ) : (
