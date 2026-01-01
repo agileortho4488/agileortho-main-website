@@ -1,4 +1,14 @@
-// FULL UNABRIDGED TOPIC LIST (placeholder pages; content to be added later)
+import { TOPICS_TRAUMA_INJURY_CARE } from "@/lib/education/topicsTrauma";
+import { TOPICS_SPINE } from "@/lib/education/topicsSpine";
+import { TOPICS_SHOULDER_ELBOW } from "@/lib/education/topicsShoulderElbow";
+import { TOPICS_KNEE_SPORTS } from "@/lib/education/topicsKneeSports";
+import { TOPICS_PEDIATRIC_ORTHOPAEDICS } from "@/lib/education/topicsPediatric";
+import { TOPICS_RECON_ARTHROPLASTY } from "@/lib/education/topicsReconArthroplasty";
+import { TOPICS_HAND_WRIST } from "@/lib/education/topicsHandWrist";
+import { TOPICS_FOOT_ANKLE } from "@/lib/education/topicsFootAnkle";
+import { TOPICS_PATHOLOGY_ORTHOPAEDIC_ONCOLOGY } from "@/lib/education/topicsOncology";
+import { TOPICS_BASIC_SCIENCE_PATIENT_KNOWLEDGE } from "@/lib/education/topicsBasicScience";
+import { TOPICS_ANATOMY_PATIENT_REFERENCE } from "@/lib/education/topicsAnatomy";
 
 export const EDUCATION_CATEGORIES = [
   {
