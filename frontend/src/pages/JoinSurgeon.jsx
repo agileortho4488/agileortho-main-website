@@ -36,6 +36,7 @@ export default function JoinSurgeon() {
   const [smsSent, setSmsSent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [resendCountdown, setResendCountdown] = useState(0);
 
   const [status, setStatus] = useState(null);
   const [profileExists, setProfileExists] = useState(false);
@@ -62,12 +63,40 @@ export default function JoinSurgeon() {
       setSmsSent(res.data.sms_sent);
       setMockedOtp(res.data.mocked_otp || null);
       setAuthStep("verify");
+      // Start 30 second countdown for resend
+      setResendCountdown(30);
     } catch (e) {
       setError(e?.response?.data?.detail || "OTP request failed");
     } finally {
       setLoading(false);
     }
   }
+
+  async function resendOtp() {
+    if (resendCountdown > 0) return;
+    setLoading(true);
+    setError("");
+    try {
+      const res = await api.post("/auth/otp/request", { mobile });
+      setSmsSent(res.data.sms_sent);
+      setMockedOtp(res.data.mocked_otp || null);
+      // Restart countdown
+      setResendCountdown(30);
+    } catch (e) {
+      setError(e?.response?.data?.detail || "Resend failed");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  // Countdown timer effect
+  useEffect(() => {
+    if (resendCountdown <= 0) return;
+    const timer = setTimeout(() => {
+      setResendCountdown((c) => c - 1);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, [resendCountdown]);
 
   async function verifyOtp() {
     setLoading(true);
