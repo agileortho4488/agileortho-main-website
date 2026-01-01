@@ -501,6 +501,22 @@ export default function JoinSurgeon() {
                 />
               </div>
 
+              <div className="mt-4 space-y-1.5">
+                <div className="text-xs font-semibold text-slate-700">
+                  Email Address (for conference invites & updates)
+                </div>
+                <Input
+                  data-testid="surgeon-email-input"
+                  type="email"
+                  value={profile.email}
+                  onChange={(e) =>
+                    setProfile((p) => ({ ...p, email: e.target.value }))
+                  }
+                  placeholder="doctor@example.com"
+                  className="h-11 rounded-xl border-slate-200 bg-slate-50/60"
+                />
+              </div>
+
               <div className="mt-4 grid gap-4 md:grid-cols-2">
                 <div className="space-y-1.5">
                   <div className="text-xs font-semibold text-slate-700">
