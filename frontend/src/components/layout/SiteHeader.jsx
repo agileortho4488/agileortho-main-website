@@ -66,6 +66,9 @@ export default function SiteHeader() {
           data-testid="site-nav"
           className="hidden items-center gap-8 md:flex"
         >
+          <NavItem testId="nav-surgeons-link" to="/surgeons">
+            Surgeons
+          </NavItem>
           <NavItem testId="nav-education-link" to="/education">
             Patient Education
           </NavItem>
