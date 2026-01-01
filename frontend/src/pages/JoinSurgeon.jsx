@@ -265,12 +265,21 @@ export default function JoinSurgeon() {
               ) : null}
             </div>
 
-            {mockedOtp && authStep === "verify" ? (
+            {authStep === "verify" && smsSent ? (
+              <div
+                data-testid="surgeon-sms-sent"
+                className="mt-4 rounded-2xl border border-teal-200 bg-teal-50 p-4 text-sm text-teal-900"
+              >
+                OTP sent to your mobile number. Please check your SMS.
+              </div>
+            ) : null}
+
+            {mockedOtp && authStep === "verify" && !smsSent ? (
               <div
                 data-testid="surgeon-mocked-otp"
                 className="mt-4 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900"
               >
-                MOCKED OTP (for MVP testing): <b>{mockedOtp}</b>
+                Development Mode - OTP: <b>{mockedOtp}</b>
               </div>
             ) : null}
 
