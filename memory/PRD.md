@@ -58,6 +58,7 @@ OrthoConnect is an ethical, patient-first orthopaedic healthcare platform for In
 - **Document Viewing**: View button opens documents in new tab, inline preview for images (jpg, jpeg, png, gif, webp)
 - **Document Download**: Download button for all document types
 - **Empty Documents Warning**: Red warning shown when surgeon has no documents uploaded
+- **Admin Edit Surgeon Data**: Edit name, email, qualifications, registration no, website directly from admin dashboard
 - **Analytics Dashboard**: `/admin/analytics`
   - Platform statistics (total, approved, pending, etc.)
   - City distribution chart
