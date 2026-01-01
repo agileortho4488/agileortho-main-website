@@ -388,8 +388,16 @@ export default function Surgeons() {
         </div>
       </section>
 
+      {/* Distance Search */}
+      <section className="mx-auto max-w-6xl px-4 pt-6 sm:px-6">
+        <DistanceSearch 
+          onLocationSelect={handleLocationSelect}
+          className="mb-0"
+        />
+      </section>
+
       {/* Surgeons Grid */}
-      <section className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+      <section className="mx-auto max-w-6xl px-4 py-6 sm:px-6">
         {loading ? (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {[1, 2, 3, 4, 5, 6].map(i => (
