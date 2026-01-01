@@ -4838,17 +4838,41 @@ async def discovery_import(
             if "|" in name:
                 clean_name = name.split("|")[0].strip()
             
-            # Extract hospital name from full name if needed
-            clean_hospital = hospital
-            if "|" in hospital:
-                parts = hospital.split("|")
-                # Find the part that looks like a hospital name
-                for p in parts:
-                    if any(kw in p.lower() for kw in ['hospital', 'clinic', 'centre', 'center', 'care']):
-                        clean_hospital = p.strip()
-                        break
+            # Extract hospital/clinic name from full name or address
+            clean_hospital = ""
+            if hospital:
+                if "|" in hospital:
+                    parts = hospital.split("|")
+                    # Find the part that looks like a hospital name
+                    for p in parts:
+                        p_clean = p.strip()
+                        if any(kw in p_clean.lower() for kw in ['hospital', 'clinic', 'centre', 'center', 'care', 'apollo', 'yashoda', 'medicover', 'kims', 'continental']):
+                            clean_hospital = p_clean
+                            break
                 else:
-                    clean_hospital = parts[-1].strip() if len(parts) > 1 else parts[0].strip()
+                    clean_hospital = hospital
+            
+            # If still no hospital, try to extract from address
+            if not clean_hospital and address:
+                # Look for hospital keywords in address
+                addr_parts = address.split(",")
+                for part in addr_parts:
+                    part_clean = part.strip()
+                    if any(kw in part_clean.lower() for kw in ['hospital', 'clinic', 'centre', 'center', 'yashoda', 'apollo', 'medicover', 'kims']):
+                        clean_hospital = part_clean
+                        break
+            
+            # If still no hospital, use first meaningful part of name after doctor name
+            if not clean_hospital and "|" in name:
+                parts = name.split("|")
+                if len(parts) > 1:
+                    # Skip parts that are just titles like "Best Orthopedic..."
+                    for p in parts[1:]:
+                        p_clean = p.strip()
+                        if not any(skip in p_clean.lower() for skip in ['best', 'top', 'specialist', 'expert', 'surgeon']):
+                            if len(p_clean) > 3:
+                                clean_hospital = p_clean
+                                break
             
             if not clean_name:
                 errors.append("Missing name")
