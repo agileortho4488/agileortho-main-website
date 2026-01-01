@@ -238,11 +238,20 @@ Email: Zoho Mail SMTP (info@agileortho.in)
   - Search history with city and count
   - Bulk import of discovered surgeons as "unclaimed" profiles
   - Deduplication against existing database
+  - **SerpAPI Integration**: Enhanced search when SERPAPI_KEY is configured
+  - UI shows "Basic Mode" or "SerpAPI Active" badge
 - ✅ **Surgeons Page Performance Optimization**:
   - Removed heavy framer-motion animations (FloatingStats, staggered card animations)
   - Added loading skeleton components
   - Page now loads in ~0.07 seconds (vs 2+ seconds before)
   - Cleaner, simpler hero section with static stats
+- ✅ **City Landing Pages** (`/surgeons/{city}`):
+  - SEO-optimized pages with Schema.org markup
+  - Dynamic meta tags (title, description, keywords)
+  - City-specific hero with state badge
+  - Search and filter for surgeons in city
+  - CTA for surgeons to join/claim profile
+  - SEO content section about orthopaedic care in city
 - ✅ **Admin Dashboard Updates**:
   - New "Discovery" button (violet styling)
   - New "Bulk Import" button (amber styling)
@@ -252,15 +261,28 @@ Email: Zoho Mail SMTP (info@agileortho.in)
   - Fixed API endpoint paths (/campaigns → /admin/zoho-campaigns)
   - Shows "Zoho Connected" badge when OAuth valid
   - Contacts show "zoho_campaigns synced" tags
+- ✅ **CME & Events Module** (`/events`):
+  - Event listing page with type filters (Conference, CME, Workshop, Webinar)
+  - Admin-managed events with CRUD
+  - Event details with date, location, registration URL
+- ✅ **Blog/Knowledge Base** (`/blog`):
+  - Article listing with category filters
+  - Individual article pages with view tracking
+  - Categories: Patient Education, Industry News, Research, Health Tips
 - ✅ **Testing**: All features verified via testing agent (iteration 12)
 
 ## New API Endpoints (January 2026 - Session 3)
 | Endpoint | Method | Description |
 |----------|--------|-------------|
 | `/api/admin/discovery/search` | POST | Search surgeons from web sources |
-| `/api/admin/discovery/stats` | GET | Discovery statistics |
+| `/api/admin/discovery/stats` | GET | Discovery statistics + SerpAPI status |
 | `/api/admin/discovery/history` | GET | Recent search history |
 | `/api/admin/discovery/import` | POST | Import discovered surgeons |
+
+## Environment Variables
+| Key | Description |
+|-----|-------------|
+| `SERPAPI_KEY` | (Optional) SerpAPI key for enhanced web scraping |
 
 ## Completed This Session (January 1, 2026 - Session 2)
 - ✅ **Mandatory Document Upload for Surgeons**: Profile submission blocked without documents, toast error shown
