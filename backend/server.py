@@ -288,7 +288,7 @@ class SurgeonProfileUpsert(BaseModel):
 # Meta / constants
 # -----------------------------
 
-SUBSPECIALTIES = ["Shoulder", "Elbow", "Hand", "Hip", "Knee", "Oncology", "Paediatrics"]
+SUBSPECIALTIES = ["Shoulder", "Elbow", "Hand", "Hip", "Knee", "Spine", "Sports Medicine", "Trauma", "Oncology", "Paediatrics"]
 
 # synonym phrases (comprehensive list for India)
 SUBSPECIALTY_SYNONYMS: Dict[str, str] = {
