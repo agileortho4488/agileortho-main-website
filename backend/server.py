@@ -4876,6 +4876,27 @@ async def discovery_import(
                 {"$set": {"status": "imported", "imported_at": now_iso()}}
             )
             
+            # Also add to CRM contacts for outreach
+            crm_contact = {
+                "id": str(uuid.uuid4()),
+                "name": name,
+                "email": email.lower() if email else "",
+                "mobile": phone if len(phone) == 10 else "",
+                "city": city,
+                "hospital": hospital,
+                "qualifications": qualifications,
+                "status": "lead",
+                "source": "discovery_import",
+                "tags": ["unclaimed", "discovery", surgeon.get("source", "")],
+                "surgeon_id": surgeon_id,
+                "profile_url": f"/doctor/{slug}",
+                "claim_url": f"/claim?m={phone}" if len(phone) == 10 else "/claim",
+                "created_at": now_iso(),
+                "updated_at": now_iso(),
+                "notes": f"Auto-imported from {surgeon.get('source', 'discovery')}. Profile URL: {surgeon.get('profile_url', '')}",
+            }
+            await db.crm_contacts.insert_one(crm_contact)
+            
             imported += 1
             
         except Exception as e:
