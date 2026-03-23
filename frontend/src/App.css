@@ -1,16 +1,1 @@
-/* Keep App.css minimal; Tailwind handles most styling */
-
-:root {
-  color-scheme: light;
-}
-
-/* Avoid center-aligning the entire app; preserve natural reading flow */
-
-.leaflet-container {
-  font-family: inherit;
-}
-
-/* Better popup look */
-.leaflet-popup-content-wrapper {
-  border-radius: 16px;
-}
+/* MedDevice Pro - Global Styles */

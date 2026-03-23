@@ -1,716 +1,239 @@
-import { useEffect, useMemo, useState, useRef } from "react";
-import { useSearchParams, Link } from "react-router-dom";
-import { motion, useScroll, useTransform, useInView } from "framer-motion";
-import { MapPin, Search, AlertTriangle, Heart, Stethoscope, ChevronRight, Shield, Ban, Users, Award, Sparkles, Zap, Activity } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { ArrowRight, Shield, Truck, HeartPulse, Microscope, Bone, Stethoscope, Syringe, Activity, Package } from "lucide-react";
+import { getProducts, getDivisions } from "../lib/api";
 
-import SmartSearchBar from "@/components/search/SmartSearchBar";
-import ResultsList from "@/components/search/ResultsList";
-import ResultsMap from "@/components/search/ResultsMap";
-
-import { Button } from "@/components/ui/button";
-import { apiClient } from "@/lib/api";
-
-const POPULAR_SEARCHES = [
-  { label: "Knee Pain", query: "knee surgeon", icon: "🦵" },
-  { label: "Shoulder Injury", query: "shoulder specialist", icon: "💪" },
-  { label: "Spine Problems", query: "spine surgeon", icon: "🦴" },
-  { label: "Sports Injury", query: "sports medicine", icon: "⚽" },
-  { label: "Joint Replacement", query: "joint replacement surgeon", icon: "🦿" },
-  { label: "Fracture Care", query: "trauma surgeon", icon: "🩹" },
-];
-
-const CONDITION_CATEGORIES = [
-  {
-    title: "Knee & Sports",
-    description: "ACL tears, meniscus injuries, arthritis, and sports-related conditions",
-    icon: "🦵",
-    link: "/education/knee-sports",
-    gradient: "from-teal-400 to-emerald-500",
-    glow: "hover:shadow-teal-400/20",
-  },
-  {
-    title: "Spine & Back",
-    description: "Disc problems, sciatica, spinal stenosis, and back pain conditions",
-    icon: "🦴",
-    link: "/education/spine",
-    gradient: "from-sky-400 to-blue-500",
-    glow: "hover:shadow-sky-400/20",
-  },
-  {
-    title: "Shoulder & Elbow",
-    description: "Rotator cuff, frozen shoulder, tennis elbow, and arm conditions",
-    icon: "💪",
-    link: "/education/shoulder-elbow",
-    gradient: "from-indigo-400 to-violet-500",
-    glow: "hover:shadow-indigo-400/20",
-  },
-  {
-    title: "Hand & Wrist",
-    description: "Carpal tunnel, trigger finger, fractures, and hand conditions",
-    icon: "✋",
-    link: "/education/hand-wrist",
-    gradient: "from-pink-400 to-rose-500",
-    glow: "hover:shadow-pink-400/20",
-  },
-  {
-    title: "Hip & Pelvis",
-    description: "Hip arthritis, AVN, hip replacement, and pelvic conditions",
-    icon: "🦿",
-    link: "/education/recon-arthroplasty",
-    gradient: "from-amber-400 to-orange-500",
-    glow: "hover:shadow-amber-400/20",
-  },
-  {
-    title: "Pediatric Ortho",
-    description: "Children's bone and joint conditions, growth disorders",
-    icon: "👶",
-    link: "/education/pediatric-orthopaedics",
-    gradient: "from-cyan-400 to-teal-500",
-    glow: "hover:shadow-cyan-400/20",
-  },
-];
-
-const RED_FLAGS = [
-  { symptom: "Sudden severe pain with deformity", action: "Visit ER immediately", icon: "🚨" },
-  { symptom: "Inability to bear weight after injury", action: "Seek urgent care", icon: "⚠️" },
-  { symptom: "Numbness or tingling in limbs", action: "Consult within 24 hours", icon: "🔴" },
-  { symptom: "Joint locked in position", action: "Seek urgent evaluation", icon: "🆘" },
-];
-
-const STATS = [
-  { value: "700+", label: "Educational Topics", icon: "📚" },
-  { value: "11", label: "Specialties Covered", icon: "🏥" },
-  { value: "100%", label: "Free for Surgeons", icon: "💯" },
-  { value: "0", label: "Paid Listings", icon: "🚫" },
-];
-
-// Animation variants
-const fadeInUp = {
-  hidden: { opacity: 0, y: 40 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
+const DIVISION_ICONS = {
+  "Orthopedics": Bone,
+  "Trauma": Shield,
+  "Cardiovascular": HeartPulse,
+  "Diagnostics": Microscope,
+  "ENT": Stethoscope,
+  "Endo-surgical": Syringe,
+  "Infection Prevention": Shield,
+  "Peripheral Intervention": Activity,
 };
 
-const staggerContainer = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.1, delayChildren: 0.1 },
-  },
+const DIVISION_COLORS = {
+  "Orthopedics": "bg-blue-50 text-blue-700 border-blue-200",
+  "Trauma": "bg-amber-50 text-amber-700 border-amber-200",
+  "Cardiovascular": "bg-red-50 text-red-700 border-red-200",
+  "Diagnostics": "bg-purple-50 text-purple-700 border-purple-200",
+  "ENT": "bg-teal-50 text-teal-700 border-teal-200",
+  "Endo-surgical": "bg-indigo-50 text-indigo-700 border-indigo-200",
+  "Infection Prevention": "bg-emerald-50 text-emerald-700 border-emerald-200",
+  "Peripheral Intervention": "bg-orange-50 text-orange-700 border-orange-200",
 };
-
-const scaleIn = {
-  hidden: { opacity: 0, scale: 0.8 },
-  visible: { opacity: 1, scale: 1, transition: { duration: 0.5, ease: "easeOut" } },
-};
-
-function AnimatedSection({ children, className = "" }) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-
-  return (
-    <motion.div
-      ref={ref}
-      initial="hidden"
-      animate={isInView ? "visible" : "hidden"}
-      variants={staggerContainer}
-      className={className}
-    >
-      {children}
-    </motion.div>
-  );
-}
-
-function GlowCard({ children, className = "", glowColor = "teal" }) {
-  return (
-    <motion.div
-      variants={fadeInUp}
-      whileHover={{ scale: 1.02, y: -5 }}
-      className={`relative group ${className}`}
-    >
-      <div className={`absolute -inset-0.5 bg-gradient-to-r from-${glowColor}-500 to-${glowColor}-600 rounded-2xl blur opacity-0 group-hover:opacity-30 transition-all duration-500`} />
-      <div className="relative">{children}</div>
-    </motion.div>
-  );
-}
 
 export default function Home() {
-  const api = useMemo(() => apiClient(), []);
-  const [searchParams] = useSearchParams();
-  const { scrollYProgress } = useScroll();
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
-  const heroScale = useTransform(scrollYProgress, [0, 0.2], [1, 0.95]);
-
-  const [radiusKm, setRadiusKm] = useState(10);
-  const [loading, setLoading] = useState(false);
-  const [results, setResults] = useState([]);
-  const [error, setError] = useState("");
-  const [activeSlug, setActiveSlug] = useState(null);
-  const [query, setQuery] = useState("");
-  const [hasSearched, setHasSearched] = useState(false);
-  const [gettingLocation, setGettingLocation] = useState(false);
-
-  async function runSmartSearch(next) {
-    setLoading(true);
-    setError("");
-    setHasSearched(true);
-    try {
-      const res = await api.get("/profiles/smart-search", {
-        params: { q: next.q, radius_km: radiusKm },
-      });
-      setResults(res.data || []);
-    } catch (e) {
-      setError(e?.response?.data?.detail || "Search failed. Please try again.");
-      setResults([]);
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  const shouldAutoSearch = useMemo(() => {
-    const t = query.trim();
-    if (t.length < 4) return false;
-    const hasNearOrIn = /\b(near|in)\b/i.test(t);
-    const hasPincode = /\b\d{6}\b/.test(t);
-    return hasNearOrIn || hasPincode;
-  }, [query]);
+  const [divisions, setDivisions] = useState([]);
+  const [featuredProducts, setFeaturedProducts] = useState([]);
 
   useEffect(() => {
-    const q = searchParams.get("q") || "";
-    if (q.trim()) {
-      setQuery(q);
-      runSmartSearch({ q });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    getDivisions().then((r) => setDivisions(r.data.divisions)).catch(() => {});
+    getProducts({ limit: 6 }).then((r) => setFeaturedProducts(r.data.products)).catch(() => {});
   }, []);
 
-  useEffect(() => {
-    if (!shouldAutoSearch) return;
-    const handle = setTimeout(() => {
-      runSmartSearch({ q: query.trim() });
-    }, 650);
-    return () => clearTimeout(handle);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [query, radiusKm, shouldAutoSearch]);
-
-  const handleNearMe = () => {
-    if (!navigator.geolocation) {
-      setError("Geolocation is not supported by your browser");
-      return;
-    }
-    setGettingLocation(true);
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const { latitude, longitude } = position.coords;
-        const newQuery = `orthopaedic surgeon near ${latitude.toFixed(4)},${longitude.toFixed(4)}`;
-        setQuery(newQuery);
-        runSmartSearch({ q: newQuery });
-        setGettingLocation(false);
-      },
-      () => {
-        setError("Unable to get your location. Please enter a pincode instead.");
-        setGettingLocation(false);
-      }
-    );
-  };
-
   return (
-    <main data-testid="home-page" className="bg-white overflow-hidden">
-      {/* Animated Background Elements */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-teal-500/10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute top-1/3 right-0 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: "1s" }} />
-        <div className="absolute bottom-1/4 left-0 w-72 h-72 bg-violet-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: "2s" }} />
-      </div>
-
-      {/* Hero Section */}
-      <motion.section
-        data-testid="home-hero"
-        style={{ opacity: heroOpacity, scale: heroScale }}
-        className="relative min-h-[90vh] flex items-center justify-center border-b border-slate-100"
-      >
-        {/* Animated gradient mesh */}
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-teal-50/30" />
-        <div className="absolute inset-0">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-br from-teal-400/20 to-emerald-400/20 rounded-full blur-3xl animate-float" />
-          <div className="absolute bottom-20 right-10 w-96 h-96 bg-gradient-to-br from-blue-400/20 to-indigo-400/20 rounded-full blur-3xl animate-float-delayed" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-br from-violet-400/10 to-purple-400/10 rounded-full blur-3xl" />
+    <div>
+      {/* Hero */}
+      <section className="relative bg-slate-900 overflow-hidden" data-testid="hero-section">
+        <div className="absolute inset-0 opacity-20">
+          <img
+            src="https://images.pexels.com/photos/12104186/pexels-photo-12104186.jpeg"
+            alt=""
+            className="w-full h-full object-cover"
+          />
         </div>
-
-        <div className="relative z-10 mx-auto max-w-6xl px-4 py-20 sm:px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="text-center"
-          >
-            {/* Badge */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.2, duration: 0.5 }}
-              className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-teal-500/10 to-emerald-500/10 border border-teal-200/50 px-4 py-2 mb-8"
-            >
-              <Sparkles className="h-4 w-4 text-teal-600" />
-              <span className="text-sm font-medium text-teal-700">India&apos;s Ethical Orthopaedic Platform</span>
-            </motion.div>
-
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-20 sm:py-28 lg:py-36">
+          <div className="max-w-2xl">
+            <p className="text-emerald-400 text-sm font-bold uppercase tracking-[0.2em] mb-4 animate-fade-up">
+              Authorized Meril Life Sciences Distributor
+            </p>
             <h1
-              data-testid="home-hero-title"
-              className="text-5xl font-bold tracking-tight text-slate-900 sm:text-6xl lg:text-7xl"
+              className="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-[1.1] tracking-tight animate-fade-up stagger-1"
+              style={{ fontFamily: "Chivo" }}
             >
-              Find Trusted
+              Medical Devices
               <br />
-              <span className="relative">
-                <span className="bg-gradient-to-r from-teal-600 via-emerald-500 to-cyan-500 bg-clip-text text-transparent">
-                  Orthopaedic Care
-                </span>
-                <motion.span
-                  className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-teal-500 to-emerald-500 rounded-full"
-                  initial={{ scaleX: 0 }}
-                  animate={{ scaleX: 1 }}
-                  transition={{ delay: 0.8, duration: 0.6 }}
-                />
-              </span>
+              <span className="text-emerald-400">for Telangana</span>
             </h1>
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.4, duration: 0.6 }}
-              data-testid="home-hero-subtext"
-              className="mx-auto mt-6 max-w-2xl text-lg text-slate-600 sm:text-xl"
-            >
-              Search like you would on Google. We&apos;ll match you with verified surgeons.
-              <span className="font-semibold text-slate-900 block mt-1">No ads. No rankings. No paid listings.</span>
-            </motion.p>
-          </motion.div>
-
-          {/* Search Bar */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.6 }}
-            className="mx-auto mt-10 max-w-3xl"
-          >
-            <div className="relative">
-              <div className="absolute -inset-1 bg-gradient-to-r from-teal-500 via-emerald-500 to-cyan-500 rounded-3xl blur-lg opacity-30 group-hover:opacity-50 transition-opacity" />
-              <div className="relative">
-                <SmartSearchBar
-                  value={query}
-                  onChange={(v) => setQuery(v)}
-                  onSearch={(v) => {
-                    setQuery(v.q);
-                    runSmartSearch(v);
-                  }}
-                />
-              </div>
+            <p className="mt-6 text-lg text-slate-300 leading-relaxed max-w-lg animate-fade-up stagger-2">
+              Complete range of orthopedic implants, cardiovascular stents, diagnostic analyzers,
+              and surgical instruments. Serving hospitals across all 33 districts.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3 animate-fade-up stagger-3">
+              <Link
+                to="/products"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-emerald-600 text-white font-semibold rounded-sm hover:bg-emerald-700 transition-colors"
+                data-testid="hero-browse-btn"
+              >
+                Browse Catalog <ArrowRight size={16} />
+              </Link>
+              <Link
+                to="/contact"
+                className="inline-flex items-center gap-2 px-6 py-3 border border-slate-600 text-white font-semibold rounded-sm hover:bg-slate-800 transition-colors"
+                data-testid="hero-quote-btn"
+              >
+                Request Bulk Quote
+              </Link>
             </div>
-
-            {/* Near Me + Radius Controls */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.7, duration: 0.5 }}
-              className="mt-5 flex flex-wrap items-center justify-between gap-4"
-            >
-              <Button
-                data-testid="home-near-me-button"
-                variant="outline"
-                onClick={handleNearMe}
-                disabled={gettingLocation}
-                className="h-11 rounded-full border-teal-200 bg-white/80 backdrop-blur px-5 text-sm font-medium text-slate-700 hover:bg-teal-50 hover:border-teal-300 hover:text-teal-700 transition-all shadow-sm"
-              >
-                <MapPin className="mr-2 h-4 w-4 text-teal-600" />
-                {gettingLocation ? "Getting location..." : "Near me"}
-              </Button>
-
-              <div className="flex items-center gap-2 bg-white/80 backdrop-blur rounded-full px-4 py-2 border border-slate-200 shadow-sm">
-                <span className="text-xs text-slate-500 font-medium">Radius:</span>
-                {[5, 10, 25, 50].map((n) => (
-                  <Button
-                    data-testid={`home-radius-${n}-button`}
-                    key={n}
-                    variant="ghost"
-                    onClick={() => setRadiusKm(n)}
-                    className={`h-8 rounded-full px-3 text-xs font-semibold transition-all ${
-                      radiusKm === n
-                        ? "bg-gradient-to-r from-teal-500 to-emerald-500 text-white shadow-md shadow-teal-500/25"
-                        : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-                    }`}
-                  >
-                    {n}km
-                  </Button>
-                ))}
-              </div>
-            </motion.div>
-
-            {/* Popular Searches */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.9, duration: 0.5 }}
-              className="mt-8"
-            >
-              <div className="text-xs font-semibold text-slate-500 mb-3 uppercase tracking-wider">Popular searches</div>
-              <div className="flex flex-wrap gap-2">
-                {POPULAR_SEARCHES.map((s, idx) => (
-                  <motion.button
-                    key={s.label}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 1 + idx * 0.05, duration: 0.3 }}
-                    whileHover={{ scale: 1.05, y: -2 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={() => {
-                      setQuery(s.query);
-                      runSmartSearch({ q: s.query });
-                    }}
-                    className="group flex items-center gap-2 rounded-full bg-white border border-slate-200 px-4 py-2.5 text-sm font-medium text-slate-700 shadow-sm transition-all hover:border-teal-300 hover:bg-gradient-to-r hover:from-teal-50 hover:to-emerald-50 hover:shadow-md hover:shadow-teal-500/10"
-                  >
-                    <span className="text-lg group-hover:scale-110 transition-transform">{s.icon}</span>
-                    {s.label}
-                  </motion.button>
-                ))}
-              </div>
-            </motion.div>
-          </motion.div>
-
-          {/* Scroll indicator */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.5, duration: 0.5 }}
-            className="absolute bottom-8 left-1/2 -translate-x-1/2"
-          >
-            <motion.div
-              animate={{ y: [0, 10, 0] }}
-              transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-              className="flex flex-col items-center gap-2 text-slate-400"
-            >
-              <span className="text-xs font-medium">Scroll to explore</span>
-              <ChevronRight className="h-5 w-5 rotate-90" />
-            </motion.div>
-          </motion.div>
-        </div>
-      </motion.section>
-
-      {/* Trust Bar */}
-      <section data-testid="home-trust-bar" className="relative bg-slate-900 py-5 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-teal-900/20 via-transparent to-emerald-900/20" />
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="relative mx-auto max-w-6xl px-4 sm:px-6"
-        >
-          <div className="flex flex-wrap items-center justify-center gap-8 sm:gap-12">
-            {[
-              { icon: Ban, text: "No advertisements", color: "text-rose-400" },
-              { icon: Shield, text: "No paid rankings", color: "text-amber-400" },
-              { icon: Users, text: "Free surgeon profiles", color: "text-emerald-400" },
-              { icon: Heart, text: "Patient-first platform", color: "text-teal-400" },
-            ].map((item, idx) => (
-              <motion.div
-                key={item.text}
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.1 }}
-                className="flex items-center gap-2 text-sm text-slate-300"
-              >
-                <item.icon className={`h-4 w-4 ${item.color}`} />
-                <span>{item.text}</span>
-              </motion.div>
-            ))}
           </div>
-        </motion.div>
+        </div>
       </section>
 
-      {/* Search Results (conditional) */}
-      {hasSearched && (
-        <section data-testid="home-results" className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
-          {error && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="mb-6 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-800"
-            >
-              {error}
-            </motion.div>
-          )}
-
-          {loading ? (
-            <div className="flex items-center justify-center py-16">
-              <div className="relative">
-                <div className="h-12 w-12 rounded-full border-4 border-teal-200" />
-                <div className="absolute top-0 left-0 h-12 w-12 rounded-full border-4 border-teal-500 border-t-transparent animate-spin" />
+      {/* Stats bar */}
+      <section className="bg-white border-b border-slate-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
+            {[
+              { value: "180+", label: "Countries Served by Meril" },
+              { value: "15,000+", label: "Meril Employees" },
+              { value: "8", label: "Product Divisions" },
+              { value: "33", label: "Telangana Districts" },
+            ].map((s) => (
+              <div key={s.label}>
+                <p className="text-2xl sm:text-3xl font-black text-slate-900" style={{ fontFamily: "Chivo" }}>{s.value}</p>
+                <p className="text-xs text-slate-500 mt-1 uppercase tracking-wide">{s.label}</p>
               </div>
-              <span className="ml-4 text-slate-600 font-medium">Searching...</span>
-            </div>
-          ) : (
-            <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
-              <div>
-                <h2 className="text-xl font-bold text-slate-900 mb-4">
-                  {results.length} Surgeon{results.length !== 1 ? "s" : ""} Found
-                </h2>
-                <ResultsList results={results} activeSlug={activeSlug} onHover={(slug) => setActiveSlug(slug)} />
-              </div>
-              <div className="lg:sticky lg:top-24">
-                <div className="text-sm font-semibold text-slate-600 mb-3">Map View</div>
-                <ResultsMap results={results} activeSlug={activeSlug} onMarkerHover={(slug) => setActiveSlug(slug)} />
-              </div>
-            </div>
-          )}
-        </section>
-      )}
-
-      {/* Stats Section */}
-      <AnimatedSection className="py-16 bg-gradient-to-b from-white to-slate-50">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {STATS.map((stat, idx) => (
-              <motion.div
-                key={stat.label}
-                variants={scaleIn}
-                whileHover={{ scale: 1.05, y: -5 }}
-                className="relative group"
-              >
-                <div className="absolute inset-0 bg-gradient-to-br from-teal-500/10 to-emerald-500/10 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="relative bg-white rounded-2xl border border-slate-200 p-6 text-center shadow-sm group-hover:shadow-xl group-hover:border-teal-200 transition-all duration-300">
-                  <div className="text-4xl mb-2">{stat.icon}</div>
-                  <div className="text-3xl font-bold bg-gradient-to-r from-teal-600 to-emerald-600 bg-clip-text text-transparent">{stat.value}</div>
-                  <div className="text-sm text-slate-600 mt-1">{stat.label}</div>
-                </div>
-              </motion.div>
             ))}
           </div>
         </div>
-      </AnimatedSection>
+      </section>
 
-      {/* Section 2: Know Your Condition - With GLOW effects */}
-      <section data-testid="home-conditions" className="relative py-20 sm:py-24 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900" />
-        <div className="absolute inset-0">
-          <div className="absolute top-0 left-1/4 w-96 h-96 bg-teal-500/20 rounded-full blur-3xl" />
-          <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-emerald-500/20 rounded-full blur-3xl" />
-        </div>
-
-        <AnimatedSection className="relative mx-auto max-w-6xl px-4 sm:px-6">
-          <motion.div variants={fadeInUp} className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 backdrop-blur border border-white/20 px-4 py-2 mb-6">
-              <Stethoscope className="h-4 w-4 text-teal-400" />
-              <span className="text-sm font-medium text-white/90">Patient Education Library</span>
-            </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white">
-              Know Your{" "}
-              <span className="bg-gradient-to-r from-teal-400 to-emerald-400 bg-clip-text text-transparent">
-                Condition
-              </span>
+      {/* Divisions Grid */}
+      <section className="py-16 sm:py-20 bg-[#FAFAFA]" data-testid="divisions-section">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="mb-10">
+            <p className="text-emerald-600 text-xs font-bold uppercase tracking-[0.2em] mb-2">Product Portfolio</p>
+            <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight" style={{ fontFamily: "Chivo" }}>
+              8 Medical Divisions
             </h2>
-            <p className="mt-4 max-w-2xl mx-auto text-slate-400">
-              Learn about orthopaedic conditions in simple, patient-friendly language
-            </p>
-          </motion.div>
-
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {CONDITION_CATEGORIES.map((cat, idx) => (
-              <motion.div
-                key={cat.title}
-                variants={fadeInUp}
-                whileHover={{ scale: 1.03, y: -8 }}
-                className="group relative"
-              >
-                {/* Glow effect */}
-                <div className={`absolute -inset-1 bg-gradient-to-r ${cat.gradient} rounded-3xl blur-lg opacity-0 group-hover:opacity-50 transition-all duration-500`} />
-                
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {divisions.map((div, i) => {
+              const Icon = DIVISION_ICONS[div.name] || Shield;
+              const colorClass = DIVISION_COLORS[div.name] || "bg-slate-50 text-slate-700 border-slate-200";
+              return (
                 <Link
-                  to={cat.link}
-                  className={`relative flex flex-col h-full rounded-2xl bg-white/5 backdrop-blur border border-white/10 p-6 transition-all duration-300 group-hover:bg-white/10 group-hover:border-white/20 ${cat.glow} hover:shadow-2xl`}
+                  key={div.name}
+                  to={`/products?division=${encodeURIComponent(div.name)}`}
+                  className={`group border rounded-sm p-6 hover-lift ${colorClass} animate-fade-up stagger-${i + 1}`}
+                  data-testid={`division-card-${div.name.toLowerCase().replace(/\s/g, "-")}`}
                 >
-                  <div className="flex items-start justify-between mb-4">
-                    <motion.span
-                      className="text-5xl"
-                      whileHover={{ rotate: [0, -10, 10, 0], scale: 1.2 }}
-                      transition={{ duration: 0.5 }}
-                    >
-                      {cat.icon}
-                    </motion.span>
-                    <ChevronRight className="h-6 w-6 text-white/30 group-hover:text-white/70 group-hover:translate-x-1 transition-all" />
-                  </div>
-                  <h3 className="text-xl font-bold text-white mb-2">{cat.title}</h3>
-                  <p className="text-sm text-slate-400 flex-grow">{cat.description}</p>
-                  <div className={`mt-4 inline-flex items-center gap-1 text-sm font-medium bg-gradient-to-r ${cat.gradient} bg-clip-text text-transparent`}>
-                    Explore topics
-                    <ChevronRight className="h-4 w-4 text-teal-400" />
+                  <Icon size={24} className="mb-3" />
+                  <h3 className="font-bold text-base mb-1" style={{ fontFamily: "Chivo" }}>{div.name}</h3>
+                  <p className="text-sm opacity-75">{div.product_count} products</p>
+                  <div className="mt-3 flex items-center gap-1 text-xs font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
+                    View Products <ArrowRight size={12} />
                   </div>
                 </Link>
-              </motion.div>
-            ))}
+              );
+            })}
           </div>
-
-          <motion.div variants={fadeInUp} className="mt-10 text-center">
-            <Link
-              to="/education"
-              className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-teal-500 to-emerald-500 px-8 py-4 text-sm font-semibold text-white shadow-lg shadow-teal-500/25 transition-all hover:shadow-xl hover:shadow-teal-500/40 hover:scale-105"
-            >
-              <Sparkles className="h-4 w-4" />
-              Browse All 700+ Topics
-              <ChevronRight className="h-4 w-4" />
-            </Link>
-          </motion.div>
-        </AnimatedSection>
+        </div>
       </section>
 
-      {/* Section 3: Red Flags */}
-      <AnimatedSection className="py-20 bg-gradient-to-b from-slate-50 to-white">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <motion.div variants={fadeInUp} className="flex items-center gap-4 mb-8">
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-red-500 to-rose-600 shadow-lg shadow-red-500/25">
-              <AlertTriangle className="h-7 w-7 text-white" />
-            </div>
+      {/* Featured Products */}
+      <section className="py-16 sm:py-20 bg-white" data-testid="featured-products">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="flex items-end justify-between mb-10">
             <div>
-              <h2 className="text-2xl sm:text-3xl font-bold text-slate-900">Red Flags</h2>
-              <p className="text-slate-600">When to seek urgent care immediately</p>
+              <p className="text-emerald-600 text-xs font-bold uppercase tracking-[0.2em] mb-2">Featured</p>
+              <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight" style={{ fontFamily: "Chivo" }}>
+                Top Products
+              </h2>
             </div>
-          </motion.div>
-
-          <div className="grid gap-4 sm:grid-cols-2">
-            {RED_FLAGS.map((flag, idx) => (
-              <motion.div
-                key={idx}
-                variants={fadeInUp}
-                whileHover={{ scale: 1.02, x: 5 }}
-                className="group relative overflow-hidden"
+            <Link to="/products" className="text-sm font-semibold text-emerald-600 hover:text-emerald-700 flex items-center gap-1">
+              View All <ArrowRight size={14} />
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {featuredProducts.map((p) => (
+              <Link
+                key={p.id}
+                to={`/products/${p.id}`}
+                className="group border border-slate-200 rounded-sm bg-white hover-lift overflow-hidden"
+                data-testid={`product-card-${p.id}`}
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-red-500/10 to-rose-500/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity" />
-                <div className="relative flex items-start gap-4 rounded-2xl border border-red-100 bg-white p-5 shadow-sm group-hover:shadow-lg group-hover:border-red-200 transition-all">
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-red-100 to-rose-100 text-2xl group-hover:scale-110 transition-transform">
-                    {flag.icon}
-                  </div>
-                  <div>
-                    <div className="font-semibold text-slate-900">{flag.symptom}</div>
-                    <div className="mt-1 text-sm font-medium text-red-600 flex items-center gap-1">
-                      <Zap className="h-3 w-3" />
-                      {flag.action}
-                    </div>
-                  </div>
+                <div className="h-40 bg-slate-100 flex items-center justify-center">
+                  <Package size={40} className="text-slate-300" />
                 </div>
-              </motion.div>
+                <div className="p-5">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-sm">
+                      {p.division}
+                    </span>
+                    {p.category && (
+                      <span className="text-[10px] text-slate-400">{p.category}</span>
+                    )}
+                  </div>
+                  <h3 className="font-bold text-slate-900 group-hover:text-emerald-600 transition-colors" style={{ fontFamily: "Chivo" }}>
+                    {p.product_name}
+                  </h3>
+                  <p className="text-sm text-slate-500 mt-1 line-clamp-2">{p.description}</p>
+                  {p.sku_code && (
+                    <p className="text-xs font-mono text-slate-400 mt-2">SKU: {p.sku_code}</p>
+                  )}
+                </div>
+              </Link>
             ))}
           </div>
         </div>
-      </AnimatedSection>
-
-      {/* Section 4: Non-surgical Care */}
-      <AnimatedSection className="py-20 bg-white">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <motion.div variants={fadeInUp} className="flex items-center gap-4 mb-8">
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-teal-500 to-emerald-600 shadow-lg shadow-teal-500/25">
-              <Heart className="h-7 w-7 text-white" />
-            </div>
-            <div>
-              <h2 className="text-2xl sm:text-3xl font-bold text-slate-900">Non-Surgical Care</h2>
-              <p className="text-slate-600">Rehabilitation and conservative treatment options</p>
-            </div>
-          </motion.div>
-
-          <div className="grid gap-6 sm:grid-cols-3">
-            {[
-              { icon: "🏃", title: "Physiotherapy", desc: "Exercises and manual therapy to restore movement", gradient: "from-blue-500 to-indigo-500" },
-              { icon: "🦾", title: "Bracing & Supports", desc: "Knee braces, back supports, and orthotics", gradient: "from-violet-500 to-purple-500" },
-              { icon: "💊", title: "Pain Management", desc: "Medications, injections, and alternative therapies", gradient: "from-amber-500 to-orange-500" },
-            ].map((item, idx) => (
-              <motion.div
-                key={item.title}
-                variants={fadeInUp}
-                whileHover={{ y: -10, scale: 1.02 }}
-                className="group relative"
-              >
-                <div className={`absolute -inset-1 bg-gradient-to-r ${item.gradient} rounded-3xl blur-lg opacity-0 group-hover:opacity-30 transition-all duration-500`} />
-                <div className="relative h-full rounded-2xl border border-slate-200 bg-white p-6 shadow-sm group-hover:shadow-xl group-hover:border-slate-300 transition-all duration-300">
-                  <motion.div
-                    className="text-5xl mb-4"
-                    whileHover={{ scale: 1.2, rotate: [0, -5, 5, 0] }}
-                    transition={{ duration: 0.4 }}
-                  >
-                    {item.icon}
-                  </motion.div>
-                  <h3 className="text-lg font-bold text-slate-900">{item.title}</h3>
-                  <p className="mt-2 text-sm text-slate-600">{item.desc}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-          <motion.div variants={fadeInUp} className="mt-10 rounded-2xl bg-gradient-to-r from-slate-50 to-teal-50 border border-slate-200 p-6">
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-              <div>
-                <h3 className="font-bold text-slate-900">Need rehabilitation products?</h3>
-                <p className="mt-1 text-sm text-slate-600">Visit our partner store for quality orthopaedic equipment.</p>
-              </div>
-              <a
-                href="https://www.agileortho.shop"
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-full bg-white border border-slate-200 px-6 py-3 text-sm font-semibold text-slate-700 shadow-sm transition-all hover:shadow-md hover:border-slate-300"
-              >
-                <Award className="h-4 w-4 text-teal-600" />
-                Agile Ortho Shop
-                <ChevronRight className="h-4 w-4" />
-              </a>
-            </div>
-          </motion.div>
-        </div>
-      </AnimatedSection>
+      </section>
 
       {/* CTA Section */}
-      <section data-testid="home-cta" className="relative py-24 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-teal-900" />
-        <div className="absolute inset-0">
-          <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-teal-500/20 via-transparent to-transparent" />
-        </div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="relative mx-auto max-w-4xl px-4 text-center sm:px-6"
-        >
-          <motion.div
-            initial={{ scale: 0 }}
-            whileInView={{ scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ type: "spring", stiffness: 200, damping: 15 }}
-            className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-teal-400 to-emerald-500 shadow-lg shadow-teal-500/40 mb-8"
-          >
-            <Activity className="h-10 w-10 text-white" />
-          </motion.div>
-
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white">
-            Are you an{" "}
-            <span className="bg-gradient-to-r from-teal-400 to-emerald-400 bg-clip-text text-transparent">
-              Orthopaedic Surgeon?
-            </span>
+      <section className="bg-slate-900 py-16 sm:py-20" data-testid="cta-section">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center">
+          <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight" style={{ fontFamily: "Chivo" }}>
+            Need Medical Devices for Your Hospital?
           </h2>
-          <p className="mx-auto mt-4 max-w-xl text-lg text-slate-400">
-            Join OrthoConnect for free. Create your professional profile and help patients find ethical care.
+          <p className="mt-3 text-slate-400 max-w-md mx-auto">
+            Get competitive bulk pricing, fast delivery across Telangana, and dedicated technical support.
           </p>
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="mt-8"
-          >
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
             <Link
-              to="/join"
-              data-testid="home-cta-join"
-              className="inline-flex items-center gap-3 rounded-full bg-gradient-to-r from-teal-500 to-emerald-500 px-10 py-5 text-lg font-semibold text-white shadow-2xl shadow-teal-500/30 transition-all hover:shadow-teal-500/50"
+              to="/contact"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-emerald-600 text-white font-semibold rounded-sm hover:bg-emerald-700 transition-colors"
+              data-testid="cta-quote-btn"
             >
-              <Sparkles className="h-5 w-5" />
-              Create Your Free Profile
-              <ChevronRight className="h-5 w-5" />
+              Request Bulk Quote
             </Link>
-          </motion.div>
-        </motion.div>
+            <a
+              href="https://wa.me/919876543210"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-[#25D366] text-white font-semibold rounded-sm hover:bg-[#1DA851] transition-colors"
+              data-testid="cta-whatsapp-btn"
+            >
+              Chat on WhatsApp
+            </a>
+          </div>
+        </div>
       </section>
-    </main>
+
+      {/* Trust */}
+      <section className="bg-white border-t border-slate-200 py-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            {[
+              { icon: Shield, title: "Licensed Distributor", desc: "MD-42 Wholesale Drug License holder with full regulatory compliance" },
+              { icon: Truck, title: "Pan-Telangana Delivery", desc: "Fast logistics to all 33 districts with temperature-controlled transport" },
+              { icon: HeartPulse, title: "Technical Support", desc: "Dedicated product specialists for surgical technique guidance" },
+            ].map(({ icon: Icon, title, desc }) => (
+              <div key={title} className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-sm bg-emerald-50 flex items-center justify-center shrink-0">
+                  <Icon size={20} className="text-emerald-600" />
+                </div>
+                <div>
+                  <h4 className="text-sm font-bold text-slate-900">{title}</h4>
+                  <p className="text-sm text-slate-500 mt-0.5">{desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
   );
 }
