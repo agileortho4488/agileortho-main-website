@@ -1,312 +1,317 @@
-# OrthoConnect - Product Requirements Document
+# B2B Medical Device Platform — Detailed Project Report (DPR)
 
-## Overview
-OrthoConnect is an ethical, patient-first orthopaedic healthcare platform for India — **An initiative of AgileOrtho**.
+## 1. Project Overview
 
-## Core Principles
-- **No appointment booking** - Only show contact details
-- **No paid listings** - All profiles are free
-- **No doctor rankings** - Distance/alphabetical sorting only
-- **No advertisements** - Clean, ad-free experience
+**Project Name:** MedDevice Pro — B2B Medical Device Master Franchise Platform
+**Client:** Premier Medical Device Master Franchise, Telangana, India
+**Platform Type:** B2B Portfolio Website + Custom CRM + AI Sales Agent
+**Tech Stack:** React 19 + FastAPI + MongoDB + Claude AI + Interakt WhatsApp API
 
-## Branding
-- **Logo**: Teal "A" gradient + "OrthoConnect"
-- **Tagline**: "An initiative of AgileOrtho"
-- **Favicon**: Teal "A" SVG icon
-- **Theme Color**: #0d9488 (teal)
+### 1.1 Business Objectives
+- Aggressive lead capture from hospitals, clinics, and distributors across Telangana
+- Organic SEO dominance for medical device distribution queries
+- Automated client engagement via WhatsApp-first AI chatbot
+- Unified CRM for pipeline management without third-party tools
 
-## Features Implemented
-
-### ✅ Core Platform
-- Homepage with smart search (Hindi/Telugu support)
-- Patient Education Hub (13+ conditions)
-- Doctor Profile pages with trust badges
-- Surgeon registration portal
-- Admin dashboard
-
-### ✅ Authentication
-- Real OTP via 2Factor.in
-- Resend OTP with 30s countdown
-- Change number option
-- JWT token auth
-
-### ✅ SEO & Marketing
-- **12 City Landing Pages**: /orthopaedic-surgeons-{city}
-- **Social Meta Tags**: og:title, og:description, twitter:card
-- **Schema.org Markup**: Physician, MedicalBusiness
-- **Google Analytics**: G-MXXC41JFLG
-- **robots.txt** and **sitemap.xml**
-
-### ✅ User Experience
-- **404 Page**: Animated design with quick links
-- **Success Toasts**: Profile submission confirmation
-- **Status Banners**: Color-coded (approved/pending/rejected/needs_clarification)
-- **Page Transitions**: Smooth Framer Motion animations
-
-### ✅ Google Maps Integration
-- **Interactive Map on Doctor Profiles**: Shows clinic location with teal marker
-- **Distance Search on Surgeons Page**: "Find Surgeons Near You" feature
-  - Use browser geolocation
-  - Search by pincode (6-digit)
-  - Radius filters (10, 25, 50, 100 km)
-- **Distance Display**: Shows "X km away" on surgeon cards when location is selected
-- **Address Autocomplete**: Google Places autocomplete for address entry (JoinSurgeon page)
-
-### ✅ Trust & Verification
-- **5 Trust Badges** on doctor profiles:
-  1. Admin Verified (blue)
-  2. Registration Submitted (amber)
-  3. Photo Verified (violet)
-  4. Location Verified (cyan)
-  5. Profile Complete (teal)
-
-### ✅ Admin Features
-- **4 Status Tabs**: Pending, Needs Info, Approved, Rejected
-- **Needs Clarification Status**: Request more info from surgeons
-- Photo visibility control
-- **Document Viewing**: View button opens documents in new tab, inline preview for images (jpg, jpeg, png, gif, webp)
-- **Document Download**: Download button for all document types
-- **Empty Documents Warning**: Red warning shown when surgeon has no documents uploaded
-- **Admin Edit Surgeon Data**: Edit name, email, qualifications, registration no, website directly from admin dashboard
-- **Analytics Dashboard**: `/admin/analytics`
-  - Platform statistics (total, approved, pending, etc.)
-  - City distribution chart
-  - Subspecialty distribution chart
-  - Recent signups (30 days)
-  - Total profile views
-- **CSV Export**: Download all surgeon data as CSV
-
-### ✅ Surgeon Features
-- Max 2 subspecialties limit
-- Website field for personal/clinic URL
-- Profile editing (even after approval)
-- WhatsApp contact button on profile
-- **Mandatory Document Upload**: Surgeons must upload at least one document (registration proof or degree certificate) before submitting profile
-- **Mandatory Email**: Email address is required for profile creation
-- **Existing Documents Display**: Green box showing previously uploaded documents
-- **Referral System**:
-  - Generate unique referral code
-  - Share via WhatsApp or Email
-  - Track referral count
-
-### ✅ Events & Blog (January 2026)
-- **Events Page** (`/events`):
-  - Admin-managed CRUD
-  - Filter by type (Conference, CME, Workshop, Webinar)
-  - Event registration URLs
-- **Blog Page** (`/blog`):
-  - Admin-managed articles
-  - Filter by category (Patient Education, Industry News, Research, Health Tips)
-  - Individual article pages with view tracking
-
-### ✅ Profile Analytics
-- Profile view tracking on each doctor visit
-- View count displayed in admin analytics
-- Stored in `profile_views` collection
-
-### ✅ Email Notifications (January 2026)
-- **Zoho Mail SMTP Integration**
-- Email sent when admin changes surgeon status:
-  - Approved: Congratulations email
-  - Rejected: Update required email
-  - Needs Clarification: Action required email
-
-### ✅ PWA Support (January 2026)
-- `manifest.json` with OrthoConnect branding
-- Service worker with offline caching
-- Installable on mobile devices
-
-## Pages
-
-| Route | Description |
-|-------|-------------|
-| `/` | Homepage with search |
-| `/about` | About OrthoConnect |
-| `/contact` | Contact page |
-| `/education` | Education Hub |
-| `/education/:cat` | Category |
-| `/education/:cat/:topic` | Topic |
-| `/doctor/:slug` | Doctor profile |
-| `/join` | Surgeon portal |
-| `/surgeons` | Surgeons listing |
-| `/events` | Events/CME listing |
-| `/blog` | Blog articles |
-| `/blog/:slug` | Article detail |
-| `/admin` | Admin login |
-| `/admin/dashboard` | Admin dashboard |
-| `/admin/analytics` | Platform analytics |
-| `/admin/outreach` | Outreach campaigns |
-| `/admin/crm` | Surgeon CRM |
-| `/admin/discovery` | Surgeon discovery (web scraping) |
-| `/admin/bulk-import` | Bulk import surgeons |
-| `/claim` | Claim unclaimed profile |
-| `/orthopaedic-surgeons-{city}` | City landing (12 cities) |
-| `/*` | 404 Not Found |
-
-## Subspecialties
-1. Shoulder, 2. Elbow, 3. Hand, 4. Hip, 5. Knee
-6. Spine, 7. Sports Medicine, 8. Trauma
-9. Oncology, 10. Paediatrics
-
-## Environment
-```
-Backend: FastAPI (port 8001)
-Frontend: React (port 3000)
-Database: MongoDB
-OTP: 2Factor.in
-Analytics: Google Analytics (G-MXXC41JFLG)
-Email: Zoho Mail SMTP (info@agileortho.in)
-```
-
-## Test Credentials
-- **Admin**: password `admin`
-- **OTP**: Real SMS via 2Factor.in
-
-## API Endpoints (New in January 2026)
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/api/admin/analytics` | GET | Platform statistics |
-| `/api/admin/export/surgeons` | GET | CSV export |
-| `/api/profiles/{slug}/view` | POST | Track profile view |
-| `/api/profiles/{slug}/stats` | GET | Get view count |
-| `/api/events` | GET | List events |
-| `/api/admin/events` | POST | Create event |
-| `/api/admin/events/{id}` | DELETE | Delete event |
-| `/api/articles` | GET | List articles |
-| `/api/articles/{slug}` | GET | Article detail |
-| `/api/admin/articles` | POST | Create article |
-| `/api/surgeon/me/referral-code` | POST | Generate referral code |
-| `/api/surgeon/apply-referral` | POST | Apply referral code |
-| `/api/surgeon/me/referrals` | GET | Get referral list |
-| `/api/admin/outreach/contacts` | GET | List outreach contacts |
-| `/api/admin/outreach/contacts/import` | POST | Import contacts from CSV |
-| `/api/admin/outreach/contacts` | POST | Add single contact |
-| `/api/admin/outreach/send` | POST | Send email campaign |
-| `/api/admin/outreach/stats` | GET | Outreach statistics |
-| `/api/admin/outreach/whatsapp/{id}` | GET | Get WhatsApp link |
-| `/api/admin/outreach/export` | GET | Export contacts CSV |
-| `/api/outreach/track/open/{id}` | GET | Track email open |
-| `/api/outreach/track/click/{id}` | GET | Track link click |
-
-## Completed This Session (January 1, 2026)
-- ✅ Admin Analytics page with charts
-- ✅ CSV Export for surgeons
-- ✅ Profile view tracking
-- ✅ Events page (admin-managed)
-- ✅ Blog page (admin-managed)
-- ✅ Email notifications via Zoho SMTP
-- ✅ Referral system with unique codes
-- ✅ PWA support (manifest + service worker)
-- ✅ Fixed route registration bug (routes after app.include_router)
-- ✅ **Outreach & Marketing Automation System** (`/admin/outreach`)
-  - Import contacts from CSV
-  - Add contacts manually
-  - Send automated email campaigns (4 templates)
-  - Track opens, clicks, conversions
-  - WhatsApp integration with pre-filled messages
-  - Export contacts as CSV
-- ✅ **Full Surgeon CRM** (`/admin/crm`)
-  - Contact management with status tracking (Lead → Active)
-  - Import registered surgeons
-  - Tags and filtering
-  - Activity logging
-  - **Zoho Desk Integration** (Org: 60012631084)
-    - Sync contacts to Zoho Desk
-    - Create support tickets
-    - WhatsApp channel detected (Sandbox)
-  - Broadcast messaging (Email + WhatsApp)
-  - Bulk WhatsApp link generation
-
-## Upcoming Tasks
-- **P1: Launch Broadcast Campaign**: Send Email & WhatsApp invitations to 575 Telangana surgeons
-- **P1: Loading Skeletons**: Add loading skeletons for Surgeons list, Admin Dashboard, CRM
-- **P2: Populate Content Pages**: Add initial content for Events and Blog pages
-- **P2: Full WhatsApp Automation**: Backend WhatsApp chatbot (requires dedicated WhatsApp Business API)
-
-## Deployment
-✅ Ready for production deployment
-- All health checks passed
-- No hardcoded values
-- Environment variables configured
-- SMTP credentials configured
-
-## Completed This Session (January 1, 2026 - Session 3)
-- ✅ **Surgeon Discovery System** (`/admin/discovery`):
-  - Web scraping infrastructure for Google Maps, Practo, JustDial, NMC Registry
-  - State/City selection (Telangana, Andhra Pradesh focus)
-  - Discovery stats tracking (total discovered, imported, matched, pending)
-  - Search history with city and count
-  - Bulk import of discovered surgeons as "unclaimed" profiles
-  - Deduplication against existing database
-  - **SerpAPI Integration**: Enhanced search when SERPAPI_KEY is configured
-  - UI shows "Basic Mode" or "SerpAPI Active" badge
-- ✅ **Surgeons Page Performance Optimization**:
-  - Removed heavy framer-motion animations (FloatingStats, staggered card animations)
-  - Added loading skeleton components
-  - Page now loads in ~0.07 seconds (vs 2+ seconds before)
-  - Cleaner, simpler hero section with static stats
-- ✅ **City Landing Pages** (`/surgeons/{city}`):
-  - SEO-optimized pages with Schema.org markup
-  - Dynamic meta tags (title, description, keywords)
-  - City-specific hero with state badge
-  - Search and filter for surgeons in city
-  - CTA for surgeons to join/claim profile
-  - SEO content section about orthopaedic care in city
-- ✅ **Admin Dashboard Updates**:
-  - New "Discovery" button (violet styling)
-  - New "Bulk Import" button (amber styling)
-  - Updated button layout
-- ✅ **CRM Zoho Campaigns Migration**:
-  - Updated AdminCRM.jsx to use Zoho Campaigns API endpoints
-  - Fixed API endpoint paths (/campaigns → /admin/zoho-campaigns)
-  - Shows "Zoho Connected" badge when OAuth valid
-  - Contacts show "zoho_campaigns synced" tags
-- ✅ **CME & Events Module** (`/events`):
-  - Event listing page with type filters (Conference, CME, Workshop, Webinar)
-  - Admin-managed events with CRUD
-  - Event details with date, location, registration URL
-- ✅ **Blog/Knowledge Base** (`/blog`):
-  - Article listing with category filters
-  - Individual article pages with view tracking
-  - Categories: Patient Education, Industry News, Research, Health Tips
-- ✅ **Testing**: All features verified via testing agent (iteration 12)
-
-## New API Endpoints (January 2026 - Session 3)
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/api/admin/discovery/search` | POST | Search surgeons from web sources |
-| `/api/admin/discovery/stats` | GET | Discovery statistics + SerpAPI status |
-| `/api/admin/discovery/history` | GET | Recent search history |
-| `/api/admin/discovery/import` | POST | Import discovered surgeons |
-
-## Environment Variables
-| Key | Description |
-|-----|-------------|
-| `SERPAPI_KEY` | (Optional) SerpAPI key for enhanced web scraping |
-
-## Completed This Session (January 1, 2026 - Session 2)
-- ✅ **Mandatory Document Upload for Surgeons**: Profile submission blocked without documents, toast error shown
-- ✅ **Admin Document Viewing**: View button for documents, inline image preview, red warning for missing docs
-- ✅ **Admin Edit Surgeon Data**: Edit name, email, qualifications, registration no, website from admin dashboard
-- ✅ **Mandatory Email for Surgeons**: Email is now required with validation
-- ✅ **Google Maps Integration**:
-  - Interactive map on doctor profile pages showing clinic location
-  - "Find Surgeons Near You" with geolocation and pincode search
-  - Distance display on surgeon cards (e.g., "5.2 km away")
-  - Radius filtering (10, 25, 50, 100 km)
-- ✅ **CRM Contact Import**: Imported 2,749 contacts from CSV and Excel files
-- ✅ **Zoho Campaigns Integration**:
-  - OAuth authentication with refresh token
-  - Synced 8,313 contacts from Zoho Campaigns to local CRM
-  - API endpoints for lists, subscribers, sync, add contacts
-  - Remove invalid emails functionality
-- ✅ **Bulk Import & Claim Profile System**:
-  - Admin bulk import page (/admin/bulk-import)
-  - Claim profile page (/claim) for surgeons
-  - "Unclaimed" profile status
-  - SMS and email notifications on import
-- ✅ **Long-term Roadmap Created**: 6-month growth plan in /app/memory/ROADMAP.md
-- ✅ **Testing**: All features verified via testing agent (iteration 11)
+### 1.2 Target Audience
+- Hospital procurement managers
+- Clinic owners and doctors
+- Sub-distributors and dealers
+- Surgical equipment buyers in Telangana districts
 
 ---
-Last Updated: January 1, 2026 (Session 2)
+
+## 2. Tech Stack & Architecture
+
+| Layer | Technology | Notes |
+|-------|-----------|-------|
+| Frontend | React 19 + Tailwind CSS + Shadcn/UI | SPA with React Router, React Helmet for SEO |
+| Backend | FastAPI (Python) | REST API, JWT auth, file processing |
+| Database | MongoDB | Products, Leads, Conversations, Admin |
+| AI/LLM | Claude (via Emergent Universal Key) | PDF extraction, chatbot, content generation |
+| Vector DB | In-memory / MongoDB Atlas Search | RAG knowledge base for chatbot |
+| WhatsApp | Interakt API | Webhook-based messaging |
+| File Storage | Local / Object Storage | PDF brochures, product images |
+
+### 2.1 Architecture Diagram
+```
+[Browser] → [React SPA :3000]
+                ↓
+[Kubernetes Ingress /api/*] → [FastAPI :8001]
+                                    ↓
+                            [MongoDB] [Claude API] [Interakt API]
+```
+
+---
+
+## 3. Database Schema (MongoDB Collections)
+
+### 3.1 Products Collection
+```json
+{
+  "product_name": "String",
+  "sku_code": "String (unique)",
+  "division": "String (Orthopedics | Infection Prevention | Critical Care | General Surgery | Cardiology | Diagnostics)",
+  "category": "String (sub-category within division)",
+  "technical_specifications": "Object (JSON — flexible key-value pairs)",
+  "size_variables": "Array of Strings",
+  "pack_size": "String",
+  "material": "String",
+  "description": "String (AI-generated, SEO-optimized)",
+  "seo_meta_title": "String",
+  "seo_meta_description": "String",
+  "brochure_url": "String (gated download link)",
+  "images": "Array of Strings (URLs)",
+  "manufacturer": "String",
+  "status": "String (draft | published | archived)",
+  "created_at": "DateTime",
+  "updated_at": "DateTime"
+}
+```
+
+### 3.2 Leads Collection
+```json
+{
+  "name": "String",
+  "hospital_clinic": "String",
+  "phone_whatsapp": "String",
+  "email": "String",
+  "district": "String (Telangana districts)",
+  "inquiry_type": "String (Bulk Quote | Product Info | Brochure Download | WhatsApp Chat | General)",
+  "source": "String (website | whatsapp | manual)",
+  "score": "String (Hot | Warm | Cold)",
+  "score_value": "Number (0-100)",
+  "notes": "Array of {text, timestamp}",
+  "assigned_to": "String",
+  "status": "String (new | contacted | qualified | negotiation | won | lost)",
+  "whatsapp_conversations": "Array of {message, sender, timestamp}",
+  "created_at": "DateTime",
+  "updated_at": "DateTime"
+}
+```
+
+### 3.3 Conversations Collection (WhatsApp/Chat)
+```json
+{
+  "lead_id": "String (reference)",
+  "channel": "String (website_chat | whatsapp)",
+  "messages": "Array of {role, content, timestamp}",
+  "ai_handled": "Boolean",
+  "escalated": "Boolean",
+  "created_at": "DateTime"
+}
+```
+
+### 3.4 Admin Collection
+```json
+{
+  "username": "String",
+  "password_hash": "String",
+  "role": "String (super_admin | sales_agent)",
+  "created_at": "DateTime"
+}
+```
+
+### 3.5 PDF Imports Collection
+```json
+{
+  "filename": "String",
+  "upload_date": "DateTime",
+  "status": "String (processing | completed | failed)",
+  "extracted_products": "Array of product drafts",
+  "approved_count": "Number",
+  "total_count": "Number"
+}
+```
+
+---
+
+## 4. Phased Implementation Plan
+
+### PHASE 1: Foundation & Portfolio (Core MVP)
+**Goal:** Working website with product showcase and basic admin
+
+| # | Task | Priority | Details |
+|---|------|----------|---------|
+| 1.1 | Clean up deprecated code | P0 | Remove all OrthoConnect files, reset frontend/backend |
+| 1.2 | Backend API setup | P0 | FastAPI routes for Products CRUD, Admin auth |
+| 1.3 | MongoDB schema & seeding | P0 | Create collections, seed sample products across divisions |
+| 1.4 | Design system & theme | P0 | Medical color palette, typography, component tokens |
+| 1.5 | Public website — Header & Mega Menu | P0 | Division-based navigation with sub-categories |
+| 1.6 | Public website — Home page | P0 | Hero, featured products, trust signals, CTAs |
+| 1.7 | Public website — Product listing page | P0 | Filter by division/category, search, grid/list view |
+| 1.8 | Public website — Product detail page | P0 | Specs table, sizes, brochure download (gated), related products |
+| 1.9 | Public website — Footer | P0 | MD-42 License, GST, contact info, Telangana map |
+| 1.10 | Lead capture forms | P0 | "Request Bulk Quote", "Download Brochure" — saves to Leads |
+| 1.11 | Admin login & dashboard shell | P1 | JWT auth, sidebar nav, overview stats |
+
+**Testing:** Full backend API tests + frontend smoke test + testing agent
+
+---
+
+### PHASE 2: Custom CRM
+**Goal:** Complete lead management system for sales team
+
+| # | Task | Priority | Details |
+|---|------|----------|---------|
+| 2.1 | Leads CRUD API | P0 | Create, read, update, delete, filter, paginate |
+| 2.2 | Lead scoring engine | P0 | Auto-score based on: inquiry type, district, hospital size, engagement |
+| 2.3 | CRM Dashboard | P0 | Pipeline view (Kanban), lead table, filters, search |
+| 2.4 | Lead detail page | P0 | Full profile, notes, conversation history, status updates |
+| 2.5 | CRM Analytics | P1 | Leads by source, district heatmap, conversion funnel |
+| 2.6 | Product management (Admin) | P1 | CRUD interface for products, status management |
+
+**Testing:** CRM workflow tests, lead scoring validation, testing agent
+
+---
+
+### PHASE 3: AI Integration — Claude PDF Importer
+**Goal:** Auto-extract product data from manufacturer PDFs
+
+| # | Task | Priority | Details |
+|---|------|----------|---------|
+| 3.1 | PDF upload endpoint | P0 | Accept PDF files, store, track processing status |
+| 3.2 | Claude integration | P0 | Send PDF content to Claude, extract structured product data |
+| 3.3 | SEO content generation | P0 | Claude generates descriptions, meta titles, meta descriptions |
+| 3.4 | Admin approval workflow | P0 | Review extracted products, edit, approve/reject, publish |
+| 3.5 | Batch import UI | P1 | Upload multiple PDFs, progress tracking, results summary |
+
+**Testing:** PDF extraction accuracy, approval flow, testing agent
+
+---
+
+### PHASE 4: RAG AI Chatbot
+**Goal:** Autonomous AI sales agent on website
+
+| # | Task | Priority | Details |
+|---|------|----------|---------|
+| 4.1 | Knowledge base builder | P0 | Index all products into vector embeddings |
+| 4.2 | RAG pipeline | P0 | Query → vector search → context injection → Claude response |
+| 4.3 | Chat widget (frontend) | P0 | Floating chat bubble, conversation UI, typing indicators |
+| 4.4 | Chat API (backend) | P0 | Session management, message history, context window |
+| 4.5 | System prompt engineering | P0 | Senior technical specialist persona, Telangana context |
+| 4.6 | Human handoff logic | P1 | Detect uncertainty → flag in CRM → alert agent |
+| 4.7 | Lead auto-capture from chat | P1 | Extract name/phone/hospital from conversation → create lead |
+
+**Testing:** Chatbot accuracy, handoff flow, lead capture, testing agent
+
+---
+
+### PHASE 5: WhatsApp Integration (Interakt)
+**Goal:** Bridge AI chatbot to WhatsApp
+
+| # | Task | Priority | Details |
+|---|------|----------|---------|
+| 5.1 | Interakt webhook setup | P0 | Receive incoming WhatsApp messages |
+| 5.2 | Message routing | P0 | Incoming message → RAG AI → response via Interakt API |
+| 5.3 | Unified inbox in CRM | P0 | View all WhatsApp conversations alongside website chats |
+| 5.4 | Agent takeover | P1 | Manual reply from CRM overrides AI |
+| 5.5 | WhatsApp template messages | P1 | Follow-up templates, quote confirmations |
+
+**Testing:** Webhook integration, message flow, CRM inbox, testing agent
+
+---
+
+### PHASE 6: SEO & Polish
+**Goal:** Production-ready with SEO optimization
+
+| # | Task | Priority | Details |
+|---|------|----------|---------|
+| 6.1 | React Helmet meta tags | P1 | Per-page title, description, OG tags |
+| 6.2 | Structured data (JSON-LD) | P1 | Product schema, Organization schema, LocalBusiness |
+| 6.3 | District landing pages | P2 | Hyper-local pages for each Telangana district |
+| 6.4 | Performance optimization | P2 | Image lazy loading, code splitting, caching |
+| 6.5 | About / Contact pages | P2 | Company info, warehouse location, team |
+| 6.6 | Sitemap generation | P2 | Dynamic XML sitemap for all products/pages |
+
+---
+
+## 5. UI/UX Design Direction
+
+### 5.1 Color Palette
+- **Primary:** Deep Navy Blue (#0A2647) — Trust, professionalism
+- **Secondary:** Surgical Teal (#2E8B8B) — Medical authority
+- **Accent:** Bright White (#FFFFFF) — Clean, clinical
+- **CTA:** Emerald Green (#10B981) — Action, growth
+- **Warning/Hot:** Amber (#F59E0B)
+- **Background:** Cool Gray (#F8FAFC)
+
+### 5.2 Typography
+- Headings: Bold, clean sans-serif
+- Body: Readable, professional
+- Data/Specs: Monospace for technical specifications
+
+### 5.3 Key CTAs
+- "Request Bulk Quote" (Primary green)
+- "Download Surgical Technique Guide" (Gated)
+- "Chat with Specialist on WhatsApp" (WhatsApp green)
+- "Call Now" (Phone icon)
+
+### 5.4 Trust Signals (Footer)
+- MD-42 Wholesale Drug License Number
+- GST Registration Number
+- ISO Certification badges
+- Warehouse/Office address in Telangana
+
+---
+
+## 6. API Endpoints Plan
+
+### Public APIs
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | /api/products | List products (filter, search, paginate) |
+| GET | /api/products/:id | Product detail |
+| GET | /api/divisions | List all divisions with categories |
+| POST | /api/leads | Submit lead (quote request, brochure download) |
+| POST | /api/chat | Send message to AI chatbot |
+| GET | /api/chat/:session_id | Get chat history |
+
+### Admin APIs (JWT Protected)
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | /api/admin/login | Admin authentication |
+| GET | /api/admin/dashboard/stats | CRM overview statistics |
+| GET | /api/admin/leads | List leads (filter, sort, paginate) |
+| GET | /api/admin/leads/:id | Lead detail |
+| PUT | /api/admin/leads/:id | Update lead |
+| DELETE | /api/admin/leads/:id | Delete lead |
+| POST | /api/admin/products | Create product |
+| PUT | /api/admin/products/:id | Update product |
+| DELETE | /api/admin/products/:id | Delete product |
+| POST | /api/admin/import/pdf | Upload PDF for extraction |
+| GET | /api/admin/import/:id | Get import status & results |
+| PUT | /api/admin/import/:id/approve | Approve extracted products |
+
+### Webhook APIs
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | /api/webhook/interakt | Receive WhatsApp messages |
+
+---
+
+## 7. Milestones & Deliverables
+
+| Phase | Deliverable | Status |
+|-------|-------------|--------|
+| Phase 1 | Working portfolio website with product showcase | NOT STARTED |
+| Phase 2 | Custom CRM with lead management | NOT STARTED |
+| Phase 3 | AI-powered PDF catalog importer | NOT STARTED |
+| Phase 4 | RAG AI chatbot on website | NOT STARTED |
+| Phase 5 | WhatsApp integration via Interakt | NOT STARTED |
+| Phase 6 | SEO optimization & polish | NOT STARTED |
+
+---
+
+## 8. 3rd Party Integrations Required
+
+| Integration | Purpose | Key Required |
+|-------------|---------|-------------|
+| Claude (Emergent Universal Key) | PDF extraction, chatbot, SEO content | Emergent LLM Key (available) |
+| Interakt | WhatsApp Business API | User must provide API key |
+| Object Storage | PDF/image uploads | Via integration playbook |
+
+---
+
+*Last Updated: December 2025*
+*Status: Planning Complete — Awaiting User Approval to Begin Phase 1*
