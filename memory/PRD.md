@@ -84,6 +84,7 @@
 - PDF upload endpoint with Claude AI extraction
 - SEO content auto-generation (descriptions + meta tags)
 - Admin approval workflow (review, edit, approve/reject, publish)
+- **Deduplication system**: SKU-based exact match + name similarity check. Duplicates auto-skipped on approval with clear UI badges.
 
 ### Phase 4: RAG AI Chatbot (P2)
 - Vector knowledge base from product catalog
