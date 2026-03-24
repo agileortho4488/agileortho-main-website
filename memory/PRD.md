@@ -4,7 +4,7 @@
 **Name:** MedDevice Pro — B2B Medical Device Master Franchise Platform
 **Client:** Premier Meril Life Sciences distributor in Telangana, India
 **Stack:** React 19 + FastAPI + MongoDB + Claude AI (planned)
-**URL:** https://meddevice-ai.preview.emergentagent.com
+**URL:** https://clinical-product-hub.preview.emergentagent.com
 
 ## Core Requirements
 1. Portfolio showcase website with hierarchical mega-menu (8 divisions)
