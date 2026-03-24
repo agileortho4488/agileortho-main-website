@@ -26,7 +26,7 @@ export default function SiteHeader() {
     <header data-testid="site-header" className="sticky top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2.5 sm:px-6">
         <Link data-testid="site-logo-link" to="/" className="flex items-center gap-2.5">
-          <img src="/ao_logo_black.png" alt="Agile Ortho" className="h-10 w-auto" data-testid="site-logo-mark" />
+          <img src="/ao_logo_horizontal.png" alt="Agile Ortho" className="h-8 sm:h-10 w-auto" data-testid="site-logo-mark" />
         </Link>
 
         <nav data-testid="site-nav" className="hidden items-center gap-7 md:flex">
