@@ -48,6 +48,22 @@
 - **Testing:** 100% pass rate (12 backend + 20 frontend tests)
 - **Removed:** "Made with Emergent" badge from all pages
 
+### Phase 5: Interakt WhatsApp Integration (COMPLETE - Feb 2026)
+- **Interakt API:** Configured with API key for sending/receiving WhatsApp messages
+- **WhatsApp Business Number:** +917416521222
+- **Webhook:** POST /api/webhook/whatsapp receives incoming customer messages from Interakt
+- **AI Auto-Reply:** Incoming WhatsApp messages processed through same Claude RAG pipeline — finds relevant products, generates consultative response, sends reply via Interakt
+- **Human Takeover:** Admin can switch any conversation to "human mode" — disables AI auto-replies, admin replies manually
+- **Auto-Lead Creation:** First WhatsApp message from a new number auto-creates a lead (source: whatsapp, score: warm)
+- **Unified Inbox:** Admin CRM page at /admin/whatsapp with:
+  - Conversation list (name, phone, last message preview, AI BOT/Human badge, unread count)
+  - Full chat view with message bubbles (customer=white, bot=green, admin=dark)
+  - Take Over / Switch to AI toggle buttons
+  - Manual reply input with send via Interakt API
+  - Auto-refresh every 10 seconds
+- **Webhook URL to configure in Interakt:** https://clinical-product-hub.preview.emergentagent.com/api/webhook/whatsapp
+- **Testing:** 100% pass rate (14 backend + 12 frontend tests)
+
 ## December 2025
 
 ### Phase 1: Foundation & Portfolio (COMPLETE)
