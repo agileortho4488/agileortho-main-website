@@ -48,12 +48,19 @@
 - Session management, conversation history, lead capture
 - Agile Ortho Sales Assistant personality
 
-### Phase 5: Interakt WhatsApp Integration (COMPLETE)
-- Webhook: POST /api/webhook/whatsapp
+### Phase 5: Interakt WhatsApp Integration (COMPLETE — ENHANCED)
+- Webhook: POST /api/webhook/whatsapp (with status event tracking)
 - AI auto-reply on WhatsApp using same RAG pipeline
 - Human takeover mode
 - Auto-lead creation from WhatsApp
 - Unified inbox at /admin/whatsapp
+- **NEW: Template Message Sending** — Send pre-approved templates from admin UI
+- **NEW: User Track API** — Sync CRM leads to Interakt with traits & tags
+- **NEW: Event Track API** — Track business events (Lead Created, WhatsApp Conversation Started)
+- **NEW: Message Delivery Status** — Webhook handles Sent/Delivered/Read/Failed events
+- **NEW: WhatsApp Analytics Dashboard** — Conversation & delivery metrics
+- **NEW: Contact Sync** — Bulk sync all leads to Interakt
+- **NEW: Auto-sync** — New leads from website/WhatsApp auto-synced to Interakt
 
 ### Full Rebrand (COMPLETE)
 - MedDevice Pro → Agile Ortho everywhere
