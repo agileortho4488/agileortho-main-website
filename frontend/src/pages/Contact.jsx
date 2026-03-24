@@ -56,21 +56,21 @@ export default function Contact() {
                   <MapPin size={18} className="text-emerald-600 mt-0.5 shrink-0" />
                   <div>
                     <p className="text-sm font-semibold text-slate-900">Office & Warehouse</p>
-                    <p className="text-sm text-slate-500">Plot No. 42, Industrial Area, Hyderabad, Telangana 500032</p>
+                    <p className="text-sm text-slate-500">1st Floor, Plot No 26, H.No 8-6-11/P20, Urmila Devi Complex, Engineers Colony, Hayathnagar, Hyderabad, Telangana - 500074</p>
                   </div>
                 </li>
                 <li className="flex items-start gap-3">
                   <Phone size={18} className="text-emerald-600 mt-0.5 shrink-0" />
                   <div>
                     <p className="text-sm font-semibold text-slate-900">Phone</p>
-                    <a href="tel:+919876543210" className="text-sm text-slate-500 hover:text-emerald-600">+91 98765 43210</a>
+                    <a href="tel:+917416216262" className="text-sm text-slate-500 hover:text-emerald-600">+91 74162 16262</a>
                   </div>
                 </li>
                 <li className="flex items-start gap-3">
                   <Mail size={18} className="text-emerald-600 mt-0.5 shrink-0" />
                   <div>
                     <p className="text-sm font-semibold text-slate-900">Email</p>
-                    <a href="mailto:info@meddevicepro.in" className="text-sm text-slate-500 hover:text-emerald-600">info@meddevicepro.in</a>
+                    <a href="mailto:info@agileortho.in" className="text-sm text-slate-500 hover:text-emerald-600">info@agileortho.in</a>
                   </div>
                 </li>
                 <li className="flex items-start gap-3">
@@ -84,7 +84,7 @@ export default function Contact() {
             </div>
 
             <a
-              href="https://wa.me/919876543210?text=Hi, I'm interested in Meril medical devices for my hospital."
+              href="https://wa.me/917416521222?text=Hi, I'm interested in Meril medical devices for my hospital."
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-center gap-2 w-full px-6 py-3 bg-[#25D366] text-white font-semibold rounded-sm hover:bg-[#1DA851] transition-colors"

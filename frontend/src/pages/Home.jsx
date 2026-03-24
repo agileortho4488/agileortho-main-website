@@ -48,19 +48,19 @@ export default function Home() {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-20 sm:py-28 lg:py-36">
           <div className="max-w-2xl">
             <p className="text-emerald-400 text-sm font-bold uppercase tracking-[0.2em] mb-4 animate-fade-up">
-              Authorized Meril Life Sciences Distributor
+              Authorized Meril Life Sciences Distributor &middot; Telangana
             </p>
             <h1
               className="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-[1.1] tracking-tight animate-fade-up stagger-1"
               style={{ fontFamily: "Chivo" }}
             >
-              Medical Devices
+              Mobility
               <br />
-              <span className="text-emerald-400">for Telangana</span>
+              <span className="text-emerald-400">Revolutionised</span>
             </h1>
             <p className="mt-6 text-lg text-slate-300 leading-relaxed max-w-lg animate-fade-up stagger-2">
-              Complete range of orthopedic implants, cardiovascular stents, diagnostic analyzers,
-              and surgical instruments. Serving hospitals across all 33 districts.
+              Agile Ortho brings world-class Meril medical devices to hospitals and clinics across
+              all 33 districts of Telangana. Orthopedics, Trauma, Cardiovascular, and more.
             </p>
             <div className="mt-8 flex flex-wrap gap-3 animate-fade-up stagger-3">
               <Link
@@ -87,10 +87,10 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
             {[
-              { value: "180+", label: "Countries Served by Meril" },
-              { value: "15,000+", label: "Meril Employees" },
+              { value: "93+", label: "Medical Devices" },
               { value: "8", label: "Product Divisions" },
-              { value: "33", label: "Telangana Districts" },
+              { value: "33", label: "Districts Covered" },
+              { value: "180+", label: "Countries by Meril" },
             ].map((s) => (
               <div key={s.label}>
                 <p className="text-2xl sm:text-3xl font-black text-slate-900" style={{ fontFamily: "Chivo" }}>{s.value}</p>
@@ -200,7 +200,7 @@ export default function Home() {
               Request Bulk Quote
             </Link>
             <a
-              href="https://wa.me/919876543210"
+              href="https://wa.me/917416521222"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-6 py-3 bg-[#25D366] text-white font-semibold rounded-sm hover:bg-[#1DA851] transition-colors"

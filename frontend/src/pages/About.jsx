@@ -12,11 +12,11 @@ export default function About() {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 text-center">
           <p className="text-emerald-400 text-xs font-bold uppercase tracking-[0.2em] mb-3">About Us</p>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight" style={{ fontFamily: "Chivo" }}>
-            Your Trusted Medical Device Partner
+            Mobility Revolutionised
           </h1>
           <p className="mt-4 text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
-            Authorized Meril Life Sciences master franchise distributor serving hospitals,
-            clinics, and healthcare institutions across all 33 districts of Telangana.
+            Agile Ortho is the authorized Meril Life Sciences master franchise distributor,
+            serving hospitals, clinics, and healthcare institutions across all 33 districts of Telangana.
           </p>
         </div>
       </section>
@@ -66,7 +66,7 @@ export default function About() {
           <div className="text-center mb-10">
             <p className="text-emerald-600 text-xs font-bold uppercase tracking-[0.2em] mb-2">Why Choose Us</p>
             <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight" style={{ fontFamily: "Chivo" }}>
-              The MedDevice Pro Advantage
+              The Agile Ortho Advantage
             </h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">

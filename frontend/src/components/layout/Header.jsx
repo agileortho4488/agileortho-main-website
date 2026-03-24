@@ -47,11 +47,11 @@ export const Header = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between h-8">
           <span className="hidden sm:inline">Authorized Meril Life Sciences Master Distributor — Telangana</span>
           <div className="flex items-center gap-4">
-            <a href="tel:+919876543210" className="flex items-center gap-1 hover:text-white transition-colors">
+            <a href="tel:+917416521222" className="flex items-center gap-1 hover:text-white transition-colors">
               <Phone size={12} /> +91 98765 43210
             </a>
             <a
-              href="https://wa.me/919876543210?text=Hi, I'm interested in Meril medical devices"
+              href="https://wa.me/917416521222?text=Hi, I'm interested in Meril medical devices"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-1 text-emerald-400 hover:text-emerald-300 transition-colors"

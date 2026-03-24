@@ -37,10 +37,8 @@ export const AdminLayout = () => {
       <aside className="w-56 bg-slate-900 text-white flex flex-col shrink-0" data-testid="admin-sidebar">
         <div className="px-4 py-5 border-b border-slate-800">
           <Link to="/" className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-sm bg-emerald-600 flex items-center justify-center">
-              <span className="text-white font-black text-xs" style={{ fontFamily: "Chivo" }}>M</span>
-            </div>
-            <span className="text-sm font-bold" style={{ fontFamily: "Chivo" }}>MedDevice Pro</span>
+            <img src="/ao_monogram_white.png" alt="AO" className="w-7 h-7 rounded-sm" />
+            <span className="text-sm font-bold" style={{ fontFamily: "Chivo" }}>Agile Ortho</span>
           </Link>
           <p className="text-[10px] text-slate-500 mt-1 uppercase tracking-widest">Admin Panel</p>
         </div>

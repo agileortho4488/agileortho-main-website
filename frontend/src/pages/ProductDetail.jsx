@@ -31,7 +31,7 @@ function ProductTags({ product }) {
 
 function ShareButtons({ product }) {
   const url = typeof window !== "undefined" ? window.location.href : "";
-  const text = `Check out ${product.product_name} from MedDevice Pro`;
+  const text = `Check out ${product.product_name} from Agile Ortho`;
   const copyLink = () => {
     navigator.clipboard.writeText(url).then(() => toast.success("Link copied!")).catch(() => {});
   };
@@ -301,7 +301,7 @@ export default function ProductDetail() {
                 <Mail size={16} /> Request Bulk Quote
               </button>
               <a
-                href={`https://wa.me/919876543210?text=${encodeURIComponent(`Hi, I'm interested in ${product.product_name} (${product.sku_code || ""}). Can you share pricing and availability for our hospital?`)}`}
+                href={`https://wa.me/917416521222?text=${encodeURIComponent(`Hi, I'm interested in ${product.product_name} (${product.sku_code || ""}). Can you share pricing and availability for our hospital?`)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex-1 flex items-center justify-center gap-2 px-5 py-3.5 bg-[#25D366] text-white text-sm font-bold rounded-lg hover:bg-[#1DA851] transition-all hover:shadow-lg hover:shadow-[#25D366]/20"
@@ -312,7 +312,7 @@ export default function ProductDetail() {
             </div>
             <div className="flex gap-3">
               <a
-                href="tel:+919876543210"
+                href="tel:+917416521222"
                 className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 border border-slate-200 text-slate-600 text-sm font-semibold rounded-lg hover:bg-slate-50 transition-colors"
                 data-testid="call-btn"
               >
@@ -518,7 +518,7 @@ export default function ProductDetail() {
             <p className="text-slate-300 text-sm mt-1">Our product specialists can help with sizing, compatibility, and clinical applications.</p>
           </div>
           <div className="flex gap-3 shrink-0">
-            <a href="tel:+919876543210" className="flex items-center gap-2 px-5 py-2.5 bg-white/10 text-white text-sm font-semibold rounded-lg hover:bg-white/20 transition-colors border border-white/20">
+            <a href="tel:+917416521222" className="flex items-center gap-2 px-5 py-2.5 bg-white/10 text-white text-sm font-semibold rounded-lg hover:bg-white/20 transition-colors border border-white/20">
               <Phone size={14} /> Call Now
             </a>
             <Link to="/contact" className="flex items-center gap-2 px-5 py-2.5 bg-emerald-600 text-white text-sm font-bold rounded-lg hover:bg-emerald-700 transition-colors" data-testid="contact-specialist-link">

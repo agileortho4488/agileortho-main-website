@@ -33,7 +33,7 @@ export default function AdminLogin() {
             <Lock size={22} className="text-white" />
           </div>
           <h1 className="text-xl font-black text-white" style={{ fontFamily: "Chivo" }}>Admin Portal</h1>
-          <p className="text-sm text-slate-400 mt-1">MedDevice Pro CRM</p>
+          <p className="text-sm text-slate-400 mt-1">Agile Ortho CRM</p>
         </div>
         <form onSubmit={handleSubmit} className="bg-white rounded-sm p-6 space-y-4" data-testid="admin-login-form">
           <div>

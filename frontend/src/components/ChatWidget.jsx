@@ -152,7 +152,7 @@ export default function ChatWidget() {
     } catch {
       setMessages((prev) => [...prev, {
         role: "assistant",
-        content: "I'm having trouble connecting. Please try again or reach us on WhatsApp: https://wa.me/919876543210",
+        content: "I'm having trouble connecting. Please try again or reach us on WhatsApp: https://wa.me/917416521222",
       }]);
     } finally {
       setLoading(false);
@@ -197,7 +197,7 @@ export default function ChatWidget() {
               </div>
             </div>
             <div className="flex items-center gap-1">
-              <a href="tel:+919876543210" className="w-8 h-8 rounded-full hover:bg-white/10 flex items-center justify-center text-slate-300 hover:text-white transition-colors" title="Call sales">
+              <a href="tel:+917416521222" className="w-8 h-8 rounded-full hover:bg-white/10 flex items-center justify-center text-slate-300 hover:text-white transition-colors" title="Call sales">
                 <Phone size={15} />
               </a>
               <button onClick={() => setOpen(false)} className="w-8 h-8 rounded-full hover:bg-white/10 flex items-center justify-center text-slate-300 hover:text-white transition-colors" data-testid="chat-close-btn">

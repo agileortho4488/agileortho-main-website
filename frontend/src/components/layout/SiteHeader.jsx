@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import { Menu, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Menu, X, MessageCircle } from "lucide-react";
+import { COMPANY } from "@/lib/constants";
 
 function NavItem({ to, children, testId, onClick }) {
   return (
@@ -10,12 +10,7 @@ function NavItem({ to, children, testId, onClick }) {
       to={to}
       onClick={onClick}
       className={({ isActive }) =>
-        [
-          "text-sm font-medium transition-colors",
-          isActive
-            ? "text-slate-900"
-            : "text-slate-600 hover:text-slate-900",
-        ].join(" ")
+        `text-sm font-medium transition-colors ${isActive ? "text-emerald-700" : "text-slate-600 hover:text-slate-900"}`
       }
     >
       {children}
@@ -28,56 +23,17 @@ export default function SiteHeader() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header
-      data-testid="site-header"
-      className="sticky top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80"
-    >
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
-        {/* Logo */}
-        <Link
-          data-testid="site-logo-link"
-          to="/"
-          className="flex items-center gap-2.5"
-        >
-          <div
-            data-testid="site-logo-mark"
-            className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-teal-500 to-emerald-600"
-          >
-            <span className="text-sm font-bold text-white">A</span>
-          </div>
-          <div className="hidden sm:block">
-            <div
-              data-testid="site-logo-text"
-              className="text-base font-semibold tracking-tight text-slate-900"
-            >
-              OrthoConnect
-            </div>
-            <div
-              data-testid="site-logo-tagline"
-              className="text-xs text-slate-500"
-            >
-              An initiative of AgileOrtho
-            </div>
-          </div>
+    <header data-testid="site-header" className="sticky top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2.5 sm:px-6">
+        <Link data-testid="site-logo-link" to="/" className="flex items-center gap-2.5">
+          <img src="/ao_logo_black.png" alt="Agile Ortho" className="h-10 w-auto" data-testid="site-logo-mark" />
         </Link>
 
-        {/* Desktop Nav */}
-        <nav
-          data-testid="site-nav"
-          className="hidden items-center gap-8 md:flex"
-        >
-          <NavItem testId="nav-surgeons-link" to="/surgeons">
-            Surgeons
-          </NavItem>
-          <NavItem testId="nav-education-link" to="/education">
-            Patient Education
-          </NavItem>
-          <NavItem testId="nav-about-link" to="/about">
-            About
-          </NavItem>
-          <NavItem testId="nav-contact-link" to="/contact">
-            Contact
-          </NavItem>
+        <nav data-testid="site-nav" className="hidden items-center gap-7 md:flex">
+          <NavItem testId="nav-products-link" to="/products">Products</NavItem>
+          <NavItem testId="nav-about-link" to="/about">About</NavItem>
+          <NavItem testId="nav-contact-link" to="/contact">Contact</NavItem>
+          <NavItem testId="nav-chat-link" to="/chat">AI Assistant</NavItem>
           <a
             data-testid="nav-shop-link"
             href="https://www.agileortho.shop"
@@ -89,17 +45,17 @@ export default function SiteHeader() {
           </a>
         </nav>
 
-        {/* CTA + Mobile Menu Toggle */}
         <div className="flex items-center gap-3">
-          <Button
-            data-testid="join-as-surgeon-button"
-            onClick={() => navigate("/join")}
-            className="hidden rounded-full bg-slate-900 px-5 py-2 text-sm font-medium text-white hover:bg-slate-800 sm:inline-flex"
+          <a
+            href={`https://wa.me/${COMPANY.whatsapp.replace("+", "")}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hidden sm:inline-flex items-center gap-2 rounded-full bg-[#25D366] px-4 py-2 text-sm font-semibold text-white hover:bg-[#1DA851] transition-colors"
+            data-testid="header-whatsapp-btn"
           >
-            Join as Surgeon
-          </Button>
+            <MessageCircle size={15} /> WhatsApp
+          </a>
 
-          {/* Mobile Menu Button */}
           <button
             data-testid="mobile-menu-toggle"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -110,61 +66,22 @@ export default function SiteHeader() {
         </div>
       </div>
 
-      {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div
-          data-testid="mobile-menu"
-          className="border-t border-slate-200 bg-white px-4 py-4 md:hidden"
-        >
+        <div data-testid="mobile-menu" className="border-t border-slate-200 bg-white px-4 py-4 md:hidden">
           <nav className="flex flex-col gap-4">
-            <NavItem
-              testId="nav-surgeons-link-mobile"
-              to="/surgeons"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Surgeons
-            </NavItem>
-            <NavItem
-              testId="nav-education-link-mobile"
-              to="/education"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Patient Education
-            </NavItem>
-            <NavItem
-              testId="nav-about-link-mobile"
-              to="/about"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              About
-            </NavItem>
-            <NavItem
-              testId="nav-contact-link-mobile"
-              to="/contact"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Contact
-            </NavItem>
+            <NavItem testId="nav-products-link-mobile" to="/products" onClick={() => setMobileMenuOpen(false)}>Products</NavItem>
+            <NavItem testId="nav-about-link-mobile" to="/about" onClick={() => setMobileMenuOpen(false)}>About</NavItem>
+            <NavItem testId="nav-contact-link-mobile" to="/contact" onClick={() => setMobileMenuOpen(false)}>Contact</NavItem>
+            <NavItem testId="nav-chat-link-mobile" to="/chat" onClick={() => setMobileMenuOpen(false)}>AI Assistant</NavItem>
+            <a href="https://www.agileortho.shop" target="_blank" rel="noreferrer" onClick={() => setMobileMenuOpen(false)} className="text-sm font-medium text-slate-600">Shop</a>
             <a
-              data-testid="nav-shop-link-mobile"
-              href="https://www.agileortho.shop"
+              href={`https://wa.me/${COMPANY.whatsapp.replace("+", "")}`}
               target="_blank"
-              rel="noreferrer"
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-sm font-medium text-slate-600 transition-colors hover:text-slate-900"
+              rel="noopener noreferrer"
+              className="mt-2 w-full flex items-center justify-center gap-2 rounded-full bg-[#25D366] px-5 py-2.5 text-sm font-semibold text-white"
             >
-              Shop
+              <MessageCircle size={15} /> WhatsApp Us
             </a>
-            <Button
-              data-testid="join-as-surgeon-button-mobile"
-              onClick={() => {
-                setMobileMenuOpen(false);
-                navigate("/join");
-              }}
-              className="mt-2 w-full rounded-full bg-slate-900 px-5 py-2.5 text-sm font-medium text-white hover:bg-slate-800"
-            >
-              Join as Surgeon
-            </Button>
           </nav>
         </div>
       )}

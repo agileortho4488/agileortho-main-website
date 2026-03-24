@@ -28,7 +28,7 @@ export const Footer = () => {
               Delivering world-class medical devices to hospitals and clinics across all 33 districts.
             </p>
             <a
-              href="https://wa.me/919876543210?text=Hi, I'm interested in Meril medical devices"
+              href="https://wa.me/917416521222?text=Hi, I'm interested in Meril medical devices"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-4 py-2 bg-[#25D366] text-white text-sm font-semibold rounded-sm hover:bg-[#1DA851] transition-colors"
@@ -73,7 +73,7 @@ export const Footer = () => {
               </li>
               <li className="flex items-center gap-2">
                 <Phone size={14} className="shrink-0 text-emerald-400" />
-                <a href="tel:+919876543210" className="text-slate-400 hover:text-white transition-colors">+91 98765 43210</a>
+                <a href="tel:+917416521222" className="text-slate-400 hover:text-white transition-colors">+91 98765 43210</a>
               </li>
               <li className="flex items-center gap-2">
                 <Mail size={14} className="shrink-0 text-emerald-400" />
@@ -103,7 +103,7 @@ export const Footer = () => {
 
         {/* Copyright */}
         <div className="border-t border-slate-800 py-4 text-center text-xs text-slate-600">
-          &copy; {new Date().getFullYear()} MedDevice Pro. Authorized Meril Life Sciences distributor for Telangana.
+          &copy; {new Date().getFullYear()} Agile Ortho. Authorized Meril Life Sciences distributor for Telangana.
         </div>
       </div>
     </footer>

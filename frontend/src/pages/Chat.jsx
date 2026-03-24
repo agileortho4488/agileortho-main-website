@@ -94,7 +94,7 @@ export default function Chat() {
     } catch {
       setMessages((prev) => [...prev, {
         role: "assistant",
-        content: "I'm having trouble connecting. Please reach us on WhatsApp: https://wa.me/919876543210",
+        content: "I'm having trouble connecting. Please reach us on WhatsApp: https://wa.me/917416521222",
       }]);
     } finally {
       setLoading(false);
@@ -124,10 +124,10 @@ export default function Chat() {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <a href="https://wa.me/919876543210" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 px-3 py-2 bg-[#25D366] text-white text-xs font-bold rounded-lg hover:bg-[#1DA851] transition-colors" data-testid="chat-whatsapp-link">
+            <a href="https://wa.me/917416521222" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 px-3 py-2 bg-[#25D366] text-white text-xs font-bold rounded-lg hover:bg-[#1DA851] transition-colors" data-testid="chat-whatsapp-link">
               <MessageCircle size={13} /> WhatsApp
             </a>
-            <a href="tel:+919876543210" className="flex items-center gap-1.5 px-3 py-2 border border-slate-200 text-slate-600 text-xs font-semibold rounded-lg hover:bg-slate-50 transition-colors">
+            <a href="tel:+917416521222" className="flex items-center gap-1.5 px-3 py-2 border border-slate-200 text-slate-600 text-xs font-semibold rounded-lg hover:bg-slate-50 transition-colors">
               <Phone size={13} /> Call
             </a>
           </div>

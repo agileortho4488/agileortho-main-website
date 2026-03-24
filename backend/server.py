@@ -18,7 +18,7 @@ import asyncio
 import pdfplumber
 import tempfile
 
-app = FastAPI(title="MedDevice Pro API")
+app = FastAPI(title="Agile Ortho API")
 
 CORS_ORIGINS = os.environ.get("CORS_ORIGINS", "*")
 app.add_middleware(
@@ -191,7 +191,7 @@ def calculate_lead_score(lead: dict) -> tuple:
 
 @app.get("/api/health")
 async def health():
-    return {"status": "ok", "service": "MedDevice Pro API"}
+    return {"status": "ok", "service": "Agile Ortho API"}
 
 @app.get("/api/divisions")
 async def get_divisions():
@@ -1141,7 +1141,7 @@ async def seed_database():
             p["size_variables"] = p.get("size_variables", [])
             p["pack_size"] = p.get("pack_size", "")
             p["brochure_url"] = ""
-            p["seo_meta_title"] = f"{p['product_name']} | Meril {p['division']} - MedDevice Pro Telangana"
+            p["seo_meta_title"] = f"{p['product_name']} | Meril {p['division']} - Agile Ortho Telangana"
             p["seo_meta_description"] = p["description"][:160]
             p["created_at"] = datetime.now(timezone.utc).isoformat()
             p["updated_at"] = datetime.now(timezone.utc).isoformat()
@@ -1203,7 +1203,7 @@ async def startup():
         ])
     except Exception:
         pass
-    print("MedDevice Pro API started")
+    print("Agile Ortho API started")
 
 
 # ============================================================
@@ -1233,7 +1233,7 @@ RULES:
 - If the user gives their contact details (name, phone, hospital), acknowledge them warmly and confirm you'll have the team follow up
 - Keep responses concise — 2-4 sentences max unless the user asks for detailed specs
 - Use bullet points for listing multiple products or specs
-- When the user wants human support: "You can reach our sales team directly on WhatsApp: https://wa.me/919876543210"
+- When the user wants human support: "You can reach our sales team directly on WhatsApp: https://wa.me/917416521222"
 
 ABOUT AGILE ORTHO:
 - Authorized Meril Life Sciences Master Distributor for Telangana
@@ -1358,7 +1358,7 @@ async def chat_endpoint(msg: ChatMessage):
     try:
         response = await chat.send_message(UserMessage(text=user_text))
     except Exception as e:
-        response = "I'm having trouble connecting right now. Please try again in a moment, or reach our team directly on WhatsApp: https://wa.me/919876543210"
+        response = "I'm having trouble connecting right now. Please try again in a moment, or reach our team directly on WhatsApp: https://wa.me/917416521222"
 
     # Save conversation
     new_messages = history + [
