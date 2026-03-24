@@ -578,6 +578,93 @@ def extract_pdf_text(file_path: str) -> str:
                 text += page_text + "\n\n"
     return text.strip()
 
+
+def extract_pdf_text_ocr(file_path: str) -> str:
+    """Fallback: convert PDF pages to images and run OCR."""
+    try:
+        from pdf2image import convert_from_path
+        import pytesseract
+        images = convert_from_path(file_path, dpi=250, first_page=1, last_page=20)
+        text = ""
+        for img in images:
+            page_text = pytesseract.image_to_string(img)
+            if page_text:
+                text += page_text + "\n\n"
+        return text.strip()
+    except Exception:
+        return ""
+
+
+def pdf_pages_to_base64(file_path: str, max_pages: int = 8) -> list:
+    """Convert PDF pages to base64-encoded JPEG images for Claude Vision."""
+    try:
+        from pdf2image import convert_from_path
+        import base64
+        from io import BytesIO
+        images = convert_from_path(file_path, dpi=200, first_page=1, last_page=max_pages)
+        result = []
+        for img in images:
+            buf = BytesIO()
+            img.save(buf, format="JPEG", quality=75)
+            b64 = base64.b64encode(buf.getvalue()).decode("utf-8")
+            result.append(b64)
+        return result
+    except Exception:
+        return []
+
+
+async def claude_extract_products_vision(page_images_b64: list) -> list:
+    """Use Claude Vision to extract product data from PDF page images."""
+    from emergentintegrations.llm.chat import LlmChat, UserMessage, ImageContent
+    
+    max_retries = 3
+    for attempt in range(max_retries):
+        try:
+            chat = LlmChat(
+                api_key=EMERGENT_LLM_KEY,
+                session_id=f"pdf-vision-{uuid.uuid4().hex[:8]}",
+                system_message="""You are a medical device product data extraction specialist.
+You will receive images of pages from a medical device catalog/brochure.
+Extract structured product information from these images. For each distinct product found, return a JSON array of objects with these fields:
+- product_name: Full product name
+- sku_code: SKU or product code (generate one like MRL-XXX-NNN if not found)
+- division: One of: Orthopedics, Trauma, Cardiovascular, Diagnostics, ENT, Endo-surgical, Infection Prevention, Peripheral Intervention
+- category: Sub-category within the division
+- description: 2-3 sentence description of the product
+- technical_specifications: Object with key technical specs (material, dimensions, features)
+- material: Primary material (e.g., Titanium, Stainless Steel)
+- manufacturer: Manufacturer name (default: Meril Life Sciences)
+- size_variables: Array of available sizes if mentioned
+- pack_size: Pack size if mentioned
+
+IMPORTANT: Group related items. For example, multiple sizes of the same plate should be ONE product with sizes in size_variables.
+Return ONLY a valid JSON array. No markdown, no explanation, just the JSON array."""
+            ).with_model("anthropic", "claude-sonnet-4-20250514")
+
+            file_contents = [ImageContent(image_base64=img) for img in page_images_b64]
+            prompt = "Extract all medical device products from these catalog/brochure pages. Return ONLY a valid JSON array of product objects."
+            response = await chat.send_message(UserMessage(text=prompt, file_contents=file_contents))
+
+            response_text = response.strip()
+            if response_text.startswith("```"):
+                response_text = response_text.split("```")[1]
+                if response_text.startswith("json"):
+                    response_text = response_text[4:]
+                response_text = response_text.strip()
+            products = json.loads(response_text)
+            if isinstance(products, list):
+                return products
+            return []
+        except json.JSONDecodeError:
+            return []
+        except Exception as e:
+            if attempt < max_retries - 1:
+                await asyncio.sleep(5 * (attempt + 1))
+                continue
+            raise e
+    return []
+
+
 async def claude_extract_products(pdf_text: str) -> list:
     from emergentintegrations.llm.chat import LlmChat, UserMessage
     chat = LlmChat(
@@ -701,17 +788,36 @@ def _escape_regex(text):
 
 async def process_pdf_import(import_id: str, file_path: str):
     try:
-        # Extract text
+        # Step 1: Try text extraction
         pdf_text = extract_pdf_text(file_path)
+        use_vision = False
+
         if not pdf_text or len(pdf_text) < 50:
-            await imports_col.update_one(
-                {"_id": ObjectId(import_id)},
-                {"$set": {"status": "failed", "error": "Could not extract text from PDF"}}
-            )
-            return
-        
+            # Step 2: Try OCR fallback
+            pdf_text = extract_pdf_text_ocr(file_path)
+
+        if not pdf_text or len(pdf_text) < 50:
+            # Step 3: Use Claude Vision (image-based PDF)
+            use_vision = True
+            page_images = pdf_pages_to_base64(file_path, max_pages=10)
+            if not page_images:
+                await imports_col.update_one(
+                    {"_id": ObjectId(import_id)},
+                    {"$set": {"status": "failed", "error": "Could not extract text or images from PDF"}}
+                )
+                return
+
         # Claude extraction
-        products = await claude_extract_products(pdf_text)
+        if use_vision:
+            # Process in batches of 3 pages to stay within limits
+            all_products = []
+            for i in range(0, len(page_images), 3):
+                batch = page_images[i:i+3]
+                batch_products = await claude_extract_products_vision(batch)
+                all_products.extend(batch_products)
+            products = all_products
+        else:
+            products = await claude_extract_products(pdf_text)
         
         if not products:
             await imports_col.update_one(
@@ -802,6 +908,29 @@ async def get_import(import_id: str, _=Depends(admin_required)):
     if not doc:
         raise HTTPException(404, "Import not found")
     return serialize_doc(doc)
+
+
+@app.post("/api/admin/imports/{import_id}/reprocess")
+async def reprocess_import(import_id: str, _=Depends(admin_required)):
+    try:
+        doc = await imports_col.find_one({"_id": ObjectId(import_id)})
+    except Exception:
+        raise HTTPException(400, "Invalid import ID")
+    if not doc:
+        raise HTTPException(404, "Import not found")
+    if doc.get("status") != "failed":
+        raise HTTPException(400, "Only failed imports can be reprocessed")
+    file_path = doc.get("file_path")
+    if not file_path or not os.path.exists(file_path):
+        raise HTTPException(400, "Original PDF file not found on server")
+    await imports_col.update_one(
+        {"_id": ObjectId(import_id)},
+        {"$set": {"status": "processing", "error": None, "extracted_products": [], "total_count": 0}}
+    )
+    asyncio.create_task(process_pdf_import(import_id, file_path))
+    return {"status": "processing", "message": "Reprocessing started"}
+
+
 
 
 @app.post("/api/admin/imports/{import_id}/approve")

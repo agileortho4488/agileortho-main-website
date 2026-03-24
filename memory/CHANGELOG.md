@@ -16,6 +16,23 @@
 - **Related Products:** "You May Also Like" — up to 4 products from same division
 - **Testing:** 100% pass rate (11 backend + 27 frontend tests)
 
+### Real Brochure Import with Claude Vision (COMPLETE - Feb 2026)
+- **Problem:** 4 of 5 real Meril brochures were image-based PDFs — `pdfplumber` couldn't extract text
+- **Solution:** Added OCR fallback (`pytesseract` + `pdf2image`) and Claude Vision extraction pipeline
+  - Converts PDF pages to images → sends to Claude's vision model → extracts structured product data
+  - Retry logic with exponential backoff for API resilience
+  - Processing in batches of 3 pages to stay within API limits
+- **Reprocess endpoint:** Added `/api/admin/imports/{id}/reprocess` for retrying failed imports
+- **Reprocess button:** Added to AdminImports UI for failed imports
+- **Results from 5 real Meril brochures:**
+  - LBL Plate Chart: 19 products extracted (vision)
+  - Armar Titanium Catalogue: 10 products (vision)
+  - Ti Elbow/Clavicle/Calcaneal: 11 products (vision)
+  - Variabilis Multi-angle Plates: 4 products (text)
+  - Trauma PLATE Brochure: Failed (transient Claude API gateway error — can retry)
+- **Total:** 44 new products published, catalog now has **93 products**
+- **Extraction quality:** Full descriptions, technical specs, materials, size variants (up to 24 sizes) all correctly extracted
+
 ## December 2025
 
 ### Phase 1: Foundation & Portfolio (COMPLETE)

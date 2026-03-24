@@ -283,8 +283,27 @@ export default function AdminImports() {
                   </div>
                 )}
                 {selectedImport.status === "failed" && (
-                  <div className="mt-3 px-3 py-2 bg-red-50 border border-red-200 rounded-sm">
+                  <div className="mt-3 px-3 py-2 bg-red-50 border border-red-200 rounded-sm flex items-center justify-between">
                     <p className="text-sm text-red-700">{selectedImport.error || "Extraction failed"}</p>
+                    <button
+                      onClick={async () => {
+                        try {
+                          const res = await fetch(`${API_URL}/api/admin/imports/${selectedImport.id}/reprocess`, {
+                            method: "POST",
+                            headers,
+                          });
+                          if (!res.ok) throw new Error("Reprocess failed");
+                          toast.success("Reprocessing started with enhanced extraction (OCR + Vision)...");
+                          fetchImports();
+                          pollImport(selectedImport.id);
+                          setSelectedImport({ ...selectedImport, status: "processing", error: null });
+                        } catch { toast.error("Failed to reprocess"); }
+                      }}
+                      className="flex items-center gap-1.5 px-3 py-1.5 bg-red-600 text-white text-xs font-bold rounded-sm hover:bg-red-700 transition-colors shrink-0 ml-3"
+                      data-testid="reprocess-btn"
+                    >
+                      <RefreshCw size={12} /> Reprocess
+                    </button>
                   </div>
                 )}
               </div>

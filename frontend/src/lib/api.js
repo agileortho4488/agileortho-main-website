@@ -33,5 +33,6 @@ export const getAdminProducts = (params) => api.get("/api/admin/products", { par
 export const createAdminProduct = (data) => api.post("/api/admin/products", data);
 export const updateAdminProduct = (id, data) => api.put(`/api/admin/products/${id}`, data);
 export const deleteAdminProduct = (id) => api.delete(`/api/admin/products/${id}`);
+export const reprocessImport = (id) => api.post(`/api/admin/imports/${id}/reprocess`);
 
 export default api;
