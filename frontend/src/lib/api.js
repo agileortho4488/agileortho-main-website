@@ -23,6 +23,8 @@ export const submitLead = (data) => api.post("/api/leads", data);
 // Admin APIs
 export const adminLogin = (data) => api.post("/api/admin/login", data);
 export const getAdminStats = () => api.get("/api/admin/stats");
+export const getAdminPipeline = () => api.get("/api/admin/pipeline");
+export const getAdminAnalytics = () => api.get("/api/admin/analytics");
 export const getAdminLeads = (params) => api.get("/api/admin/leads", { params });
 export const getAdminLead = (id) => api.get(`/api/admin/leads/${id}`);
 export const updateAdminLead = (id, data) => api.put(`/api/admin/leads/${id}`, data);

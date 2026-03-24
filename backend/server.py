@@ -335,6 +335,66 @@ async def admin_stats(_=Depends(admin_required)):
     }
 
 
+# --- Pipeline / Analytics ---
+
+@app.get("/api/admin/pipeline")
+async def admin_pipeline(_=Depends(admin_required)):
+    statuses = ["new", "contacted", "qualified", "negotiation", "won", "lost"]
+    pipeline_data = {}
+    for s in statuses:
+        cursor = leads_col.find({"status": s}).sort("score_value", -1)
+        docs = await cursor.to_list(100)
+        pipeline_data[s] = serialize_docs(docs)
+    return {"pipeline": pipeline_data}
+
+@app.get("/api/admin/analytics")
+async def admin_analytics(_=Depends(admin_required)):
+    total = await leads_col.count_documents({})
+
+    # By source
+    src_pipeline = [{"$group": {"_id": "$source", "count": {"$sum": 1}}}, {"$sort": {"count": -1}}]
+    by_source = await leads_col.aggregate(src_pipeline).to_list(20)
+
+    # By score
+    score_pipeline = [{"$group": {"_id": "$score", "count": {"$sum": 1}}}]
+    by_score = await leads_col.aggregate(score_pipeline).to_list(10)
+
+    # By status (funnel)
+    status_pipeline = [{"$group": {"_id": "$status", "count": {"$sum": 1}}}]
+    by_status = await leads_col.aggregate(status_pipeline).to_list(10)
+
+    # By district
+    district_pipeline = [
+        {"$match": {"district": {"$ne": ""}}},
+        {"$group": {"_id": "$district", "count": {"$sum": 1}}},
+        {"$sort": {"count": -1}},
+        {"$limit": 15}
+    ]
+    by_district = await leads_col.aggregate(district_pipeline).to_list(15)
+
+    # By inquiry type
+    inquiry_pipeline = [{"$group": {"_id": "$inquiry_type", "count": {"$sum": 1}}}, {"$sort": {"count": -1}}]
+    by_inquiry = await leads_col.aggregate(inquiry_pipeline).to_list(10)
+
+    # Recent leads
+    recent = await leads_col.find().sort("created_at", -1).to_list(10)
+
+    # Conversion rate
+    won = await leads_col.count_documents({"status": "won"})
+    conversion_rate = round((won / total * 100), 1) if total > 0 else 0
+
+    return {
+        "total_leads": total,
+        "conversion_rate": conversion_rate,
+        "by_source": [{"source": d["_id"] or "Unknown", "count": d["count"]} for d in by_source],
+        "by_score": [{"score": d["_id"], "count": d["count"]} for d in by_score],
+        "by_status": [{"status": d["_id"], "count": d["count"]} for d in by_status],
+        "by_district": [{"district": d["_id"], "count": d["count"]} for d in by_district],
+        "by_inquiry": [{"type": d["_id"], "count": d["count"]} for d in by_inquiry],
+        "recent_leads": serialize_docs(recent),
+    }
+
+
 # --- Admin Leads CRUD ---
 
 @app.get("/api/admin/leads")
@@ -578,9 +638,38 @@ async def seed_database():
     else:
         print(f"Database already has {count} products, skipping seed")
 
+SEED_LEADS = [
+    {"name": "Dr. Rajesh Sharma", "hospital_clinic": "Apollo Hospital", "phone_whatsapp": "+919876543001", "email": "rajesh@apollo.in", "district": "Hyderabad", "inquiry_type": "Bulk Quote", "source": "website", "product_interest": "Destiknee Total Knee System, Opulent Knee System", "message": "Need pricing for 50 units TKR implants for our joint replacement center.", "status": "qualified", "score": "Hot", "score_value": 90},
+    {"name": "Dr. Priya Reddy", "hospital_clinic": "Yashoda Hospital", "phone_whatsapp": "+919876543002", "email": "priya@yashoda.in", "district": "Hyderabad", "inquiry_type": "Bulk Quote", "source": "website", "product_interest": "BioMime Drug Eluting Stent, Evermine50", "message": "Require coronary stent pricing for our cath lab.", "status": "negotiation", "score": "Hot", "score_value": 90},
+    {"name": "Mr. Venkat Rao", "hospital_clinic": "District General Hospital", "phone_whatsapp": "+919876543003", "email": "venkat@dgh.gov.in", "district": "Warangal", "inquiry_type": "Bulk Quote", "source": "website", "product_interest": "Maira Surgical Gowns, Sterile Gauze", "message": "Government tender for infection prevention supplies.", "status": "new", "score": "Hot", "score_value": 90},
+    {"name": "Dr. Sunil Kumar", "hospital_clinic": "KIMS Hospital", "phone_whatsapp": "+919876543004", "email": "sunil@kims.in", "district": "Rangareddy", "inquiry_type": "Product Info", "source": "website", "product_interest": "MISSO Orthopedic Robotic System", "message": "Interested in robotic knee replacement system demo.", "status": "contacted", "score": "Warm", "score_value": 55},
+    {"name": "Dr. Meena Devi", "hospital_clinic": "Care Hospital", "phone_whatsapp": "+919876543005", "email": "meena@care.in", "district": "Hyderabad", "inquiry_type": "Product Info", "source": "whatsapp", "product_interest": "AutoQuant 400 Analyzer", "message": "Need specifications for clinical chemistry analyzer.", "status": "contacted", "score": "Warm", "score_value": 55},
+    {"name": "Mr. Ravi Teja", "hospital_clinic": "Sunshine Hospital", "phone_whatsapp": "+919876543006", "email": "", "district": "Karimnagar", "inquiry_type": "Brochure Download", "source": "website", "product_interest": "KET Plating System", "message": "", "status": "new", "score": "Warm", "score_value": 40},
+    {"name": "Dr. Lakshmi Prasad", "hospital_clinic": "Government ENT Hospital", "phone_whatsapp": "+919876543007", "email": "lakshmi@govhosp.in", "district": "Nizamabad", "inquiry_type": "Bulk Quote", "source": "website", "product_interest": "MYRAC RF Plasma Generator, MESIC ENT Diode Laser", "message": "Setting up new ENT OT. Need complete equipment list and pricing.", "status": "qualified", "score": "Hot", "score_value": 90},
+    {"name": "Mr. Satish Babu", "hospital_clinic": "City Clinic", "phone_whatsapp": "+919876543008", "email": "", "district": "Khammam", "inquiry_type": "General", "source": "website", "product_interest": "", "message": "Looking for medical supplies distributor.", "status": "new", "score": "Cold", "score_value": 25},
+    {"name": "Dr. Anitha Kumari", "hospital_clinic": "Continental Hospital", "phone_whatsapp": "+919876543009", "email": "anitha@continental.in", "district": "Hyderabad", "inquiry_type": "Bulk Quote", "source": "whatsapp", "product_interest": "Myval TAVR, Myclip TEER", "message": "Our cardiac surgery dept needs TAVR valves. Please share pricing for 20 units.", "status": "won", "score": "Hot", "score_value": 90},
+    {"name": "Dr. Naveen Reddy", "hospital_clinic": "Global Hospital", "phone_whatsapp": "+919876543010", "email": "naveen@global.in", "district": "Medchal-Malkajgiri", "inquiry_type": "Product Info", "source": "website", "product_interest": "Latitude Hip System, Bipolar Cup", "message": "Need hip replacement implant catalog.", "status": "contacted", "score": "Warm", "score_value": 55},
+    {"name": "Mr. Mahesh Kumar", "hospital_clinic": "Rural Health Center", "phone_whatsapp": "+919876543011", "email": "", "district": "Adilabad", "inquiry_type": "Brochure Download", "source": "website", "product_interest": "Baktio Hand Hygiene", "message": "", "status": "lost", "score": "Cold", "score_value": 30},
+    {"name": "Dr. Swathi Reddy", "hospital_clinic": "Star Hospital", "phone_whatsapp": "+919876543012", "email": "swathi@star.in", "district": "Hyderabad", "inquiry_type": "Bulk Quote", "source": "website", "product_interest": "Mirus Powered Endocutter, Mitsu Sutures", "message": "Need surgical consumables for our general surgery dept. Monthly requirement.", "status": "negotiation", "score": "Hot", "score_value": 90},
+]
+
+async def seed_leads():
+    count = await leads_col.count_documents({})
+    if count < 5:
+        for lead in SEED_LEADS:
+            lead["notes"] = []
+            lead["assigned_to"] = ""
+            lead["created_at"] = datetime.now(timezone.utc).isoformat()
+            lead["updated_at"] = datetime.now(timezone.utc).isoformat()
+        await leads_col.insert_many(SEED_LEADS)
+        print(f"Seeded {len(SEED_LEADS)} demo leads")
+    else:
+        print(f"Database already has {count} leads, skipping seed")
+
 @app.on_event("startup")
 async def startup():
     await seed_database()
+    await seed_leads()
     await products_col.create_index("division")
     await products_col.create_index("category")
     await products_col.create_index("slug")

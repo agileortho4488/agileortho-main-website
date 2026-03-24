@@ -9,7 +9,9 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
+import AdminPipeline from "./pages/AdminPipeline";
 import AdminLeads from "./pages/AdminLeads";
+import AdminAnalytics from "./pages/AdminAnalytics";
 import AdminProducts from "./pages/AdminProducts";
 import "./App.css";
 
@@ -33,7 +35,9 @@ function App() {
         {/* Admin routes with sidebar */}
         <Route element={<AdminLayout />}>
           <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/admin/pipeline" element={<AdminPipeline />} />
           <Route path="/admin/leads" element={<AdminLeads />} />
+          <Route path="/admin/analytics" element={<AdminAnalytics />} />
           <Route path="/admin/products" element={<AdminProducts />} />
         </Route>
 

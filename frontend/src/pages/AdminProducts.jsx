@@ -1,12 +1,18 @@
-import { useState, useEffect } from "react";
-import { getAdminProducts, deleteAdminProduct } from "../lib/api";
+import { useState, useEffect, useCallback } from "react";
+import { getAdminProducts, createAdminProduct, updateAdminProduct, deleteAdminProduct } from "../lib/api";
 import { toast } from "sonner";
-import { Search, Trash2, Edit2, ChevronLeft, ChevronRight } from "lucide-react";
+import { Search, Trash2, Edit2, Plus, X, ChevronLeft, ChevronRight, Save } from "lucide-react";
 
 const DIVISIONS = [
   "Orthopedics", "Trauma", "Cardiovascular", "Diagnostics",
   "ENT", "Endo-surgical", "Infection Prevention", "Peripheral Intervention"
 ];
+
+const EMPTY_FORM = {
+  product_name: "", sku_code: "", division: "", category: "", description: "",
+  material: "", pack_size: "", manufacturer: "Meril Life Sciences",
+  seo_meta_title: "", seo_meta_description: "", brochure_url: "", status: "published",
+};
 
 export default function AdminProducts() {
   const [products, setProducts] = useState([]);
@@ -16,8 +22,14 @@ export default function AdminProducts() {
   const [loading, setLoading] = useState(true);
   const [division, setDivision] = useState("");
   const [search, setSearch] = useState("");
+  const [showForm, setShowForm] = useState(false);
+  const [editingId, setEditingId] = useState(null);
+  const [form, setForm] = useState(EMPTY_FORM);
+  const [specsText, setSpecsText] = useState("");
+  const [sizesText, setSizesText] = useState("");
+  const [saving, setSaving] = useState(false);
 
-  const fetchProducts = () => {
+  const fetchProducts = useCallback(() => {
     setLoading(true);
     const params = { page, limit: 20 };
     if (division) params.division = division;
@@ -26,9 +38,68 @@ export default function AdminProducts() {
       .then((r) => { setProducts(r.data.products); setTotal(r.data.total); setPages(r.data.pages); })
       .catch(() => {})
       .finally(() => setLoading(false));
+  }, [page, division, search]);
+
+  useEffect(() => { fetchProducts(); }, [fetchProducts]);
+
+  const openCreate = () => {
+    setForm(EMPTY_FORM);
+    setSpecsText("");
+    setSizesText("");
+    setEditingId(null);
+    setShowForm(true);
   };
 
-  useEffect(() => { fetchProducts(); }, [page, division, search]);
+  const openEdit = (p) => {
+    setForm({
+      product_name: p.product_name || "",
+      sku_code: p.sku_code || "",
+      division: p.division || "",
+      category: p.category || "",
+      description: p.description || "",
+      material: p.material || "",
+      pack_size: p.pack_size || "",
+      manufacturer: p.manufacturer || "Meril Life Sciences",
+      seo_meta_title: p.seo_meta_title || "",
+      seo_meta_description: p.seo_meta_description || "",
+      brochure_url: p.brochure_url || "",
+      status: p.status || "published",
+    });
+    setSpecsText(p.technical_specifications ? JSON.stringify(p.technical_specifications, null, 2) : "");
+    setSizesText((p.size_variables || []).join(", "));
+    setEditingId(p.id);
+    setShowForm(true);
+  };
+
+  const handleSave = async () => {
+    if (!form.product_name || !form.division) {
+      toast.error("Product name and division are required");
+      return;
+    }
+    setSaving(true);
+    try {
+      let specs = {};
+      if (specsText.trim()) {
+        try { specs = JSON.parse(specsText); } catch { toast.error("Invalid JSON in specifications"); setSaving(false); return; }
+      }
+      const sizes = sizesText ? sizesText.split(",").map((s) => s.trim()).filter(Boolean) : [];
+      const payload = { ...form, technical_specifications: specs, size_variables: sizes };
+
+      if (editingId) {
+        await updateAdminProduct(editingId, payload);
+        toast.success("Product updated");
+      } else {
+        await createAdminProduct(payload);
+        toast.success("Product created");
+      }
+      setShowForm(false);
+      fetchProducts();
+    } catch {
+      toast.error("Failed to save product");
+    } finally {
+      setSaving(false);
+    }
+  };
 
   const handleDelete = async (id, name) => {
     if (!window.confirm(`Delete "${name}"?`)) return;
@@ -46,6 +117,13 @@ export default function AdminProducts() {
           <h1 className="text-xl font-black text-slate-900" style={{ fontFamily: "Chivo" }}>Products</h1>
           <p className="text-sm text-slate-500">{total} products in catalog</p>
         </div>
+        <button
+          onClick={openCreate}
+          className="flex items-center gap-1.5 px-4 py-2 bg-emerald-600 text-white text-sm font-semibold rounded-sm hover:bg-emerald-700 transition-colors"
+          data-testid="add-product-btn"
+        >
+          <Plus size={16} /> Add Product
+        </button>
       </div>
 
       {/* Filters */}
@@ -88,7 +166,6 @@ export default function AdminProducts() {
                   <th className="px-4 py-2.5 text-xs font-bold uppercase tracking-[0.1em] text-slate-600">SKU</th>
                   <th className="px-4 py-2.5 text-xs font-bold uppercase tracking-[0.1em] text-slate-600">Division</th>
                   <th className="px-4 py-2.5 text-xs font-bold uppercase tracking-[0.1em] text-slate-600">Category</th>
-                  <th className="px-4 py-2.5 text-xs font-bold uppercase tracking-[0.1em] text-slate-600">Material</th>
                   <th className="px-4 py-2.5 text-xs font-bold uppercase tracking-[0.1em] text-slate-600">Status</th>
                   <th className="px-4 py-2.5 text-xs font-bold uppercase tracking-[0.1em] text-slate-600">Actions</th>
                 </tr>
@@ -103,17 +180,21 @@ export default function AdminProducts() {
                     <td className="px-4 py-3">
                       <span className="text-xs font-semibold text-emerald-600">{p.division}</span>
                     </td>
-                    <td className="px-4 py-3 text-slate-600">{p.category || "—"}</td>
-                    <td className="px-4 py-3 text-slate-500 text-xs">{p.material || "—"}</td>
+                    <td className="px-4 py-3 text-slate-600 text-xs">{p.category || "—"}</td>
                     <td className="px-4 py-3">
-                      <span className={`text-xs px-2 py-0.5 rounded-sm ${p.status === "published" ? "bg-emerald-50 text-emerald-700" : "bg-slate-100 text-slate-500"}`}>
+                      <span className={`text-xs px-2 py-0.5 rounded-sm ${p.status === "published" ? "bg-emerald-50 text-emerald-700" : p.status === "draft" ? "bg-yellow-50 text-yellow-700" : "bg-slate-100 text-slate-500"}`}>
                         {p.status}
                       </span>
                     </td>
                     <td className="px-4 py-3">
-                      <button onClick={() => handleDelete(p.id, p.product_name)} className="p-1 text-slate-400 hover:text-red-500">
-                        <Trash2 size={14} />
-                      </button>
+                      <div className="flex items-center gap-1">
+                        <button onClick={() => openEdit(p)} className="p-1 text-slate-400 hover:text-blue-600" data-testid={`edit-product-${p.id}`}>
+                          <Edit2 size={14} />
+                        </button>
+                        <button onClick={() => handleDelete(p.id, p.product_name)} className="p-1 text-slate-400 hover:text-red-500">
+                          <Trash2 size={14} />
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}
@@ -133,6 +214,181 @@ export default function AdminProducts() {
           <button onClick={() => setPage(page + 1)} disabled={page >= pages} className="p-1 border border-slate-200 rounded disabled:opacity-30">
             <ChevronRight size={14} />
           </button>
+        </div>
+      )}
+
+      {/* Create/Edit Drawer */}
+      {showForm && (
+        <div className="fixed inset-0 z-50 flex" data-testid="product-form-drawer">
+          <div className="flex-1 bg-black/30" onClick={() => setShowForm(false)} />
+          <div className="w-full max-w-lg bg-white shadow-xl overflow-y-auto">
+            <div className="sticky top-0 bg-white border-b border-slate-200 px-5 py-4 flex items-center justify-between z-10">
+              <h2 className="font-bold text-slate-900" style={{ fontFamily: "Chivo" }}>
+                {editingId ? "Edit Product" : "Add New Product"}
+              </h2>
+              <button onClick={() => setShowForm(false)} className="p-1 text-slate-400 hover:text-slate-900">
+                <X size={18} />
+              </button>
+            </div>
+            <div className="p-5 space-y-4">
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">Product Name *</label>
+                <input
+                  type="text"
+                  value={form.product_name}
+                  onChange={(e) => setForm({ ...form, product_name: e.target.value })}
+                  className="w-full px-3 py-2 border border-slate-200 rounded-sm text-sm outline-none focus:border-emerald-500"
+                  data-testid="form-product-name"
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">SKU Code</label>
+                  <input
+                    type="text"
+                    value={form.sku_code}
+                    onChange={(e) => setForm({ ...form, sku_code: e.target.value })}
+                    className="w-full px-3 py-2 border border-slate-200 rounded-sm text-sm outline-none focus:border-emerald-500"
+                    data-testid="form-sku-code"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">Division *</label>
+                  <select
+                    value={form.division}
+                    onChange={(e) => setForm({ ...form, division: e.target.value })}
+                    className="w-full px-3 py-2 border border-slate-200 rounded-sm text-sm bg-white outline-none focus:border-emerald-500"
+                    data-testid="form-division"
+                  >
+                    <option value="">Select Division</option>
+                    {DIVISIONS.map((d) => <option key={d} value={d}>{d}</option>)}
+                  </select>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">Category</label>
+                  <input
+                    type="text"
+                    value={form.category}
+                    onChange={(e) => setForm({ ...form, category: e.target.value })}
+                    className="w-full px-3 py-2 border border-slate-200 rounded-sm text-sm outline-none focus:border-emerald-500"
+                    data-testid="form-category"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">Material</label>
+                  <input
+                    type="text"
+                    value={form.material}
+                    onChange={(e) => setForm({ ...form, material: e.target.value })}
+                    className="w-full px-3 py-2 border border-slate-200 rounded-sm text-sm outline-none focus:border-emerald-500"
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">Description</label>
+                <textarea
+                  value={form.description}
+                  onChange={(e) => setForm({ ...form, description: e.target.value })}
+                  rows={3}
+                  className="w-full px-3 py-2 border border-slate-200 rounded-sm text-sm outline-none focus:border-emerald-500 resize-none"
+                  data-testid="form-description"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">Technical Specifications (JSON)</label>
+                <textarea
+                  value={specsText}
+                  onChange={(e) => setSpecsText(e.target.value)}
+                  rows={4}
+                  className="w-full px-3 py-2 border border-slate-200 rounded-sm text-xs font-mono outline-none focus:border-emerald-500 resize-none"
+                  placeholder='{"key": "value", "feature": true}'
+                  data-testid="form-specs"
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">Sizes (comma separated)</label>
+                  <input
+                    type="text"
+                    value={sizesText}
+                    onChange={(e) => setSizesText(e.target.value)}
+                    className="w-full px-3 py-2 border border-slate-200 rounded-sm text-sm outline-none focus:border-emerald-500"
+                    placeholder="Small, Medium, Large"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">Pack Size</label>
+                  <input
+                    type="text"
+                    value={form.pack_size}
+                    onChange={(e) => setForm({ ...form, pack_size: e.target.value })}
+                    className="w-full px-3 py-2 border border-slate-200 rounded-sm text-sm outline-none focus:border-emerald-500"
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">Manufacturer</label>
+                <input
+                  type="text"
+                  value={form.manufacturer}
+                  onChange={(e) => setForm({ ...form, manufacturer: e.target.value })}
+                  className="w-full px-3 py-2 border border-slate-200 rounded-sm text-sm outline-none focus:border-emerald-500"
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">SEO Meta Title</label>
+                  <input
+                    type="text"
+                    value={form.seo_meta_title}
+                    onChange={(e) => setForm({ ...form, seo_meta_title: e.target.value })}
+                    className="w-full px-3 py-2 border border-slate-200 rounded-sm text-sm outline-none focus:border-emerald-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">Status</label>
+                  <select
+                    value={form.status}
+                    onChange={(e) => setForm({ ...form, status: e.target.value })}
+                    className="w-full px-3 py-2 border border-slate-200 rounded-sm text-sm bg-white outline-none focus:border-emerald-500"
+                    data-testid="form-status"
+                  >
+                    <option value="published">Published</option>
+                    <option value="draft">Draft</option>
+                    <option value="archived">Archived</option>
+                  </select>
+                </div>
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">Brochure URL</label>
+                <input
+                  type="text"
+                  value={form.brochure_url}
+                  onChange={(e) => setForm({ ...form, brochure_url: e.target.value })}
+                  className="w-full px-3 py-2 border border-slate-200 rounded-sm text-sm outline-none focus:border-emerald-500"
+                  placeholder="https://..."
+                />
+              </div>
+              <div className="flex gap-2 pt-2">
+                <button
+                  onClick={handleSave}
+                  disabled={saving}
+                  className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-emerald-600 text-white font-semibold rounded-sm hover:bg-emerald-700 disabled:opacity-50 transition-colors"
+                  data-testid="save-product-btn"
+                >
+                  <Save size={16} /> {saving ? "Saving..." : editingId ? "Update Product" : "Create Product"}
+                </button>
+                <button
+                  onClick={() => setShowForm(false)}
+                  className="px-4 py-2.5 border border-slate-200 text-slate-700 font-medium rounded-sm hover:bg-slate-50"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       )}
     </div>

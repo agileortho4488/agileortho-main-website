@@ -1,6 +1,6 @@
 import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import { LayoutDashboard, Users, Package, LogOut, ChevronRight } from "lucide-react";
+import { LayoutDashboard, Users, Package, LogOut, ChevronRight, BarChart3, Kanban } from "lucide-react";
 
 export const AdminLayout = () => {
   const location = useLocation();
@@ -18,7 +18,9 @@ export const AdminLayout = () => {
 
   const links = [
     { to: "/admin", icon: LayoutDashboard, label: "Dashboard" },
-    { to: "/admin/leads", icon: Users, label: "Leads CRM" },
+    { to: "/admin/pipeline", icon: Kanban, label: "Pipeline" },
+    { to: "/admin/leads", icon: Users, label: "Leads" },
+    { to: "/admin/analytics", icon: BarChart3, label: "Analytics" },
     { to: "/admin/products", icon: Package, label: "Products" },
   ];
 
