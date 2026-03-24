@@ -285,6 +285,21 @@ async def create_lead(lead: LeadCreate):
     result = await leads_col.insert_one(doc)
     doc.pop("_id", None)
     doc["id"] = str(result.inserted_id)
+
+    # Sync new lead to Interakt in background
+    if lead.phone_whatsapp:
+        asyncio.create_task(track_user_in_interakt(
+            lead.phone_whatsapp, name=lead.name, email=lead.email or "",
+            traits={"hospital": lead.hospital_clinic or "", "district": lead.district or "",
+                    "inquiry_type": lead.inquiry_type or "", "product_interest": lead.product_interest or ""},
+            tags=["website-lead", f"score-{score_label.lower()}"]
+        ))
+        asyncio.create_task(track_event_in_interakt(
+            lead.phone_whatsapp, "Lead Created",
+            {"source": lead.source or "website", "inquiry_type": lead.inquiry_type or "",
+             "product_interest": lead.product_interest or ""}
+        ))
+
     return {"message": "Lead captured successfully", "lead": doc}
 
 
@@ -1461,36 +1476,43 @@ async def chat_suggestions():
 
 
 # ============================================================
-#  PHASE 5: INTERAKT WHATSAPP INTEGRATION
+#  PHASE 5: INTERAKT WHATSAPP INTEGRATION (ENHANCED)
 # ============================================================
 
 INTERAKT_API_KEY = os.environ.get("INTERAKT_API_KEY", "")
 INTERAKT_API_URL = "https://api.interakt.ai/v1/public/message/"
 INTERAKT_TRACK_URL = "https://api.interakt.ai/v1/public/track/users/"
+INTERAKT_EVENT_URL = "https://api.interakt.ai/v1/public/track/events/"
 WHATSAPP_NUMBER = os.environ.get("WHATSAPP_BUSINESS_NUMBER", "+917416521222")
 
 wa_conversations_col = db["wa_conversations"]
+wa_message_status_col = db["wa_message_status"]
 
 
 def interakt_auth_header():
     return f"Basic {INTERAKT_API_KEY}"
 
 
-async def send_whatsapp_message(phone: str, text: str, country_code: str = "+91"):
+def clean_phone_number(phone: str):
+    """Clean phone number — strip country code, spaces, dashes."""
+    clean = phone.replace("+", "").replace(" ", "").replace("-", "")
+    if clean.startswith("91") and len(clean) > 10:
+        clean = clean[2:]
+    return clean
+
+
+async def send_whatsapp_message(phone: str, text: str, country_code: str = "+91", callback_data: str = "wa_bot_reply"):
     """Send a text message via Interakt WhatsApp API (session message)."""
     import requests as req
     headers = {
         "Authorization": interakt_auth_header(),
         "Content-Type": "application/json",
     }
-    # Clean phone number
-    clean_phone = phone.replace("+", "").replace(" ", "").replace("-", "")
-    if clean_phone.startswith("91") and len(clean_phone) > 10:
-        clean_phone = clean_phone[2:]
+    clean_phone = clean_phone_number(phone)
     payload = {
         "countryCode": country_code,
         "phoneNumber": clean_phone,
-        "callbackData": "wa_bot_reply",
+        "callbackData": callback_data,
         "type": "Text",
         "data": {
             "message": text
@@ -1499,7 +1521,118 @@ async def send_whatsapp_message(phone: str, text: str, country_code: str = "+91"
     try:
         resp = req.post(INTERAKT_API_URL, json=payload, headers=headers, timeout=15)
         result = resp.json()
-        return {"success": resp.status_code == 200, "data": result}
+        msg_id = result.get("id", "")
+        if msg_id:
+            await wa_message_status_col.insert_one({
+                "message_id": msg_id,
+                "phone": clean_phone,
+                "type": "text",
+                "status": "queued",
+                "callback_data": callback_data,
+                "created_at": datetime.now(timezone.utc).isoformat(),
+            })
+        return {"success": resp.status_code in (200, 201), "data": result, "message_id": msg_id}
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+
+async def send_whatsapp_template(phone: str, template_name: str, language_code: str = "en",
+                                  body_values: list = None, header_values: list = None,
+                                  button_values: dict = None, country_code: str = "+91",
+                                  callback_data: str = "wa_template"):
+    """Send a template message via Interakt WhatsApp API."""
+    import requests as req
+    headers = {
+        "Authorization": interakt_auth_header(),
+        "Content-Type": "application/json",
+    }
+    clean_phone = clean_phone_number(phone)
+    template = {
+        "name": template_name,
+        "languageCode": language_code,
+    }
+    if body_values:
+        template["bodyValues"] = body_values
+    if header_values:
+        template["headerValues"] = header_values
+    if button_values:
+        template["buttonValues"] = button_values
+
+    payload = {
+        "countryCode": country_code,
+        "phoneNumber": clean_phone,
+        "callbackData": callback_data,
+        "type": "Template",
+        "template": template,
+    }
+    try:
+        resp = req.post(INTERAKT_API_URL, json=payload, headers=headers, timeout=15)
+        result = resp.json()
+        msg_id = result.get("id", "")
+        if msg_id:
+            await wa_message_status_col.insert_one({
+                "message_id": msg_id,
+                "phone": clean_phone,
+                "type": "template",
+                "template_name": template_name,
+                "status": "queued",
+                "callback_data": callback_data,
+                "created_at": datetime.now(timezone.utc).isoformat(),
+            })
+        return {"success": resp.status_code in (200, 201), "data": result, "message_id": msg_id}
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+
+async def track_user_in_interakt(phone: str, name: str = "", email: str = "",
+                                  traits: dict = None, tags: list = None):
+    """Sync a user/lead to Interakt via User Track API."""
+    import requests as req
+    headers = {
+        "Authorization": interakt_auth_header(),
+        "Content-Type": "application/json",
+    }
+    clean_phone = clean_phone_number(phone)
+    user_traits = {"name": name} if name else {}
+    if email:
+        user_traits["email"] = email
+    if traits:
+        user_traits.update(traits)
+
+    payload = {
+        "phoneNumber": clean_phone,
+        "countryCode": "+91",
+        "traits": user_traits,
+    }
+    if tags:
+        payload["tags"] = tags
+
+    try:
+        resp = req.post(INTERAKT_TRACK_URL, json=payload, headers=headers, timeout=15)
+        return {"success": resp.status_code in (200, 201, 202), "data": resp.json()}
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+
+async def track_event_in_interakt(phone: str, event_name: str, event_traits: dict = None):
+    """Track a business event for a user in Interakt via Event Track API."""
+    import requests as req
+    headers = {
+        "Authorization": interakt_auth_header(),
+        "Content-Type": "application/json",
+    }
+    clean_phone = clean_phone_number(phone)
+    payload = {
+        "phoneNumber": clean_phone,
+        "countryCode": "+91",
+        "event": event_name,
+    }
+    if event_traits:
+        payload["traits"] = event_traits
+
+    try:
+        resp = req.post(INTERAKT_EVENT_URL, json=payload, headers=headers, timeout=15)
+        return {"success": resp.status_code in (200, 201), "data": resp.json()}
     except Exception as e:
         return {"success": False, "error": str(e)}
 
@@ -1600,6 +1733,15 @@ async def handle_wa_incoming(phone: str, message_text: str, customer_name: str =
             {"phone": phone},
             {"$set": {"lead_created": True}}
         )
+        # Sync new contact to Interakt
+        asyncio.create_task(track_user_in_interakt(
+            phone, name=customer_name or f"WhatsApp {phone}",
+            tags=["whatsapp-lead", "auto-created"]
+        ))
+        asyncio.create_task(track_event_in_interakt(
+            phone, "WhatsApp Conversation Started",
+            {"source": "whatsapp", "first_message": message_text[:100]}
+        ))
 
     # Send reply via Interakt
     await send_whatsapp_message(phone, ai_response)
@@ -1649,6 +1791,26 @@ async def whatsapp_webhook(request: Request):
             else:
                 # Process with AI in background
                 asyncio.create_task(handle_wa_incoming(phone, message_text, customer_name))
+
+    elif event_type in ("message_sent", "message_delivered", "message_read", "message_failed"):
+        # Track message delivery status
+        msg_id = data.get("id", "") or data.get("message_id", "")
+        status_map = {
+            "message_sent": "sent",
+            "message_delivered": "delivered",
+            "message_read": "read",
+            "message_failed": "failed",
+        }
+        new_status = status_map.get(event_type, event_type)
+        if msg_id:
+            await wa_message_status_col.update_one(
+                {"message_id": msg_id},
+                {"$set": {
+                    "status": new_status,
+                    f"{new_status}_at": datetime.now(timezone.utc).isoformat(),
+                }},
+                upsert=True,
+            )
 
     return {"status": "success", "code": 200}
 
@@ -1743,3 +1905,189 @@ async def admin_automate_conversation(phone: str, _=Depends(admin_required)):
         {"$set": {"status": "active", "updated_at": datetime.now(timezone.utc).isoformat()}}
     )
     return {"message": "Conversation switched back to AI mode"}
+
+
+# --- Template Message Endpoints ---
+
+@app.post("/api/admin/whatsapp/send-template")
+async def admin_send_template(request: Request, _=Depends(admin_required)):
+    """Send a pre-approved WhatsApp template message to a customer."""
+    body = await request.json()
+    phone = body.get("phone", "")
+    template_name = body.get("template_name", "")
+    language_code = body.get("language_code", "en")
+    body_values = body.get("body_values", [])
+    header_values = body.get("header_values", [])
+    button_values = body.get("button_values")
+
+    if not phone or not template_name:
+        raise HTTPException(400, "Phone and template_name are required")
+
+    result = await send_whatsapp_template(
+        phone, template_name, language_code,
+        body_values=body_values or None,
+        header_values=header_values or None,
+        button_values=button_values,
+        callback_data=f"template_{template_name}",
+    )
+
+    # Save template message to conversation
+    template_msg = {
+        "role": "admin",
+        "content": f"[Template: {template_name}] " + (", ".join(body_values) if body_values else ""),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "channel": "whatsapp",
+        "type": "template",
+        "template_name": template_name,
+    }
+    await wa_conversations_col.update_one(
+        {"phone": phone},
+        {
+            "$push": {"messages": template_msg},
+            "$set": {"updated_at": datetime.now(timezone.utc).isoformat()},
+        },
+        upsert=True,
+    )
+
+    return {"success": result.get("success", False), "message": "Template sent", "data": result.get("data")}
+
+
+# --- Interakt Contact Sync Endpoints ---
+
+@app.post("/api/admin/whatsapp/sync-lead")
+async def admin_sync_lead_to_interakt(request: Request, _=Depends(admin_required)):
+    """Sync a specific lead to Interakt's contact database with traits and tags."""
+    body = await request.json()
+    lead_id = body.get("lead_id", "")
+    if not lead_id:
+        raise HTTPException(400, "lead_id is required")
+
+    lead = await leads_col.find_one({"id": lead_id}, {"_id": 0})
+    if not lead:
+        raise HTTPException(404, "Lead not found")
+
+    phone = lead.get("phone_whatsapp", "")
+    if not phone:
+        raise HTTPException(400, "Lead has no WhatsApp number")
+
+    tags = ["crm-lead"]
+    if lead.get("score"):
+        tags.append(f"score-{lead['score'].lower()}")
+    if lead.get("source"):
+        tags.append(f"source-{lead['source'].lower()}")
+
+    traits = {
+        "name": lead.get("name", ""),
+        "email": lead.get("email", ""),
+        "hospital": lead.get("hospital_clinic", ""),
+        "district": lead.get("district", ""),
+        "inquiry_type": lead.get("inquiry_type", ""),
+        "product_interest": lead.get("product_interest", ""),
+        "lead_status_crm": lead.get("status", ""),
+    }
+    # Remove empty traits
+    traits = {k: v for k, v in traits.items() if v}
+
+    result = await track_user_in_interakt(phone, name=lead.get("name", ""), email=lead.get("email", ""),
+                                           traits=traits, tags=tags)
+    return {"success": result.get("success", False), "data": result.get("data")}
+
+
+@app.post("/api/admin/whatsapp/sync-all-leads")
+async def admin_sync_all_leads(request: Request, _=Depends(admin_required)):
+    """Bulk sync all leads with WhatsApp numbers to Interakt."""
+    cursor = leads_col.find(
+        {"phone_whatsapp": {"$ne": ""}},
+        {"_id": 0}
+    )
+    synced = 0
+    failed = 0
+    async for lead in cursor:
+        phone = lead.get("phone_whatsapp", "")
+        if not phone:
+            continue
+        tags = ["crm-lead"]
+        if lead.get("score"):
+            tags.append(f"score-{lead['score'].lower()}")
+        traits = {
+            "name": lead.get("name", ""),
+            "email": lead.get("email", ""),
+            "hospital": lead.get("hospital_clinic", ""),
+            "district": lead.get("district", ""),
+            "lead_status_crm": lead.get("status", ""),
+        }
+        traits = {k: v for k, v in traits.items() if v}
+        result = await track_user_in_interakt(phone, name=lead.get("name", ""),
+                                               email=lead.get("email", ""),
+                                               traits=traits, tags=tags)
+        if result.get("success"):
+            synced += 1
+        else:
+            failed += 1
+
+    return {"synced": synced, "failed": failed, "total": synced + failed}
+
+
+# --- Event Tracking Endpoints ---
+
+@app.post("/api/admin/whatsapp/track-event")
+async def admin_track_event(request: Request, _=Depends(admin_required)):
+    """Manually track a business event for a contact in Interakt."""
+    body = await request.json()
+    phone = body.get("phone", "")
+    event_name = body.get("event", "")
+    event_traits = body.get("traits", {})
+
+    if not phone or not event_name:
+        raise HTTPException(400, "phone and event are required")
+
+    result = await track_event_in_interakt(phone, event_name, event_traits)
+    return {"success": result.get("success", False), "data": result.get("data")}
+
+
+# --- Message Analytics Endpoints ---
+
+@app.get("/api/admin/whatsapp/analytics")
+async def get_wa_analytics(_=Depends(admin_required)):
+    """Get WhatsApp messaging analytics — delivery rates, conversation stats."""
+    # Conversation stats
+    total_convs = await wa_conversations_col.count_documents({})
+    active_convs = await wa_conversations_col.count_documents({"status": "active"})
+    human_convs = await wa_conversations_col.count_documents({"status": "human"})
+
+    # Message delivery stats
+    total_msgs = await wa_message_status_col.count_documents({})
+    sent_msgs = await wa_message_status_col.count_documents({"status": "sent"})
+    delivered_msgs = await wa_message_status_col.count_documents({"status": "delivered"})
+    read_msgs = await wa_message_status_col.count_documents({"status": "read"})
+    failed_msgs = await wa_message_status_col.count_documents({"status": "failed"})
+    queued_msgs = await wa_message_status_col.count_documents({"status": "queued"})
+    template_msgs = await wa_message_status_col.count_documents({"type": "template"})
+
+    # Total messages across all conversations
+    pipeline = [
+        {"$project": {"msg_count": {"$size": {"$ifNull": ["$messages", []]}}}},
+        {"$group": {"_id": None, "total": {"$sum": "$msg_count"}}},
+    ]
+    agg = await wa_conversations_col.aggregate(pipeline).to_list(1)
+    total_chat_msgs = agg[0]["total"] if agg else 0
+
+    return {
+        "conversations": {
+            "total": total_convs,
+            "ai_active": active_convs,
+            "human_takeover": human_convs,
+            "total_messages": total_chat_msgs,
+        },
+        "delivery": {
+            "total_tracked": total_msgs,
+            "queued": queued_msgs,
+            "sent": sent_msgs,
+            "delivered": delivered_msgs,
+            "read": read_msgs,
+            "failed": failed_msgs,
+            "template_messages": template_msgs,
+            "delivery_rate": round((delivered_msgs / total_msgs * 100) if total_msgs > 0 else 0, 1),
+            "read_rate": round((read_msgs / total_msgs * 100) if total_msgs > 0 else 0, 1),
+        },
+    }
