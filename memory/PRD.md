@@ -21,63 +21,60 @@
 
 ### Phase 1: Foundation & Portfolio (COMPLETE)
 - Backend: FastAPI + MongoDB, Products CRUD, Leads API, Admin JWT auth
-- Database: 93 products across 8 divisions (45 seeded + 44 from brochure imports + 4 from Variabilis)
-- Lead Scoring: Auto-scoring engine (Hot/Warm/Cold)
 - Frontend: React 19 + Tailwind CSS + Shadcn UI
-- Navigation: Products, About, Contact, AI Assistant, Shop (external)
 - Admin: Login, dashboard, leads CRM, products management
 
 ### Phase 2: Enhanced CRM (COMPLETE)
-- Kanban Pipeline: 6-column drag-and-drop board
-- CRM Analytics: Conversion funnel, score distribution, leads by source
-- Product Create/Edit: Full form drawer
+- Kanban Pipeline, CRM Analytics, Product Create/Edit
 
 ### Phase 3: Claude AI PDF Importer (COMPLETE)
-- PDF Upload -> Claude AI Extraction -> SEO Generation -> Admin Approval
-- Deduplication: SKU + name similarity check
-- Claude Vision: For image-based PDFs (OCR + Vision fallback)
+- PDF Upload -> Claude AI Extraction -> Admin Approval
+- OCR support via pdfplumber, PyMuPDF, pdf2image, pytesseract
+- Claude Vision fallback for image-based PDFs
+- PPTX file extraction support (python-pptx)
 - Reprocess endpoint for failed imports
 
-### Product Detail Page Redesign (COMPLETE)
-- Side-by-side hero, social share, product tags, tabbed content
-- Trust badges, quote modal, help banner, related products
-
 ### Phase 4: RAG AI Chatbot (COMPLETE)
-- Claude Sonnet RAG with 93-product knowledge base
-- Floating widget on all pages + dedicated /chat page
-- Session management, conversation history, lead capture
-- Agile Ortho Sales Assistant personality
+- Claude Sonnet RAG with 300+ product knowledge base
+- Floating widget + dedicated /chat page
+- Session management, lead capture
 
 ### Phase 5: Interakt WhatsApp Integration (COMPLETE — FULLY ENHANCED)
-- Webhook: POST /api/webhook/whatsapp with HMAC SHA256 signature verification
-- Correct Interakt event types: message_api_sent/delivered/read/failed/clicked, message_campaign_*, message_template_status_update, account alerts
-- AI auto-reply on WhatsApp using same RAG pipeline
-- Human takeover mode
-- Auto-lead creation from WhatsApp
-- Unified inbox at /admin/whatsapp
-- Template Message Sending from admin UI
-- User Track API: Sync CRM leads to Interakt with traits & tags
-- Event Track API: Track business events (Lead Created, WhatsApp Conversation Started)
-- Message Delivery Status tracking with failure reasons & error codes
-- Button click tracking (Quick Reply & CTA)
-- WhatsApp Analytics Dashboard (conversation & delivery metrics)
-- Contact Sync: Bulk sync all leads to Interakt
-- Auto-sync: New leads from website/WhatsApp auto-synced to Interakt
-- Webhook event logging for debugging
-- Webhook secret key validation configured
+- Webhook with HMAC SHA256 signature verification
+- All Interakt event types handled
+- Template messaging, contact sync, event tracking
+- WhatsApp analytics dashboard
+- Auto-sync new leads to Interakt
 
-### Full Rebrand (COMPLETE)
-- MedDevice Pro -> Agile Ortho everywhere
-- Real company logo, address, GST, phone numbers, email
-- SEO meta tags, page titles, favicon updated
+### Product Catalog (306 PRODUCTS — 13 DIVISIONS)
+| Division | Count |
+|---|---|
+| Diagnostics | 84 |
+| Infection Prevention | 72 |
+| Trauma | 37 |
+| ENT | 30 |
+| Orthopedics | 28 |
+| Cardiovascular | 21 |
+| Endo-surgical | 16 |
+| Peripheral Intervention | 6 |
+| Cardiac Surgery | 6 |
+| Others (Dental, Critical Care, Robotics, Sport Medicine) | 6 |
+| **Total** | **306** |
 
-## Product Divisions (93 products)
-1. Orthopedics (22) 2. Trauma (35) 3. Cardiovascular (6)
-4. Diagnostics (6) 5. ENT (5) 6. Endo-surgical (6)
-7. Infection Prevention (6) 8. Peripheral Intervention (4)
+### Data Sources
+- Initial seed: 45 products
+- Brochure imports (Phase 3): 44 products from user PDFs
+- Google Drive batch 1 (40 PDFs): ~134 products
+- PPTX files (5 files): 17 ENT products
+- Google Drive batch 2 (58 PDFs): 66 products
+
+### GA4 Analytics (COMPLETE)
+- Measurement ID: G-MXXC41JFLG
 
 ## Credentials
 - Admin Password: admin
+- Interakt API Key: configured in .env
+- Interakt Webhook Secret: configured in .env
 
 ## Remaining Tasks
 
@@ -85,11 +82,11 @@
 - React Helmet meta tags per page
 - JSON-LD structured data
 - District landing pages
-- Performance optimization
 
 ### Backlog
-- Meril website-inspired homepage redesign
+- Meril website-inspired homepage redesign (merillife.com reference)
 - Product image uploads via object storage
 - Product comparison feature
 - Backend refactoring (break monolithic server.py)
-- Retry Trauma PLATE Brochure import
+- Download remaining brochures from Google Drive (Ortho Hip/Knee, Vascular detailed)
+- Process image-only PDFs (2 remaining failed)

@@ -35,4 +35,24 @@ export const updateAdminProduct = (id, data) => api.put(`/api/admin/products/${i
 export const deleteAdminProduct = (id) => api.delete(`/api/admin/products/${id}`);
 export const reprocessImport = (id) => api.post(`/api/admin/imports/${id}/reprocess`);
 
+// Product Image APIs
+export const uploadProductImages = (productId, files) => {
+  const formData = new FormData();
+  files.forEach((f) => formData.append("files", f));
+  return api.post(`/api/admin/products/${productId}/images`, formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+};
+export const deleteProductImage = (productId, imageId) =>
+  api.delete(`/api/admin/products/${productId}/images/${imageId}`);
+export const bulkUploadImages = (files) => {
+  const formData = new FormData();
+  files.forEach((f) => formData.append("files", f));
+  return api.post("/api/admin/products/bulk-images", formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+};
+export const getFileUrl = (storagePath) =>
+  `${API_URL}/api/files/${storagePath}`;
+
 export default api;
