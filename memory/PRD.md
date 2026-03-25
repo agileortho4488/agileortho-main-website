@@ -1,92 +1,88 @@
 # Agile Ortho — Product Requirements Document
 
-## Project Overview
-**Name:** Agile Ortho — B2B Medical Device Platform
-**Company:** AGILE ORTHOPEDICS PRIVATE LIMITED
-**Domain:** www.agileortho.in
-**Stack:** React 19 + FastAPI + MongoDB + Claude AI + Interakt WhatsApp
-**GST:** 36AATCA5653R1ZO
+## Original Problem Statement
+Build a B2B medical device platform for a premier medical device master franchise in Telangana, India. Rebranded as "Agile Ortho".
 
-## Core Identity
-- **Brand:** Agile Ortho
-- **Tagline:** Mobility Revolutionised
-- **Role:** Authorized Meril Life Sciences Master Distributor for Telangana
-- **Phone:** +917416216262
-- **WhatsApp:** +917416521222
-- **Email:** info@agileortho.in
-- **Address:** 1st Floor, Plot No 26, H.No 8-6-11/P20, Urmila Devi Complex, Engineers Colony, Hayathnagar, Hyderabad, Telangana - 500074
-- **Shop:** https://www.agileortho.shop
+## Core Requirements
+1. **Portfolio Showcase** (React Frontend): Mega-menu, products by medical divisions
+2. **Custom Inbuilt CRM** (MongoDB): Lead management with scoring engine
+3. **Claude & Interakt Automation**: Admin PDF upload → extract product data → auto-draft pages
+4. **"Master AI" RAG Chatbot**: Autonomous AI chatbot integrated with product DB
+5. **Interakt Integration**: WhatsApp API for automated conversations, templates, webhooks
+6. **UI/UX & SEO**: Clinical design with SEO configurations
 
-## What's Implemented
+## Tech Stack
+- **Frontend**: React, TailwindCSS, Shadcn UI
+- **Backend**: FastAPI, Motor (Async MongoDB), Pydantic
+- **AI**: Claude Sonnet 4.5 (via emergentintegrations) for OCR/Vision + RAG chatbot
+- **Data Extraction**: pdfplumber, pdf2image, pytesseract, pymupdf, python-pptx
+- **3rd Party**: Interakt WhatsApp API, Google Analytics 4
+- **Storage**: Emergent Object Storage for product images
 
-### Phase 1: Foundation & Portfolio (COMPLETE)
-- Backend: FastAPI + MongoDB, Products CRUD, Leads API, Admin JWT auth
-- Frontend: React 19 + Tailwind CSS + Shadcn UI
-- Admin: Login, dashboard, leads CRM, products management
+## Architecture (Post-Refactoring)
+```
+/app/backend/
+├── server.py          # Entry point (~70 lines) — CORS, routers, startup
+├── db.py              # MongoDB connection + collections
+├── models.py          # Pydantic models
+├── helpers.py         # Auth, serialization, scoring, object storage
+├── seed.py            # Seed data
+├── routes/
+│   ├── public.py      # Health, divisions, products, leads, file serving
+│   ├── admin.py       # Login, dashboard, analytics, leads CRUD, products CRUD, image upload
+│   ├── imports.py     # PDF import pipeline + Claude extraction
+│   ├── chat.py        # RAG chatbot
+│   └── whatsapp.py    # WhatsApp/Interakt integration
+└── tests/
 
-### Phase 2: Enhanced CRM (COMPLETE)
-- Kanban Pipeline, CRM Analytics, Product Create/Edit
+/app/frontend/src/
+├── pages/             # All page components
+├── components/ui/     # Shadcn UI components
+└── lib/api.js         # API client
+```
 
-### Phase 3: Claude AI PDF Importer (COMPLETE)
-- PDF Upload -> Claude AI Extraction -> Admin Approval
-- OCR support via pdfplumber, PyMuPDF, pdf2image, pytesseract
-- Claude Vision fallback for image-based PDFs
-- PPTX file extraction support (python-pptx)
-- Reprocess endpoint for failed imports
+## What's Been Implemented
 
-### Phase 4: RAG AI Chatbot (COMPLETE)
-- Claude Sonnet RAG with 300+ product knowledge base
-- Floating widget + dedicated /chat page
-- Session management, lead capture
+### Phase 1: Portfolio Website & CRM (DONE)
+- Full product catalog (306 products, 13+ divisions)
+- Mega-menu navigation, product detail pages
+- Lead capture forms with scoring (Hot/Warm/Cold)
+- Admin dashboard with analytics
 
-### Phase 5: Interakt WhatsApp Integration (COMPLETE — FULLY ENHANCED)
-- Webhook with HMAC SHA256 signature verification
-- All Interakt event types handled
-- Template messaging, contact sync, event tracking
-- WhatsApp analytics dashboard
-- Auto-sync new leads to Interakt
+### Phase 2: AI Integration (DONE)
+- Claude AI PDF/PPTX importer with OCR (poppler/tesseract)
+- RAG chatbot connected to product database
+- SEO meta generation via Claude
 
-### Product Catalog (306 PRODUCTS — 13 DIVISIONS)
-| Division | Count |
-|---|---|
-| Diagnostics | 84 |
-| Infection Prevention | 72 |
-| Trauma | 37 |
-| ENT | 30 |
-| Orthopedics | 28 |
-| Cardiovascular | 21 |
-| Endo-surgical | 16 |
-| Peripheral Intervention | 6 |
-| Cardiac Surgery | 6 |
-| Others (Dental, Critical Care, Robotics, Sport Medicine) | 6 |
-| **Total** | **306** |
+### Phase 3: WhatsApp Integration (DONE)
+- Interakt WhatsApp API (auto-replies, human takeover)
+- Template messaging, delivery webhooks
+- Contact syncing, event tracking, unified inbox
 
-### Data Sources
-- Initial seed: 45 products
-- Brochure imports (Phase 3): 44 products from user PDFs
-- Google Drive batch 1 (40 PDFs): ~134 products
-- PPTX files (5 files): 17 ENT products
-- Google Drive batch 2 (58 PDFs): 66 products
+### Phase 4: Google Analytics (DONE)
+- GA4 integrated (G-MXXC41JFLG)
 
-### GA4 Analytics (COMPLETE)
-- Measurement ID: G-MXXC41JFLG
+### Phase 5: Product Image Upload & Refactoring (DONE — 2026-03-25)
+- Object storage integration for product images
+- Admin single-product image upload (drag & drop)
+- Bulk image upload with SKU auto-matching
+- Image delete functionality
+- Refactored monolithic server.py (2200+ lines) into modular route files
+- Cleaned up /app/brochures/ redundant scripts
+- All 28 backend tests + full frontend UI tests passing (100%)
+
+## Database Schema
+- `products`: {product_name, sku_code, division, category, description, technical_specifications, images[], status, slug}
+- `leads`: {name, hospital_clinic, phone_whatsapp, email, district, inquiry_type, score, status}
+- `conversations`: {session_id, messages[], updated_at}
+- `wa_conversations`: {phone, session_id, messages[], status (active/human)}
+- `wa_message_status`: {message_id, phone, status, type}
+- `wa_webhook_logs`: {event_type, timestamp, data_summary}
+
+## Known Decisions
+- **MongoDB over PostgreSQL**: Original request was PostgreSQL, but MongoDB was chosen for flexible schema (medical device specs vary widely). This is documented tech debt but not planned for migration.
+- **HMAC webhook validation**: Non-blocking for Interakt webhooks due to inconsistent header transmission.
 
 ## Credentials
-- Admin Password: admin
-- Interakt API Key: configured in .env
-- Interakt Webhook Secret: configured in .env
-
-## Remaining Tasks
-
-### Phase 6: SEO & Polish (P1)
-- React Helmet meta tags per page
-- JSON-LD structured data
-- District landing pages
-
-### Backlog
-- Meril website-inspired homepage redesign (merillife.com reference)
-- Product image uploads via object storage
-- Product comparison feature
-- Backend refactoring (break monolithic server.py)
-- Download remaining brochures from Google Drive (Ortho Hip/Knee, Vascular detailed)
-- Process image-only PDFs (2 remaining failed)
+- Admin password: `admin`
+- System packages needed: poppler-utils, tesseract-ocr
