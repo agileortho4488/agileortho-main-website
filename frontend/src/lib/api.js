@@ -55,4 +55,22 @@ export const bulkUploadImages = (files) => {
 export const getFileUrl = (storagePath) =>
   `${API_URL}/api/files/${storagePath}`;
 
+// Bulk Catalog Upload APIs
+export const bulkCatalogUpload = (file, jobId) => {
+  const formData = new FormData();
+  formData.append("file", file);
+  if (jobId) formData.append("job_id", jobId);
+  return api.post("/api/admin/bulk-catalog/upload", formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+    timeout: 120000,
+  });
+};
+export const getBulkJobs = () => api.get("/api/admin/bulk-catalog/jobs");
+export const getBulkJob = (id) => api.get(`/api/admin/bulk-catalog/jobs/${id}`);
+export const getBulkJobFiles = (id) => api.get(`/api/admin/bulk-catalog/jobs/${id}/files`);
+export const startBulkProcessing = (id) => api.post(`/api/admin/bulk-catalog/jobs/${id}/process`);
+export const approveBulkProducts = (id, approveIds) =>
+  api.post(`/api/admin/bulk-catalog/jobs/${id}/approve`, { approve_ids: approveIds || [] });
+export const deleteBulkJob = (id) => api.delete(`/api/admin/bulk-catalog/jobs/${id}`);
+
 export default api;
