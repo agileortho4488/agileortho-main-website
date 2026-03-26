@@ -178,10 +178,15 @@ async def gated_brochure_download(data: dict):
         except Exception:
             pass
 
-    if not product or not product.get("brochure_url"):
+    brochure_path = product.get("brochure_url") or product.get("brochure")
+    if not product or not brochure_path:
         raise HTTPException(404, "Brochure not found for this product")
 
-    brochure_path = product["brochure_url"]
+    # Remove leading /api/files/ or /api/public/files/ if present
+    if brochure_path.startswith("/api/files/"):
+        brochure_path = brochure_path[len("/api/files/"):]
+    elif brochure_path.startswith("/api/public/files/"):
+        brochure_path = brochure_path[len("/api/public/files/"):]
 
     # Create or update lead
     existing = await leads_col.find_one({"phone_whatsapp": phone})

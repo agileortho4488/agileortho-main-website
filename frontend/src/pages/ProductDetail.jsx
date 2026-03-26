@@ -297,7 +297,7 @@ export default function ProductDetail() {
                 >
                   <Phone size={14} /> Call Sales Team
                 </a>
-                {product.brochure_url ? (
+                {(product.brochure_url || product.brochure) ? (
                   <button onClick={() => setShowBrochureForm(true)} className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 border border-teal-200 text-teal-700 text-sm font-semibold rounded-xl hover:bg-teal-50 transition-colors" data-testid="brochure-btn">
                     <Download size={14} /> Download Brochure
                   </button>
