@@ -53,7 +53,46 @@ Build a B2B medical device platform for a premier medical device master franchis
 - `POST /api/webhook/whatsapp` — WhatsApp webhook
 - `GET /api/admin/automation/stats` — Automation dashboard
 
+## SKU Intelligence System (Active — Feb 2026)
+
+### Architecture
+A 4-layer brochure data extraction system for training AI chatbot/WhatsApp bot:
+- **Layer 1**: Raw per-file extractions (`/app/backend/brochure_intelligence/raw_extractions/`)
+- **Layer 2**: Normalized product/SKU master (`/app/backend/brochure_intelligence/normalized_products/`)
+- **Layer 3**: Chatbot training chunks (`/app/backend/brochure_intelligence/training_chunks/`)
+- **Layer 4**: Logs, review queue, conflict resolution (`/app/backend/brochure_intelligence/logs/`)
+
+### CRITICAL: Central Nervous System
+**ANY new agent MUST read `/app/backend/brochure_intelligence/SYSTEM_STATE.json` FIRST.**
+This file contains complete processing state, discovered patterns, and resume point.
+
+### Source Data
+- 200 brochure files (2.5GB ZIP from Google Drive)
+- Google Drive link: `https://drive.google.com/file/d/191gs1CPG_MkcqWPtqC_GWIrPd1xvJlS_/view`
+- Local path: `/tmp/zoho_brochures/` (needs re-download if /tmp is cleared)
+- Download: `gdown 'https://drive.google.com/uc?id=191gs1CPG_MkcqWPtqC_GWIrPd1xvJlS_' -O /tmp/zoho_full.zip --fuzzy`
+
+### Processing Status
+- Files processed: 5/200
+- Next file: #6 (AGFN Brochure.pdf)
+- Products extracted: 118
+- SKUs with codes: 82
+- Brands identified: 12 (KET, ARMAR, AURIC, MAIRA, MEVEL, MIREX, BAKTIO, MIDOR, CUTANEX, MIREY, MYSCAN, MYNOX, INVIRO, MyClip)
+
+### Extraction Pipeline
+- Tier 1: pdfplumber/python-pptx/openpyxl (direct text)
+- Tier 2: pytesseract OCR (image-based pages)
+- Tier 3: Claude AI (ambiguous/complex content)
+
+### MongoDB Sync Plan
+1. Build full intelligence layer first (all 200 files)
+2. Create shadow collections in MongoDB
+3. Validate against existing product_data.json
+4. Only then merge into production
+
 ## Upcoming Tasks
+- P0: Continue brochure extraction (Files 6-200)
+- P1: First normalization batch after Files 1-10
 - P1: Push re-deployment to sync live database with 967 products
 - P2: WhatsApp Interactive Elements — Quick reply buttons, campaign management
 - P2: Facebook Developer Account Integration — CAPI and Lead Ads
@@ -61,6 +100,8 @@ Build a B2B medical device platform for a premier medical device master franchis
 ## Future/Backlog
 - P3: Product comparison feature
 - P4: MongoDB → PostgreSQL migration (if needed)
+- P5: Image extraction from brochure pages
+- P6: AI chatbot training with extracted brochure knowledge
 
 ## Admin Access
 - URL: /admin/login
