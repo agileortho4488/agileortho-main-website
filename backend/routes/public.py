@@ -154,3 +154,72 @@ async def serve_file(path: str):
         return Response(content=data, media_type=content_type)
     except Exception:
         raise HTTPException(404, "File not found")
+
+
+
+@router.post("/api/brochure-download")
+async def gated_brochure_download(data: dict):
+    """Gated brochure download - collect lead details before providing download"""
+    name = (data.get("name") or "").strip()
+    phone = (data.get("phone") or "").strip()
+    product_id = data.get("product_id", "")
+    email = (data.get("email") or "").strip()
+    hospital = (data.get("hospital") or "").strip()
+    district = (data.get("district") or "").strip()
+
+    if not name or not phone:
+        raise HTTPException(400, "Name and phone number are required")
+
+    # Find the product and its brochure
+    product = None
+    if product_id:
+        try:
+            product = await products_col.find_one({"_id": ObjectId(product_id)})
+        except Exception:
+            pass
+
+    if not product or not product.get("brochure_url"):
+        raise HTTPException(404, "Brochure not found for this product")
+
+    brochure_path = product["brochure_url"]
+
+    # Create or update lead
+    existing = await leads_col.find_one({"phone_whatsapp": phone})
+    now = datetime.now(timezone.utc).isoformat()
+
+    if existing:
+        update_set = {"updated_at": now}
+        update_ops = {"$set": update_set, "$addToSet": {"brochure_downloads": product.get("product_name", "")}}
+        # Only push to notes if it's an array
+        if isinstance(existing.get("notes"), list):
+            update_ops["$push"] = {"notes": {
+                "text": f"Downloaded brochure: {product.get('product_name', '')}",
+                "date": now, "author": "system"
+            }}
+        if hospital and not existing.get("hospital_clinic"):
+            update_set["hospital_clinic"] = hospital
+        if email and not existing.get("email"):
+            update_set["email"] = email
+        await leads_col.update_one({"_id": existing["_id"]}, update_ops)
+    else:
+        score_label = calculate_lead_score({"name": name, "phone_whatsapp": phone,
+            "hospital_clinic": hospital, "email": email, "district": district,
+            "inquiry_type": "Brochure Download", "product_interest": product.get("product_name", "")})
+        lead_doc = {
+            "name": name, "phone_whatsapp": phone, "email": email,
+            "hospital_clinic": hospital, "district": district,
+            "inquiry_type": "Brochure Download",
+            "product_interest": product.get("product_name", ""),
+            "source": "brochure_gate", "score": score_label, "stage": "new",
+            "assigned_to": "", "notes": [],
+            "brochure_downloads": [product.get("product_name", "")],
+            "created_at": now, "updated_at": now
+        }
+        await leads_col.insert_one(lead_doc)
+
+    # Return the download path
+    return {
+        "message": "Details captured. Starting download.",
+        "download_url": f"/api/files/{brochure_path}",
+        "product_name": product.get("product_name", ""),
+    }

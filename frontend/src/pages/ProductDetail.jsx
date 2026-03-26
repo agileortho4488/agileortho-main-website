@@ -21,8 +21,11 @@ export default function ProductDetail() {
   const [activeTab, setActiveTab] = useState(0);
   const [related, setRelated] = useState([]);
   const [showQuoteForm, setShowQuoteForm] = useState(false);
+  const [showBrochureForm, setShowBrochureForm] = useState(false);
   const [formData, setFormData] = useState({ name: "", hospital_clinic: "", phone_whatsapp: "", email: "", district: "", message: "" });
+  const [brochureData, setBrochureData] = useState({ name: "", phone: "", email: "", hospital: "", district: "" });
   const [submitting, setSubmitting] = useState(false);
+  const [brochureSubmitting, setBrochureSubmitting] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -295,9 +298,9 @@ export default function ProductDetail() {
                   <Phone size={14} /> Call Sales Team
                 </a>
                 {product.brochure_url ? (
-                  <a href={product.brochure_url} className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 border border-teal-200 text-teal-700 text-sm font-semibold rounded-xl hover:bg-teal-50 transition-colors" data-testid="brochure-btn">
+                  <button onClick={() => setShowBrochureForm(true)} className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 border border-teal-200 text-teal-700 text-sm font-semibold rounded-xl hover:bg-teal-50 transition-colors" data-testid="brochure-btn">
                     <Download size={14} /> Download Brochure
-                  </a>
+                  </button>
                 ) : (
                   <Link to="/contact" className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 border border-slate-200 text-slate-600 text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors" data-testid="request-datasheet-btn">
                     <FileText size={14} /> Request Datasheet
@@ -350,6 +353,77 @@ export default function ProductDetail() {
                   <button type="button" onClick={() => setShowQuoteForm(false)} className="flex-1 px-4 py-2.5 border border-slate-200 text-slate-600 text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors" data-testid="cancel-quote-btn">Cancel</button>
                   <button type="submit" disabled={submitting} className="flex-1 px-4 py-2.5 bg-teal-600 text-white text-sm font-bold rounded-xl hover:bg-teal-700 disabled:opacity-50 transition-colors" data-testid="submit-quote-btn">
                     {submitting ? "Submitting..." : "Submit Request"}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+
+        {/* ════════ BROCHURE DOWNLOAD MODAL ════════ */}
+        {showBrochureForm && (
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4" data-testid="brochure-modal-overlay" onClick={(e) => { if (e.target === e.currentTarget) setShowBrochureForm(false); }}>
+            <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden" data-testid="brochure-modal">
+              <div className="bg-teal-700 px-6 py-5">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
+                    <Download size={20} className="text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-white font-bold text-lg">Download Brochure</h3>
+                    <p className="text-teal-200 text-xs mt-0.5">{product.product_name}</p>
+                  </div>
+                </div>
+              </div>
+              <form
+                onSubmit={async (e) => {
+                  e.preventDefault();
+                  if (!brochureData.name || !brochureData.phone) {
+                    toast.error("Name and phone number are required");
+                    return;
+                  }
+                  setBrochureSubmitting(true);
+                  try {
+                    const res = await fetch(`${API}/api/brochure-download`, {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({ ...brochureData, product_id: id }),
+                    });
+                    const data = await res.json();
+                    if (!res.ok) throw new Error(data.detail || "Failed");
+                    toast.success("Brochure download starting!");
+                    setShowBrochureForm(false);
+                    setBrochureData({ name: "", phone: "", email: "", hospital: "", district: "" });
+                    // Trigger download
+                    const link = document.createElement("a");
+                    link.href = `${API}${data.download_url}`;
+                    link.download = `${product.product_name} - Brochure.pdf`;
+                    link.target = "_blank";
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                  } catch {
+                    toast.error("Failed to download. Please try again.");
+                  } finally {
+                    setBrochureSubmitting(false);
+                  }
+                }}
+                className="p-6 space-y-3"
+                data-testid="brochure-form"
+              >
+                <p className="text-xs text-slate-500 mb-1">Fill in your details to download the product brochure.</p>
+                <input type="text" placeholder="Your Name *" value={brochureData.name} onChange={(e) => setBrochureData({ ...brochureData, name: e.target.value })} className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/10 transition-all" data-testid="brochure-name-input" />
+                <input type="tel" placeholder="WhatsApp / Phone Number *" value={brochureData.phone} onChange={(e) => setBrochureData({ ...brochureData, phone: e.target.value })} className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/10 transition-all" data-testid="brochure-phone-input" />
+                <input type="email" placeholder="Email Address" value={brochureData.email} onChange={(e) => setBrochureData({ ...brochureData, email: e.target.value })} className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/10 transition-all" data-testid="brochure-email-input" />
+                <input type="text" placeholder="Hospital / Clinic Name" value={brochureData.hospital} onChange={(e) => setBrochureData({ ...brochureData, hospital: e.target.value })} className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/10 transition-all" data-testid="brochure-hospital-input" />
+                <select value={brochureData.district} onChange={(e) => setBrochureData({ ...brochureData, district: e.target.value })} className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/10 bg-white transition-all" data-testid="brochure-district-select">
+                  <option value="">Select District (Optional)</option>
+                  {DISTRICTS.map((d) => <option key={d} value={d}>{d}</option>)}
+                </select>
+                <div className="flex gap-3 pt-1">
+                  <button type="button" onClick={() => setShowBrochureForm(false)} className="flex-1 px-4 py-2.5 border border-slate-200 text-slate-600 text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors" data-testid="cancel-brochure-btn">Cancel</button>
+                  <button type="submit" disabled={brochureSubmitting} className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-teal-600 text-white text-sm font-bold rounded-xl hover:bg-teal-700 disabled:opacity-50 transition-colors" data-testid="submit-brochure-btn">
+                    <Download size={14} /> {brochureSubmitting ? "Downloading..." : "Download PDF"}
                   </button>
                 </div>
               </form>
