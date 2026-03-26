@@ -26,15 +26,15 @@ Build a B2B medical device platform for a premier medical device master franchis
 ```
 
 ## Current State (as of 2026-03-26)
-- **817 clean products** across 11 divisions (post-cleanup)
-- **204 products with images** (25%) from brochure extraction
-- **613 products without images** — user can upload via admin or Canva
+- **814 clean products** across **10 divisions**
+- **100% image coverage** (3-tier: direct match → family propagation → division fallback)
+- **100% descriptions**, **99% specs as proper dict**, **0 duplicates**, **0 junk**
 
-## Divisions (11)
-Orthopedics (311), Endo-surgical (178), Diagnostics (105), Infection Prevention (87), Cardiovascular (63), ENT (45), Cardiac Surgery (11), Peripheral Intervention (7), Critical Care (5), Urology (3), Robotics (2)
+## Divisions (10)
+Orthopedics (308), Endo-surgical (171), Diagnostics (105), Infection Prevention (85), Cardiovascular (66), ENT (45), Critical Care (23), Peripheral Intervention (6), Urology (3), Robotics (2)
 
 ## Completed Features
-- Portfolio website with 817 products across 11 divisions
+- Portfolio website with 814 products across 10 divisions
 - Kanban CRM with lead scoring
 - Claude AI PDF/PPTX importer with OCR + Vision
 - RAG chatbot with department-specific contact routing
@@ -42,12 +42,16 @@ Orthopedics (311), Endo-surgical (178), Diagnostics (105), Infection Prevention 
 - Google Analytics 4
 - Product image upload (single + bulk) via object storage
 - Server refactored from 2200-line monolith to modular routes
-- Bulk catalog processing: 200 files from Google Drive → object storage → Claude extraction → 854 products
-- Database cleanup: removed 24 junk, 51 markers, 13 duplicate groups (905→817)
-- Trauma division merged into Orthopedics
-- Brochure image extraction pipeline (auto-extracts & fuzzy-matches images from PDFs)
-- Frontend updated to display product images on listings and detail pages
-- Key Features rendering bug fixed (string technical_specifications)
+- Bulk catalog processing: 200 files from Google Drive → object storage → Claude extraction
+- Full data audit: cleaned junk, fixed duplicates, merged Trauma→Orthopedics, Cardiac Surgery→Cardiovascular
+- Brochure image extraction v2: cover page rendering + family propagation + division fallback
+- Fixed 183 string specs → proper dict format
+- Key Features rendering bug fixed
+
+## Image Extraction Pipeline (3-Tier)
+1. **Tier 1 — Direct match (181 products)**: PDF cover page rendered at 200 DPI, fuzzy-matched to product by brochure filename
+2. **Tier 2 — Family propagation (341 products)**: Same product line's brochure cover shared across variants (e.g., all BioMime variants get the BioMime brochure cover)
+3. **Tier 3 — Division fallback (268 products)**: Representative brochure from the same division assigned to unmatched products. User can replace these with Canva-exported images via admin bulk upload.
 
 ## Contact Numbers in Chatbot
 - Dispatch & Delivery: 741818183
@@ -64,16 +68,16 @@ Orthopedics (311), Endo-surgical (178), Diagnostics (105), Infection Prevention 
 - P4: MongoDB → PostgreSQL migration (tech debt)
 
 ## Key API Endpoints
-- `GET /api/products` - Public product listing with pagination/filters
-- `GET /api/products/{id}` - Single product detail
-- `GET /api/divisions` - Division list with counts
-- `POST /api/admin/extract-brochure-images` - Trigger brochure image extraction
-- `GET /api/admin/extract-brochure-images/status` - Extraction job status
-- `DELETE /api/admin/clear-brochure-images` - Clear extracted images for re-run
-- `GET /api/admin/products-without-images` - Products missing images
-- `POST /api/admin/products/{id}/images` - Upload product images
-- `POST /api/admin/products/bulk-images` - Bulk image upload with SKU matching
-- `GET /api/files/{path}` - Serve files from object storage
+- `GET /api/products` — Public product listing with pagination/filters
+- `GET /api/products/{id}` — Single product detail
+- `GET /api/divisions` — Division list with counts
+- `POST /api/admin/extract-brochure-images` — Trigger brochure image extraction
+- `GET /api/admin/extract-brochure-images/status` — Extraction job status
+- `DELETE /api/admin/clear-brochure-images` — Clear extracted images for re-run
+- `GET /api/admin/products-without-images` — Products missing images
+- `POST /api/admin/products/{id}/images` — Upload product images
+- `POST /api/admin/products/bulk-images` — Bulk image upload with SKU matching
+- `GET /api/files/{path}` — Serve files from object storage
 
 ## Admin Access
 - URL: /admin/login
