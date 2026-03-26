@@ -8,7 +8,7 @@ import os
 import time
 import uuid
 
-BASE_URL = os.environ.get('REACT_APP_BACKEND_URL', 'https://agile-ortho-dev.preview.emergentagent.com').rstrip('/')
+BASE_URL = os.environ.get('REACT_APP_BACKEND_URL', 'https://sku-grouping-test.preview.emergentagent.com').rstrip('/')
 
 
 class TestWhatsAppAnalytics:
