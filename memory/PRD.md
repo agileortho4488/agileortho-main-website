@@ -13,45 +13,62 @@ Build a B2B medical device platform for a premier medical device master franchis
 ## Architecture (Modular)
 ```
 /app/backend/
-├── server.py          # Entry point (~75 lines)
+├── server.py          # Entry point (~85 lines)
 ├── db.py, models.py, helpers.py, seed.py
 ├── routes/
 │   ├── public.py      # Products, leads, divisions, files
 │   ├── admin.py       # Dashboard, CRUD, image upload
 │   ├── imports.py     # PDF import pipeline
 │   ├── chat.py        # RAG chatbot
-│   ├── whatsapp.py    # WhatsApp/Interakt
+│   ├── whatsapp.py    # WhatsApp/Interakt (rewritten with improvements)
 │   ├── bulk_upload.py # Bulk catalog upload
-│   └── image_extract.py # Brochure image extraction
+│   ├── image_extract.py # Brochure image extraction
+│   └── automation.py  # NEW: CRM automation, follow-ups, lead scoring
 ```
 
 ## Current State (as of 2026-03-26)
-- **814 clean products** across **10 divisions**
-- **100% image coverage** (3-tier: direct match → family propagation → division fallback)
-- **100% descriptions**, **99% specs as proper dict**, **0 duplicates**, **0 junk**
+- **814 clean products** across **10 divisions**, **100% image coverage**
+- **Fully automated CRM pipeline**: WhatsApp → Lead extraction → Scoring → Follow-ups
+- **Background scheduler** processing follow-up queue every 60s
+
+## Automated Sales Pipeline (NEW)
+```
+WhatsApp Message → Instant Welcome → AI Response (chunked)
+       ↓
+  1st message: Basic lead created (cold)
+       ↓
+  2nd message: AI extracts name, hospital, district, products, buying intent
+       ↓
+  Lead scored: hot (70+) / warm (40-69) / cold (<40)
+       ↓
+  Follow-up sequence auto-scheduled:
+    Hot:  1h → 6h → 24h → 72h (specialist connect, catalog, offer)
+    Warm: 2h → 24h → 72h → 168h (info, catalog, reconnect)
+    Cold: 24h → 168h (gentle followup, value prop)
+       ↓
+  Background scheduler sends follow-ups automatically
+```
+
+## WhatsApp Improvements Implemented
+1. Instant welcome message for new contacts
+2. Shorter WhatsApp-specific system prompt (2 sentences max)
+3. Message chunking — split long replies into 2-3 short messages with typing delay
+4. AI-powered lead extraction from conversations
+5. Auto lead scoring based on 10 signals
+6. Automated follow-up sequences (hot/warm/cold)
 
 ## Divisions (10)
 Orthopedics (308), Endo-surgical (171), Diagnostics (105), Infection Prevention (85), Cardiovascular (66), ENT (45), Critical Care (23), Peripheral Intervention (6), Urology (3), Robotics (2)
 
-## Completed Features
-- Portfolio website with 814 products across 10 divisions
-- Kanban CRM with lead scoring
-- Claude AI PDF/PPTX importer with OCR + Vision
-- RAG chatbot with department-specific contact routing
-- Interakt WhatsApp integration (auto-replies, templates, webhooks)
-- Google Analytics 4
-- Product image upload (single + bulk) via object storage
-- Server refactored from 2200-line monolith to modular routes
-- Bulk catalog processing: 200 files from Google Drive → object storage → Claude extraction
-- Full data audit: cleaned junk, fixed duplicates, merged Trauma→Orthopedics, Cardiac Surgery→Cardiovascular
-- Brochure image extraction v2: cover page rendering + family propagation + division fallback
-- Fixed 183 string specs → proper dict format
-- Key Features rendering bug fixed
-
-## Image Extraction Pipeline (3-Tier)
-1. **Tier 1 — Direct match (181 products)**: PDF cover page rendered at 200 DPI, fuzzy-matched to product by brochure filename
-2. **Tier 2 — Family propagation (341 products)**: Same product line's brochure cover shared across variants (e.g., all BioMime variants get the BioMime brochure cover)
-3. **Tier 3 — Division fallback (268 products)**: Representative brochure from the same division assigned to unmatched products. User can replace these with Canva-exported images via admin bulk upload.
+## Key API Endpoints
+- `POST /api/webhook/whatsapp` — Interakt webhook (message_received)
+- `GET /api/admin/automation/stats` — CRM automation statistics
+- `GET /api/admin/automation/followup-queue` — Pending follow-ups
+- `POST /api/admin/automation/trigger-followups` — Process due follow-ups
+- `POST /api/admin/automation/rescore-leads` — Re-analyze all conversations
+- `POST /api/admin/automation/schedule-followups/{phone}` — Manual schedule
+- `GET /api/products` — Public product listing
+- `GET /api/divisions` — Division list with counts
 
 ## Contact Numbers in Chatbot
 - Dispatch & Delivery: 741818183
@@ -63,21 +80,13 @@ Orthopedics (308), Endo-surgical (171), Diagnostics (105), Infection Prevention 
 ## Upcoming Tasks
 - P1: SEO & Polish — react-helmet-async, JSON-LD, district landing pages
 - P2: Homepage Redesign (Meril style)
-- P3: Product image gallery on public pages (multiple images per product)
-- P3: Product comparison feature
-- P4: MongoDB → PostgreSQL migration (tech debt)
+- P2: Admin dashboard for CRM automation (visual stats, follow-up management)
 
-## Key API Endpoints
-- `GET /api/products` — Public product listing with pagination/filters
-- `GET /api/products/{id}` — Single product detail
-- `GET /api/divisions` — Division list with counts
-- `POST /api/admin/extract-brochure-images` — Trigger brochure image extraction
-- `GET /api/admin/extract-brochure-images/status` — Extraction job status
-- `DELETE /api/admin/clear-brochure-images` — Clear extracted images for re-run
-- `GET /api/admin/products-without-images` — Products missing images
-- `POST /api/admin/products/{id}/images` — Upload product images
-- `POST /api/admin/products/bulk-images` — Bulk image upload with SKU matching
-- `GET /api/files/{path}` — Serve files from object storage
+## Future/Backlog
+- P3: Product image gallery, product comparison
+- P3: WhatsApp interactive buttons (quick replies)
+- P3: Campaign management (bulk WhatsApp templates to segments)
+- P4: MongoDB → PostgreSQL migration
 
 ## Admin Access
 - URL: /admin/login
