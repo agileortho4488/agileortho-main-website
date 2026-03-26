@@ -5,7 +5,7 @@ import {
   Syringe, Activity, Phone, MessageSquare, Building2, Scan, Scissors,
   BadgeCheck, MapPin, Headphones, Package, Clock, FileCheck, Users,
   ClipboardList, Send, ChevronRight, Zap, Globe, CircuitBoard, Search,
-  Dumbbell, Disc, Replace
+  Dumbbell, Disc, Replace, Wrench
 } from "lucide-react";
 import { getProducts, getDivisions } from "../lib/api";
 import { SEO, buildOrganizationSchema, buildLocalBusinessSchema } from "../components/SEO";
@@ -16,6 +16,7 @@ const DIVISION_META = {
   "Joint Replacement": { icon: Replace, desc: "Hip and knee arthroplasty implants, revision systems, modular components, and positioning devices for total joint replacement.", bg: "bg-blue-50/70" },
   "Trauma": { icon: Bone, desc: "Locking plates, intramedullary nails, screws, reconstruction nails, and fracture fixation systems for trauma surgery.", bg: "bg-amber-50/70" },
   "Sports Medicine": { icon: Dumbbell, desc: "Arthroscopic anchors, suture systems, ACL/PCL reconstruction, meniscal repair, shavers, and endoscope camera systems.", bg: "bg-green-50/70" },
+  "Instruments": { icon: Wrench, desc: "Surgical instrument sets, drill bits, reamers, alignment guides, storage systems, and positioning accessories for orthopaedic procedures.", bg: "bg-slate-50/70" },
   "Spine": { icon: Disc, desc: "Pedicle screws, interbody cages, cervical plates, and spinal fixation systems for spinal surgery.", bg: "bg-violet-50/70" },
   "Cardiovascular": { icon: HeartPulse, desc: "Coronary stents, heart valves, TAVI, TEER systems, and cardiac surgery devices for interventional and surgical cardiology.", bg: "bg-red-50/70" },
   "Diagnostics": { icon: Microscope, desc: "Rapid tests, ELISA, hematology analyzers, coagulation systems, and clinical chemistry solutions.", bg: "bg-purple-50/70" },
@@ -167,7 +168,7 @@ export default function Home() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-1 bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden">
             {[
               { value: `${totalProducts > 0 ? totalProducts.toLocaleString() : "8,000"}+`, label: "SKUs Available" },
-              { value: "13", label: "Product Divisions" },
+              { value: "14", label: "Product Divisions" },
               { value: "33", label: "Districts in Telangana" },
               { value: "24/7", label: "Bulk Hospital Supply" },
             ].map((s, i) => (
