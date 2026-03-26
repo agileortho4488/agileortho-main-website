@@ -66,6 +66,13 @@ A 4-layer brochure data extraction system for training AI chatbot/WhatsApp bot:
 **ANY new agent MUST read `/app/backend/brochure_intelligence/SYSTEM_STATE.json` FIRST.**
 This file contains complete processing state, discovered patterns, and resume point.
 
+### Mandatory Extraction Rules
+1. **Completeness Rule:** "No file is complete until every page is checked and every extractable detail is captured or explicitly logged as unreadable."
+2. **Source Traceability Rule:** "Every page must stay married to its original brochure source; no cross-brochure page mixing is allowed."
+   - Before extraction: confirm source filename, file ID, exact page number(s), content type
+   - Per-page metadata required: source_file, file_id, page_number, parser_used, extraction_method
+   - Cross-brochure products: keep each source linked separately, compare during normalization only
+
 ### Source Data
 - 200 brochure files (2.5GB ZIP from Google Drive)
 - Google Drive link: `https://drive.google.com/file/d/191gs1CPG_MkcqWPtqC_GWIrPd1xvJlS_/view`
