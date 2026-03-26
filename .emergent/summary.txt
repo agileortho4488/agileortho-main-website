@@ -1,132 +1,143 @@
 <analysis>**original_problem_statement**: 
-The user requested to build a new B2B medical device platform from scratch for a premier medical device master franchise in Telangana, India. The platform (Agile Ortho) requires a React frontend, an inbuilt CRM, automated Claude/Interakt integrations for catalog extraction, and a dynamic WhatsApp AI Chatbot. 
-*Recent Requirements*: Scan all products in the portfolio, arrange them into respective categories using AI intelligence, and build a customer-centric 3-level drill-down UI (Division -> Category -> Product Family -> Variant Table) based on SKU structures and material composition (e.g., differentiating ARMAR standard titanium vs AURIC gold-coated).
+Build a B2B medical device platform for a premier medical device master franchise in Telangana, India (Agile Ortho). 
+*Recent Requirements*: Shift focus to building a SKU Intelligence System. Extract 100% of product data, SKUs, and specifications from a provided ZIP file containing 200 manufacturer brochures. Implement a 4-layer architecture (Raw Extractions, Normalized Products, Training Chunks, Logs) to structure the data. This system will serve as the core knowledge layer to eventually power a Website Chatbot and a WhatsApp AI Chatbot. 
 
-**User's preferred language**: English (INSTRUCT next agent to respond in English)
+**User's preferred language**: English (INSTRUCT next agent to respond in English only)
 
 **what currently exists?** 
-A premium B2B React + FastAPI + MongoDB platform with a dark navy/teal UI. The DB contains 967 products. A customer-centric 3-level catalog drill-down is implemented: Users click a Division (e.g., Trauma) -> Category (e.g., Distal Radial Plates) -> Product Family -> which opens a detailed Variant Table showing all SKUs/sizes for that family. Gated brochure downloads and CRM lead captures are active. A WhatsApp AI Chatbot is integrated.  has been installed in the backend container to OCR image-based PDFs for SKU extraction. **Crucial:** Production DB hydration relies entirely on .
+A React + FastAPI + MongoDB platform. A new, isolated intelligence pipeline has been constructed at  containing a 4-layer architecture. A ZIP file of 200 brochures was downloaded, unzipped, and indexed. A  acts as the Central Nervous System to track extraction progress. Files 1 through 25 have been successfully processed using a tiered extraction strategy (Direct Python parsing -> Tesseract OCR -> LLM fallback). Normalization Batch 1 was successfully executed on these 25 files, identifying 233 products and 32 brands.
 
 **Last working item**: 
-    - Last item agent was working: Building a Master SKU Sheet python script to programmatically decode all 967 SKUs, group them into precise families, and differentiate identical-sounding products by brand using material (e.g., Titanium = ARMAR, TiNBn/Gold = AURIC). 
+    - Last item agent was working: Compiling an audit and review report for the user regarding Normalization Batch 1 (Files 1-25).
     - Status: IN PROGRESS
-    - Agent Testing Done: N
-    - Which testing method agent to use? Main agent to test via python -c / standalone script to fix the , followed by  for backend/frontend regression.
+    - Agent Testing Done: Y
+    - Which testing method agent to use? manual testing by python -c (Agent ran an audit script that confirmed all 25 files were successfully extracted with >0 SKUs).
     - User Testing Done: N
 
 **All Pending/In progress Issue list**: 
-  - Issue 1: Fix Master SKU Sheet Script & Apply Brand Differentiation (P0)
-     - Attempted fixes: The agent wrote a script to categorize all SKUs and differentiate brands based on the SKU prefix and Material field. It crashed with  (likely sorting/comparing a product where a field is ).
-     - Next debug checklist: 
-        1. Fix the Python script in  (handling  values during sorting/grouping).
-        2. Apply the brand prefixes (ARMAR, AURIC, etc.) to the  field in the MongoDB  collection based on material/SKU logic.
-        3. **CRITICAL:** Re-export the database to  using  so changes persist.
-     - Why fix this issue and what will be achieved with the fix? Fixes duplicate/ambiguous family names (e.g., two 4.5mm LPS Distal Femur Plates that confuse surgeons) by explicitly branding them based on material composition.
+  Issue 1: Deliver Normalization Batch 1 Report to User (P0)
+  Issue 2: Old Master SKU Sheet Crash (P3)
+
+  Issues Detail:
+  - Issue 1: Deliver Normalization Batch 1 Report to User (P0)
+     - Attempted fixes: The agent ran an audit script to verify Files 1-25 were successfully extracted after the user suspected some files were skipped (like BioMime, CLAVO). The script proved successful extraction, but context ended before the agent could formulate the response.
+     - Next debug checklist: Read the outputs of the , , , and . Formulate an  message explicitly detailing: 1) New products/SKUs discovered, 2) Duplicates/conflicts found, 3) Alias/brand hierarchy additions, 4) Normalization issues needing rule changes.
+     - Why fix this issue and what will be achieved with the fix? The user explicitly gated the continuation to File 26 until this specific report is provided and discussed.
      - Status: IN PROGRESS
      - Is recurring issue? N
-     - Should Test frontend/backend/both after fix? Both (Frontend to verify UI displays distinct families; Backend to ensure DB integrity).
+     - Should Test frontend/backend/both after fix? NA (Reporting)
+     - Blocked on other issue: None
+  - Issue 2: Old Master SKU Sheet Crash (P3)
+     - Attempted fixes: Prior to the brochure extraction pivot, the previous agent wrote a script to categorize live DB SKUs which crashed ().
+     - Next debug checklist: This might be obsolete given the new 200-file extraction pipeline, but if the user wants to update the current live DB, the  script needs  value handling.
+     - Why fix this issue and what will be achieved with the fix? Fixes DB cataloging for the current live website. 
+     - Status: BLOCKED (Superseded by Brochure Intelligence task)
+     - Is recurring issue? N
+     - Should Test frontend/backend/both after fix? Backend
      - Blocked on other issue: None
 
 **In progress Task List**:
-None separate from Issue 1.
+  Task 1: Process Brochures 26-200 in Batches (P1)
 
-**Upcoming and Future Tasks**:
-  Upcoming Tasks:
-  - P1: Push Re-deployment — Advise user to deploy the live app to sync the new  (967 products) to their live database.
-  - P2: WhatsApp Interactive Elements — Implement interactive buttons and campaign management (bulk templates).
-  - P2: Facebook Developer Account Integration — Setup CAPI and Lead Ads.
-  - P3: Product Image Extraction Pipeline — Use AI to extract product photos from the PDF pages and auto-populate placeholder images in the DB.
+ Task Detail:
+  - Task 1: Process Brochures 26-200 in Batches
+     - Where to resume: After discussing Batch 1 with the user, proceed to batch process Files 26-50.
+     - What will be achieved with this? Complete the data extraction pipeline for the SKU intelligence system.
+     - Status: IN PROGRESS
+     - Should Test frontend/backend/both after fix? Backend (Python script verifications)
+     - Blocked on something: Issue 1 (User approval of Batch 1 results)
 
-  Future Tasks:
-  - P4: Product comparison feature (Frontend).
-  - P5: MongoDB → PostgreSQL migration (if still required, though app is currently highly optimized for Mongo).
+**Upcoming and Future Tasks**
+    Upcoming Tasks:
+    - P1: Complete Batch Normalizations: Run light normalization every 25 files, and deeper consolidation every 50 files.
+    - P1: Sync to Shadow DB: Once extraction is complete, sync normalized data into shadow MongoDB collections for validation. **CRITICAL: Do NOT write to the live  or live collections yet.**
+    - P1: Retrieval Test Set: Create 50-100 real-world surgical/product questions to test data retrieval accuracy.
+    - P1: Website AI Chatbot: Implement a website-facing chatbot using the  to answer queries based *only* on high-confidence source-traceable data.
+    
+    Future Tasks:
+    - P2: WhatsApp AI Chatbot: Implement the WhatsApp bot using Interakt (after Website bot is tested and validated).
+    - P3: Push Re-deployment / sync shadow collections to production collections.
+    - P4: PostgreSQL Migration (Technical debt, if still required).
 
 **Completed work in this session**
-- Imported 78 new Variabilis products from PDF into DB. (DONE)
-- Uploaded 5 brochure PDFs (Armar, Clavo Ti, Opulent Gold, PCK Revision, Variabilis) to Object Storage and linked them to relevant products. (DONE)
-- AI Categorization: Standardized 967 products into 13 clean Divisions and strict Categories. (DONE)
-- SKU-Based Family Grouping: Grouped 967 individual variants into ~646 Product Families based on SKU logic ( = Plate,  = Screw). (DONE)
-- 3-Level Customer-Centric UI: Completely overhauled  and created  to allow drill-down: Division -> Category -> Product Family -> Variant Table. (DONE)
-- OCR Setup: Installed  and  to read image-based PDFs (like ARMAR). (DONE)
+- Built  4-layer architecture and manifest files (DONE).
+- Downloaded and extracted the 2.4GB, 200-file Zoho brochure ZIP using  and  (DONE).
+- Installed  and  to handle Tier-2 extraction of image-based PDFs (DONE).
+- Extracted Files 1-25, including fixing 0-SKU errors on CLAVO brochures by forcing OCR (DONE).
+- Executed Normalization Batch 1, yielding 233 products and mapping the critical AURIC (U suffix) vs ARMAR (no suffix) brand differentiation (DONE).
 
 **Earlier issues found/mentioned but not fixed**
-   - Issue 1: MongoDB used instead of requested PostgreSQL
-     - Debug checklist: Review the initial request versus the current MongoDB implementation.
-     - Why to solve this issue: Technical debt resolution to match original architectural requirements.
-     - Should Test frontend/backend/both after fix: Both
-     - Is recurring issue? N
+   - Issue 1: Master SKU Sheet Crash (from very start of session, pivoting away from live DB to isolated brochure parsing).
+   - Issue 2: Corrupted DOCX file (File #8  threw a BadZipFile error. Agent tagged it as a reference doc and skipped. Low priority, but noted).
 
 **Known issue recurrence from previous fork**
-  - Issue recurrence in previous fork: OOM Pod crashes during PDF processing.
-  - Recurrence count: 0 in this session (successfully mitigated by processing PDFs and AI grouping locally via standalone scripts in ).
+  - Issue recurrence in previous fork: None mapped to current tasks.
+  - Recurrence count: 0
   - Status: RESOLVED
 
 **Code Architecture**
 
 
 **Key Technical Concepts**
-- Frontend: React, TailwindCSS, Shadcn UI, React Router
-- Backend: FastAPI, Motor (Async MongoDB)
-- AI/Data: Claude Sonnet 4.5 via 
-- OCR:  / Tesseract OCR (installed this session to parse image-only PDFs)
+- Backend: Python standalone scripts for offline data engineering, Tesseract OCR for image-to-text, JSON file stores for intermediate intelligence DB.
+- Architecture Workflow Mandated by User: Extract → batch normalize (every 25 files) → chunk → shadow DB → validate → production merge → bot deployment.
+- Tiered Extraction Rule: Tier 1 (Direct parsing via pdfplumber/native) -> Tier 2 (OCR for image-based) -> Tier 3 (LLM/Claude *only* for ambiguous tables/layouts).
 
 **key DB schema**
-  - : {product_name, sku_code, division, category, **product_family** (new), technical_specifications, images, brochure}
-  - : {name, phone_whatsapp, email, district, hospital_clinic, product_interest, score, stage}
+  - Schema focus is currently on the JSON files in .
+  - : Tracks file processing index.
+  - : Normalized product entities.
+  - : Variant-level entities linked to products.
 
 **changes in tech stack**
-  - Added  and system  dependencies to the backend environment.
+  - Installed OS packages: , , .
+  - Python packages used heavily: .
 
 **All files of reference** 
-  - : The absolute source of truth for the DB. Must be rewritten after Python scripts alter the DB.
-  - : Contains the Division -> Category cards logic.
-  - : Contains the Variant Table logic.
-  - : Houses the new aggregation endpoints (, ).
+  -  (MUST READ FIRST to know extraction state).
+  - .
+  - .
+  - 
 
 **Areas that need refactoring**: 
-  - The master SKU decoding logic currently lives in temporary Python scripts in . Consider porting successful cataloging logic into an admin utility route if the user plans to upload more raw spreadsheets in the future.
+  - Scripts written in  periodically disappear or get complex. Consider creating a  directory to store reusable extraction/normalization Python scripts so they aren't lost across sessions.
 
 **key api endpoints**
-  -  (Returns counts of systems and SKUs per category)
-  -  (Returns grouped product families)
-  -  (Returns variants for a specific family)
+  - N/A for current data engineering phase.
 
 **Critical Info for New Agent** 
-- **DB Hydration**: The preview DB and production DB are separate. ANY changes you make to MongoDB via Python scripts **MUST** be followed by exporting the  to .
-- **SKU & Brand Logic**: 
-  -  = Meril Trauma,  = Plate,  = Screw,  = Nail. 
-  - **Material dictates brand**: Standard Titanium = ARMAR brand. Titanium with TiNBn coating (or SKUs ending with 'U' if applicable) = AURIC brand. You must ensure family names reflect these brands so surgeons aren't confused by duplicate generic names.
-- **Handling  values**: The previous script crashed due to . When writing sorting/grouping scripts, always use  to handle missing DB fields.
+- **User Strategy Pivot**: The user halted live DB updates to build a standalone SKU Intelligence System from 200 brochures first. 
+- **DO NOT TOUCH LIVE DB**: Do not sync intelligence data into the production MongoDB or  until explicitly told. Everything stays in the JSON architecture for now. Future syncs will go to a Shadow DB first.
+- **Reporting Requirement**: The user requires a strict check-in after every batch of 25 files. You MUST summarize: new products/SKUs, conflicts, aliases, and rule changes *before* starting the next batch. 
+- **LLM Usage**: Do not waste tokens/API limits feeding entire PDFs to Claude. Use direct text extraction or OCR first.
 
 **documents and test reports created in this job** 
-  -  (Updated)
-  - 
   - 
   - 
 
 **Last 10 User Messages and any pending HUMAN messages** 
-1. (LATEST) User: first list out all the sku ..a master sku sheet...prepare a master sheet and keep filling teh details in that u know evry product has sku we just need to organise themmm
-2. User: mt means meril trauma..pt mean splate ..nl means nail....MT-PT4202049RU in this find MT-PT4202049R
-3. User: Points out that two products have the same name (4.5mm LPS Distal Femur Plate) but different materials, asking how a surgeon will understand the difference without the brand (Armar vs Auric).
-4. User: yes simialr way check teh total portfolio once dont get into rush... slow n steady
-5. User: domnt go by variabillis lalitude mevel...they are like a brand... like for gold implants its auric
-6. User: you are expert u plan it..we have to take evrthng into consideration and keep teh customer in mind he shld be able to search them n buy from us..not confused thgem..so olan the porofoilie so good he shld just buy n give us order..it shld be customer cenytric
-7. User: its wromng if u see 2.7 is screw 2.4mm is screw and all u mixed evrthgn...so i need a logic there (Prompted the shift to SKU-based grouping).
-8. User: ok if u see all radius plates..distal femur..laitide hip system are placed as indivual products so any idea do u have to organise them n showcase in a proper way ???? (Prompted creation of Product Families).
+1. (LATEST) User: cross check if u extracted all 25 first if not thrn do After share: new products/SKUs discovered, duplicates/conflicts found, alias/brand hierarchy additions, normalization issues needing rule changes
+2. User: Noticed that the agent didn't provide the requested update and that the logs in the chat seemed to show files like BioMime and CLAVO missing data.
+3. User: Yes — go ahead with Files 16–25, then do the first normalization batch... direct answer only when confidence is high...
+4. User: Approved architecture, confirmed batch normalization every 25 files, and confirmed targeting Website chatbot first, then WhatsApp.
+5. User: SO YOU HAVE DONE FIRST 15 SUCCESSFULLY CAN U EXPLAIN NOW HOW ARE GONNA PROCEED USING THIS DATA WHATS UR PLAN EXATLY...
+6. User: OK GO TO NECT OME
+7. User: Reminded agent to store all files and state centrally so forks don't lose data (Central Nervous System).
+8. User: Approved starting with File #1, adding fingerprinting, SHA-256 IDs, and source trust hierarchies.
+9. User: Iterated on the 4-layer architecture, adding rules for deduplication and attribute dictionaries.
 
 **Project Health Check:**
-- Broken: The local python script  crashed due to a TypeError.
-- Mocked: Real WhatsApp outbound messaging.
+- Broken: None. 
+- Mocked: Real WhatsApp bot integration (pending data layer completion).
 
 **3rd Party Integrations** 
   - OpenAI / Claude Sonnet 4.5 via  — uses Emergent LLM Key.
-  - Emergent Object Storage — uses Emergent LLM Key.
   - Interakt (WhatsApp API) — requires User API Key.
 
 **Testing status**
-  - Testing agent used after significant changes: YES (Iterations 28, 29, 30 all passed or generated tests).
+  - Testing agent used after significant changes: NO (Data engineering tasks validated via Python audit scripts).
   - Troubleshoot agent used after agent stuck in loop: NO.
-  - Test files created: Updated existing pytest suites.
+  - Test files created: None.
   - Known regressions: None.
 
 **Credentials to test flow:**
@@ -134,4 +145,4 @@ None separate from Issue 1.
   - Password: 
 
 **What agent forgot to execute**
-The agent realized the OCR/SKU logic and began writing a Master SKU categorization script, but ran out of context right as a  crashed the script. The DB families have not yet been fully updated with the ARMAR vs AURIC brand distinctions. The next agent must start by fixing the script, updating the MongoDB families, and exporting the JSON.</analysis>
+The agent ran an audit script confirming Files 1-25 were correctly extracted (including the CLAVO files the user was worried about), but the context window filled up before the agent could parse the logs and format the requested detailed report for the user. The new agent MUST start by reading the Batch 1 JSON outputs and sending the user the specific metrics they asked for.</analysis>
