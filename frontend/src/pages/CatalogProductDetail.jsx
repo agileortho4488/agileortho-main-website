@@ -3,9 +3,9 @@ import { useParams, Link } from "react-router-dom";
 import {
   ArrowLeft, ChevronRight, Package, Tag, Box, Factory,
   Phone, MessageCircle, Mail, Download, FileText, Shield,
-  Award, BadgeCheck, Building2, Layers, ExternalLink,
+  Award, BadgeCheck, Building2, Layers,
   Stethoscope, ClipboardList, CheckCircle2, Bone, BookOpen,
-  HeartPulse, Microscope, Activity
+  HeartPulse, Microscope, Activity, Search, ChevronDown, ChevronUp
 } from "lucide-react";
 import { getCatalogProduct, submitLead } from "../lib/api";
 import { toast } from "sonner";
@@ -70,6 +70,10 @@ export default function CatalogProductDetail() {
   const [showQuoteForm, setShowQuoteForm] = useState(false);
   const [formData, setFormData] = useState({ name: "", hospital_clinic: "", phone_whatsapp: "", email: "", district: "", message: "" });
   const [submitting, setSubmitting] = useState(false);
+  const [skuSearch, setSkuSearch] = useState("");
+  const [skuPage, setSkuPage] = useState(1);
+  const [skuExpanded, setSkuExpanded] = useState(true);
+  const SKU_PAGE_SIZE = 30;
 
   useEffect(() => {
     setLoading(true);
@@ -312,55 +316,173 @@ export default function CatalogProductDetail() {
         {/* ════════ SECTION 2: SKU / VARIANT INFORMATION ════════ */}
         {skus.length > 0 && (
           <div className="mt-14" id="sku-table" data-testid="catalog-sku-section">
-            <div className="flex items-center gap-3 mb-6">
-              <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-amber-700 bg-amber-50 border border-amber-200 px-2.5 py-1 rounded-full">SKU / Variant Information</span>
-              <span className="text-sm text-slate-400">{skus.length} {skus.length === 1 ? "variant" : "variants"} available</span>
-            </div>
-
-            <div className="rounded-xl overflow-hidden border border-slate-200" data-testid="catalog-sku-table">
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className="bg-slate-900 text-white">
-                      <th className="text-left px-5 py-3 font-semibold text-xs uppercase tracking-wider whitespace-nowrap">#</th>
-                      <th className="text-left px-5 py-3 font-semibold text-xs uppercase tracking-wider whitespace-nowrap">SKU Code</th>
-                      <th className="text-left px-5 py-3 font-semibold text-xs uppercase tracking-wider whitespace-nowrap">Product Name</th>
-                      <th className="text-left px-5 py-3 font-semibold text-xs uppercase tracking-wider whitespace-nowrap">Brand</th>
-                      {skus.some((s) => s.description) && (
-                        <th className="text-left px-5 py-3 font-semibold text-xs uppercase tracking-wider whitespace-nowrap">Details</th>
-                      )}
-                      <th className="text-left px-5 py-3 font-semibold text-xs uppercase tracking-wider whitespace-nowrap">Source</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {skus.map((sku, i) => (
-                      <tr key={sku.sku_code + i} className={`${i % 2 === 0 ? "bg-white" : "bg-slate-50"} border-t border-slate-100 hover:bg-amber-50/30 transition-colors`}>
-                        <td className="px-5 py-3 text-slate-400 font-mono text-xs">{i + 1}</td>
-                        <td className="px-5 py-3 font-mono font-semibold text-slate-800 whitespace-nowrap" data-testid={`sku-code-${i}`}>{sku.sku_code}</td>
-                        <td className="px-5 py-3 text-slate-700 max-w-xs truncate">{sku.product_name}</td>
-                        <td className="px-5 py-3 text-slate-600 whitespace-nowrap">{sku.brand || "—"}</td>
-                        {skus.some((s) => s.description) && (
-                          <td className="px-5 py-3 text-slate-500 max-w-sm truncate">{sku.description || "—"}</td>
-                        )}
-                        <td className="px-5 py-3">
-                          {sku.source === "shadow" ? (
-                            <span className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
-                              {sku.source_file ? (
-                                <a href={brochureDownloadUrl || "#"} target="_blank" rel="noopener noreferrer" className="hover:underline flex items-center gap-1" title={sku.source_file}>
-                                  <BookOpen size={9} /> {sku.source_file ? sku.source_file.replace(/\.pdf$/i, "").slice(0, 25) : "Brochure"}
-                                </a>
-                              ) : "Brochure"}
-                            </span>
-                          ) : (
-                            <span className="text-[10px] font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-full border border-slate-200">Catalog</span>
-                          )}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+            <div className="flex items-center justify-between gap-3 mb-4">
+              <div className="flex items-center gap-3">
+                <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-amber-700 bg-amber-50 border border-amber-200 px-2.5 py-1 rounded-full">SKU / Variant Information</span>
+                <span className="text-sm text-slate-400">{skus.length} {skus.length === 1 ? "variant" : "variants"} available</span>
+              </div>
+              <div className="flex items-center gap-2">
+                {/* CSV Export */}
+                <button
+                  onClick={() => {
+                    const parsedCols = product.sku_parsed_columns || [];
+                    const colLabels = { side: "Side", holes: "Holes", length_mm: "Length (mm)", plate_type: "Plate Type", diameter_mm: "Diameter (mm)" };
+                    const headers = ["#", "SKU Code", ...parsedCols.map(c => colLabels[c] || c), "Brand", "Source"];
+                    const rows = skus.map((s, i) => {
+                      const p = s.parsed || {};
+                      return [i + 1, s.sku_code, ...parsedCols.map(c => p[c] ?? ""), s.brand || "", s.source === "shadow" ? "Brochure" : "Catalog"].join(",");
+                    });
+                    const csv = [headers.join(","), ...rows].join("\n");
+                    const blob = new Blob([csv], { type: "text/csv" });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement("a");
+                    a.href = url;
+                    a.download = `${product.slug || "skus"}_variants.csv`;
+                    a.click();
+                    URL.revokeObjectURL(url);
+                  }}
+                  className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-slate-500 bg-slate-50 border border-slate-200 rounded-lg hover:bg-slate-100 transition-colors"
+                  data-testid="sku-export-csv"
+                >
+                  <Download size={12} /> Export CSV
+                </button>
+                {skus.length > SKU_PAGE_SIZE && (
+                  <button onClick={() => setSkuExpanded(!skuExpanded)} className="flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-slate-500 bg-slate-50 border border-slate-200 rounded-lg hover:bg-slate-100 transition-colors">
+                    {skuExpanded ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
+                    {skuExpanded ? "Collapse" : "Expand"}
+                  </button>
+                )}
               </div>
             </div>
+
+            {/* SKU Search */}
+            {skus.length > 10 && (
+              <div className="mb-4 relative">
+                <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                <input
+                  type="text" value={skuSearch} onChange={(e) => { setSkuSearch(e.target.value); setSkuPage(1); }}
+                  placeholder="Search SKU codes, side, length..."
+                  className="w-full sm:w-80 pl-9 pr-4 py-2.5 border border-slate-200 rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:outline-none focus:border-amber-400 transition-colors"
+                  data-testid="sku-search-input"
+                />
+              </div>
+            )}
+
+            {(() => {
+              const parsedCols = product.sku_parsed_columns || [];
+              const colLabels = { side: "Side", holes: "Holes", length_mm: "Length (mm)", plate_type: "Type", diameter_mm: "Dia. (mm)" };
+              const hasDesc = skus.some((s) => s.description);
+
+              // Filter SKUs
+              const query = skuSearch.toLowerCase().trim();
+              const filtered = query ? skus.filter(s => {
+                const p = s.parsed || {};
+                return s.sku_code.toLowerCase().includes(query) ||
+                  (s.brand || "").toLowerCase().includes(query) ||
+                  (p.side || "").toLowerCase().includes(query) ||
+                  String(p.holes || "").includes(query) ||
+                  String(p.length_mm || "").includes(query) ||
+                  String(p.plate_type || "").includes(query) ||
+                  (s.product_name || "").toLowerCase().includes(query);
+              }) : skus;
+
+              // Paginate
+              const totalPages = Math.max(1, Math.ceil(filtered.length / SKU_PAGE_SIZE));
+              const pageSkus = skuExpanded ? filtered.slice((skuPage - 1) * SKU_PAGE_SIZE, skuPage * SKU_PAGE_SIZE) : filtered.slice(0, 10);
+
+              return (
+                <>
+                  {query && <p className="text-xs text-slate-400 mb-2">{filtered.length} of {skus.length} SKUs match &quot;{skuSearch}&quot;</p>}
+
+                  <div className="rounded-xl overflow-hidden border border-slate-200" data-testid="catalog-sku-table">
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-sm">
+                        <thead className="sticky top-0 z-10">
+                          <tr className="bg-slate-900 text-white">
+                            <th className="text-left px-4 py-3 font-semibold text-xs uppercase tracking-wider whitespace-nowrap w-12">#</th>
+                            <th className="text-left px-4 py-3 font-semibold text-xs uppercase tracking-wider whitespace-nowrap">SKU Code</th>
+                            {parsedCols.map(col => (
+                              <th key={col} className="text-left px-4 py-3 font-semibold text-xs uppercase tracking-wider whitespace-nowrap">{colLabels[col] || col}</th>
+                            ))}
+                            {parsedCols.length === 0 && (
+                              <th className="text-left px-4 py-3 font-semibold text-xs uppercase tracking-wider whitespace-nowrap">Product Name</th>
+                            )}
+                            <th className="text-left px-4 py-3 font-semibold text-xs uppercase tracking-wider whitespace-nowrap">Brand</th>
+                            {hasDesc && <th className="text-left px-4 py-3 font-semibold text-xs uppercase tracking-wider whitespace-nowrap">Details</th>}
+                            <th className="text-left px-4 py-3 font-semibold text-xs uppercase tracking-wider whitespace-nowrap">Source</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {pageSkus.map((sku, i) => {
+                            const globalIdx = (skuPage - 1) * SKU_PAGE_SIZE + i;
+                            const parsed = sku.parsed || {};
+                            return (
+                              <tr key={sku.sku_code + globalIdx} className={`${globalIdx % 2 === 0 ? "bg-white" : "bg-slate-50"} border-t border-slate-100 hover:bg-amber-50/30 transition-colors`}>
+                                <td className="px-4 py-2.5 text-slate-400 font-mono text-xs">{globalIdx + 1}</td>
+                                <td className="px-4 py-2.5 font-mono font-semibold text-slate-800 whitespace-nowrap text-xs" data-testid={`sku-code-${globalIdx}`}>{sku.sku_code}</td>
+                                {parsedCols.map(col => (
+                                  <td key={col} className="px-4 py-2.5 text-slate-600 whitespace-nowrap text-xs">
+                                    {col === "side" ? (
+                                      parsed.side ? <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold ${parsed.side === "Left" ? "bg-blue-50 text-blue-600 border border-blue-100" : "bg-orange-50 text-orange-600 border border-orange-100"}`}>{parsed.side}</span> : "—"
+                                    ) : col === "length_mm" ? (
+                                      parsed.length_mm ? `${parsed.length_mm}mm` : "—"
+                                    ) : (
+                                      parsed[col] ?? "—"
+                                    )}
+                                  </td>
+                                ))}
+                                {parsedCols.length === 0 && (
+                                  <td className="px-4 py-2.5 text-slate-700 max-w-xs truncate text-xs">{sku.product_name}</td>
+                                )}
+                                <td className="px-4 py-2.5 text-slate-600 whitespace-nowrap text-xs">{sku.brand || "—"}</td>
+                                {hasDesc && <td className="px-4 py-2.5 text-slate-500 max-w-sm truncate text-xs">{sku.description || "—"}</td>}
+                                <td className="px-4 py-2.5">
+                                  {sku.source === "shadow" ? (
+                                    brochureDownloadUrl ? (
+                                      <a href={brochureDownloadUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200 hover:bg-emerald-100 transition-colors" data-testid={`sku-source-${globalIdx}`}>
+                                        <BookOpen size={9} /> View Brochure
+                                      </a>
+                                    ) : (
+                                      <span className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+                                        <BookOpen size={9} /> Brochure
+                                      </span>
+                                    )
+                                  ) : (
+                                    <span className="text-[10px] font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-full border border-slate-200">Catalog</span>
+                                  )}
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  {/* Pagination controls */}
+                  {skuExpanded && totalPages > 1 && (
+                    <div className="flex items-center justify-between mt-4" data-testid="sku-pagination">
+                      <p className="text-xs text-slate-400">
+                        Showing {(skuPage - 1) * SKU_PAGE_SIZE + 1}-{Math.min(skuPage * SKU_PAGE_SIZE, filtered.length)} of {filtered.length}
+                      </p>
+                      <div className="flex items-center gap-2">
+                        <button onClick={() => setSkuPage(Math.max(1, skuPage - 1))} disabled={skuPage <= 1}
+                          className="px-3 py-1.5 border border-slate-200 rounded-lg text-xs font-medium text-slate-600 hover:bg-slate-50 disabled:opacity-30 transition-colors">Prev</button>
+                        <span className="text-xs text-slate-400">Page {skuPage} of {totalPages}</span>
+                        <button onClick={() => setSkuPage(Math.min(totalPages, skuPage + 1))} disabled={skuPage >= totalPages}
+                          className="px-3 py-1.5 border border-slate-200 rounded-lg text-xs font-medium text-slate-600 hover:bg-slate-50 disabled:opacity-30 transition-colors">Next</button>
+                      </div>
+                    </div>
+                  )}
+
+                  {!skuExpanded && filtered.length > 10 && (
+                    <button onClick={() => setSkuExpanded(true)} className="mt-3 text-xs font-semibold text-amber-600 hover:text-amber-700 transition-colors">
+                      Show all {filtered.length} variants...
+                    </button>
+                  )}
+                </>
+              );
+            })()}
 
             {product.shadow_source_files?.length > 0 && (
               <div className="mt-4 flex items-center gap-2 text-xs text-slate-400">

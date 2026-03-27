@@ -81,6 +81,60 @@ def detect_image_type(images):
     return "product_photo"
 
 
+import re as _re
+
+def parse_sku_code(sku_code, division=""):
+    """Parse structured info from SKU codes based on known patterns."""
+    parsed = {}
+    if not sku_code:
+        return parsed
+
+    # Side detection (L/R suffix)
+    if sku_code.endswith("L"):
+        parsed["side"] = "Left"
+    elif sku_code.endswith("R"):
+        parsed["side"] = "Right"
+
+    # Trauma plate pattern: MT-PT{type}{holes}{length}{side}
+    # e.g., MT-PT0103058L → type=01, holes=03, length=058mm, side=L
+    m = _re.match(r"^MT-PT(\d{2})(\d{2})(\d{3})([LR]?)$", sku_code)
+    if m:
+        parsed["plate_type"] = m.group(1)
+        holes = int(m.group(2))
+        length_mm = int(m.group(3))
+        if holes > 0:
+            parsed["holes"] = holes
+        if length_mm > 0:
+            parsed["length_mm"] = length_mm
+        return parsed
+
+    # Stent pattern: various diameter x length
+    # Try to extract numbers that look like dimensions
+    dims = _re.findall(r"(\d+\.?\d*)\s*[xX×]\s*(\d+\.?\d*)", sku_code)
+    if dims:
+        parsed["diameter_mm"] = float(dims[0][0])
+        parsed["length_mm"] = float(dims[0][1])
+
+    return parsed
+
+
+def format_sku_for_response(sku_doc, brochure_url=""):
+    """Format a SKU document for API response with parsed fields."""
+    parsed = parse_sku_code(sku_doc.get("sku_code", ""), sku_doc.get("division", ""))
+    result = {
+        "sku_code": sku_doc.get("sku_code", ""),
+        "product_name": sku_doc.get("product_name", ""),
+        "brand": sku_doc.get("brand", ""),
+        "description": sku_doc.get("description", ""),
+        "source": sku_doc.get("source", ""),
+        "source_file": sku_doc.get("source_file", ""),
+        "sub_category": sku_doc.get("sub_category", ""),
+    }
+    if parsed:
+        result["parsed"] = parsed
+    return result
+
+
 @router.get("/divisions")
 async def catalog_divisions():
     """List pilot divisions with product counts and metadata."""
@@ -204,11 +258,19 @@ async def catalog_product_detail(slug: str):
     # Fetch catalog SKUs for this product
     skus = []
     product_name = doc.get("product_name", "")
+    brochure_url = doc.get("brochure_url", "")
     cursor = catalog_skus_col.find(
         {"catalog_product_name": product_name}, {"_id": 0}
     ).sort("sku_code", 1)
     async for sku in cursor:
-        skus.append(sku)
+        skus.append(format_sku_for_response(sku, brochure_url))
+
+    # Compute available parsed columns for the frontend
+    parsed_columns = set()
+    for s in skus:
+        if "parsed" in s:
+            parsed_columns.update(s["parsed"].keys())
+    parsed_columns = sorted(parsed_columns)
 
     # Fetch related products (same brand + division, up to 6)
     related = []
@@ -292,6 +354,7 @@ async def catalog_product_detail(slug: str):
         # SKU table
         "skus": skus,
         "sku_count": len(skus),
+        "sku_parsed_columns": parsed_columns,
 
         # Related
         "related_products": [{**r, "image_type": detect_image_type(r.get("images", []))} for r in related],
