@@ -23,6 +23,11 @@ export const getCategoryStats = (params) => api.get("/api/category-stats", { par
 export const getDivisions = () => api.get("/api/divisions");
 export const submitLead = (data) => api.post("/api/leads", data);
 
+// Catalog APIs (Phase 3/4 — serves from catalog_products)
+export const getCatalogDivisions = () => api.get("/api/catalog/divisions");
+export const getCatalogProducts = (params) => api.get("/api/catalog/products", { params });
+export const getCatalogProduct = (slug) => api.get(`/api/catalog/products/${slug}`);
+
 // Admin APIs
 export const adminLogin = (data) => api.post("/api/admin/login", data);
 export const getAdminStats = () => api.get("/api/admin/stats");

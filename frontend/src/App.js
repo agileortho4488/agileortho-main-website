@@ -11,6 +11,8 @@ import ProductFamily from "./pages/ProductFamily";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Chat from "./pages/Chat";
+import CatalogTrauma from "./pages/CatalogTrauma";
+import CatalogProductDetail from "./pages/CatalogProductDetail";
 import DistrictsIndex from "./pages/DistrictsIndex";
 import DistrictPage from "./pages/DistrictPage";
 import AdminLogin from "./pages/AdminLogin";
@@ -38,6 +40,8 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/chat" element={<Chat />} />
+            <Route path="/catalog/trauma" element={<CatalogTrauma />} />
+            <Route path="/catalog/products/:slug" element={<CatalogProductDetail />} />
             <Route path="/districts" element={<DistrictsIndex />} />
             <Route path="/districts/:slug" element={<DistrictPage />} />
           </Route>
