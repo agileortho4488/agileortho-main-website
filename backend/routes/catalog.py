@@ -527,11 +527,11 @@ async def get_related_products(slug: str):
 
         bucket_key, label = RELATIONSHIP_BUCKET_MAP[rel_type]
 
-        # Find products with this target brand
+        # Find products with this target brand (must also pass PILOT_FILTER to be accessible)
         related_docs = await catalog_products_col.find({
+            **PILOT_FILTER,
             "semantic_brand_system": target_code,
             "division_canonical": division,
-            "status": {"$ne": "draft"},
             "semantic_confidence": {"$gte": MIN_CONFIDENCE},
         }, {"_id": 0, "slug": 1, "product_name_display": 1, "clinical_subtitle": 1,
             "category_canonical": 1, "brand": 1, "division_canonical": 1, "shadow_sku_count": 1}
@@ -564,9 +564,9 @@ async def get_related_products(slug: str):
         bucket_key, label = REVERSE_LABEL_MAP[rel_type]
 
         related_docs = await catalog_products_col.find({
+            **PILOT_FILTER,
             "semantic_brand_system": source_code,
             "division_canonical": division,
-            "status": {"$ne": "draft"},
             "semantic_confidence": {"$gte": MIN_CONFIDENCE},
         }, {"_id": 0, "slug": 1, "product_name_display": 1, "clinical_subtitle": 1,
             "category_canonical": 1, "brand": 1, "division_canonical": 1, "shadow_sku_count": 1}
@@ -584,10 +584,10 @@ async def get_related_products(slug: str):
     # ── Step 3: Same category, different brand (Same Family Alternatives) ──
     if category:
         same_cat_docs = await catalog_products_col.find({
+            **PILOT_FILTER,
             "division_canonical": division,
             "category_canonical": category,
             "semantic_brand_system": {"$ne": brand_system, "$exists": True},
-            "status": {"$ne": "draft"},
             "semantic_confidence": {"$gte": MIN_CONFIDENCE},
         }, {"_id": 0, "slug": 1, "product_name_display": 1, "clinical_subtitle": 1,
             "category_canonical": 1, "brand": 1, "division_canonical": 1, "shadow_sku_count": 1}
