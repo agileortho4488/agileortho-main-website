@@ -405,9 +405,7 @@ export default function CatalogProductDetail() {
                             {parsedCols.map(col => (
                               <th key={col} className="text-left px-4 py-3 font-semibold text-xs uppercase tracking-wider whitespace-nowrap">{colLabels[col] || col}</th>
                             ))}
-                            {parsedCols.length === 0 && (
-                              <th className="text-left px-4 py-3 font-semibold text-xs uppercase tracking-wider whitespace-nowrap">Product Name</th>
-                            )}
+                            <th className="text-left px-4 py-3 font-semibold text-xs uppercase tracking-wider whitespace-nowrap">Product Name</th>
                             <th className="text-left px-4 py-3 font-semibold text-xs uppercase tracking-wider whitespace-nowrap">Brand</th>
                             {hasDesc && <th className="text-left px-4 py-3 font-semibold text-xs uppercase tracking-wider whitespace-nowrap">Details</th>}
                             <th className="text-left px-4 py-3 font-semibold text-xs uppercase tracking-wider whitespace-nowrap">Source</th>
@@ -432,9 +430,7 @@ export default function CatalogProductDetail() {
                                     )}
                                   </td>
                                 ))}
-                                {parsedCols.length === 0 && (
-                                  <td className="px-4 py-2.5 text-slate-700 max-w-xs truncate text-xs">{sku.product_name}</td>
-                                )}
+                                <td className="px-4 py-2.5 text-slate-700 max-w-xs truncate text-xs">{sku.product_name}</td>
                                 <td className="px-4 py-2.5 text-slate-600 whitespace-nowrap text-xs">{sku.brand || "—"}</td>
                                 {hasDesc && <td className="px-4 py-2.5 text-slate-500 max-w-sm truncate text-xs">{sku.description || "—"}</td>}
                                 <td className="px-4 py-2.5">

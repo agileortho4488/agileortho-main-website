@@ -129,6 +129,21 @@ def parse_sku_code(sku_code, division=""):
         parsed["diameter_mm"] = float(dims[0][0])
         parsed["length_mm"] = float(dims[0][1])
 
+    # Nail pattern: MT-NT{type:2}{diameter:2}{length:3}{side?}
+    # Also handles MT-NTO variant (O instead of 0 in type)
+    m = _re.match(r"^MT-NT[O0]?(\d{1,2})(\d{2})(\d{3})([LR]?)$", sku_code)
+    if m:
+        nail_type = int(m.group(1))
+        diameter_raw = int(m.group(2))
+        length_mm = int(m.group(3))
+        # Elastic nails (type 05) encode diameter in tenths of mm
+        if nail_type == 5 and diameter_raw >= 10:
+            parsed["diameter_mm"] = round(diameter_raw / 10, 1)
+        elif diameter_raw > 0:
+            parsed["diameter_mm"] = diameter_raw
+        if length_mm > 0:
+            parsed["length_mm"] = length_mm
+
     return parsed
 
 
