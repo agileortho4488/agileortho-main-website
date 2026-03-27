@@ -437,3 +437,46 @@ async def bulk_upload_images(
         })
 
     return results
+
+
+
+# --- Catalog Taxonomy (Phase 1) ---
+
+@router.get("/api/admin/catalog/taxonomy")
+async def admin_catalog_taxonomy(_=Depends(admin_required)):
+    """Phase 1 taxonomy mapping summary — canonical division/category/material/brand maps."""
+    from db import db as mongo_db
+
+    summary = await mongo_db.catalog_taxonomy.find_one({}, {"_id": 0})
+    if not summary:
+        return {"error": "Taxonomy mapping not yet generated. Run phase1_taxonomy_mapping.py first."}
+
+    # Attach division map
+    div_map = []
+    cursor = mongo_db.catalog_division_map.find({}, {"_id": 0, "created_at": 0})
+    async for doc in cursor:
+        div_map.append(doc)
+
+    # Attach high-confidence product families
+    families = []
+    cursor = mongo_db.catalog_product_family_map.find(
+        {"product_family_confidence": {"$in": ["high", "medium"]}},
+        {"_id": 0, "created_at": 0}
+    ).sort("variant_count", -1).limit(50)
+    async for doc in cursor:
+        families.append(doc)
+
+    # Material groups (dictionary-mapped only)
+    materials = []
+    cursor = mongo_db.catalog_material_dict.find(
+        {"mapping_type": "dictionary"},
+        {"_id": 0, "created_at": 0}
+    ).sort("live_product_count", -1).limit(30)
+    async for doc in cursor:
+        materials.append(doc)
+
+    summary["division_map"] = div_map
+    summary["top_product_families"] = families
+    summary["material_normalizations"] = materials
+
+    return summary
