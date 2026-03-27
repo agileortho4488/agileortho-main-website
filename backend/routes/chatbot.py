@@ -147,7 +147,7 @@ async def shadow_stats():
             "skus": skus,
             "brands": brands,
             "chunks": chunks,
-            "batch": "batch_1_to_6",
-            "status": "active"
+            "batch": "FINAL_ALL_200_FILES",
+            "status": "active — expanded chunks (product, brand, glossary, clinical)"
         }
     }
