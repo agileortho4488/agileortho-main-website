@@ -430,3 +430,180 @@ async def get_brand_intelligence(entity_code: str):
         if k in doc and doc[k]:
             doc[k] = doc[k].isoformat()
     return doc
+
+
+fr_col = mongo_db["family_relationships"]
+
+# ═══════════════════════════════════════════════════
+# Relationship type → bucket + display label mapping
+# ═══════════════════════════════════════════════════
+RELATIONSHIP_BUCKET_MAP = {
+    # Compatible Components bucket
+    "uses_screw_family": ("compatible_components", "Compatible Screw"),
+    "used_with_hip_system": ("compatible_components", "Compatible Component"),
+    "used_with_ceramic_head": ("compatible_components", "Compatible Component"),
+    # Same Family Alternatives bucket
+    "coated_variant_of": ("same_family_alternatives", "Coated Variant"),
+    "same_family_as": ("same_family_alternatives", "Same Family Alternative"),
+    # Related System Products bucket (fallback)
+    "belongs_to_system": ("related_system_products", "Related System Product"),
+}
+
+# Reverse relationships (target sees source with these labels)
+REVERSE_LABEL_MAP = {
+    "coated_variant_of": ("same_family_alternatives", "Coated Variant Available"),
+    "uses_screw_family": ("compatible_components", "Used With Plate/Nail System"),
+    "used_with_hip_system": ("compatible_components", "Compatible Component"),
+    "used_with_ceramic_head": ("compatible_components", "Compatible Component"),
+}
+
+MIN_CONFIDENCE = 0.85  # Only high-confidence relationships
+
+
+def _product_card(doc):
+    """Minimal product card for related products list."""
+    return {
+        "slug": doc.get("slug", ""),
+        "product_name_display": doc.get("product_name_display", ""),
+        "clinical_subtitle": doc.get("clinical_subtitle", ""),
+        "category": doc.get("category_canonical", ""),
+        "brand": doc.get("brand", ""),
+        "division": doc.get("division_canonical", ""),
+        "sku_count": doc.get("shadow_sku_count", 0),
+    }
+
+
+@router.get("/products/{slug}/related")
+async def get_related_products(slug: str):
+    """
+    Get related products for a given product, organized into 3 buckets:
+    1. Compatible Components (screws, bolts, accessories)
+    2. Same Family Alternatives (coated/stainless variants, same family different anatomy)
+    3. Related System Products (same implant class, same division system)
+    
+    Only returns results for products with high semantic confidence.
+    """
+    product = await catalog_products_col.find_one(
+        {"slug": slug, "status": {"$ne": "draft"}},
+        {"_id": 0}
+    )
+    if not product:
+        raise HTTPException(status_code=404, detail="Product not found")
+
+    brand_system = product.get("semantic_brand_system")
+    confidence = product.get("semantic_confidence", 0) or 0
+
+    # Only return related products for high-confidence enriched products
+    if not brand_system or confidence < MIN_CONFIDENCE:
+        return {"compatible_components": [], "same_family_alternatives": [], "related_system_products": []}
+
+    division = product.get("division_canonical", "")
+    category = product.get("category_canonical", "")
+    product_slug = product.get("slug", "")
+
+    buckets = {
+        "compatible_components": [],
+        "same_family_alternatives": [],
+        "related_system_products": [],
+    }
+    seen_slugs = {product_slug}  # Avoid self-reference
+
+    # ── Step 1: Brand-level relationships (forward direction) ──
+    forward_rels = await fr_col.find({
+        "source_entity_code": brand_system,
+        "confidence": {"$gte": MIN_CONFIDENCE},
+        "status": "active",
+    }, {"_id": 0}).to_list(50)
+
+    for rel in forward_rels:
+        rel_type = rel.get("relationship_type", "")
+        target_code = rel.get("target_entity_code", "")
+        target_type = rel.get("target_entity_type", "")
+
+        if rel_type not in RELATIONSHIP_BUCKET_MAP:
+            continue
+        if target_type != "brand_system":
+            continue
+
+        bucket_key, label = RELATIONSHIP_BUCKET_MAP[rel_type]
+
+        # Find products with this target brand
+        related_docs = await catalog_products_col.find({
+            "semantic_brand_system": target_code,
+            "division_canonical": division,
+            "status": {"$ne": "draft"},
+            "semantic_confidence": {"$gte": MIN_CONFIDENCE},
+        }, {"_id": 0, "slug": 1, "product_name_display": 1, "clinical_subtitle": 1,
+            "category_canonical": 1, "brand": 1, "division_canonical": 1, "shadow_sku_count": 1}
+        ).sort("product_name_display", 1).to_list(10)
+
+        for doc in related_docs:
+            s = doc.get("slug", "")
+            if s in seen_slugs:
+                continue
+            seen_slugs.add(s)
+            card = _product_card(doc)
+            card["relationship_label"] = label
+            buckets[bucket_key].append(card)
+
+    # ── Step 2: Reverse relationships (this product's brand is the target) ──
+    reverse_rels = await fr_col.find({
+        "target_entity_code": brand_system,
+        "target_entity_type": "brand_system",
+        "confidence": {"$gte": MIN_CONFIDENCE},
+        "status": "active",
+    }, {"_id": 0}).to_list(50)
+
+    for rel in reverse_rels:
+        rel_type = rel.get("relationship_type", "")
+        source_code = rel.get("source_entity_code", "")
+
+        if rel_type not in REVERSE_LABEL_MAP:
+            continue
+
+        bucket_key, label = REVERSE_LABEL_MAP[rel_type]
+
+        related_docs = await catalog_products_col.find({
+            "semantic_brand_system": source_code,
+            "division_canonical": division,
+            "status": {"$ne": "draft"},
+            "semantic_confidence": {"$gte": MIN_CONFIDENCE},
+        }, {"_id": 0, "slug": 1, "product_name_display": 1, "clinical_subtitle": 1,
+            "category_canonical": 1, "brand": 1, "division_canonical": 1, "shadow_sku_count": 1}
+        ).sort("product_name_display", 1).to_list(10)
+
+        for doc in related_docs:
+            s = doc.get("slug", "")
+            if s in seen_slugs:
+                continue
+            seen_slugs.add(s)
+            card = _product_card(doc)
+            card["relationship_label"] = label
+            buckets[bucket_key].append(card)
+
+    # ── Step 3: Same category, different brand (Same Family Alternatives) ──
+    if category:
+        same_cat_docs = await catalog_products_col.find({
+            "division_canonical": division,
+            "category_canonical": category,
+            "semantic_brand_system": {"$ne": brand_system, "$exists": True},
+            "status": {"$ne": "draft"},
+            "semantic_confidence": {"$gte": MIN_CONFIDENCE},
+        }, {"_id": 0, "slug": 1, "product_name_display": 1, "clinical_subtitle": 1,
+            "category_canonical": 1, "brand": 1, "division_canonical": 1, "shadow_sku_count": 1}
+        ).sort("product_name_display", 1).to_list(8)
+
+        for doc in same_cat_docs:
+            s = doc.get("slug", "")
+            if s in seen_slugs:
+                continue
+            seen_slugs.add(s)
+            card = _product_card(doc)
+            # Determine specific label based on material difference
+            if product.get("semantic_material_default") and doc.get("brand"):
+                card["relationship_label"] = "Alternative System"
+            else:
+                card["relationship_label"] = "Same Category"
+            buckets["same_family_alternatives"].append(card)
+
+    return buckets

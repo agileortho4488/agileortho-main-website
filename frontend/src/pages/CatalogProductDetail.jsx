@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useParams, Link } from "react-router-dom";
 import {
   ArrowLeft, ChevronRight, Package, Tag, Box, Factory,
   Phone, MessageCircle, Mail, Download, FileText, Shield,
-  Award, BadgeCheck, Building2, Layers,
+  Award, BadgeCheck, Building2, Layers, Link2,
   Stethoscope, ClipboardList, CheckCircle2, Bone, BookOpen,
   HeartPulse, Microscope, Activity, Search, ChevronDown, ChevronUp
 } from "lucide-react";
@@ -63,6 +63,51 @@ function BrandDisplay({ brand, parentBrand }) {
   );
 }
 
+// Related products bucket component
+const ACCENT_COLORS = {
+  emerald: { badge: "text-emerald-700 bg-emerald-50 border-emerald-100", label: "text-emerald-600" },
+  amber: { badge: "text-amber-700 bg-amber-50 border-amber-100", label: "text-amber-600" },
+  blue: { badge: "text-blue-700 bg-blue-50 border-blue-100", label: "text-blue-600" },
+};
+
+function RelatedBucket({ title, subtitle, items, divSlug, accentColor = "amber" }) {
+  const colors = ACCENT_COLORS[accentColor] || ACCENT_COLORS.amber;
+  const DivIcon = Bone;
+  return (
+    <div data-testid={`related-bucket-${accentColor}`}>
+      <div className="mb-4">
+        <h3 className="text-sm font-bold text-slate-800 uppercase tracking-[0.1em]">{title}</h3>
+        <p className="text-xs text-slate-400 mt-0.5">{subtitle}</p>
+      </div>
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {items.slice(0, 8).map((item) => (
+          <Link
+            key={item.slug}
+            to={`/catalog/products/${item.slug}`}
+            className="group bg-white border border-slate-100 rounded-xl overflow-hidden hover:shadow-md hover:border-slate-200 transition-all duration-200"
+            data-testid={`related-item-${item.slug}`}
+          >
+            <div className="h-28 bg-slate-50 flex items-center justify-center">
+              <DivIcon size={28} className="text-slate-200" />
+            </div>
+            <div className="p-3">
+              <span className={`inline-block text-[9px] font-bold border px-1.5 py-0.5 rounded-md mb-1.5 ${colors.badge}`}>
+                {item.relationship_label}
+              </span>
+              <h4 className="text-xs font-bold text-slate-900 line-clamp-2 group-hover:text-amber-600 transition-colors leading-snug">
+                {item.product_name_display}
+              </h4>
+              {item.clinical_subtitle && (
+                <p className="text-[10px] text-slate-400 mt-1 line-clamp-1">{item.clinical_subtitle}</p>
+              )}
+            </div>
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function CatalogProductDetail() {
   const { slug } = useParams();
   const [product, setProduct] = useState(null);
@@ -73,15 +118,26 @@ export default function CatalogProductDetail() {
   const [skuSearch, setSkuSearch] = useState("");
   const [skuPage, setSkuPage] = useState(1);
   const [skuExpanded, setSkuExpanded] = useState(true);
+  const [relatedBuckets, setRelatedBuckets] = useState(null);
   const SKU_PAGE_SIZE = 30;
 
   useEffect(() => {
     setLoading(true);
+    setRelatedBuckets(null);
     window.scrollTo(0, 0);
     getCatalogProduct(slug)
       .then((r) => setProduct(r.data))
       .catch(() => toast.error("Product not found"))
       .finally(() => setLoading(false));
+  }, [slug]);
+
+  // Fetch relationship-based related products
+  useEffect(() => {
+    if (!slug) return;
+    fetch(`${API}/api/catalog/products/${slug}/related`)
+      .then(r => r.ok ? r.json() : null)
+      .then(data => { if (data) setRelatedBuckets(data); })
+      .catch(() => {});
   }, [slug]);
 
   const handleSubmitQuote = async (e) => {
@@ -109,7 +165,6 @@ export default function CatalogProductDetail() {
   const imageUrl = product.images?.length > 0 ? `${API}/api/files/${product.images[0].storage_path}` : undefined;
   const brochureDownloadUrl = product.brochure_url ? `${API}/api/files/${product.brochure_url}` : null;
   const skus = product.skus || [];
-  const related = product.related_products || [];
   const divSlug = product.division_slug || product.division?.toLowerCase().replace(/\s/g, "-") || "trauma";
   const divName = product.division || "Trauma";
 
@@ -565,44 +620,50 @@ export default function CatalogProductDetail() {
           </div>
         </div>
 
-        {/* ════════ RELATED PRODUCTS ════════ */}
-        {related.length > 0 && (
-          <div className="mt-14" data-testid="catalog-related-products">
-            <div className="flex items-end justify-between mb-8">
-              <div>
-                <p className="text-amber-600 text-xs font-bold uppercase tracking-[0.2em] mb-2">{product.brand ? `More from ${product.brand}` : "Related Products"}</p>
-                <h2 className="text-2xl font-bold text-slate-900 tracking-tight">Similar Products</h2>
-              </div>
-              <Link to={`/catalog/${divSlug}`} className="text-sm text-amber-600 font-semibold hover:text-amber-700 transition-colors flex items-center gap-1">View All <ChevronRight size={14} /></Link>
+        {/* ════════ RELATED PRODUCTS (Relationship-based) ════════ */}
+        {relatedBuckets && (
+          relatedBuckets.compatible_components?.length > 0 ||
+          relatedBuckets.same_family_alternatives?.length > 0 ||
+          relatedBuckets.related_system_products?.length > 0
+        ) && (
+          <div className="mt-14 space-y-10" data-testid="catalog-related-products">
+            <div className="flex items-center gap-3 mb-2">
+              <div className="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center"><Link2 size={16} className="text-slate-600" /></div>
+              <h2 className="text-2xl font-bold text-slate-900 tracking-tight">Related Products</h2>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-              {related.slice(0, 4).map((rp) => {
-                const rpIsBrochure = rp.image_type === "brochure_cover";
-                const rpImg = rp.images?.length > 0 && !rpIsBrochure ? `${API}/api/files/${rp.images[0].storage_path}` : null;
-                const RpIcon = DIVISION_ICON_MAP[rp.division] || Bone;
-                return (
-                  <Link key={rp.slug} to={`/catalog/products/${rp.slug}`}
-                    className="group bg-white border border-slate-100 rounded-2xl overflow-hidden hover:shadow-lg hover:border-amber-200 transition-all duration-300"
-                    data-testid={`catalog-related-${rp.slug}`}>
-                    <div className="h-40 bg-slate-50 flex items-center justify-center overflow-hidden p-3">
-                      {rpImg ? (
-                        <img src={rpImg} alt={rp.product_name_display} className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300" loading="lazy" />
-                      ) : (
-                        <div className="flex flex-col items-center gap-2">
-                          <RpIcon size={32} className="text-slate-200" />
-                          <span className="text-[9px] text-slate-300 font-medium">{rp.category || rp.division || "Medical Device"}</span>
-                        </div>
-                      )}
-                    </div>
-                    <div className="p-4">
-                      {rp.brand && <p className="text-[10px] font-bold uppercase tracking-widest text-amber-600 mb-1">{rp.brand}</p>}
-                      <h4 className="text-sm font-bold text-slate-900 line-clamp-2 group-hover:text-amber-600 transition-colors leading-snug">{rp.product_name_display}</h4>
-                      {rp.category && <p className="text-xs text-slate-400 mt-1">{rp.category}</p>}
-                    </div>
-                  </Link>
-                );
-              })}
-            </div>
+
+            {/* Compatible Components */}
+            {relatedBuckets.compatible_components?.length > 0 && (
+              <RelatedBucket
+                title="Compatible Components"
+                subtitle="Screws, bolts, and accessories designed for this system"
+                items={relatedBuckets.compatible_components}
+                divSlug={divSlug}
+                accentColor="emerald"
+              />
+            )}
+
+            {/* Same Family Alternatives */}
+            {relatedBuckets.same_family_alternatives?.length > 0 && (
+              <RelatedBucket
+                title="Same Family Alternatives"
+                subtitle="Variants, coated options, and alternative configurations"
+                items={relatedBuckets.same_family_alternatives}
+                divSlug={divSlug}
+                accentColor="amber"
+              />
+            )}
+
+            {/* Related System Products */}
+            {relatedBuckets.related_system_products?.length > 0 && (
+              <RelatedBucket
+                title="Related System Products"
+                subtitle="Products from the same clinical system"
+                items={relatedBuckets.related_system_products}
+                divSlug={divSlug}
+                accentColor="blue"
+              />
+            )}
           </div>
         )}
       </div>

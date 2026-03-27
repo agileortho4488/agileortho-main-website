@@ -1,0 +1,81 @@
+{
+  "summary": "Iteration 38: Phase 5B Relationship Graph API + Related Products testing complete. All 13 backend tests passed. Frontend Related Products section displays correctly with 3 labeled buckets. Admin password change verified (new password works, old password fails). One data consistency issue found: Related products API returns products that don't exist in public catalog.",
+  "backend_issues": {
+    "critical": [],
+    "minor": [
+      {
+        "endpoint": "GET /api/catalog/products/{slug}/related",
+        "issue": "Returns products (e.g., mboss-screw-system) that don't pass PILOT_FILTER and return 404 on product detail endpoint. Related API uses semantic_confidence >= 0.85 but product detail uses mapping_confidence: high filter.",
+        "priority": "MEDIUM"
+      }
+    ]
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [
+      {
+        "flow": "Related product card click",
+        "issue": "Clicking on some related product cards (e.g., mboss-screw-system) shows 'Product not found' toast because the product doesn't exist in public catalog. This is caused by backend data consistency issue.",
+        "affected_selectors": ["[data-testid^='related-item-']"]
+      }
+    ],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_phase5b_related_products.py",
+    "/app/test_reports/pytest/pytest_results_iter38.xml"
+  ],
+  "action_items": [
+    "Fix data consistency: Related products API should only return products that also pass PILOT_FILTER (mapping_confidence: high) to ensure all returned products are accessible via product detail endpoint"
+  ],
+  "critical_code_review_comments": [
+    "catalog.py line 531-538: Related products query uses semantic_confidence >= 0.85 but doesn't check mapping_confidence: high. This causes products to be returned that don't exist in public catalog."
+  ],
+  "updated_files": [
+    "/app/backend/tests/test_phase5b_related_products.py"
+  ],
+  "success_rate": {
+    "backend": "100% (13/13 passed)",
+    "frontend": "95% (Related Products section works, but some related items link to non-existent products)"
+  },
+  "test_credentials": "Admin: password-only login with 'kOpcELYcEvkVtyDAE5-2uw'",
+  "seed_data_creation": "None",
+  "retest_needed": true,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "Phase 5B adds relationship-based Related Products to product detail pages. Key test slugs: 2.4mm-lps-distal-radial-volar-buttress-plate (AURIC, shows MBOSS screws + ARMAR alternatives), pfrn-proximal-femoral-rotational-stability-nail (CLAVO, shows MBOSS screws), biomime-aura-sirolimus-eluting-coronary-stent-system (non-enriched, empty buckets). Admin password changed from 'admin' to 'kOpcELYcEvkVtyDAE5-2uw'. Data consistency issue: Related API returns products that don't pass PILOT_FILTER.",
+  "features_tested": {
+    "api_related_products": {
+      "GET /api/catalog/products/2.4mm-lps-distal-radial-volar-buttress-plate/related": "PASS - Returns MBOSS screws in compatible_components, ARMAR in same_family_alternatives",
+      "GET /api/catalog/products/pfrn-proximal-femoral-rotational-stability-nail/related": "PASS - Returns MBOSS screws in compatible_components",
+      "GET /api/catalog/products/mboss-screw-system/related": "PASS - Returns AURIC/ARMAR plates as 'Used With Plate/Nail System'",
+      "GET /api/catalog/products/biomime-aura-sirolimus-eluting-coronary-stent-system/related": "PASS - Returns empty buckets for non-enriched product",
+      "relationship_label_field": "PASS - All related items have relationship_label field"
+    },
+    "api_admin_auth": {
+      "POST /api/admin/login with new password": "PASS - Returns token and role",
+      "POST /api/admin/login with old password": "PASS - Returns 401 Invalid credentials"
+    },
+    "api_existing_catalog": {
+      "GET /api/catalog/divisions": "PASS - Returns 4 divisions",
+      "GET /api/catalog/products": "PASS - Returns products with filters",
+      "GET /api/catalog/products/{slug}": "PASS - Returns product detail with SKUs",
+      "GET /api/catalog/divisions/{slug}": "PASS - Returns division detail"
+    },
+    "frontend_related_products": {
+      "data-testid='catalog-related-products'": "PASS - Section displayed for enriched products",
+      "data-testid='related-bucket-emerald'": "PASS - Compatible Components bucket displayed",
+      "data-testid='related-bucket-amber'": "PASS - Same Family Alternatives bucket displayed",
+      "relationship_label_badge": "PASS - Badges show 'Compatible Screw', 'Coated Variant' etc.",
+      "non_enriched_product": "PASS - Related Products section NOT shown for non-enriched products"
+    },
+    "frontend_admin_login": {
+      "new_password_login": "PASS - Login successful, redirects to dashboard",
+      "old_password_login": "PASS - Shows 'Invalid credentials' error"
+    },
+    "frontend_existing_catalog": {
+      "catalog_divisions_page": "PASS - Shows 4 divisions with product counts",
+      "division_page": "PASS - Shows 16 products in Trauma division",
+      "product_detail_page": "PASS - Shows product info, SKU table, specs"
+    }
+  }
+}
