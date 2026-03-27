@@ -83,6 +83,20 @@ def detect_image_type(images):
 
 import re as _re
 
+# Humerus plate prefix → subtype name mapping (from brochure extraction)
+HUMERUS_PLATE_TYPES = {
+    "01": "Posterolateral Distal",
+    "02": "Posterolateral Distal w/ Lat Support",
+    "03": "Posterolateral Distal w/ Lat Support",
+    "09": "Medial Distal",
+    "15": "Medial Distal Metaphyseal",
+    "41": "Extra-articular Distal",
+    "49": "Extra-articular Distal (Short)",
+    "51": "Proximal",
+    "52": "Proximal (Long)",
+    "74": "Periarticular Proximal Lateral",
+}
+
 def parse_sku_code(sku_code, division=""):
     """Parse structured info from SKU codes based on known patterns."""
     parsed = {}
@@ -99,7 +113,8 @@ def parse_sku_code(sku_code, division=""):
     # e.g., MT-PT0103058L → type=01, holes=03, length=058mm, side=L
     m = _re.match(r"^MT-PT(\d{2})(\d{2})(\d{3})([LR]?)$", sku_code)
     if m:
-        parsed["plate_type"] = m.group(1)
+        type_code = m.group(1)
+        parsed["plate_type"] = HUMERUS_PLATE_TYPES.get(type_code, f"Type {type_code}")
         holes = int(m.group(2))
         length_mm = int(m.group(3))
         if holes > 0:
@@ -109,7 +124,6 @@ def parse_sku_code(sku_code, division=""):
         return parsed
 
     # Stent pattern: various diameter x length
-    # Try to extract numbers that look like dimensions
     dims = _re.findall(r"(\d+\.?\d*)\s*[xX×]\s*(\d+\.?\d*)", sku_code)
     if dims:
         parsed["diameter_mm"] = float(dims[0][0])

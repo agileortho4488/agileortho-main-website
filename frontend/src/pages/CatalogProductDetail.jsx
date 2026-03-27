@@ -326,7 +326,7 @@ export default function CatalogProductDetail() {
                 <button
                   onClick={() => {
                     const parsedCols = product.sku_parsed_columns || [];
-                    const colLabels = { side: "Side", holes: "Holes", length_mm: "Length (mm)", plate_type: "Plate Type", diameter_mm: "Diameter (mm)" };
+                    const colLabels = { side: "Side", holes: "Holes", length_mm: "Length (mm)", plate_type: "Plate Subtype", diameter_mm: "Dia. (mm)" };
                     const headers = ["#", "SKU Code", ...parsedCols.map(c => colLabels[c] || c), "Brand", "Source"];
                     const rows = skus.map((s, i) => {
                       const p = s.parsed || {};
@@ -370,7 +370,7 @@ export default function CatalogProductDetail() {
 
             {(() => {
               const parsedCols = product.sku_parsed_columns || [];
-              const colLabels = { side: "Side", holes: "Holes", length_mm: "Length (mm)", plate_type: "Type", diameter_mm: "Dia. (mm)" };
+              const colLabels = { side: "Side", holes: "Holes", length_mm: "Length (mm)", plate_type: "Plate Subtype", diameter_mm: "Dia. (mm)" };
               const hasDesc = skus.some((s) => s.description);
 
               // Filter SKUs
@@ -382,8 +382,9 @@ export default function CatalogProductDetail() {
                   (p.side || "").toLowerCase().includes(query) ||
                   String(p.holes || "").includes(query) ||
                   String(p.length_mm || "").includes(query) ||
-                  String(p.plate_type || "").includes(query) ||
-                  (s.product_name || "").toLowerCase().includes(query);
+                  String(p.plate_type || "").toLowerCase().includes(query) ||
+                  (s.product_name || "").toLowerCase().includes(query) ||
+                  (s.sub_category || "").toLowerCase().includes(query);
               }) : skus;
 
               // Paginate
