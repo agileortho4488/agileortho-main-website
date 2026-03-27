@@ -3,12 +3,15 @@ Chatbot route — queries shadow DB for product intelligence.
 Guardrails: confidence gating, SKU exact-match, off-topic rejection.
 Session tracking and telemetry for UI integration.
 """
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends, Query
 from pydantic import BaseModel
 from typing import Optional
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
+from collections import Counter
 from db import shadow_products_col, shadow_skus_col, shadow_brands_col, shadow_chunks_col, db as mongo_db
+from helpers import admin_required
 import re
+import time
 
 router = APIRouter(prefix="/api/chatbot", tags=["chatbot"])
 
@@ -182,7 +185,6 @@ def compute_confidence(chunks: list, terms: list) -> str:
     if not chunks:
         return "none"
     max_score = chunks[0]["score"] if chunks else 0
-    avg_score = sum(c["score"] for c in chunks) / len(chunks)
     term_count = len(terms)
     # Normalize: what fraction of terms matched?
     match_ratio = max_score / max(term_count, 1)
@@ -281,6 +283,7 @@ def format_gated_answer(chunks: list, question: str, confidence: str, sku_result
 
 @router.post("/query", response_model=ChatResponse)
 async def chatbot_query(query: ChatQuery):
+    t_start = time.monotonic()
     question = query.question.strip()
     session_id = query.session_id or "anonymous"
     terms = extract_search_terms(question)
@@ -291,7 +294,8 @@ async def chatbot_query(query: ChatQuery):
             "sources": [],
             "confidence": "none"
         }
-        await _store_conversation(session_id, question, result)
+        elapsed_ms = round((time.monotonic() - t_start) * 1000)
+        await _store_conversation(session_id, question, result, elapsed_ms)
         return result
 
     # GUARD 1: Off-topic rejection
@@ -301,7 +305,8 @@ async def chatbot_query(query: ChatQuery):
             "sources": [],
             "confidence": "none"
         }
-        await _store_conversation(session_id, question, result)
+        elapsed_ms = round((time.monotonic() - t_start) * 1000)
+        await _store_conversation(session_id, question, result, elapsed_ms, off_topic=True)
         return result
 
     # GUARD 2: SKU exact-match — detect codes and do direct DB lookup
@@ -315,11 +320,18 @@ async def chatbot_query(query: ChatQuery):
     confidence = compute_confidence(chunks, terms)
 
     result = format_gated_answer(chunks, question, confidence, sku_results if sku_results else None)
-    await _store_conversation(session_id, question, result)
+    elapsed_ms = round((time.monotonic() - t_start) * 1000)
+    await _store_conversation(
+        session_id, question, result, elapsed_ms,
+        sku_lookup=bool(sku_codes),
+        sku_found=bool(sku_results),
+    )
     return result
 
 
-async def _store_conversation(session_id: str, question: str, result: dict):
+async def _store_conversation(session_id: str, question: str, result: dict,
+                              response_time_ms: int = 0, off_topic: bool = False,
+                              sku_lookup: bool = False, sku_found: bool = False):
     """Store conversation turn and log telemetry."""
     now = datetime.now(timezone.utc).isoformat()
     turn = {
@@ -327,6 +339,7 @@ async def _store_conversation(session_id: str, question: str, result: dict):
         "role_assistant": result["answer"],
         "confidence": result["confidence"],
         "sources_count": len(result.get("sources", [])),
+        "response_time_ms": response_time_ms,
         "timestamp": now,
     }
     await chatbot_conversations_col.update_one(
@@ -346,6 +359,10 @@ async def _store_conversation(session_id: str, question: str, result: dict):
         "query": question,
         "confidence": result["confidence"],
         "sources_count": len(result.get("sources", [])),
+        "response_time_ms": response_time_ms,
+        "off_topic": off_topic,
+        "sku_lookup": sku_lookup,
+        "sku_found": sku_found,
         "timestamp": now,
     })
 
@@ -452,4 +469,130 @@ async def chatbot_suggestions():
             "Show me knee implant products",
             "What diagnostic devices do you carry?",
         ]
+    }
+
+
+# --- Comparison keyword patterns ---
+COMPARISON_PATTERNS = re.compile(
+    r'\b(vs\.?|versus|compare|comparison|difference|better|between)\b', re.IGNORECASE
+)
+
+
+@router.get("/telemetry/report")
+async def telemetry_report(
+    days: int = Query(default=7, ge=1, le=90),
+    _=Depends(admin_required),
+):
+    """
+    Admin-protected 7-day telemetry review report.
+    Returns the exact schema requested for operational review.
+    """
+    cutoff = (datetime.now(timezone.utc) - timedelta(days=days)).isoformat()
+
+    # Pull all telemetry events in the window
+    events = []
+    cursor = chatbot_telemetry_col.find(
+        {"timestamp": {"$gte": cutoff}}, {"_id": 0}
+    )
+    async for doc in cursor:
+        events.append(doc)
+
+    # Separate by event type
+    queries = [e for e in events if e.get("event_type") == "query"]
+    handoff_offered = [e for e in events if e.get("event_type") == "handoff_offered"]
+    handoff_clicked = [e for e in events if e.get("event_type") == "handoff_clicked"]
+
+    total_queries = len(queries)
+    unique_sessions = len({e["session_id"] for e in queries}) if queries else 0
+
+    # Confidence distribution
+    conf_dist = Counter(e.get("confidence", "unknown") for e in queries)
+
+    # Response time stats
+    response_times = [e.get("response_time_ms", 0) for e in queries if e.get("response_time_ms")]
+    avg_response_time_ms = round(sum(response_times) / len(response_times)) if response_times else 0
+
+    # Handoff metrics
+    handoff_shown = len(handoff_offered)
+    handoff_click = len(handoff_clicked)
+    handoff_rate = round(handoff_shown / total_queries * 100, 1) if total_queries else 0
+
+    # SKU lookup performance
+    sku_queries = [e for e in queries if e.get("sku_lookup")]
+    sku_success = [e for e in sku_queries if e.get("sku_found")]
+    sku_success_rate = round(len(sku_success) / len(sku_queries) * 100, 1) if sku_queries else 0
+
+    # Failed SKU queries
+    failed_sku = [e["query"] for e in sku_queries if not e.get("sku_found")]
+
+    # Off-topic rejection
+    off_topic_events = [e for e in queries if e.get("off_topic")]
+    off_topic_rate = round(len(off_topic_events) / total_queries * 100, 1) if total_queries else 0
+
+    # Top 20 queries by frequency
+    query_counter = Counter(e.get("query", "").strip().lower() for e in queries if e.get("query"))
+    top_queries = [{"query": q, "count": c} for q, c in query_counter.most_common(20)]
+
+    # No-match patterns (confidence=none or low)
+    no_match = [e for e in queries if e.get("confidence") in ("none", "low")]
+    no_match_counter = Counter(e.get("query", "").strip().lower() for e in no_match if e.get("query"))
+    no_match_patterns = [{"query": q, "count": c} for q, c in no_match_counter.most_common(20)]
+
+    # Medium-confidence examples (sample up to 15)
+    medium_examples = [
+        {"query": e.get("query", ""), "confidence": "medium", "session_id": e.get("session_id", "")}
+        for e in queries if e.get("confidence") == "medium"
+    ][:15]
+
+    # Product comparison candidates
+    comparison_candidates = [
+        {"query": e.get("query", ""), "session_id": e.get("session_id", "")}
+        for e in queries if e.get("query") and COMPARISON_PATTERNS.search(e["query"])
+    ]
+
+    # Top handoff trigger queries
+    handoff_trigger_counter = Counter(
+        e.get("query", "").strip().lower() for e in handoff_offered if e.get("query")
+    )
+    top_handoff_trigger_queries = [
+        {"query": q, "count": c} for q, c in handoff_trigger_counter.most_common(10)
+    ]
+
+    return {
+        "date_range": {
+            "start": cutoff,
+            "end": datetime.now(timezone.utc).isoformat(),
+            "days": days,
+        },
+        "summary": {
+            "total_queries": total_queries,
+            "unique_sessions": unique_sessions,
+            "avg_response_time_ms": avg_response_time_ms,
+            "confidence_distribution": {
+                "high": conf_dist.get("high", 0),
+                "medium": conf_dist.get("medium", 0),
+                "low": conf_dist.get("low", 0),
+                "none": conf_dist.get("none", 0),
+            },
+            "handoff": {
+                "shown": handoff_shown,
+                "clicked": handoff_click,
+                "rate": handoff_rate,
+            },
+            "sku_lookup": {
+                "queries": len(sku_queries),
+                "success": len(sku_success),
+                "success_rate": sku_success_rate,
+            },
+            "off_topic": {
+                "rejected": len(off_topic_events),
+                "rate": off_topic_rate,
+            },
+        },
+        "top_queries": top_queries,
+        "no_match_patterns": no_match_patterns,
+        "medium_confidence_examples": medium_examples,
+        "comparison_candidates": comparison_candidates,
+        "failed_sku_queries": failed_sku,
+        "top_handoff_trigger_queries": top_handoff_trigger_queries,
     }

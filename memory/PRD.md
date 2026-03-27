@@ -64,14 +64,27 @@ Core requirement: "SKU Intelligence System" — extract 100% of product data fro
 - **Lead form trigger**: Auto-shows after 2+ non-high-confidence responses in the widget
 
 ### API Endpoints
-- `POST /api/chatbot/query` — Guarded chatbot query (confidence gating + SKU exact-match + off-topic rejection + session tracking)
+- `POST /api/chatbot/query` — Guarded chatbot query (confidence gating + SKU exact-match + off-topic rejection + session tracking + response time)
 - `GET /api/chatbot/history/{session_id}` — Retrieve conversation history
 - `POST /api/chatbot/telemetry` — Log UI telemetry events
+- `GET /api/chatbot/telemetry/report?days=7` — **Admin-protected** 7-day telemetry review report
 - `GET /api/chatbot/suggestions` — Contextual suggestions
 - `GET /api/chatbot/stats` — Shadow DB statistics
 - `GET /api/chatbot/brands` — All brands
 - `GET /api/chatbot/products` — Products with filtering
 - `GET /api/chatbot/skus` — SKUs with filtering
+
+## Telemetry Report — COMPLETE (2026-03-27)
+
+### Report Schema (GET /api/chatbot/telemetry/report)
+Admin-protected endpoint returning:
+- `summary`: total_queries, unique_sessions, avg_response_time_ms, confidence_distribution, handoff (shown/clicked/rate), sku_lookup (queries/success/rate), off_topic (rejected/rate)
+- `top_queries`: Top 20 queries by frequency
+- `no_match_patterns`: Top 20 no-match/low-confidence queries
+- `medium_confidence_examples`: Sample of medium-confidence responses for manual review
+- `comparison_candidates`: Queries containing "vs", "compare", "difference" etc.
+- `failed_sku_queries`: SKU lookups that returned no results
+- `top_handoff_trigger_queries`: Queries that triggered WhatsApp handoff offers
 
 ## Current Status
 - Pipeline: COMPLETE (200/200 files)
@@ -87,9 +100,10 @@ Core requirement: "SKU Intelligence System" — extract 100% of product data fro
 3. ~~SKU exact-match improvement~~ DONE
 4. ~~Re-validation~~ DONE (100%)
 5. ~~Website chatbot UI integration~~ DONE (2026-03-27)
-6. Product comparison feature — NEXT
-7. Live DB push (ON HOLD)
-8. WhatsApp bot (ON HOLD)
+6. ~~Telemetry report endpoint~~ DONE (2026-03-27)
+7. Product comparison feature — NEXT
+8. Live DB push (ON HOLD)
+9. WhatsApp bot (ON HOLD)
 
 ## Blocked
 - File 008 (corrupted DOCX)
