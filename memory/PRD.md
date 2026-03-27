@@ -24,119 +24,78 @@ Core requirement: "SKU Intelligence System" — extract 100% of product data fro
 | Divisions | 13 |
 | Training chunks | 654 |
 
-### Chunk Breakdown (5 categories)
-| Category | Count |
-|----------|-------|
-| Product | 481 |
-| SKU overflow | 36 |
-| Brand/Intelligence | 110 |
-| Glossary/Reference | 20 |
-| Clinical Evidence | 7 |
+## Website Chatbot UI — COMPLETE
+- Confidence-aware chat bubbles, WhatsApp handoff, session tracking, telemetry
 
-### Readiness Steps — ALL COMPLETE
-1. Cross-batch dedupe / alias cleanup — DONE
-2. Full chunk expansion (5 categories) — DONE
-3. Retrieval validation — **100% pass rate (35/35)**, up from 91.7%
-4. Production-readiness assessment — READY
+## Catalog Taxonomy & Merge (Phase 1 & 2) — COMPLETE
+- 6 taxonomy collections, 1206 catalog_products, 5882 catalog_skus
 
-### Chatbot Guardrails — IMPLEMENTED
-1. **Confidence gating**: High → direct answer, Medium → with verification note, Low → graceful refusal
-2. **SKU exact-match**: Direct DB lookup with prefix fallback
-3. **Off-topic rejection**: Anti-domain signal detection, word-boundary safe
+## Standardized Product Template (Phase 3) — COMPLETE
 
-### Architecture
-- Layer 1: Raw extractions (`raw_extractions/`)
-- Layer 2: Structured drafts (`structured_drafts/`)
-- Layer 3: Normalized masters (`normalized_products/`)
-- Layer 4: Training chunks + Shadow DB
-- Source of truth: `file_id` (NOT ordinal position)
-- Central nervous system: `SYSTEM_STATE.json`
-
-## Website Chatbot UI — COMPLETE (2026-03-27)
-
-### Features Implemented
-- **Confidence-aware chat bubbles**: Green "Verified Match" badge (high), amber "Partial Match" badge (medium), grey "No Match" badge (low/none)
-- **WhatsApp handoff banners**: Shown for medium/low/none confidence responses, enabling smooth escalation to human sales reps
-- **Session tracking**: Conversations stored in `chatbot_conversations` collection with full turn history
-- **Telemetry logging**: All queries, confidence levels, handoff offers, and handoff clicks logged to `chatbot_telemetry` collection
-- **Full-page chat** (`/chat`): Complete chat experience with suggestions, history persistence
-- **Floating chat widget**: Bottom-right widget on all pages with same confidence-aware rendering
-- **Lead form trigger**: Auto-shows after 2+ non-high-confidence responses in the widget
-
-### API Endpoints
-- `POST /api/chatbot/query` — Guarded chatbot query
-- `GET /api/chatbot/history/{session_id}` — Conversation history
-- `POST /api/chatbot/telemetry` — Log UI telemetry events
-- `GET /api/chatbot/telemetry/report?days=7` — Admin 7-day telemetry
-- `GET /api/chatbot/suggestions` — Contextual suggestions
-- `GET /api/chatbot/stats` — Shadow DB statistics
-- `GET /api/chatbot/brands` — All brands
-- `GET /api/chatbot/products` — Products with filtering
-- `GET /api/chatbot/skus` — SKUs with filtering
-
-## Telemetry Report — COMPLETE (2026-03-27)
-
-## Catalog Taxonomy Mapping (Phase 1) — COMPLETE (2026-03-27)
-
-### Created 6 MongoDB Collections
-| Collection | Records | Purpose |
-|-----------|---------|---------|
-| `catalog_division_map` | 15 | Division mapping |
-| `catalog_category_map` | 211 | Category mapping |
-| `catalog_material_dict` | 293 | Material normalization |
-| `catalog_brand_dict` | 89 | Brand normalization |
-| `catalog_product_family_map` | 643 | Product family grouping |
-| `catalog_taxonomy` | 1 | Master audit summary |
-
-## Catalog Merge (Phase 2) — COMPLETE (2026-03-27)
-Built `catalog_products` (1206 records) and `catalog_skus` (5882 records) by merging live commerce data with shadow brochure enrichment.
-
-## Standardized Product Template (Phase 3) — COMPLETE (2026-03-27)
-- Product listing page with category/brand filters, search, grid/list view, pagination
-- Product detail page with Family Info, SKU Table, Tech Specs, Related Products, Quote Form, CTA buttons
-
-## Trauma Pilot (Phase 4) — COMPLETE (2026-03-27)
-- P0/P1 template polish: Category placeholders, Family Code label, Title-cased specs, Unified coating terms, Brand hierarchy "{Brand} by Meril", Dedicated brochure section
-- Tested across 5 product types: plate, nail, screw, system, many-variant (100% pass)
+## Trauma Pilot (Phase 4) — COMPLETE
+- P0/P1 polish: Category placeholders, Family Code, title-cased specs, unified coating, brand hierarchy
 
 ## Multi-Division Expansion — COMPLETE (2026-03-27)
 
-### Expanded to 4 divisions
 | Division | Products | Categories | Brands | Icon | Color |
 |----------|----------|------------|--------|------|-------|
-| Trauma | 44 | 12 | 6 | Bone | Amber |
+| Trauma | 43 | 12 | 6 | Bone | Amber |
 | Cardiovascular | 8 | 4 | 4 | HeartPulse | Rose |
 | Diagnostics | 63 | 7 | 4 | Microscope | Violet |
 | Joint Replacement | 7 | 5 | 4 | Activity | Teal |
 
-### New Frontend Pages
-- `/catalog` — Portfolio index page showing all 4 division cards
+### New Pages
+- `/catalog` — Portfolio index showing all 4 division cards
 - `/catalog/:divisionSlug` — Generic division listing (CatalogDivision.jsx)
-- Updated product detail breadcrumbs to use dynamic division routing
+- Updated product detail breadcrumbs to dynamic division routing
 
-### API Endpoints Added
-- `GET /api/catalog/divisions/{slug}` — Single division detail by slug
-- Updated all product endpoints to include `division_slug` field
+## P0 Grouping Fix & P2 SKU Table Polish — COMPLETE (2026-03-27)
+
+### P0: Humerus Page Rename & Grouping Audit
+- Renamed "2.7mm-3.5mm LPS Medial Distal Humerus Plates" to "2.7mm-3.5mm LPS Humerus Bone Plates (Titanium)" — heading was too narrow for 83 SKUs spanning 9 plate subfamilies
+- Hidden duplicate humerus page (shared identical 83 SKU set)
+- Mapped SKU prefix codes to actual plate subtype names from brochure data:
+  - MT-PT01 → Posterolateral Distal (10 SKUs)
+  - MT-PT02/03 → Posterolateral Distal w/ Lat Support (20 SKUs)
+  - MT-PT09 → Medial Distal (12 SKUs)
+  - MT-PT15 → Medial Distal Metaphyseal (10 SKUs)
+  - MT-PT41 → Extra-articular Distal (12 SKUs)
+  - MT-PT49 → Extra-articular Distal (Short) (2 SKUs)
+  - MT-PT51 → Proximal (2 SKUs)
+  - MT-PT52 → Proximal (Long) (5 SKUs)
+  - MT-PT74 → Periarticular Proximal Lateral (10 SKUs)
+- Flagged 7 DOA products + 3 reagent products sharing SKU pools for future split
+- Systematic audit of all 39 large-variant products completed
+
+### P2: SKU Table Polish
+- **Structured columns**: SKU Code, Holes, Length (mm), Plate Subtype, Side, Brand, Source
+- **Sticky header**: Table header stays visible on scroll
+- **Search/filter**: Case-insensitive search across all fields
+- **Pagination**: 30 SKUs per page with prev/next controls
+- **CSV export**: Download all variants as CSV
+- **Color-coded side badges**: Blue = Left, Orange = Right
+- **Clean source links**: "View Brochure" clickable badges replacing truncated filenames
+- **Adaptive columns**: Products without parsed data show Product Name column instead
 
 ### Test Results
-- iteration_31.json: P0/P1 Trauma template — 100% pass (13/13 backend, frontend 100%)
-- iteration_32.json: Multi-division expansion — 100% pass (22/22 backend, frontend 100%)
+- iteration_31.json: P0/P1 Trauma template — 100% pass
+- iteration_32.json: Multi-division expansion — 100% pass (22/22)
+- iteration_34.json: P0 grouping fix + P2 SKU table polish — 100% pass (19/19)
 
-## Priority Stack (User Approved)
-1. ~~Confidence gating~~ DONE
-2. ~~Off-topic rejection~~ DONE
-3. ~~SKU exact-match improvement~~ DONE
-4. ~~Re-validation~~ DONE (100%)
-5. ~~Website chatbot UI integration~~ DONE
-6. ~~Telemetry report endpoint~~ DONE
-7. ~~Catalog taxonomy mapping (Phase 1)~~ DONE
-8. ~~Catalog merge (Phase 2)~~ DONE
-9. ~~Standardized product template (Phase 3)~~ DONE
-10. ~~Trauma pilot (Phase 4)~~ DONE
-11. ~~Multi-division expansion (Cardiovascular, Diagnostics, Joint Replacement)~~ DONE
-12. Product comparison feature
-13. Live DB push (ON HOLD)
-14. WhatsApp bot (ON HOLD)
+## Priority Stack
+1. ~~SKU Intelligence Pipeline~~ DONE
+2. ~~Website Chatbot UI~~ DONE
+3. ~~Catalog Taxonomy (Phase 1)~~ DONE
+4. ~~Catalog Merge (Phase 2)~~ DONE
+5. ~~Standardized Template (Phase 3)~~ DONE
+6. ~~Trauma Pilot (Phase 4)~~ DONE
+7. ~~Multi-Division Expansion~~ DONE
+8. ~~P0 Grouping Fix + P2 SKU Table Polish~~ DONE
+9. **P1: Split mis-grouped pages into proper product-family pages** (humerus subfamilies, DOA tests, reagents)
+10. **P3: Add Portfolio to main navigation**
+11. Product Comparison Feature
+12. Live DB push (ON HOLD)
+13. WhatsApp bot (ON HOLD — needs Interakt API key)
 
 ## Blocked
 - File 008 (corrupted DOCX)
