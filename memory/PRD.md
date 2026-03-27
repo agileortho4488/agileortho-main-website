@@ -64,10 +64,10 @@ Core requirement: "SKU Intelligence System" — extract 100% of product data fro
 - **Lead form trigger**: Auto-shows after 2+ non-high-confidence responses in the widget
 
 ### API Endpoints
-- `POST /api/chatbot/query` — Guarded chatbot query (confidence gating + SKU exact-match + off-topic rejection + session tracking + response time)
-- `GET /api/chatbot/history/{session_id}` — Retrieve conversation history
+- `POST /api/chatbot/query` — Guarded chatbot query
+- `GET /api/chatbot/history/{session_id}` — Conversation history
 - `POST /api/chatbot/telemetry` — Log UI telemetry events
-- `GET /api/chatbot/telemetry/report?days=7` — **Admin-protected** 7-day telemetry review report
+- `GET /api/chatbot/telemetry/report?days=7` — Admin 7-day telemetry
 - `GET /api/chatbot/suggestions` — Contextual suggestions
 - `GET /api/chatbot/stats` — Shadow DB statistics
 - `GET /api/chatbot/brands` — All brands
@@ -76,143 +76,64 @@ Core requirement: "SKU Intelligence System" — extract 100% of product data fro
 
 ## Telemetry Report — COMPLETE (2026-03-27)
 
-### Report Schema (GET /api/chatbot/telemetry/report)
-Admin-protected endpoint returning:
-- `summary`: total_queries, unique_sessions, avg_response_time_ms, confidence_distribution, handoff (shown/clicked/rate), sku_lookup (queries/success/rate), off_topic (rejected/rate)
-- `top_queries`: Top 20 queries by frequency
-- `no_match_patterns`: Top 20 no-match/low-confidence queries
-- `medium_confidence_examples`: Sample of medium-confidence responses for manual review
-- `comparison_candidates`: Queries containing "vs", "compare", "difference" etc.
-- `failed_sku_queries`: SKU lookups that returned no results
-- `top_handoff_trigger_queries`: Queries that triggered WhatsApp handoff offers
-
 ## Catalog Taxonomy Mapping (Phase 1) — COMPLETE (2026-03-27)
 
-### What Was Actually Done
-
-Built the full canonical mapping layer between the current live catalog and the shadow brochure-enriched catalog, without touching live product behavior yet.
-
-#### 1. Created 6 MongoDB Collections
+### Created 6 MongoDB Collections
 | Collection | Records | Purpose |
 |-----------|---------|---------|
-| `catalog_division_map` | 15 | Live vs Shadow vs Canonical division mapping |
-| `catalog_category_map` | 211 | Category mapping with division context |
-| `catalog_material_dict` | 293 | Controlled material normalization dictionary |
-| `catalog_brand_dict` | 89 | Brand/manufacturer normalization |
-| `catalog_product_family_map` | 643 | Product family grouping with confidence scores |
-| `catalog_taxonomy` | 1 | Master roll-up / audit summary |
-
-#### 2. Mapped Live vs Shadow Taxonomy
-Compared Live DB (967 products) against Shadow DB (brochure-backed catalog data). Created canonical mappings for: division, category, material, brand, product family.
-
-#### 3. Preserved Original Values Alongside Canonical Values
-Did not overwrite source values blindly. For each mapped field, preserved:
-- original live value
-- original shadow value
-- canonical normalized value
-
-Applied to: divisions, categories, materials, brands, product families.
-
-#### 4. Built Controlled Material Normalization
-Created a proper material dictionary instead of simple text cleanup. Example: "Titanium Alloy (TAN)", "Titanium alloy", "Titanium Alloy", "TAN(Ti-6Al-7Nb)" all normalized into controlled canonical values while keeping originals preserved.
-
-#### 5. Scored Product Family Confidence
-Because live product_family is often just the same as product_name, grouping was not forced blindly. Added: product_family_canonical, product_family_confidence, grouping classification.
-- 44 high confidence
-- 14 medium confidence
-- 585 singleton / no safe grouping yet
-
-#### 6. Measured Safe Mapping Coverage
-- 829/967 live products safely mappable = **85.7%**
-- 138 products remain in live-only divisions, preserved but flagged
-- Live-only divisions flagged: Instruments, Robotics, Sports Medicine, Urology
-
-#### 7. Treated Shadow as Enrichment, Not Automatic Truth
-Shadow data was used to enrich and standardize, not to blindly replace live data. Live values preserved, ambiguous mappings flagged, only safe canonical mappings accepted automatically.
-
-#### 8. Exposed Results Through Admin API
-- `GET /api/admin/catalog/taxonomy` — Full taxonomy mapping report for review and Phase 2 usage
+| `catalog_division_map` | 15 | Division mapping |
+| `catalog_category_map` | 211 | Category mapping |
+| `catalog_material_dict` | 293 | Material normalization |
+| `catalog_brand_dict` | 89 | Brand normalization |
+| `catalog_product_family_map` | 643 | Product family grouping |
+| `catalog_taxonomy` | 1 | Master audit summary |
 
 ## Catalog Merge (Phase 2) — COMPLETE (2026-03-27)
+Built `catalog_products` (1206 records) and `catalog_skus` (5882 records) by merging live commerce data with shadow brochure enrichment.
 
-### What Was Actually Done
-Built `catalog_products` (1206 records) and `catalog_skus` (5882 records) by merging live commerce data with shadow brochure enrichment, without touching the live catalog.
+## Standardized Product Template (Phase 3) — COMPLETE (2026-03-27)
+- Product listing page with category/brand filters, search, grid/list view, pagination
+- Product detail page with Family Info, SKU Table, Tech Specs, Related Products, Quote Form, CTA buttons
 
-#### 1. Four-Tier Matching (strict order)
-| Tier | Method | Matches |
-|------|--------|---------|
-| 1 | Exact SKU/code link | 169 |
-| 2 | Family + brand + division | 98 |
-| 3 | Exact product name match | 10 |
-| 4 | Fuzzy token similarity | 178 |
-| — | No match (live-only) | 512 |
+## Trauma Pilot (Phase 4) — COMPLETE (2026-03-27)
+- P0/P1 template polish: Category placeholders, Family Code label, Title-cased specs, Unified coating terms, Brand hierarchy "{Brand} by Meril", Dedicated brochure section
+- Tested across 5 product types: plate, nail, screw, system, many-variant (100% pass)
 
-Every match stores `match_method` and `match_score`.
+## Multi-Division Expansion — COMPLETE (2026-03-27)
 
-#### 2. Confidence-Gated Enrichment
-| Confidence | Count | Enriched? | Review? |
-|-----------|-------|-----------|---------|
-| High | 218 | Yes | No |
-| Medium | 104 | No (ambiguous per Rule 2) | Yes |
-| Low | 133 | No | Yes |
-| Live-only | 512 | No | No |
-| Shadow-only draft | 239 | Yes (shadow data) | Yes |
+### Expanded to 4 divisions
+| Division | Products | Categories | Brands | Icon | Color |
+|----------|----------|------------|--------|------|-------|
+| Trauma | 44 | 12 | 6 | Bone | Amber |
+| Cardiovascular | 8 | 4 | 4 | HeartPulse | Rose |
+| Diagnostics | 63 | 7 | 4 | Microscope | Violet |
+| Joint Replacement | 7 | 5 | 4 | Activity | Teal |
 
-Total flagged for review: **476 products**
+### New Frontend Pages
+- `/catalog` — Portfolio index page showing all 4 division cards
+- `/catalog/:divisionSlug` — Generic division listing (CatalogDivision.jsx)
+- Updated product detail breadcrumbs to use dynamic division routing
 
-#### 3. Shadow-Only Products Added as Drafts
-239 shadow products with no live match added as `status: draft, live_visible: false` per Rule 3.
+### API Endpoints Added
+- `GET /api/catalog/divisions/{slug}` — Single division detail by slug
+- Updated all product endpoints to include `division_slug` field
 
-#### 4. Live Commerce Fields Kept Authoritative
-Live owns: slug, images, pricing, stock/status, SEO fields.
-Shadow enriches: brand, brochure description, specs, source files, SKU structure.
-
-#### 5. Full Traceability on Every Record
-Every catalog product stores: `source_of_truth_fields`, `enriched_from_shadow`, `mapping_confidence`, `review_required`, `match_method`, `match_score`.
-
-#### 6. SKU Structure
-- 5,872 SKUs from shadow (brochure-extracted)
-- 10 SKUs from live size_variables
-- Indexed by sku_code, product_name, brand
-
-#### 7. Admin Endpoints
-- `GET /api/admin/catalog/merge-report` — Full merge report with review queue sample
-- `GET /api/admin/catalog/trauma-preview` — Trauma division pilot preview (260 products, 126 enriched)
-
-#### 8. Trauma Division Preview
-| Metric | Count |
-|--------|-------|
-| Total products | 260 |
-| Enriched from shadow | 126 |
-| Flagged for review | 158 |
-| Confidence: high | 44 |
-| Confidence: medium | 42 |
-| Confidence: low | 74 |
-| Confidence: live_only | 58 |
-| Confidence: shadow_only | 42 |
-| SKUs | 2,444 |
-- Pipeline: COMPLETE (200/200 files)
-- Guardrails: IMPLEMENTED (100% validation pass rate)
-- Shadow DB: Synced and validated
-- Website chatbot UI: COMPLETE AND TESTED (100% pass rate, iteration 29)
-- Catalog taxonomy (Phase 1): COMPLETE — 6 mapping collections generated
-- Catalog migration (Phase 2): COMPLETE — 1206 products, 5882 SKUs
-- Catalog product pages (Phase 3+4): COMPLETE — Trauma pilot with 44 high-confidence products
-- Live DB: NOT PUSHED (awaiting user approval)
-- WhatsApp bot: NOT STARTED (awaiting Interakt API key)
+### Test Results
+- iteration_31.json: P0/P1 Trauma template — 100% pass (13/13 backend, frontend 100%)
+- iteration_32.json: Multi-division expansion — 100% pass (22/22 backend, frontend 100%)
 
 ## Priority Stack (User Approved)
 1. ~~Confidence gating~~ DONE
 2. ~~Off-topic rejection~~ DONE
 3. ~~SKU exact-match improvement~~ DONE
 4. ~~Re-validation~~ DONE (100%)
-5. ~~Website chatbot UI integration~~ DONE (2026-03-27)
-6. ~~Telemetry report endpoint~~ DONE (2026-03-27)
-7. ~~Catalog taxonomy mapping (Phase 1)~~ DONE (2026-03-27)
-8. ~~Catalog merge — catalog_products + catalog_skus (Phase 2)~~ DONE (2026-03-27)
-9. ~~Standardized product page template (Phase 3)~~ DONE (2026-03-27)
-10. ~~Pilot Trauma division migration (Phase 4)~~ DONE (2026-03-27)
-11. Expand to more divisions (next pilot candidates)
+5. ~~Website chatbot UI integration~~ DONE
+6. ~~Telemetry report endpoint~~ DONE
+7. ~~Catalog taxonomy mapping (Phase 1)~~ DONE
+8. ~~Catalog merge (Phase 2)~~ DONE
+9. ~~Standardized product template (Phase 3)~~ DONE
+10. ~~Trauma pilot (Phase 4)~~ DONE
+11. ~~Multi-division expansion (Cardiovascular, Diagnostics, Joint Replacement)~~ DONE
 12. Product comparison feature
 13. Live DB push (ON HOLD)
 14. WhatsApp bot (ON HOLD)
