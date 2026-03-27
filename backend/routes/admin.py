@@ -480,3 +480,57 @@ async def admin_catalog_taxonomy(_=Depends(admin_required)):
     summary["material_normalizations"] = materials
 
     return summary
+
+
+@router.get("/api/admin/catalog/merge-report")
+async def admin_catalog_merge_report(_=Depends(admin_required)):
+    """Phase 2 merge report — catalog_products + catalog_skus stats."""
+    from db import db as mongo_db
+
+    report = await mongo_db.catalog_merge_report.find_one({}, {"_id": 0})
+    if not report:
+        return {"error": "Merge report not yet generated. Run phase2_catalog_merge.py first."}
+
+    # Add live review queue sample (flagged for review)
+    review_sample = []
+    cursor = mongo_db.catalog_products.find(
+        {"review_required": True},
+        {"_id": 0, "product_name": 1, "division_canonical": 1, "match_method": 1,
+         "match_score": 1, "mapping_confidence": 1, "brand": 1}
+    ).sort("match_score", -1).limit(30)
+    async for doc in cursor:
+        review_sample.append(doc)
+
+    report["review_queue_sample"] = review_sample
+    return report
+
+
+@router.get("/api/admin/catalog/trauma-preview")
+async def admin_trauma_preview(_=Depends(admin_required)):
+    """Preview Trauma division catalog for Phase 4 pilot validation."""
+    from db import db as mongo_db
+
+    products = []
+    cursor = mongo_db.catalog_products.find(
+        {"division_canonical": "Trauma"},
+        {"_id": 0, "product_name_display": 1, "brand": 1, "category": 1,
+         "enriched_from_shadow": 1, "mapping_confidence": 1, "match_method": 1,
+         "match_score": 1, "review_required": 1, "status": 1, "shadow_sku_count": 1}
+    ).sort([("mapping_confidence", 1), ("match_score", -1)])
+    async for doc in cursor:
+        products.append(doc)
+
+    # Summary stats
+    from collections import Counter
+    conf_dist = Counter(p["mapping_confidence"] for p in products)
+    enriched_count = sum(1 for p in products if p.get("enriched_from_shadow"))
+    review_count = sum(1 for p in products if p.get("review_required"))
+
+    return {
+        "division": "Trauma",
+        "total_products": len(products),
+        "enriched_from_shadow": enriched_count,
+        "flagged_for_review": review_count,
+        "confidence_distribution": dict(conf_dist),
+        "products": products,
+    }

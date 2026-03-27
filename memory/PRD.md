@@ -133,7 +133,64 @@ Shadow data was used to enrich and standardize, not to blindly replace live data
 #### 8. Exposed Results Through Admin API
 - `GET /api/admin/catalog/taxonomy` — Full taxonomy mapping report for review and Phase 2 usage
 
-## Current Status
+## Catalog Merge (Phase 2) — COMPLETE (2026-03-27)
+
+### What Was Actually Done
+Built `catalog_products` (1206 records) and `catalog_skus` (5882 records) by merging live commerce data with shadow brochure enrichment, without touching the live catalog.
+
+#### 1. Four-Tier Matching (strict order)
+| Tier | Method | Matches |
+|------|--------|---------|
+| 1 | Exact SKU/code link | 169 |
+| 2 | Family + brand + division | 98 |
+| 3 | Exact product name match | 10 |
+| 4 | Fuzzy token similarity | 178 |
+| — | No match (live-only) | 512 |
+
+Every match stores `match_method` and `match_score`.
+
+#### 2. Confidence-Gated Enrichment
+| Confidence | Count | Enriched? | Review? |
+|-----------|-------|-----------|---------|
+| High | 218 | Yes | No |
+| Medium | 104 | No (ambiguous per Rule 2) | Yes |
+| Low | 133 | No | Yes |
+| Live-only | 512 | No | No |
+| Shadow-only draft | 239 | Yes (shadow data) | Yes |
+
+Total flagged for review: **476 products**
+
+#### 3. Shadow-Only Products Added as Drafts
+239 shadow products with no live match added as `status: draft, live_visible: false` per Rule 3.
+
+#### 4. Live Commerce Fields Kept Authoritative
+Live owns: slug, images, pricing, stock/status, SEO fields.
+Shadow enriches: brand, brochure description, specs, source files, SKU structure.
+
+#### 5. Full Traceability on Every Record
+Every catalog product stores: `source_of_truth_fields`, `enriched_from_shadow`, `mapping_confidence`, `review_required`, `match_method`, `match_score`.
+
+#### 6. SKU Structure
+- 5,872 SKUs from shadow (brochure-extracted)
+- 10 SKUs from live size_variables
+- Indexed by sku_code, product_name, brand
+
+#### 7. Admin Endpoints
+- `GET /api/admin/catalog/merge-report` — Full merge report with review queue sample
+- `GET /api/admin/catalog/trauma-preview` — Trauma division pilot preview (260 products, 126 enriched)
+
+#### 8. Trauma Division Preview
+| Metric | Count |
+|--------|-------|
+| Total products | 260 |
+| Enriched from shadow | 126 |
+| Flagged for review | 158 |
+| Confidence: high | 44 |
+| Confidence: medium | 42 |
+| Confidence: low | 74 |
+| Confidence: live_only | 58 |
+| Confidence: shadow_only | 42 |
+| SKUs | 2,444 |
 - Pipeline: COMPLETE (200/200 files)
 - Guardrails: IMPLEMENTED (100% validation pass rate)
 - Shadow DB: Synced and validated
@@ -151,9 +208,9 @@ Shadow data was used to enrich and standardize, not to blindly replace live data
 5. ~~Website chatbot UI integration~~ DONE (2026-03-27)
 6. ~~Telemetry report endpoint~~ DONE (2026-03-27)
 7. ~~Catalog taxonomy mapping (Phase 1)~~ DONE (2026-03-27)
-8. Catalog products_v2 + catalog_skus (Phase 2) — NEXT
-9. Standardized product page template (Phase 3)
-10. Pilot one division migration (Phase 4)
+8. ~~Catalog merge — catalog_products + catalog_skus (Phase 2)~~ DONE (2026-03-27)
+9. Standardized product page template (Phase 3) — NEXT
+10. Pilot Trauma division migration (Phase 4)
 11. Product comparison feature
 12. Live DB push (ON HOLD)
 13. WhatsApp bot (ON HOLD)
