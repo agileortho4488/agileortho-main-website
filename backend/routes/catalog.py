@@ -20,7 +20,17 @@ PILOT_FILTER = {
 }
 
 # Currently enabled pilot divisions
-PILOT_DIVISIONS = ["Trauma"]
+PILOT_DIVISIONS = ["Trauma", "Cardiovascular", "Diagnostics", "Joint Replacement"]
+
+# Division metadata for frontend
+DIVISION_META = {
+    "Trauma": {"slug": "trauma", "icon": "bone", "color": "amber"},
+    "Cardiovascular": {"slug": "cardiovascular", "icon": "heart-pulse", "color": "rose"},
+    "Diagnostics": {"slug": "diagnostics", "icon": "microscope", "color": "violet"},
+    "Joint Replacement": {"slug": "joint-replacement", "icon": "activity", "color": "teal"},
+}
+
+SLUG_TO_DIVISION = {v["slug"]: k for k, v in DIVISION_META.items()}
 
 # Coating terminology normalization
 COATING_ALIASES = {
@@ -73,20 +83,46 @@ def detect_image_type(images):
 
 @router.get("/divisions")
 async def catalog_divisions():
-    """List pilot divisions with product counts."""
+    """List pilot divisions with product counts and metadata."""
     divisions = []
     for div in PILOT_DIVISIONS:
         filt = {**PILOT_FILTER, "division_canonical": div}
         count = await catalog_products_col.count_documents(filt)
         categories = await catalog_products_col.distinct("category", filt)
         brands = await catalog_products_col.distinct("brand", filt)
+        meta = DIVISION_META.get(div, {})
         divisions.append({
             "name": div,
+            "slug": meta.get("slug", div.lower().replace(" ", "-")),
+            "icon": meta.get("icon", "package"),
+            "color": meta.get("color", "slate"),
             "product_count": count,
             "categories": sorted(categories),
             "brands": sorted([b for b in brands if b]),
         })
     return {"divisions": divisions, "pilot_active": True}
+
+
+@router.get("/divisions/{slug}")
+async def catalog_division_detail(slug: str):
+    """Get single division info by slug."""
+    div_name = SLUG_TO_DIVISION.get(slug)
+    if not div_name:
+        raise HTTPException(status_code=404, detail="Division not found")
+    filt = {**PILOT_FILTER, "division_canonical": div_name}
+    count = await catalog_products_col.count_documents(filt)
+    categories = await catalog_products_col.distinct("category", filt)
+    brands = await catalog_products_col.distinct("brand", filt)
+    meta = DIVISION_META.get(div_name, {})
+    return {
+        "name": div_name,
+        "slug": slug,
+        "icon": meta.get("icon", "package"),
+        "color": meta.get("color", "slate"),
+        "product_count": count,
+        "categories": sorted(categories),
+        "brands": sorted([b for b in brands if b]),
+    }
 
 
 @router.get("/products")
@@ -126,6 +162,8 @@ async def catalog_product_list(
     ]).skip(skip).limit(limit)
 
     async for doc in cursor:
+        div = doc.get("division_canonical", "")
+        div_meta = DIVISION_META.get(div, {})
         products.append({
             "slug": doc.get("slug", ""),
             "product_name": doc.get("product_name", ""),
@@ -134,7 +172,8 @@ async def catalog_product_list(
             "product_family_display": doc.get("product_family_display", ""),
             "brand": doc.get("brand", ""),
             "parent_brand": doc.get("parent_brand", ""),
-            "division": doc.get("division_canonical", ""),
+            "division": div,
+            "division_slug": div_meta.get("slug", div.lower().replace(" ", "-")),
             "category": doc.get("category", ""),
             "material": doc.get("material_canonical", ""),
             "images": doc.get("images", []),
@@ -183,13 +222,16 @@ async def catalog_product_detail(slug: str):
 
     cursor = catalog_products_col.find(related_filter, {"_id": 0}).limit(6)
     async for rel in cursor:
+        rel_div = rel.get("division_canonical", "")
+        rel_meta = DIVISION_META.get(rel_div, {})
         related.append({
             "slug": rel.get("slug", ""),
             "product_name_display": rel.get("product_name_display", ""),
             "brand": rel.get("brand", ""),
             "category": rel.get("category", ""),
             "images": rel.get("images", []),
-            "division": rel.get("division_canonical", ""),
+            "division": rel_div,
+            "division_slug": rel_meta.get("slug", rel_div.lower().replace(" ", "-")),
         })
 
     # If not enough related from same brand, fill from same division
@@ -201,14 +243,20 @@ async def catalog_product_detail(slug: str):
         }
         cursor = catalog_products_col.find(fill_filter, {"_id": 0}).limit(4 - len(related))
         async for rel in cursor:
+            rel_div = rel.get("division_canonical", "")
+            rel_meta = DIVISION_META.get(rel_div, {})
             related.append({
                 "slug": rel.get("slug", ""),
                 "product_name_display": rel.get("product_name_display", ""),
                 "brand": rel.get("brand", ""),
                 "category": rel.get("category", ""),
                 "images": rel.get("images", []),
-                "division": rel.get("division_canonical", ""),
+                "division": rel_div,
+                "division_slug": rel_meta.get("slug", rel_div.lower().replace(" ", "-")),
             })
+
+    div_name = doc.get("division_canonical", "")
+    div_meta = DIVISION_META.get(div_name, {})
 
     return {
         # Product family info
@@ -218,7 +266,8 @@ async def catalog_product_detail(slug: str):
         "product_family_display": doc.get("product_family_display", ""),
         "brand": doc.get("brand", ""),
         "parent_brand": doc.get("parent_brand", ""),
-        "division": doc.get("division_canonical", ""),
+        "division": div_name,
+        "division_slug": div_meta.get("slug", div_name.lower().replace(" ", "-")),
         "division_original": doc.get("division_live_original", ""),
         "category": doc.get("category", ""),
         "slug": doc.get("slug", ""),

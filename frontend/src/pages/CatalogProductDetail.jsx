@@ -4,7 +4,8 @@ import {
   ArrowLeft, ChevronRight, Package, Tag, Box, Factory,
   Phone, MessageCircle, Mail, Download, FileText, Shield,
   Award, BadgeCheck, Building2, Layers, ExternalLink,
-  Stethoscope, ClipboardList, CheckCircle2, Bone, BookOpen
+  Stethoscope, ClipboardList, CheckCircle2, Bone, BookOpen,
+  HeartPulse, Microscope, Activity
 } from "lucide-react";
 import { getCatalogProduct, submitLead } from "../lib/api";
 import { toast } from "sonner";
@@ -12,19 +13,34 @@ import { toast } from "sonner";
 const API = process.env.REACT_APP_BACKEND_URL;
 const DISTRICTS = ["Hyderabad","Rangareddy","Medchal-Malkajgiri","Sangareddy","Nalgonda","Warangal","Karimnagar","Khammam","Nizamabad","Adilabad","Mahabubnagar","Medak","Siddipet","Suryapet","Jagtial","Peddapalli","Kamareddy","Mancherial","Wanaparthy","Nagarkurnool","Vikarabad","Jogulamba Gadwal","Rajanna Sircilla","Kumuram Bheem","Mulugu","Narayanpet","Mahabubabad","Jayashankar","Jangaon","Nirmal","Yadadri","Bhadradri","Hanumakonda"];
 
+const DIVISION_ICON_MAP = {
+  "Trauma": Bone,
+  "Cardiovascular": HeartPulse,
+  "Diagnostics": Microscope,
+  "Joint Replacement": Activity,
+};
+
 // Category-specific placeholder icons
-function CategoryPlaceholder({ category }) {
+function CategoryPlaceholder({ category, division }) {
   const cat = (category || "").toLowerCase();
-  let label = "Trauma Implant";
+  const DivIcon = DIVISION_ICON_MAP[division] || Bone;
+  let label = division || "Medical Device";
   if (cat.includes("plate")) label = "Plating System";
   else if (cat.includes("nail")) label = "Intramedullary Nail";
   else if (cat.includes("screw") || cat.includes("bolt") || cat.includes("locking")) label = "Fixation Hardware";
   else if (cat.includes("instrument")) label = "Surgical Instrument";
-  else if (cat.includes("implant")) label = "Trauma Implant";
+  else if (cat.includes("stent")) label = "Coronary Stent";
+  else if (cat.includes("valve")) label = "Heart Valve";
+  else if (cat.includes("knee")) label = "Knee Implant";
+  else if (cat.includes("hip")) label = "Hip Implant";
+  else if (cat.includes("reagent")) label = "Diagnostic Reagent";
+  else if (cat.includes("test")) label = "Diagnostic Test";
+  else if (cat.includes("analyzer")) label = "Analyzer System";
+  else if (cat.includes("implant")) label = "Medical Implant";
   return (
     <div className="flex flex-col items-center justify-center gap-4 py-6">
       <div className="w-24 h-24 rounded-2xl bg-slate-100 border-2 border-dashed border-slate-200 flex items-center justify-center">
-        <Bone size={40} className="text-slate-300" />
+        <DivIcon size={40} className="text-slate-300" />
       </div>
       <div className="text-center">
         <p className="text-sm font-semibold text-slate-500">{label}</p>
@@ -81,7 +97,7 @@ export default function CatalogProductDetail() {
   };
 
   if (loading) return <div className="flex items-center justify-center py-40 font-[Manrope]"><div className="w-8 h-8 border-2 border-amber-600 border-t-transparent rounded-full animate-spin" /></div>;
-  if (!product) return <div className="text-center py-40 font-[Manrope]"><Package size={48} className="mx-auto text-slate-300 mb-4" /><p className="text-slate-700 font-semibold">Product not found</p><Link to="/catalog/trauma" className="text-amber-600 font-medium mt-3 inline-block">Back to Trauma Catalog</Link></div>;
+  if (!product) return <div className="text-center py-40 font-[Manrope]"><Package size={48} className="mx-auto text-slate-300 mb-4" /><p className="text-slate-700 font-semibold">Product not found</p><Link to="/catalog" className="text-amber-600 font-medium mt-3 inline-block">Back to Portfolio</Link></div>;
 
   const specs = product.technical_specifications || {};
   const specEntries = Object.entries(specs).filter(([, v]) => v !== null && v !== "");
@@ -90,6 +106,8 @@ export default function CatalogProductDetail() {
   const brochureDownloadUrl = product.brochure_url ? `${API}/api/files/${product.brochure_url}` : null;
   const skus = product.skus || [];
   const related = product.related_products || [];
+  const divSlug = product.division_slug || product.division?.toLowerCase().replace(/\s/g, "-") || "trauma";
+  const divName = product.division || "Trauma";
 
   return (
     <div className="min-h-screen bg-white font-[Manrope]" data-testid="catalog-product-detail">
@@ -100,15 +118,15 @@ export default function CatalogProductDetail() {
           <nav className="flex items-center gap-1.5 text-sm text-slate-400 mb-4 flex-wrap" data-testid="catalog-detail-breadcrumb">
             <Link to="/" className="hover:text-white transition-colors">Home</Link>
             <ChevronRight size={12} />
-            <Link to="/products" className="hover:text-white transition-colors">Products</Link>
+            <Link to="/catalog" className="hover:text-white transition-colors">Portfolio</Link>
             <ChevronRight size={12} />
-            <Link to="/catalog/trauma" className="hover:text-white transition-colors">Trauma</Link>
-            {product.category && (<><ChevronRight size={12} /><Link to={`/catalog/trauma?category=${encodeURIComponent(product.category)}`} className="hover:text-white transition-colors">{product.category}</Link></>)}
+            <Link to={`/catalog/${divSlug}`} className="hover:text-white transition-colors">{divName}</Link>
+            {product.category && (<><ChevronRight size={12} /><Link to={`/catalog/${divSlug}?category=${encodeURIComponent(product.category)}`} className="hover:text-white transition-colors">{product.category}</Link></>)}
             <ChevronRight size={12} />
             <span className="text-white font-medium truncate max-w-[250px]">{product.product_name_display}</span>
           </nav>
-          <Link to="/catalog/trauma" className="inline-flex items-center gap-1.5 text-sm text-slate-400 hover:text-white transition-colors" data-testid="catalog-back-link">
-            <ArrowLeft size={14} /> Back to Trauma Catalog
+          <Link to={`/catalog/${divSlug}`} className="inline-flex items-center gap-1.5 text-sm text-slate-400 hover:text-white transition-colors" data-testid="catalog-back-link">
+            <ArrowLeft size={14} /> Back to {divName} Catalog
           </Link>
         </div>
       </section>
@@ -138,7 +156,7 @@ export default function CatalogProductDetail() {
                   {imageUrl && !isbrochureImage ? (
                     <img src={imageUrl} alt={product.product_name_display} className="w-full h-full object-contain" data-testid="catalog-detail-image" />
                   ) : (
-                    <CategoryPlaceholder category={product.category} />
+                    <CategoryPlaceholder category={product.category} division={divName} />
                   )}
                 </div>
                 <div className="px-5 py-4 border-t border-slate-100 flex flex-wrap gap-2" data-testid="catalog-product-tags">
@@ -431,12 +449,13 @@ export default function CatalogProductDetail() {
                 <p className="text-amber-600 text-xs font-bold uppercase tracking-[0.2em] mb-2">{product.brand ? `More from ${product.brand}` : "Related Products"}</p>
                 <h2 className="text-2xl font-bold text-slate-900 tracking-tight">Similar Products</h2>
               </div>
-              <Link to="/catalog/trauma" className="text-sm text-amber-600 font-semibold hover:text-amber-700 transition-colors flex items-center gap-1">View All <ChevronRight size={14} /></Link>
+              <Link to={`/catalog/${divSlug}`} className="text-sm text-amber-600 font-semibold hover:text-amber-700 transition-colors flex items-center gap-1">View All <ChevronRight size={14} /></Link>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
               {related.slice(0, 4).map((rp) => {
                 const rpIsBrochure = rp.image_type === "brochure_cover";
                 const rpImg = rp.images?.length > 0 && !rpIsBrochure ? `${API}/api/files/${rp.images[0].storage_path}` : null;
+                const RpIcon = DIVISION_ICON_MAP[rp.division] || Bone;
                 return (
                   <Link key={rp.slug} to={`/catalog/products/${rp.slug}`}
                     className="group bg-white border border-slate-100 rounded-2xl overflow-hidden hover:shadow-lg hover:border-amber-200 transition-all duration-300"
@@ -446,8 +465,8 @@ export default function CatalogProductDetail() {
                         <img src={rpImg} alt={rp.product_name_display} className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300" loading="lazy" />
                       ) : (
                         <div className="flex flex-col items-center gap-2">
-                          <Bone size={32} className="text-slate-200" />
-                          <span className="text-[9px] text-slate-300 font-medium">{rp.category || "Trauma"}</span>
+                          <RpIcon size={32} className="text-slate-200" />
+                          <span className="text-[9px] text-slate-300 font-medium">{rp.category || rp.division || "Medical Device"}</span>
                         </div>
                       )}
                     </div>
