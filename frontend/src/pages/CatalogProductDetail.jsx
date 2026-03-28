@@ -40,11 +40,11 @@ function CategoryPlaceholder({ category, division }) {
   return (
     <div className="flex flex-col items-center justify-center gap-4 py-6">
       <div className="w-24 h-24 rounded-sm bg-[#0A0A0A]/5 border border-white/10 flex items-center justify-center">
-        <DivIcon size={40} className="text-white/15" />
+        <DivIcon size={40} className="text-white/25" />
       </div>
       <div className="text-center">
         <p className="text-sm font-semibold text-white/50">{label}</p>
-        <p className="text-[10px] text-white/30 mt-0.5">Product image coming soon</p>
+        <p className="text-[10px] text-white/45 mt-0.5">Product image coming soon</p>
       </div>
     </div>
   );
@@ -77,7 +77,7 @@ function RelatedBucket({ title, subtitle, items, divSlug, accentColor = "amber" 
     <div data-testid={`related-bucket-${accentColor}`}>
       <div className="mb-4">
         <h3 className="text-sm font-bold text-white/90 uppercase tracking-[0.1em]">{title}</h3>
-        <p className="text-xs text-white/30 mt-0.5">{subtitle}</p>
+        <p className="text-xs text-white/45 mt-0.5">{subtitle}</p>
       </div>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {items.slice(0, 8).map((item) => (
@@ -98,7 +98,7 @@ function RelatedBucket({ title, subtitle, items, divSlug, accentColor = "amber" 
                 {item.product_name_display}
               </h4>
               {item.clinical_subtitle && (
-                <p className="text-[10px] text-white/30 mt-1 line-clamp-1">{item.clinical_subtitle}</p>
+                <p className="text-[10px] text-white/45 mt-1 line-clamp-1">{item.clinical_subtitle}</p>
               )}
             </div>
           </Link>
@@ -157,7 +157,7 @@ export default function CatalogProductDetail() {
   };
 
   if (loading) return <div className="flex items-center justify-center py-40 font-[Manrope]"><div className="w-8 h-8 border-2 border-amber-600 border-t-transparent rounded animate-spin" /></div>;
-  if (!product) return <div className="text-center py-40 font-[Manrope]"><Package size={48} className="mx-auto text-white/20 mb-4" /><p className="text-white/70 font-semibold">Product not found</p><Link to="/catalog" className="text-[#D4AF37] font-medium mt-3 inline-block">Back to Products</Link></div>;
+  if (!product) return <div className="text-center py-40 font-[Manrope]"><Package size={48} className="mx-auto text-white/35 mb-4" /><p className="text-white/70 font-semibold">Product not found</p><Link to="/catalog" className="text-[#D4AF37] font-medium mt-3 inline-block">Back to Products</Link></div>;
 
   const specs = product.technical_specifications || {};
   const specEntries = Object.entries(specs).filter(([, v]) => v !== null && v !== "");
@@ -174,7 +174,7 @@ export default function CatalogProductDetail() {
       <section className="bg-[#0D0D0D] relative overflow-hidden" data-testid="catalog-detail-hero">
         <div className="absolute inset-0 opacity-10"><div className="w-full h-full bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-amber-500 via-transparent to-transparent" /></div>
         <div className="relative max-w-7xl mx-auto px-6 py-8 lg:py-10">
-          <nav className="flex items-center gap-1.5 text-sm text-white/30 mb-4 flex-wrap" data-testid="catalog-detail-breadcrumb">
+          <nav className="flex items-center gap-1.5 text-sm text-white/45 mb-4 flex-wrap" data-testid="catalog-detail-breadcrumb">
             <Link to="/" className="hover:text-white transition-colors">Home</Link>
             <ChevronRight size={12} />
             <Link to="/catalog" className="hover:text-white transition-colors">Products</Link>
@@ -184,7 +184,7 @@ export default function CatalogProductDetail() {
             <ChevronRight size={12} />
             <span className="text-white font-medium truncate max-w-[250px]">{product.product_name_display}</span>
           </nav>
-          <Link to={`/catalog/${divSlug}`} className="inline-flex items-center gap-1.5 text-sm text-white/30 hover:text-white transition-colors" data-testid="catalog-back-link">
+          <Link to={`/catalog/${divSlug}`} className="inline-flex items-center gap-1.5 text-sm text-white/45 hover:text-white transition-colors" data-testid="catalog-back-link">
             <ArrowLeft size={14} /> Back to {divName} Catalog
           </Link>
         </div>
@@ -196,7 +196,7 @@ export default function CatalogProductDetail() {
         {/* ════════ SECTION 1: PRODUCT FAMILY INFORMATION ════════ */}
         <div className="mb-4">
           <div className="flex items-center gap-2 mb-2">
-            <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-white/30 bg-white/5 border border-white/10 px-2.5 py-1 rounded">Product Family</span>
+            <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-white/45 bg-white/5 border border-white/10 px-2.5 py-1 rounded">Product Family</span>
             {product.enriched_from_shadow && (
               <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-[#2DD4BF] bg-[#2DD4BF]/10 border border-emerald-200 px-2 py-0.5 rounded" data-testid="enrichment-badge">
                 <BadgeCheck size={10} /> Brochure Verified
@@ -234,14 +234,14 @@ export default function CatalogProductDetail() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-xs font-bold text-white/70 flex items-center gap-1.5"><BookOpen size={12} className="text-[#D4AF37]" /> Product Brochure</p>
-                    <p className="text-[10px] text-white/30 mt-0.5 truncate">{product.shadow_source_files?.[0] || "Manufacturer brochure"}</p>
+                    <p className="text-[10px] text-white/45 mt-0.5 truncate">{product.shadow_source_files?.[0] || "Manufacturer brochure"}</p>
                   </div>
                   {brochureDownloadUrl ? (
                     <a href={brochureDownloadUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 px-3 py-1.5 bg-[#D4AF37]/10 text-[#D4AF37] text-xs font-bold rounded-sm border border-[#D4AF37]/20 hover:bg-[#D4AF37]/10 transition-colors shrink-0" data-testid="catalog-brochure-download">
                       <Download size={12} /> PDF
                     </a>
                   ) : (
-                    <span className="text-[10px] text-white/30 px-2">View Only</span>
+                    <span className="text-[10px] text-white/45 px-2">View Only</span>
                   )}
                 </div>
               )}
@@ -267,7 +267,7 @@ export default function CatalogProductDetail() {
 
             {/* P0: Renamed "Primary SKU" → "Family Code" */}
             {product.sku_code && (
-              <p className="text-xs font-mono text-white/30 flex items-center gap-1.5" data-testid="catalog-family-code">
+              <p className="text-xs font-mono text-white/45 flex items-center gap-1.5" data-testid="catalog-family-code">
                 <Tag size={11} /> Family Code: <span className="text-white/50 font-semibold">{product.sku_code}</span>
               </p>
             )}
@@ -373,7 +373,7 @@ export default function CatalogProductDetail() {
               ].map(({ icon: Icon, label, sub }) => (
                 <div key={label} className="flex items-center gap-3">
                   <div className="w-9 h-9 rounded-sm bg-[#D4AF37]/10 border border-[#D4AF37]/20 flex items-center justify-center shrink-0"><Icon size={16} className="text-[#D4AF37]" /></div>
-                  <div><span className="text-xs font-bold text-white/70 leading-tight block">{label}</span><span className="text-[10px] text-white/30 leading-tight">{sub}</span></div>
+                  <div><span className="text-xs font-bold text-white/70 leading-tight block">{label}</span><span className="text-[10px] text-white/45 leading-tight">{sub}</span></div>
                 </div>
               ))}
             </div>
@@ -386,7 +386,7 @@ export default function CatalogProductDetail() {
             <div className="flex items-center justify-between gap-3 mb-4">
               <div className="flex items-center gap-3">
                 <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-[#D4AF37] bg-[#D4AF37]/10 border border-[#D4AF37]/20 px-2.5 py-1 rounded">SKU / Variant Information</span>
-                <span className="text-sm text-white/30">{skus.length} {skus.length === 1 ? "variant" : "variants"} available</span>
+                <span className="text-sm text-white/45">{skus.length} {skus.length === 1 ? "variant" : "variants"} available</span>
               </div>
               <div className="flex items-center gap-2">
                 {/* CSV Export */}
@@ -425,7 +425,7 @@ export default function CatalogProductDetail() {
             {/* SKU Search */}
             {skus.length > 10 && (
               <div className="mb-4 relative">
-                <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30" />
+                <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/45" />
                 <input
                   type="text" value={skuSearch} onChange={(e) => { setSkuSearch(e.target.value); setSkuPage(1); }}
                   placeholder="Search SKU codes, side, length..."
@@ -460,7 +460,7 @@ export default function CatalogProductDetail() {
 
               return (
                 <>
-                  {query && <p className="text-xs text-white/30 mb-2">{filtered.length} of {skus.length} SKUs match &quot;{skuSearch}&quot;</p>}
+                  {query && <p className="text-xs text-white/45 mb-2">{filtered.length} of {skus.length} SKUs match &quot;{skuSearch}&quot;</p>}
 
                   <div className="rounded-sm overflow-hidden border border-white/10" data-testid="catalog-sku-table">
                     <div className="overflow-x-auto">
@@ -484,7 +484,7 @@ export default function CatalogProductDetail() {
                             const parsed = sku.parsed || {};
                             return (
                               <tr key={sku.sku_code + globalIdx} className={`${globalIdx % 2 === 0 ? "bg-[#0A0A0A]" : "bg-white/5"} border-t border-white/[0.06] hover:bg-[#D4AF37]/10/30 transition-colors`}>
-                                <td className="px-4 py-2.5 text-white/30 font-mono text-xs">{globalIdx + 1}</td>
+                                <td className="px-4 py-2.5 text-white/45 font-mono text-xs">{globalIdx + 1}</td>
                                 <td className="px-4 py-2.5 font-mono font-semibold text-white/90 whitespace-nowrap text-xs" data-testid={`sku-code-${globalIdx}`}>{sku.sku_code}</td>
                                 {parsedCols.map(col => (
                                   <td key={col} className="px-4 py-2.5 text-white/50 whitespace-nowrap text-xs">
@@ -526,13 +526,13 @@ export default function CatalogProductDetail() {
                   {/* Pagination controls */}
                   {skuExpanded && totalPages > 1 && (
                     <div className="flex items-center justify-between mt-4" data-testid="sku-pagination">
-                      <p className="text-xs text-white/30">
+                      <p className="text-xs text-white/45">
                         Showing {(skuPage - 1) * SKU_PAGE_SIZE + 1}-{Math.min(skuPage * SKU_PAGE_SIZE, filtered.length)} of {filtered.length}
                       </p>
                       <div className="flex items-center gap-2">
                         <button onClick={() => setSkuPage(Math.max(1, skuPage - 1))} disabled={skuPage <= 1}
                           className="px-3 py-1.5 border border-white/10 rounded-sm text-xs font-medium text-white/50 hover:bg-white/5 disabled:opacity-30 transition-colors">Prev</button>
-                        <span className="text-xs text-white/30">Page {skuPage} of {totalPages}</span>
+                        <span className="text-xs text-white/45">Page {skuPage} of {totalPages}</span>
                         <button onClick={() => setSkuPage(Math.min(totalPages, skuPage + 1))} disabled={skuPage >= totalPages}
                           className="px-3 py-1.5 border border-white/10 rounded-sm text-xs font-medium text-white/50 hover:bg-white/5 disabled:opacity-30 transition-colors">Next</button>
                       </div>
@@ -549,7 +549,7 @@ export default function CatalogProductDetail() {
             })()}
 
             {product.shadow_source_files?.length > 0 && (
-              <div className="mt-4 flex items-center gap-2 text-xs text-white/30">
+              <div className="mt-4 flex items-center gap-2 text-xs text-white/45">
                 <ClipboardList size={12} />
                 <span>Data extracted from: {product.shadow_source_files.map((f, i) => (
                   <span key={f}>{i > 0 && ", "}{brochureDownloadUrl ? <a href={brochureDownloadUrl} target="_blank" rel="noopener noreferrer" className="text-[#D4AF37] hover:underline">{f}</a> : f}</span>
@@ -597,7 +597,7 @@ export default function CatalogProductDetail() {
             <div className="bg-[#0A0A0A] rounded-sm shadow-2xl w-full max-w-md overflow-hidden" data-testid="catalog-quote-modal">
               <div className="bg-[#0D0D0D] px-6 py-5">
                 <h3 className="text-white font-bold text-lg">Request Bulk Quote</h3>
-                <p className="text-white/30 text-xs mt-1">For: {product.product_name_display}{product.brand ? ` (${product.brand})` : ""}</p>
+                <p className="text-white/45 text-xs mt-1">For: {product.product_name_display}{product.brand ? ` (${product.brand})` : ""}</p>
               </div>
               <form onSubmit={handleSubmitQuote} className="p-6 space-y-3">
                 <input type="text" placeholder="Your Name *" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="w-full px-3.5 py-2.5 border border-white/10 rounded-sm text-sm outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-500/10 transition-all" data-testid="catalog-quote-name" />
@@ -620,7 +620,7 @@ export default function CatalogProductDetail() {
 
         {/* ════════ NEED HELP BANNER ════════ */}
         <div className="mt-14 bg-[#0D0D0D] rounded-sm p-8 sm:p-10 flex flex-col sm:flex-row items-center justify-between gap-6" data-testid="catalog-help-banner">
-          <div><h3 className="text-white font-bold text-lg">Need Technical Assistance?</h3><p className="text-white/30 text-sm mt-1.5 max-w-md">Our product specialists can help with sizing, compatibility, and clinical applications.</p></div>
+          <div><h3 className="text-white font-bold text-lg">Need Technical Assistance?</h3><p className="text-white/45 text-sm mt-1.5 max-w-md">Our product specialists can help with sizing, compatibility, and clinical applications.</p></div>
           <div className="flex gap-3 shrink-0">
             <a href="tel:+917416521222" className="flex items-center gap-2 px-5 py-2.5 bg-[#0A0A0A]/10 text-white text-sm font-semibold rounded-sm hover:bg-[#0A0A0A]/20 transition-colors border border-white/20"><Phone size={14} /> Call Now</a>
             <Link to="/contact" className="flex items-center gap-2 px-5 py-2.5 bg-[#D4AF37] text-white text-sm font-bold rounded-sm hover:bg-[#F2C94C] transition-colors">Contact Specialist <ChevronRight size={14} /></Link>

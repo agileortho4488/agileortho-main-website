@@ -63,7 +63,7 @@ export default function Home() {
               Telangana
             </h1>
 
-            <p className="mt-6 text-base sm:text-lg text-white/50 max-w-lg leading-relaxed" data-testid="hero-subtitle">
+            <p className="mt-6 text-base sm:text-lg text-white/70 max-w-lg leading-relaxed" data-testid="hero-subtitle">
               {totalProducts > 0 ? `${totalProducts}+` : "800+"} verified products across {divisions.length || 13} clinical divisions.
               Serving hospitals and clinics in all 33 districts.
             </p>
@@ -122,9 +122,9 @@ export default function Home() {
             { icon: Building2, label: "Meril Authorized" },
             { icon: MapPin, label: "33 Districts" },
           ].map((badge) => (
-            <div key={badge.label} className="flex items-center gap-2.5 text-white/35" data-testid={`trust-badge-${badge.label.toLowerCase().replace(/\s/g, '-')}`}>
+            <div key={badge.label} className="flex items-center gap-2.5" data-testid={`trust-badge-${badge.label.toLowerCase().replace(/\s/g, '-')}`}>
               <badge.icon size={16} strokeWidth={1.5} className="text-[#2DD4BF]" />
-              <span className="text-xs font-medium tracking-wide">{badge.label}</span>
+              <span className="text-xs font-medium tracking-wide text-white/60">{badge.label}</span>
             </div>
           ))}
         </div>
@@ -167,10 +167,10 @@ export default function Home() {
                   <h3 className="text-base font-medium text-white group-hover:text-[#D4AF37] transition-colors" style={{ fontFamily: 'Outfit' }}>
                     {div.name}
                   </h3>
-                  <p className="mt-1.5 text-xs text-white/35 line-clamp-2">
+                  <p className="mt-1.5 text-xs text-white/50 line-clamp-2">
                     {(div.categories || []).slice(0, 4).join(" / ")}
                   </p>
-                  <div className="mt-4 flex items-center gap-1 text-xs text-white/25 group-hover:text-[#D4AF37]/70 transition-colors">
+                  <div className="mt-4 flex items-center gap-1 text-xs text-white/40 group-hover:text-[#D4AF37]/70 transition-colors">
                     <span>{(div.categories || []).length} categories</span>
                     <ChevronRight size={12} />
                   </div>
@@ -225,7 +225,7 @@ export default function Home() {
                       {p.product_name_display || p.product_name}
                     </h3>
                     {p.semantic_brand_system && (
-                      <p className="mt-1.5 text-xs text-white/30">{p.semantic_brand_system}</p>
+                      <p className="mt-1.5 text-xs text-white/50">{p.semantic_brand_system}</p>
                     )}
                   </div>
                 </Link>
@@ -247,7 +247,7 @@ export default function Home() {
             ].map((stat) => (
               <div key={stat.label} className="card-premium rounded-sm p-6 sm:p-8 text-center" data-testid={`stat-${stat.label.toLowerCase().replace(/\s/g, '-')}`}>
                 <p className="text-3xl sm:text-4xl font-light text-white" style={{ fontFamily: 'Outfit' }}>{stat.value}</p>
-                <p className="mt-2 text-xs text-white/35 tracking-wide uppercase">{stat.label}</p>
+                <p className="mt-2 text-xs text-white/50 tracking-wide uppercase">{stat.label}</p>
               </div>
             ))}
           </div>
@@ -263,7 +263,7 @@ export default function Home() {
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-light tracking-tight text-white" style={{ fontFamily: 'Outfit' }}>
                 Ready to <span className="text-[#D4AF37] font-medium">order</span>?
               </h2>
-              <p className="mt-4 text-sm sm:text-base text-white/40 max-w-lg mx-auto">
+              <p className="mt-4 text-sm sm:text-base text-white/60 max-w-lg mx-auto">
                 Connect with our product specialists for bulk quotes, hospital procurement, and technical specifications.
               </p>
               <div className="mt-8 flex flex-wrap justify-center gap-4">

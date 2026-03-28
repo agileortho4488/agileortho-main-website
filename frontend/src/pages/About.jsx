@@ -21,7 +21,7 @@ export default function About() {
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight" style={{ fontFamily: "Chivo" }}>
             Mobility Revolutionised
           </h1>
-          <p className="mt-4 text-lg text-white/20 max-w-2xl mx-auto leading-relaxed">
+          <p className="mt-4 text-lg text-white/35 max-w-2xl mx-auto leading-relaxed">
             Agile Ortho is the authorized Meril Life Sciences master franchise distributor,
             serving hospitals, clinics, and healthcare institutions across all 33 districts of Telangana.
           </p>

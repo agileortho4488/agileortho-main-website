@@ -173,7 +173,7 @@ export default function CatalogDivision() {
         {/* Active filters */}
         {hasFilters && (
           <div className="flex flex-wrap items-center gap-2 mb-6" data-testid="catalog-active-filters">
-            <span className="text-xs font-bold uppercase tracking-wider text-white/30">Filters:</span>
+            <span className="text-xs font-bold uppercase tracking-wider text-white/45">Filters:</span>
             {category && (
               <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-sm bg-[#D4AF37]/10 text-[#D4AF37] text-xs font-medium border border-[#D4AF37]/20">
                 {category} <button onClick={() => setFilter("category", "")}><X size={12} /></button>
@@ -189,7 +189,7 @@ export default function CatalogDivision() {
                 &quot;{search}&quot; <button onClick={() => setFilter("search", "")}><X size={12} /></button>
               </span>
             )}
-            <button onClick={() => setSearchParams({})} className="text-xs text-white/30 hover:text-red-400 font-medium underline underline-offset-2 ml-2">Clear All</button>
+            <button onClick={() => setSearchParams({})} className="text-xs text-white/45 hover:text-red-400 font-medium underline underline-offset-2 ml-2">Clear All</button>
           </div>
         )}
 
@@ -212,7 +212,7 @@ export default function CatalogDivision() {
                       data-testid="cat-filter-all">All Categories</button>
                     {divCategories.map((c) => (
                       <button key={c} onClick={() => setFilter("category", c)}
-                        className={`w-full text-left px-3 py-2 rounded-sm text-xs transition-colors ${category === c ? "bg-[#D4AF37]/10 text-[#D4AF37] font-semibold" : "text-white/35 hover:text-white/60 hover:bg-white/5"}`}
+                        className={`w-full text-left px-3 py-2 rounded-sm text-xs transition-colors ${category === c ? "bg-[#D4AF37]/10 text-[#D4AF37] font-semibold" : "text-white/55 hover:text-white/60 hover:bg-white/5"}`}
                         data-testid={`cat-filter-${c.toLowerCase().replace(/\s/g, "-")}`}>{c}</button>
                     ))}
                   </div>
@@ -228,7 +228,7 @@ export default function CatalogDivision() {
                       data-testid="brand-filter-all">All Brands</button>
                     {divBrands.map((b) => (
                       <button key={b} onClick={() => setFilter("brand", b)}
-                        className={`w-full text-left px-3 py-2 rounded-sm text-xs transition-colors ${brand === b ? "bg-white/10 text-white font-semibold" : "text-white/35 hover:text-white/60 hover:bg-white/5"}`}
+                        className={`w-full text-left px-3 py-2 rounded-sm text-xs transition-colors ${brand === b ? "bg-white/10 text-white font-semibold" : "text-white/55 hover:text-white/60 hover:bg-white/5"}`}
                         data-testid={`brand-filter-${b.toLowerCase().replace(/\s/g, "-")}`}>{b}</button>
                     ))}
                   </div>
@@ -245,8 +245,8 @@ export default function CatalogDivision() {
                 {search && <> matching &quot;<span className="text-[#D4AF37]">{search}</span>&quot;</>}
               </p>
               <div className="flex items-center gap-1 bg-white/5 rounded-sm p-0.5 border border-white/[0.06]">
-                <button onClick={() => setViewMode("grid")} className={`p-2 rounded-sm transition-all ${viewMode === "grid" ? "bg-white/10 text-white" : "text-white/30"}`}><Grid3X3 size={15} /></button>
-                <button onClick={() => setViewMode("list")} className={`p-2 rounded-sm transition-all ${viewMode === "list" ? "bg-white/10 text-white" : "text-white/30"}`}><List size={15} /></button>
+                <button onClick={() => setViewMode("grid")} className={`p-2 rounded-sm transition-all ${viewMode === "grid" ? "bg-white/10 text-white" : "text-white/45"}`}><Grid3X3 size={15} /></button>
+                <button onClick={() => setViewMode("list")} className={`p-2 rounded-sm transition-all ${viewMode === "list" ? "bg-white/10 text-white" : "text-white/45"}`}><List size={15} /></button>
               </div>
             </div>
 
@@ -278,7 +278,7 @@ export default function CatalogDivision() {
                           <div className="w-16 h-16 rounded-sm bg-white/5 border border-white/[0.06] flex items-center justify-center">
                             <DivIcon size={28} className="text-white/15" />
                           </div>
-                          <span className="text-[10px] text-white/20 font-medium">{p.category || divInfo.name}</span>
+                          <span className="text-[10px] text-white/35 font-medium">{p.category || divInfo.name}</span>
                         </div>
                       )}
                       {p.brand && (
@@ -300,9 +300,9 @@ export default function CatalogDivision() {
                       {p.category && <p className="text-[11px] text-[#D4AF37] font-medium mb-1.5">{p.category}</p>}
                       <h3 className="font-medium text-white group-hover:text-[#D4AF37] transition-colors line-clamp-2 leading-snug" style={{ fontFamily: 'Outfit' }}>{p.product_name_display}</h3>
                       {p.clinical_subtitle && (
-                        <p className="text-xs text-white/30 mt-1 font-medium">{p.clinical_subtitle}</p>
+                        <p className="text-xs text-white/45 mt-1 font-medium">{p.clinical_subtitle}</p>
                       )}
-                      <p className="text-sm text-white/35 mt-1.5 line-clamp-2 leading-relaxed">{p.description}</p>
+                      <p className="text-sm text-white/55 mt-1.5 line-clamp-2 leading-relaxed">{p.description}</p>
                       <div className="mt-4 flex items-center justify-between">
                         <div className="flex items-center gap-1.5">
                           {p.semantic_material_default && (
@@ -337,11 +337,11 @@ export default function CatalogDivision() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1">
-                        {p.brand && <span className="text-[10px] font-bold uppercase tracking-widest text-[#D4AF37]">{p.brand}{p.parent_brand && p.parent_brand !== p.brand && <span className="font-medium normal-case tracking-normal text-white/30"> by {p.parent_brand}</span>}</span>}
-                        {p.category && <span className="text-[10px] text-white/25">{p.category}</span>}
+                        {p.brand && <span className="text-[10px] font-bold uppercase tracking-widest text-[#D4AF37]">{p.brand}{p.parent_brand && p.parent_brand !== p.brand && <span className="font-medium normal-case tracking-normal text-white/45"> by {p.parent_brand}</span>}</span>}
+                        {p.category && <span className="text-[10px] text-white/40">{p.category}</span>}
                       </div>
                       <h3 className="font-medium text-sm text-white group-hover:text-[#D4AF37] transition-colors truncate" style={{ fontFamily: 'Outfit' }}>{p.product_name_display}</h3>
-                      <p className="text-xs text-white/30 truncate mt-0.5">{p.description}</p>
+                      <p className="text-xs text-white/45 truncate mt-0.5">{p.description}</p>
                     </div>
                     <div className="text-right shrink-0 hidden sm:block">
                       {p.shadow_sku_count > 0 && (
@@ -363,7 +363,7 @@ export default function CatalogDivision() {
                   className="flex items-center gap-1 px-4 py-2.5 border border-white/10 rounded-sm text-sm font-medium text-white/50 hover:bg-white/5 disabled:opacity-20 transition-colors">
                   <ChevronLeft size={14} /> Prev
                 </button>
-                <span className="text-sm text-white/35">Page {page} of {pages}</span>
+                <span className="text-sm text-white/55">Page {page} of {pages}</span>
                 <button onClick={() => goPage(page + 1)} disabled={page >= pages}
                   className="flex items-center gap-1 px-4 py-2.5 border border-white/10 rounded-sm text-sm font-medium text-white/50 hover:bg-white/5 disabled:opacity-20 transition-colors">
                   Next <ChevronRight size={14} />

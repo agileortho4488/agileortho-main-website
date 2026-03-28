@@ -11,7 +11,7 @@ function NavItem({ to, children, testId, onClick }) {
       onClick={onClick}
       className={({ isActive }) =>
         `text-sm font-medium tracking-wide transition-colors ${
-          isActive ? "text-[#D4AF37]" : "text-white/60 hover:text-white"
+          isActive ? "text-[#D4AF37]" : "text-white/80 hover:text-white"
         }`
       }
     >
@@ -45,7 +45,7 @@ export default function SiteHeader() {
             href="https://www.agileortho.shop"
             target="_blank"
             rel="noreferrer"
-            className="text-sm font-medium text-white/60 transition-colors hover:text-white tracking-wide"
+            className="text-sm font-medium text-white/80 transition-colors hover:text-white tracking-wide"
           >
             Shop
           </a>

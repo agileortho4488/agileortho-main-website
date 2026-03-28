@@ -75,7 +75,7 @@ export default function ProductDetail() {
       <div className="flex items-center justify-center py-40 font-[Manrope]">
         <div className="flex flex-col items-center gap-3">
           <div className="w-8 h-8 border-2 border-teal-600 border-t-transparent rounded-full animate-spin" />
-          <p className="text-sm text-white/30">Loading product...</p>
+          <p className="text-sm text-white/45">Loading product...</p>
         </div>
       </div>
     );
@@ -84,7 +84,7 @@ export default function ProductDetail() {
   if (!product) {
     return (
       <div className="text-center py-40 font-[Manrope]">
-        <Package size={48} className="mx-auto text-white/20 mb-4" />
+        <Package size={48} className="mx-auto text-white/35 mb-4" />
         <p className="text-white/70 font-semibold">Product not found</p>
         <Link to="/products" className="text-[#2DD4BF] font-medium mt-3 inline-block hover:text-[#2DD4BF] transition-colors">
           Back to Products
@@ -147,7 +147,7 @@ export default function ProductDetail() {
         </div>
         <div className="relative max-w-7xl mx-auto px-6 py-8 lg:py-10">
           {/* Breadcrumb */}
-          <nav className="flex items-center gap-1.5 text-sm text-white/30 mb-4" data-testid="breadcrumb">
+          <nav className="flex items-center gap-1.5 text-sm text-white/45 mb-4" data-testid="breadcrumb">
             <Link to="/" className="hover:text-white transition-colors">Home</Link>
             <ChevronRight size={12} />
             <Link to="/products" className="hover:text-white transition-colors">Products</Link>
@@ -159,7 +159,7 @@ export default function ProductDetail() {
 
           <Link
             to="/products"
-            className="inline-flex items-center gap-1.5 text-sm text-white/30 hover:text-white transition-colors"
+            className="inline-flex items-center gap-1.5 text-sm text-white/45 hover:text-white transition-colors"
             data-testid="back-link"
           >
             <ArrowLeft size={14} /> Back to All Products
@@ -186,7 +186,7 @@ export default function ProductDetail() {
                 ) : (
                   <div className="text-center">
                     <Package size={80} className="text-slate-200 mx-auto" />
-                    <p className="text-xs text-white/30 mt-4 font-medium">Product Image Coming Soon</p>
+                    <p className="text-xs text-white/45 mt-4 font-medium">Product Image Coming Soon</p>
                   </div>
                 )}
               </div>
@@ -225,7 +225,7 @@ export default function ProductDetail() {
             </h1>
 
             {product.sku_code && (
-              <p className="text-xs font-mono text-white/30 flex items-center gap-1.5" data-testid="product-sku">
+              <p className="text-xs font-mono text-white/45 flex items-center gap-1.5" data-testid="product-sku">
                 <Tag size={11} /> SKU: {product.sku_code}
               </p>
             )}
@@ -323,7 +323,7 @@ export default function ProductDetail() {
                   </div>
                   <div>
                     <span className="text-xs font-bold text-white/70 leading-tight block">{label}</span>
-                    <span className="text-[10px] text-white/30 leading-tight">{sub}</span>
+                    <span className="text-[10px] text-white/45 leading-tight">{sub}</span>
                   </div>
                 </div>
               ))}
@@ -337,7 +337,7 @@ export default function ProductDetail() {
             <div className="bg-[#0A0A0A] rounded-sm shadow-2xl w-full max-w-md overflow-hidden" data-testid="quote-modal">
               <div className="bg-[#0D0D0D] px-6 py-5">
                 <h3 className="text-white font-bold text-lg">Request Bulk Quote</h3>
-                <p className="text-white/30 text-xs mt-1">For: {product.product_name}</p>
+                <p className="text-white/45 text-xs mt-1">For: {product.product_name}</p>
               </div>
               <form onSubmit={handleSubmitQuote} className="p-6 space-y-3" data-testid="quote-form">
                 <input type="text" placeholder="Your Name *" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="w-full px-3.5 py-2.5 border border-white/10 rounded-sm text-sm outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/10 transition-all" data-testid="quote-name-input" />
@@ -444,7 +444,7 @@ export default function ProductDetail() {
                   activeTab === i
                     ? "text-[#2DD4BF] border-b-2 border-teal-600 -mb-px"
                     : !tab.enabled
-                    ? "text-white/20 cursor-not-allowed"
+                    ? "text-white/35 cursor-not-allowed"
                     : "text-white/40 hover:text-white/70"
                 }`}
                 data-testid={`tab-${tab.label.toLowerCase().replace(/\s+/g, "-")}`}
@@ -518,7 +518,7 @@ export default function ProductDetail() {
                       product.sku_code ? { l: "SKU Code", v: product.sku_code } : null,
                     ].filter(Boolean).map(({ l, v }) => (
                       <div key={l} className="bg-[#0A0A0A] rounded-sm px-4 py-3 border border-white/[0.06]">
-                        <p className="text-[10px] uppercase tracking-widest text-white/30 font-bold">{l}</p>
+                        <p className="text-[10px] uppercase tracking-widest text-white/45 font-bold">{l}</p>
                         <p className="text-sm font-semibold text-white/90 mt-1">{v}</p>
                       </div>
                     ))}
@@ -574,7 +574,7 @@ export default function ProductDetail() {
         <div className="mt-10 bg-[#0D0D0D] rounded-sm p-8 sm:p-10 flex flex-col sm:flex-row items-center justify-between gap-6" data-testid="help-banner">
           <div>
             <h3 className="text-white font-bold text-lg">Need Technical Assistance?</h3>
-            <p className="text-white/30 text-sm mt-1.5 max-w-md">Our product specialists can help with sizing, compatibility, and clinical applications across Telangana.</p>
+            <p className="text-white/45 text-sm mt-1.5 max-w-md">Our product specialists can help with sizing, compatibility, and clinical applications across Telangana.</p>
           </div>
           <div className="flex gap-3 shrink-0">
             <a href="tel:+917416521222" className="flex items-center gap-2 px-5 py-2.5 bg-[#0A0A0A]/10 text-white text-sm font-semibold rounded-sm hover:bg-[#0A0A0A]/20 transition-colors border border-white/20">
@@ -629,7 +629,7 @@ export default function ProductDetail() {
                     <h4 className="text-sm font-bold text-white line-clamp-2 group-hover:text-[#2DD4BF] transition-colors leading-snug">
                       {rp.product_name}
                     </h4>
-                    {rp.category && <p className="text-xs text-white/30 mt-1">{rp.category}</p>}
+                    {rp.category && <p className="text-xs text-white/45 mt-1">{rp.category}</p>}
                     <span className="inline-flex items-center gap-1 text-xs text-[#2DD4BF] font-semibold mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
                       View Details <ChevronRight size={12} />
                     </span>

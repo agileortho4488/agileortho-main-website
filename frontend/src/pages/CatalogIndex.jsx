@@ -81,7 +81,7 @@ export default function CatalogIndex() {
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-light tracking-tight text-white" style={{ fontFamily: 'Outfit' }} data-testid="catalog-title">
             Product Catalog
           </h1>
-          <p className="mt-3 text-sm text-white/40">
+          <p className="mt-3 text-sm text-white/55">
             <span className="text-white font-medium">{stats.products}</span> verified products across{" "}
             <span className="text-white font-medium">{stats.divisions}</span> divisions and{" "}
             <span className="text-white font-medium">{stats.categories}</span> categories.
@@ -171,14 +171,14 @@ export default function CatalogIndex() {
 
                   <div className="mt-3 flex flex-wrap gap-1">
                     {(div.categories || []).slice(0, 3).map((cat) => (
-                      <span key={cat} className="text-[10px] bg-white/5 text-white/40 px-1.5 py-0.5 rounded">{cat}</span>
+                      <span key={cat} className="text-[10px] bg-white/5 text-white/55 px-1.5 py-0.5 rounded">{cat}</span>
                     ))}
                     {(div.categories || []).length > 3 && (
-                      <span className="text-[10px] text-white/25">+{(div.categories || []).length - 3} more</span>
+                      <span className="text-[10px] text-white/40">+{(div.categories || []).length - 3} more</span>
                     )}
                   </div>
 
-                  <div className="mt-4 flex items-center justify-between text-xs text-white/25">
+                  <div className="mt-4 flex items-center justify-between text-xs text-white/40">
                     <span>{(div.categories || []).length} categories &middot; {(div.brands || []).length} brands</span>
                     <span className="text-[#D4AF37] opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-0.5">
                       Browse <ArrowRight size={10} />

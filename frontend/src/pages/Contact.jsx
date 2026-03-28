@@ -46,7 +46,7 @@ export default function Contact() {
           <h1 className="text-3xl sm:text-4xl font-black text-white tracking-tight" style={{ fontFamily: "Chivo" }}>
             Request a Quote or Inquiry
           </h1>
-          <p className="mt-3 text-white/30 max-w-lg mx-auto">
+          <p className="mt-3 text-white/45 max-w-lg mx-auto">
             Need bulk pricing, product samples, or technical consultation? We respond within 24 hours.
           </p>
         </div>

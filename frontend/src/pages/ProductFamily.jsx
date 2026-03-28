@@ -68,7 +68,7 @@ export default function ProductFamily() {
       <div className="flex items-center justify-center py-40 font-[Manrope]">
         <div className="flex flex-col items-center gap-3">
           <div className="w-8 h-8 border-2 border-teal-600 border-t-transparent rounded-full animate-spin" />
-          <p className="text-sm text-white/30">Loading product range...</p>
+          <p className="text-sm text-white/45">Loading product range...</p>
         </div>
       </div>
     );
@@ -77,7 +77,7 @@ export default function ProductFamily() {
   if (!family) {
     return (
       <div className="text-center py-40 font-[Manrope]">
-        <Package size={48} className="mx-auto text-white/20 mb-4" />
+        <Package size={48} className="mx-auto text-white/35 mb-4" />
         <p className="text-white/70 font-semibold">Product range not found</p>
         <Link to="/products" className="text-[#2DD4BF] font-medium mt-3 inline-block hover:text-[#2DD4BF] transition-colors">
           Back to Products
@@ -133,7 +133,7 @@ export default function ProductFamily() {
           <div className="w-full h-full bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-teal-500 via-transparent to-transparent" />
         </div>
         <div className="relative max-w-7xl mx-auto px-6 py-8 lg:py-10">
-          <nav className="flex items-center gap-1.5 text-sm text-white/30 mb-4" data-testid="breadcrumb">
+          <nav className="flex items-center gap-1.5 text-sm text-white/45 mb-4" data-testid="breadcrumb">
             <Link to="/" className="hover:text-white transition-colors">Home</Link>
             <ChevronRight size={12} />
             <Link to="/products" className="hover:text-white transition-colors">Products</Link>
@@ -142,7 +142,7 @@ export default function ProductFamily() {
             <ChevronRight size={12} />
             <span className="text-white font-medium truncate max-w-[250px]">{decodedName}</span>
           </nav>
-          <Link to="/products" className="inline-flex items-center gap-1.5 text-sm text-white/30 hover:text-white transition-colors" data-testid="back-link">
+          <Link to="/products" className="inline-flex items-center gap-1.5 text-sm text-white/45 hover:text-white transition-colors" data-testid="back-link">
             <ArrowLeft size={14} /> Back to All Products
           </Link>
         </div>
@@ -162,7 +162,7 @@ export default function ProductFamily() {
                 ) : (
                   <div className="text-center">
                     <Package size={80} className="text-slate-200 mx-auto" />
-                    <p className="text-xs text-white/30 mt-4 font-medium">Product Image Coming Soon</p>
+                    <p className="text-xs text-white/45 mt-4 font-medium">Product Image Coming Soon</p>
                   </div>
                 )}
               </div>
@@ -251,7 +251,7 @@ export default function ProductFamily() {
                   </div>
                   <div>
                     <span className="text-xs font-bold text-white/70 leading-tight block">{label}</span>
-                    <span className="text-[10px] text-white/30 leading-tight">{sub}</span>
+                    <span className="text-[10px] text-white/45 leading-tight">{sub}</span>
                   </div>
                 </div>
               ))}
@@ -268,7 +268,7 @@ export default function ProductFamily() {
             </div>
             {variants.length > 5 && (
               <div className="relative w-full sm:w-72">
-                <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30" />
+                <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/45" />
                 <input
                   type="text"
                   value={variantSearch}
@@ -325,7 +325,7 @@ export default function ProductFamily() {
               </table>
             </div>
             {filteredVariants.length === 0 && (
-              <div className="text-center py-8 text-white/30 text-sm">No variants match your search.</div>
+              <div className="text-center py-8 text-white/45 text-sm">No variants match your search.</div>
             )}
           </div>
         </div>
@@ -334,7 +334,7 @@ export default function ProductFamily() {
         <div className="mt-10 bg-[#0D0D0D] rounded-sm p-8 sm:p-10 flex flex-col sm:flex-row items-center justify-between gap-6" data-testid="help-banner">
           <div>
             <h3 className="text-white font-bold text-lg">Need Technical Assistance?</h3>
-            <p className="text-white/30 text-sm mt-1.5 max-w-md">Our product specialists can help with sizing, compatibility, and clinical applications across Telangana.</p>
+            <p className="text-white/45 text-sm mt-1.5 max-w-md">Our product specialists can help with sizing, compatibility, and clinical applications across Telangana.</p>
           </div>
           <div className="flex gap-3 shrink-0">
             <a href="tel:+917416521222" className="flex items-center gap-2 px-5 py-2.5 bg-[#0A0A0A]/10 text-white text-sm font-semibold rounded-sm hover:bg-[#0A0A0A]/20 transition-colors border border-white/20">
@@ -353,7 +353,7 @@ export default function ProductFamily() {
           <div className="bg-[#0A0A0A] rounded-sm shadow-2xl w-full max-w-md overflow-hidden" data-testid="quote-modal">
             <div className="bg-[#0D0D0D] px-6 py-5">
               <h3 className="text-white font-bold text-lg">Request Bulk Quote</h3>
-              <p className="text-white/30 text-xs mt-1">For: {decodedName} ({family.variant_count} variants)</p>
+              <p className="text-white/45 text-xs mt-1">For: {decodedName} ({family.variant_count} variants)</p>
             </div>
             <form onSubmit={handleSubmitQuote} className="p-6 space-y-3" data-testid="quote-form">
               <input type="text" placeholder="Your Name *" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="w-full px-3.5 py-2.5 border border-white/10 rounded-sm text-sm outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/10 transition-all" data-testid="quote-name-input" />

@@ -33,7 +33,7 @@ export default function DistrictPage() {
     return (
       <div className="min-h-screen flex items-center justify-center font-[Manrope]">
         <div className="text-center">
-          <MapPin size={48} className="mx-auto text-white/20 mb-4" />
+          <MapPin size={48} className="mx-auto text-white/35 mb-4" />
           <h1 className="text-2xl font-bold text-white mb-2">District Not Found</h1>
           <p className="text-white/40 mb-4">The district you're looking for doesn't exist.</p>
           <Link to="/districts" className="text-[#2DD4BF] font-semibold hover:text-[#2DD4BF]">
@@ -89,7 +89,7 @@ export default function DistrictPage() {
         </div>
         <div className="relative max-w-7xl mx-auto px-6 py-12 lg:py-16">
           {/* Breadcrumb */}
-          <nav className="flex items-center gap-1.5 text-sm text-white/30 mb-6" data-testid="breadcrumb">
+          <nav className="flex items-center gap-1.5 text-sm text-white/45 mb-6" data-testid="breadcrumb">
             <Link to="/" className="hover:text-white transition-colors">Home</Link>
             <ChevronRight size={12} />
             <Link to="/districts" className="hover:text-white transition-colors">Districts</Link>
@@ -104,7 +104,7 @@ export default function DistrictPage() {
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight leading-tight" data-testid="district-title">
               Medical Devices in {district.name}, Telangana
             </h1>
-            <p className="mt-5 text-lg text-white/20 leading-relaxed max-w-2xl">
+            <p className="mt-5 text-lg text-white/35 leading-relaxed max-w-2xl">
               Authorized Meril Life Sciences distributor serving hospitals, clinics, and diagnostic centers in {district.name}. Fast dispatch from Hyderabad with dedicated product support.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
@@ -149,11 +149,11 @@ export default function DistrictPage() {
             {/* Quick stats */}
             <div className="space-y-4">
               <div className="bg-white/5 border border-white/[0.06] rounded-sm p-6">
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-white/30 mb-1">District Population</p>
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-white/45 mb-1">District Population</p>
                 <p className="text-2xl font-bold text-white">{district.population}</p>
               </div>
               <div className="bg-white/5 border border-white/[0.06] rounded-sm p-6">
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-white/30 mb-1">Key Focus Areas</p>
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-white/45 mb-1">Key Focus Areas</p>
                 <div className="flex flex-wrap gap-1.5 mt-2">
                   {district.medicalFocus.map((f) => (
                     <span key={f} className="text-xs font-medium text-[#2DD4BF] bg-[#2DD4BF]/10 border border-teal-100 px-2.5 py-1 rounded-full">
@@ -163,7 +163,7 @@ export default function DistrictPage() {
                 </div>
               </div>
               <div className="bg-white/5 border border-white/[0.06] rounded-sm p-6">
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-white/30 mb-1">Supply</p>
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-white/45 mb-1">Supply</p>
                 <p className="text-sm font-semibold text-white/70">Direct dispatch from Hyderabad</p>
                 <p className="text-xs text-white/40 mt-1">Fast turnaround for urgent requirements</p>
               </div>
@@ -253,7 +253,7 @@ export default function DistrictPage() {
             <h2 className="text-2xl lg:text-3xl font-bold text-white tracking-tight">
               Need Medical Devices in {district.name}?
             </h2>
-            <p className="mt-3 text-white/30 max-w-lg mx-auto text-sm">
+            <p className="mt-3 text-white/45 max-w-lg mx-auto text-sm">
               Get competitive bulk pricing for your hospital, clinic, or diagnostic center. We deliver across all of {district.name} from Hyderabad.
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
@@ -306,7 +306,7 @@ export default function DistrictPage() {
                 className="group bg-white/5 border border-white/[0.06] rounded-sm px-4 py-3 hover:border-[#2DD4BF]/20 hover:shadow-sm transition-all text-center"
                 data-testid={`other-district-${d.slug}`}
               >
-                <MapPin size={16} className="mx-auto text-white/30 group-hover:text-[#2DD4BF] transition-colors mb-1.5" />
+                <MapPin size={16} className="mx-auto text-white/45 group-hover:text-[#2DD4BF] transition-colors mb-1.5" />
                 <p className="text-sm font-semibold text-white/70 group-hover:text-[#2DD4BF] transition-colors">{d.name}</p>
               </Link>
             ))}

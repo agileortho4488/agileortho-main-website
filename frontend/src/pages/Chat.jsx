@@ -192,7 +192,7 @@ export default function Chat() {
       <div className="bg-[#0A0A0A] border-b border-white/10">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Link to="/" className="text-white/30 hover:text-white/70 transition-colors" data-testid="chat-back-link"><ArrowLeft size={18} /></Link>
+            <Link to="/" className="text-white/45 hover:text-white/70 transition-colors" data-testid="chat-back-link"><ArrowLeft size={18} /></Link>
             <div className="w-10 h-10 bg-[#0B1F3F] rounded-full flex items-center justify-center">
               <Bot size={20} className="text-emerald-400" />
             </div>
@@ -238,7 +238,7 @@ export default function Chat() {
           {/* Quick Suggestions */}
           {messages.length <= 1 && !loading && suggestions.length > 0 && (
             <div className="max-w-lg space-y-2" data-testid="chat-page-suggestions">
-              <p className="text-xs font-bold uppercase tracking-widest text-white/30 ml-11">Try asking</p>
+              <p className="text-xs font-bold uppercase tracking-widest text-white/45 ml-11">Try asking</p>
               <div className="ml-11 grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {suggestions.map((s, i) => (
                   <button
@@ -248,7 +248,7 @@ export default function Chat() {
                     data-testid={`page-suggestion-${i}`}
                   >
                     <span className="line-clamp-1">{s}</span>
-                    <ChevronRight size={12} className="text-white/20 shrink-0 ml-2" />
+                    <ChevronRight size={12} className="text-white/35 shrink-0 ml-2" />
                   </button>
                 ))}
               </div>

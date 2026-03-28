@@ -140,7 +140,7 @@ export default function Products() {
           <div className="w-full h-full bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-teal-500 via-transparent to-transparent" />
         </div>
         <div className="relative max-w-7xl mx-auto px-6 py-10 lg:py-14">
-          <nav className="flex items-center gap-1.5 text-sm text-white/30 mb-5 flex-wrap" data-testid="breadcrumb">
+          <nav className="flex items-center gap-1.5 text-sm text-white/45 mb-5 flex-wrap" data-testid="breadcrumb">
             <Link to="/" className="hover:text-white transition-colors">Home</Link>
             <ChevronRight size={12} />
             {!division ? (
@@ -172,7 +172,7 @@ export default function Products() {
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight" data-testid="products-page-title">
                 {category || division || "All Products"}
               </h1>
-              <p className="mt-3 text-white/30 text-base">
+              <p className="mt-3 text-white/45 text-base">
                 {showCategories
                   ? `${categories.length} product categories in ${division}`
                   : category
@@ -186,7 +186,7 @@ export default function Products() {
 
             <form onSubmit={handleSearch} className="flex w-full lg:w-auto" data-testid="product-search-form">
               <div className="relative flex-1 lg:w-80">
-                <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/30" />
+                <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/45" />
                 <input type="text" value={searchInput} onChange={(e) => setSearchInput(e.target.value)}
                   placeholder="Search products, SKUs, categories..."
                   className="w-full pl-10 pr-4 py-3 bg-[#0A0A0A]/10 border border-slate-700 rounded-l-lg text-white placeholder-slate-500 text-sm focus:outline-none focus:border-teal-500 focus:bg-[#0A0A0A]/15 transition-colors"
@@ -203,7 +203,7 @@ export default function Products() {
         {/* Active filters */}
         {hasActiveFilters && (
           <div className="flex flex-wrap items-center gap-2 mb-6" data-testid="active-filters">
-            <span className="text-xs font-bold uppercase tracking-wider text-white/30">Filters:</span>
+            <span className="text-xs font-bold uppercase tracking-wider text-white/45">Filters:</span>
             {division && (
               <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#2DD4BF]/10 text-[#2DD4BF] text-xs font-medium border border-teal-100">
                 {division}
@@ -245,9 +245,9 @@ export default function Products() {
                   className={`flex items-center justify-between w-full px-3 py-2.5 rounded-sm text-sm transition-all ${!division ? "bg-[#0D0D0D] text-white font-semibold shadow-md" : "text-white/50 hover:bg-white/5 font-medium"}`}
                   data-testid="filter-division-all">
                   <span className="flex items-center gap-2.5">
-                    <Package size={15} className={!division ? "text-teal-400" : "text-white/30"} /> All Divisions
+                    <Package size={15} className={!division ? "text-teal-400" : "text-white/45"} /> All Divisions
                   </span>
-                  <span className="text-xs text-white/30">{totalProducts > 0 ? totalProducts : ""}</span>
+                  <span className="text-xs text-white/45">{totalProducts > 0 ? totalProducts : ""}</span>
                 </button>
 
                 {DIVISIONS.map((d) => {
@@ -260,9 +260,9 @@ export default function Products() {
                         className={`flex items-center justify-between w-full px-3 py-2.5 rounded-sm text-sm transition-all ${isActive ? "bg-[#2DD4BF]/10 text-teal-800 font-semibold border border-[#2DD4BF]/20" : "text-white/50 hover:bg-white/5 font-medium"}`}
                         data-testid={`filter-division-${d.toLowerCase().replace(/\s/g, "-")}`}>
                         <span className="flex items-center gap-2.5">
-                          <Icon size={15} className={isActive ? "text-[#2DD4BF]" : "text-white/30"} /> {d}
+                          <Icon size={15} className={isActive ? "text-[#2DD4BF]" : "text-white/45"} /> {d}
                         </span>
-                        {divisionCounts[d] && <span className={`text-xs ${isActive ? "text-[#2DD4BF]" : "text-white/30"}`}>{divisionCounts[d]}</span>}
+                        {divisionCounts[d] && <span className={`text-xs ${isActive ? "text-[#2DD4BF]" : "text-white/45"}`}>{divisionCounts[d]}</span>}
                       </button>
                       {/* Show subcategories when division active */}
                       {isActive && subCats.length > 0 && (
@@ -294,8 +294,8 @@ export default function Products() {
               </p>
               {!showCategories && (
                 <div className="flex items-center gap-1 bg-white/5 rounded-sm p-0.5">
-                  <button onClick={() => setViewMode("grid")} className={`p-2 rounded-md transition-all ${viewMode === "grid" ? "bg-[#0A0A0A] text-white shadow-sm" : "text-white/30 hover:text-white/50"}`} data-testid="view-grid-btn"><Grid3X3 size={15} /></button>
-                  <button onClick={() => setViewMode("list")} className={`p-2 rounded-md transition-all ${viewMode === "list" ? "bg-[#0A0A0A] text-white shadow-sm" : "text-white/30 hover:text-white/50"}`} data-testid="view-list-btn"><List size={15} /></button>
+                  <button onClick={() => setViewMode("grid")} className={`p-2 rounded-md transition-all ${viewMode === "grid" ? "bg-[#0A0A0A] text-white shadow-sm" : "text-white/45 hover:text-white/50"}`} data-testid="view-grid-btn"><Grid3X3 size={15} /></button>
+                  <button onClick={() => setViewMode("list")} className={`p-2 rounded-md transition-all ${viewMode === "list" ? "bg-[#0A0A0A] text-white shadow-sm" : "text-white/45 hover:text-white/50"}`} data-testid="view-list-btn"><List size={15} /></button>
                 </div>
               )}
             </div>
@@ -304,7 +304,7 @@ export default function Products() {
               <div className="flex items-center justify-center py-28">
                 <div className="flex flex-col items-center gap-3">
                   <div className="w-8 h-8 border-2 border-teal-600 border-t-transparent rounded-full animate-spin" />
-                  <p className="text-sm text-white/30">Loading...</p>
+                  <p className="text-sm text-white/45">Loading...</p>
                 </div>
               </div>
             ) : showCategories ? (
@@ -337,7 +337,7 @@ export default function Products() {
                           <span className="inline-flex items-center gap-1 text-xs font-medium text-white/40 bg-white/5 px-2.5 py-1 rounded-full border border-white/[0.06]">
                             <Layers size={11} /> {c.system_count} {c.system_count === 1 ? "system" : "systems"}
                           </span>
-                          <span className="text-xs text-white/30">{c.sku_count} SKUs</span>
+                          <span className="text-xs text-white/45">{c.sku_count} SKUs</span>
                         </div>
                         <div className="mt-3 flex items-center text-xs text-[#2DD4BF] font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
                           Browse Systems <ArrowRight size={12} className="ml-1" />
@@ -349,7 +349,7 @@ export default function Products() {
               </div>
             ) : families.length === 0 ? (
               <div className="text-center py-28 bg-white/5 rounded-sm border border-white/[0.06]">
-                <Package size={48} className="mx-auto text-white/20 mb-4" />
+                <Package size={48} className="mx-auto text-white/35 mb-4" />
                 <p className="text-white/70 font-semibold mb-1">No products found</p>
                 <p className="text-sm text-white/40">Try adjusting your search or filter criteria.</p>
                 <button onClick={() => setSearchParams({})} className="mt-5 inline-flex items-center gap-2 px-5 py-2.5 bg-teal-600 text-white text-sm font-semibold rounded-sm hover:bg-teal-700 transition-colors" data-testid="empty-clear-filters-btn">View All Products</button>
@@ -379,11 +379,11 @@ export default function Products() {
                       )}
                     </div>
                     <div className="p-5">
-                      {f.category && <p className="text-[11px] text-white/30 font-medium mb-1.5">{f.category}</p>}
+                      {f.category && <p className="text-[11px] text-white/45 font-medium mb-1.5">{f.category}</p>}
                       <h3 className="font-bold text-white group-hover:text-[#2DD4BF] transition-colors line-clamp-2 leading-snug">{f.family_name}</h3>
                       <p className="text-sm text-white/40 mt-1.5 line-clamp-2 leading-relaxed">{f.description}</p>
                       <div className="mt-4 flex items-center justify-between">
-                        <span className="text-[11px] text-white/30 font-medium">
+                        <span className="text-[11px] text-white/45 font-medium">
                           {f.variant_count > 1 ? `${f.variant_count} sizes available` : f.manufacturer || ""}
                         </span>
                         <span className="inline-flex items-center gap-1 text-xs text-[#2DD4BF] font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
@@ -410,7 +410,7 @@ export default function Products() {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1">
                         <span className="text-[10px] font-bold uppercase tracking-widest text-[#2DD4BF]">{f.division}</span>
-                        {f.category && <span className="text-[10px] text-white/30">{f.category}</span>}
+                        {f.category && <span className="text-[10px] text-white/45">{f.category}</span>}
                       </div>
                       <h3 className="font-bold text-sm text-white group-hover:text-[#2DD4BF] transition-colors truncate">{f.family_name}</h3>
                       <p className="text-xs text-white/40 truncate mt-0.5">{f.description}</p>

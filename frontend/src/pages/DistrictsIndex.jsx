@@ -24,7 +24,7 @@ export default function DistrictsIndex() {
           <div className="w-full h-full bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-teal-500 via-transparent to-transparent" />
         </div>
         <div className="relative max-w-7xl mx-auto px-6 py-12 lg:py-16">
-          <nav className="flex items-center gap-1.5 text-sm text-white/30 mb-5" data-testid="breadcrumb">
+          <nav className="flex items-center gap-1.5 text-sm text-white/45 mb-5" data-testid="breadcrumb">
             <Link to="/" className="hover:text-white transition-colors">Home</Link>
             <ChevronRight size={12} />
             <span className="text-white font-medium">Districts</span>
@@ -35,7 +35,7 @@ export default function DistrictsIndex() {
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight" data-testid="districts-page-title">
               Medical Device Supply Across All 33 Districts
             </h1>
-            <p className="mt-5 text-lg text-white/20 leading-relaxed max-w-2xl">
+            <p className="mt-5 text-lg text-white/35 leading-relaxed max-w-2xl">
               Authorized Meril Life Sciences distributor serving hospitals, clinics, and diagnostic centers across every district in Telangana with fast dispatch from Hyderabad.
             </p>
           </div>
@@ -57,7 +57,7 @@ export default function DistrictsIndex() {
                   <div className="w-10 h-10 rounded-sm bg-[#2DD4BF]/10 flex items-center justify-center">
                     <MapPin size={18} className="text-[#2DD4BF]" />
                   </div>
-                  <span className="text-xs font-bold text-white/30 bg-white/5 px-2.5 py-1 rounded-full">
+                  <span className="text-xs font-bold text-white/45 bg-white/5 px-2.5 py-1 rounded-full">
                     {d.population}
                   </span>
                 </div>
@@ -68,7 +68,7 @@ export default function DistrictsIndex() {
                     <span key={f} className="text-[10px] font-medium text-white/40 bg-white/5 px-2 py-0.5 rounded-full">{f}</span>
                   ))}
                   {d.medicalFocus.length > 3 && (
-                    <span className="text-[10px] font-medium text-white/30 bg-white/5 px-2 py-0.5 rounded-full">+{d.medicalFocus.length - 3} more</span>
+                    <span className="text-[10px] font-medium text-white/45 bg-white/5 px-2 py-0.5 rounded-full">+{d.medicalFocus.length - 3} more</span>
                   )}
                 </div>
                 <div className="mt-4 flex items-center gap-1 text-sm font-semibold text-[#2DD4BF] opacity-0 group-hover:opacity-100 transition-opacity">
@@ -105,7 +105,7 @@ export default function DistrictsIndex() {
             <h2 className="text-2xl lg:text-3xl font-bold text-white tracking-tight">
               Need Medical Devices Anywhere in Telangana?
             </h2>
-            <p className="mt-3 text-white/30 max-w-lg mx-auto text-sm">
+            <p className="mt-3 text-white/45 max-w-lg mx-auto text-sm">
               We deliver across all 33 districts from our Hyderabad warehouse. Get a quotation for your hospital today.
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-3">

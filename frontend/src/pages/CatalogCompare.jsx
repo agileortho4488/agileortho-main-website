@@ -93,7 +93,7 @@ export default function CatalogCompare() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="flex items-center gap-3 mb-8">
-          <Link to="/catalog" className="text-white/30 hover:text-white/50 transition-colors" data-testid="compare-back-btn">
+          <Link to="/catalog" className="text-white/45 hover:text-white/50 transition-colors" data-testid="compare-back-btn">
             <ArrowLeft size={20} />
           </Link>
           <div className="w-10 h-10 rounded-sm bg-[#0D0D0D] flex items-center justify-center">
@@ -110,7 +110,7 @@ export default function CatalogCompare() {
                 comparison.comparison_confidence === "medium" ? "text-[#D4AF37] bg-[#D4AF37]/10 border-[#D4AF37]/20" :
                 "text-white/40 bg-white/5 border-white/10"
               }`}>{comparison.comparison_confidence} confidence</span>
-              <span className="text-[10px] text-white/30 max-w-xs truncate">{comparison.comparison_guardrail_reason}</span>
+              <span className="text-[10px] text-white/45 max-w-xs truncate">{comparison.comparison_guardrail_reason}</span>
             </div>
           )}
         </div>
@@ -120,7 +120,7 @@ export default function CatalogCompare() {
           <div className="bg-[#0A0A0A] border border-white/10 rounded-sm p-12 text-center" data-testid="compare-empty">
             <GitCompare size={48} className="text-slate-200 mx-auto mb-4" />
             <h2 className="text-lg font-bold text-white/70 mb-2">Select Products to Compare</h2>
-            <p className="text-sm text-white/30 mb-6 max-w-md mx-auto">Browse the catalog and click "Compare" on product pages to add them here. Compare up to 4 products from the same division.</p>
+            <p className="text-sm text-white/45 mb-6 max-w-md mx-auto">Browse the catalog and click "Compare" on product pages to add them here. Compare up to 4 products from the same division.</p>
             <Link to="/catalog" className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#0D0D0D] text-white text-sm font-semibold rounded-sm hover:bg-slate-800 transition-colors" data-testid="compare-browse-btn">
               Browse Products <ChevronRight size={14} />
             </Link>
@@ -146,7 +146,7 @@ export default function CatalogCompare() {
                     >
                       <span className="text-[9px] font-bold text-[#D4AF37] uppercase tracking-wider">{s.comparison_reason}</span>
                       <p className="text-sm font-bold text-white/90 mt-1 line-clamp-2 group-hover:text-[#D4AF37] transition-colors">{s.product_name_display}</p>
-                      {s.clinical_subtitle && <p className="text-[10px] text-white/30 mt-1 line-clamp-1">{s.clinical_subtitle}</p>}
+                      {s.clinical_subtitle && <p className="text-[10px] text-white/45 mt-1 line-clamp-1">{s.clinical_subtitle}</p>}
                     </button>
                   ))}
                 </div>
@@ -159,7 +159,7 @@ export default function CatalogCompare() {
         {loading && (
           <div className="bg-[#0A0A0A] border border-white/10 rounded-sm p-12 text-center">
             <div className="w-8 h-8 border-2 border-white/10 border-t-slate-600 rounded-full animate-spin mx-auto mb-3"></div>
-            <p className="text-sm text-white/30">Loading comparison...</p>
+            <p className="text-sm text-white/45">Loading comparison...</p>
           </div>
         )}
 
@@ -187,14 +187,14 @@ export default function CatalogCompare() {
                     className="absolute top-2 right-2 w-6 h-6 rounded-full bg-white/5 hover:bg-red-100 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
                     data-testid={`compare-remove-${p.slug}`}
                   >
-                    <X size={12} className="text-white/30 hover:text-red-500" />
+                    <X size={12} className="text-white/45 hover:text-red-500" />
                   </button>
                   <Link to={`/catalog/products/${p.slug}`} className="block hover:opacity-80 transition-opacity">
                     <div className="w-10 h-10 rounded-sm bg-white/5 flex items-center justify-center mb-3">
-                      <DivIcon size={18} className="text-white/30" />
+                      <DivIcon size={18} className="text-white/45" />
                     </div>
                     <h3 className="text-sm font-bold text-white line-clamp-2 leading-snug">{p.product_name_display}</h3>
-                    {p.clinical_subtitle && <p className="text-[10px] text-white/30 mt-1 line-clamp-1">{p.clinical_subtitle}</p>}
+                    {p.clinical_subtitle && <p className="text-[10px] text-white/45 mt-1 line-clamp-1">{p.clinical_subtitle}</p>}
                   </Link>
                 </div>
               ))}
@@ -204,7 +204,7 @@ export default function CatalogCompare() {
             {showSuggestions && (
               <div className="bg-[#0A0A0A] border border-[#D4AF37]/20 rounded-sm p-5 space-y-4" data-testid="compare-add-panel">
                 <div className="relative">
-                  <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30" />
+                  <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/45" />
                   <input
                     type="text"
                     placeholder={`Search ${comparison.division} products...`}
@@ -222,14 +222,14 @@ export default function CatalogCompare() {
                         data-testid={`compare-search-result-${r.slug}`}
                       >
                         <p className="text-xs font-bold text-white/90 line-clamp-2">{r.product_name_display}</p>
-                        {r.clinical_subtitle && <p className="text-[9px] text-white/30 mt-0.5">{r.clinical_subtitle}</p>}
+                        {r.clinical_subtitle && <p className="text-[9px] text-white/45 mt-0.5">{r.clinical_subtitle}</p>}
                       </button>
                     ))}
                   </div>
                 )}
                 {suggestions.filter(s => !slugs.includes(s.slug)).length > 0 && !searchQuery && (
                   <div>
-                    <p className="text-[10px] font-bold text-white/30 uppercase tracking-wider mb-2">Suggestions</p>
+                    <p className="text-[10px] font-bold text-white/45 uppercase tracking-wider mb-2">Suggestions</p>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
                       {suggestions.filter(s => !slugs.includes(s.slug)).slice(0, 4).map(s => (
                         <button key={s.slug} onClick={() => addProduct(s.slug)}
@@ -257,7 +257,7 @@ export default function CatalogCompare() {
                     <span className="text-xs font-semibold text-white/40">{row.label}</span>
                   </div>
                   {row.values.map((val, vi) => (
-                    <div key={vi} className={`px-5 py-3.5 text-sm ${val === "—" ? "text-white/20" : "text-white/90 font-medium"} ${row.is_different && val !== "—" ? "bg-[#D4AF37]/10/30" : ""}`}>
+                    <div key={vi} className={`px-5 py-3.5 text-sm ${val === "—" ? "text-white/35" : "text-white/90 font-medium"} ${row.is_different && val !== "—" ? "bg-[#D4AF37]/10/30" : ""}`}>
                       {val}
                     </div>
                   ))}
