@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { getCatalogProduct, submitLead } from "../lib/api";
 import { toast } from "sonner";
+import LeadCaptureModal from "../components/LeadCaptureModal";
 
 const API = process.env.REACT_APP_BACKEND_URL;
 const DISTRICTS = ["Hyderabad","Rangareddy","Medchal-Malkajgiri","Sangareddy","Nalgonda","Warangal","Karimnagar","Khammam","Nizamabad","Adilabad","Mahabubnagar","Medak","Siddipet","Suryapet","Jagtial","Peddapalli","Kamareddy","Mancherial","Wanaparthy","Nagarkurnool","Vikarabad","Jogulamba Gadwal","Rajanna Sircilla","Kumuram Bheem","Mulugu","Narayanpet","Mahabubabad","Jayashankar","Jangaon","Nirmal","Yadadri","Bhadradri","Hanumakonda"];
@@ -119,6 +120,7 @@ export default function CatalogProductDetail() {
   const [skuPage, setSkuPage] = useState(1);
   const [skuExpanded, setSkuExpanded] = useState(true);
   const [relatedBuckets, setRelatedBuckets] = useState(null);
+  const [leadModal, setLeadModal] = useState({ open: false, inquiryType: "", productInterest: "", whatsappMessage: "", source: "" });
   const SKU_PAGE_SIZE = 30;
 
   useEffect(() => {
@@ -348,10 +350,10 @@ export default function CatalogProductDetail() {
                 <button onClick={() => setShowQuoteForm(true)} className="flex-1 flex items-center justify-center gap-2 px-5 py-3.5 bg-[#D4AF37] text-white text-sm font-bold rounded-sm hover:bg-[#F2C94C] transition-all shadow-lg shadow-amber-600/20" data-testid="catalog-request-quote-btn">
                   <Mail size={16} /> Request Bulk Quote
                 </button>
-                <a href={`https://wa.me/917416521222?text=${encodeURIComponent(`Hi, I'm interested in ${product.product_name_display}${product.brand ? ` (${product.brand})` : ""}. Can you share pricing and availability?`)}`}
-                  target="_blank" rel="noopener noreferrer" className="flex-1 flex items-center justify-center gap-2 px-5 py-3.5 bg-[#25D366] text-white text-sm font-bold rounded-sm hover:bg-[#1DA851] transition-all shadow-lg shadow-[#25D366]/20" data-testid="catalog-whatsapp-btn">
+                <button onClick={() => setLeadModal({ open: true, inquiryType: "Product Enquiry", productInterest: product.product_name_display, whatsappMessage: `Hi, I'm interested in ${product.product_name_display}${product.brand ? ` (${product.brand})` : ""}. Can you share pricing and availability?`, source: "product_detail" })}
+                  className="flex-1 flex items-center justify-center gap-2 px-5 py-3.5 bg-[#25D366] text-white text-sm font-bold rounded-sm hover:bg-[#1DA851] transition-all shadow-lg shadow-[#25D366]/20" data-testid="catalog-whatsapp-btn">
                   <MessageCircle size={16} /> WhatsApp Enquiry
-                </a>
+                </button>
               </div>
               <a href="tel:+917416521222" className="w-full flex items-center justify-center gap-2 px-4 py-2.5 border border-white/10 text-white/50 text-sm font-semibold rounded-sm hover:bg-white/5 transition-colors">
                 <Phone size={14} /> Call Sales Team
@@ -676,6 +678,16 @@ export default function CatalogProductDetail() {
           </div>
         )}
       </div>
+
+      {/* Lead Capture Modal */}
+      <LeadCaptureModal
+        isOpen={leadModal.open}
+        onClose={() => setLeadModal({ ...leadModal, open: false })}
+        inquiryType={leadModal.inquiryType}
+        productInterest={leadModal.productInterest}
+        whatsappMessage={leadModal.whatsappMessage}
+        source={leadModal.source}
+      />
     </div>
   );
 }

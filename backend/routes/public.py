@@ -321,7 +321,8 @@ async def create_lead(lead: LeadCreate):
         from routes.whatsapp import track_user_in_interakt, track_event_in_interakt
         asyncio.create_task(track_user_in_interakt(
             lead.phone_whatsapp, name=lead.name, email=lead.email or "",
-            traits={"hospital": lead.hospital_clinic or "", "district": lead.district or "",
+            traits={"hospital": lead.hospital_clinic or "", "department": lead.department or "",
+                    "district": lead.district or "",
                     "inquiry_type": lead.inquiry_type or "", "product_interest": lead.product_interest or ""},
             tags=["website-lead", f"score-{score_label.lower()}"]
         ))

@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { getDivisions, getFeaturedProducts } from "@/lib/api";
 import { COMPANY } from "@/lib/constants";
+import LeadCaptureModal from "@/components/LeadCaptureModal";
 
 const DIVISION_ICONS = {
   "Trauma": Bone, "Cardiovascular": HeartPulse, "Joint Replacement": Activity,
@@ -24,6 +25,7 @@ export default function Home() {
   const [featuredProducts, setFeaturedProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchFocused, setSearchFocused] = useState(false);
+  const [leadModal, setLeadModal] = useState({ open: false, inquiryType: "", productInterest: "", whatsappMessage: "", source: "" });
 
   useEffect(() => {
     getDivisions().then((r) => setDivisions(r.data.divisions || [])).catch(() => {});
@@ -35,6 +37,10 @@ export default function Home() {
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchQuery.trim()) window.location.href = `/catalog?search=${encodeURIComponent(searchQuery)}`;
+  };
+
+  const openLeadCapture = (inquiryType, productInterest, whatsappMessage, source) => {
+    setLeadModal({ open: true, inquiryType, productInterest, whatsappMessage, source });
   };
 
   return (
@@ -100,10 +106,10 @@ export default function Home() {
                 <Link to="/catalog" className="group inline-flex items-center gap-2 bg-[#D4AF37] hover:bg-[#F2C94C] text-black font-semibold rounded-sm px-7 py-3.5 text-sm transition-all hover:shadow-lg hover:shadow-[#D4AF37]/20" data-testid="hero-cta-catalog">
                   Browse Catalog <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
                 </Link>
-                <a href={`https://wa.me/${COMPANY.whatsapp.replace("+", "")}?text=${encodeURIComponent("Hi, I'd like to check product availability and pricing for my hospital.")}`} target="_blank" rel="noopener noreferrer"
+                <button onClick={() => openLeadCapture("Sales Enquiry", "", "Hi, I'd like to check product availability and pricing for my hospital.", "homepage_hero")}
                   className="group inline-flex items-center gap-2 border border-white/15 hover:border-[#D4AF37]/40 hover:bg-white/5 text-white font-medium rounded-sm px-7 py-3.5 text-sm transition-all" data-testid="hero-cta-availability">
                   <MessageCircle size={14} /> Check Availability & Pricing
-                </a>
+                </button>
               </div>
             </div>
 
@@ -261,22 +267,15 @@ export default function Home() {
               Connect with our product specialists for bulk quotes, hospital procurement, and technical specifications.
             </p>
 
-            {/* Email Capture for Catalog */}
-            <div className="mt-8 max-w-md mx-auto">
-              <form onSubmit={(e) => { e.preventDefault(); const email = e.target.email.value; if(email) { window.open(`https://wa.me/${COMPANY.whatsapp.replace("+", "")}?text=${encodeURIComponent(`Hi, please send the Agile Ortho catalog to ${email}`)}`, '_blank'); e.target.reset(); } }} className="flex items-center gap-0" data-testid="cta-email-capture">
-                <input type="email" name="email" placeholder="Enter email for catalog PDF" className="flex-1 bg-white/5 border border-white/10 rounded-l-sm px-4 py-3 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-[#D4AF37]/50 transition-colors" data-testid="cta-email-input" />
-                <button type="submit" className="bg-[#D4AF37] hover:bg-[#F2C94C] text-black font-semibold px-5 py-3 rounded-r-sm text-sm transition-all hover:shadow-lg hover:shadow-[#D4AF37]/20 whitespace-nowrap" data-testid="cta-email-btn">
-                  Get Catalog
-                </button>
-              </form>
-              <p className="mt-2 text-[11px] text-white/30">We'll send you the complete product catalog via WhatsApp</p>
-            </div>
-
-            <div className="mt-8 flex flex-wrap justify-center gap-4">
-              <a href={`https://wa.me/${COMPANY.whatsapp.replace("+", "")}?text=${encodeURIComponent("Hi, I'd like to discuss bulk procurement for my hospital.")}`} target="_blank" rel="noopener noreferrer"
+            <div className="mt-10 flex flex-wrap justify-center gap-4">
+              <button onClick={() => openLeadCapture("Catalog Request", "", "Hi, I'd like to receive the complete Agile Ortho product catalog PDF.", "homepage_cta_catalog")}
+                className="group inline-flex items-center gap-2 bg-[#D4AF37] hover:bg-[#F2C94C] text-black font-semibold rounded-sm px-8 py-3.5 text-sm transition-all hover:shadow-lg hover:shadow-[#D4AF37]/20" data-testid="cta-get-catalog">
+                Get Product Catalog <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+              </button>
+              <button onClick={() => openLeadCapture("Bulk Procurement", "", "Hi, I'd like to discuss bulk procurement for my hospital.", "homepage_cta_sales")}
                 className="group inline-flex items-center gap-2 border border-white/15 hover:border-[#D4AF37]/40 hover:bg-white/5 text-white font-medium rounded-sm px-8 py-3.5 text-sm transition-all" data-testid="cta-whatsapp">
                 <MessageCircle size={14} /> Talk to Sales
-              </a>
+              </button>
               <Link to="/contact" className="group inline-flex items-center gap-2 border border-white/15 hover:border-white/30 hover:bg-white/5 text-white font-medium rounded-sm px-8 py-3.5 text-sm transition-all" data-testid="cta-contact">
                 <Phone size={14} /> Contact Us
               </Link>
@@ -284,6 +283,16 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Lead Capture Modal */}
+      <LeadCaptureModal
+        isOpen={leadModal.open}
+        onClose={() => setLeadModal({ ...leadModal, open: false })}
+        inquiryType={leadModal.inquiryType}
+        productInterest={leadModal.productInterest}
+        whatsappMessage={leadModal.whatsappMessage}
+        source={leadModal.source}
+      />
     </div>
   );
 }

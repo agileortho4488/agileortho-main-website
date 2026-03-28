@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { Menu, X, MessageCircle, ChevronDown, Bone, HeartPulse, Activity, Microscope, ShieldCheck, Scissors, Wrench, Dumbbell, EarOff, Droplets, Heart, GitBranch, Cpu, Phone } from "lucide-react";
 import { COMPANY } from "@/lib/constants";
+import LeadCaptureModal from "@/components/LeadCaptureModal";
 
 const DIVISIONS = [
   { name: "Trauma", slug: "trauma", icon: Bone },
@@ -45,13 +46,15 @@ function DropdownMenu({ trigger, children, testId }) {
     <div ref={ref} className="relative" onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)} data-testid={testId}>
       <button
         onClick={() => setOpen(!open)}
-        className={`flex items-center gap-1 text-sm font-medium tracking-wide transition-colors ${open ? "text-[#D4AF37]" : "text-white/80 hover:text-white"}`}
+        className={`flex items-center gap-1 text-sm font-medium tracking-wide transition-colors py-2 ${open ? "text-[#D4AF37]" : "text-white/80 hover:text-white"}`}
       >
         {trigger} <ChevronDown size={12} className={`transition-transform duration-200 ${open ? "rotate-180" : ""}`} />
       </button>
       {open && (
-        <div className="absolute top-full left-0 mt-2 w-64 bg-[#141414] border border-white/10 rounded-sm shadow-2xl shadow-black/50 py-2 z-50 animate-fade-up" style={{ animationDuration: '0.15s' }}>
-          {children}
+        <div className="absolute top-full left-0 pt-1 z-50">
+          <div className="w-64 bg-[#141414] border border-white/10 rounded-sm shadow-2xl shadow-black/50 py-2 animate-fade-up" style={{ animationDuration: '0.15s' }}>
+            {children}
+          </div>
         </div>
       )}
     </div>
@@ -62,8 +65,10 @@ export default function SiteHeader() {
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileExpanded, setMobileExpanded] = useState(null);
+  const [leadModal, setLeadModal] = useState({ open: false, inquiryType: "", productInterest: "", whatsappMessage: "", source: "" });
 
   const closeMobile = () => { setMobileMenuOpen(false); setMobileExpanded(null); };
+  const openLead = (type, msg, src) => setLeadModal({ open: true, inquiryType: type, productInterest: "", whatsappMessage: msg, source: src });
 
   return (
     <>
@@ -73,7 +78,7 @@ export default function SiteHeader() {
       >
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6">
           <Link data-testid="site-logo-link" to="/" className="flex items-center gap-2.5">
-            <img src="/ao_logo_white.png" alt="Agile Ortho" className="h-8 sm:h-9 w-auto" data-testid="site-logo-mark" />
+            <img src="/ao_logo_white.png" alt="Agile Ortho" className="h-10 sm:h-12 w-auto" data-testid="site-logo-mark" />
           </Link>
 
           <nav data-testid="site-nav" className="hidden items-center gap-7 lg:flex">
@@ -135,21 +140,21 @@ export default function SiteHeader() {
             <div className="hidden sm:block relative" data-testid="header-whatsapp-dropdown">
               <DropdownMenu trigger={<span className="inline-flex items-center gap-2 rounded-sm bg-[#D4AF37] px-5 py-2 text-sm font-semibold text-black hover:bg-[#F2C94C] transition-all hover:shadow-lg hover:shadow-[#D4AF37]/20"><MessageCircle size={14} strokeWidth={2} /> WhatsApp</span>} testId="header-wa-menu">
                 <div className="px-1">
-                  <a href={`https://wa.me/${COMPANY.whatsapp.replace("+", "")}?text=${encodeURIComponent("Hi, I'd like to check product availability and pricing for my hospital.")}`} target="_blank" rel="noopener noreferrer"
-                    className="flex flex-col px-3 py-2.5 rounded-sm hover:bg-white/5 transition-colors group" data-testid="wa-sales">
+                  <button onClick={() => openLead("Sales Enquiry", "Hi, I'd like to check product availability and pricing for my hospital.", "header_wa_sales")}
+                    className="flex flex-col w-full text-left px-3 py-2.5 rounded-sm hover:bg-white/5 transition-colors group" data-testid="wa-sales">
                     <span className="text-sm text-white/70 group-hover:text-white font-medium transition-colors">Sales & Availability</span>
                     <span className="text-xs text-white/35">Check pricing & stock</span>
-                  </a>
-                  <a href={`https://wa.me/${COMPANY.whatsapp.replace("+", "")}?text=${encodeURIComponent("Hi, I'd like to request the Agile Ortho product catalog (PDF) for our hospital.")}`} target="_blank" rel="noopener noreferrer"
-                    className="flex flex-col px-3 py-2.5 rounded-sm hover:bg-white/5 transition-colors group" data-testid="wa-catalog">
+                  </button>
+                  <button onClick={() => openLead("Catalog Request", "Hi, I'd like to request the Agile Ortho product catalog (PDF) for our hospital.", "header_wa_catalog")}
+                    className="flex flex-col w-full text-left px-3 py-2.5 rounded-sm hover:bg-white/5 transition-colors group" data-testid="wa-catalog">
                     <span className="text-sm text-white/70 group-hover:text-white font-medium transition-colors">Request Catalog (PDF)</span>
                     <span className="text-xs text-white/35">Get the full product list</span>
-                  </a>
-                  <a href={`https://wa.me/${COMPANY.whatsapp.replace("+", "")}?text=${encodeURIComponent("Hi, I need technical support regarding a Meril medical device.")}`} target="_blank" rel="noopener noreferrer"
-                    className="flex flex-col px-3 py-2.5 rounded-sm hover:bg-white/5 transition-colors group" data-testid="wa-support">
+                  </button>
+                  <button onClick={() => openLead("Technical Support", "Hi, I need technical support regarding a Meril medical device.", "header_wa_support")}
+                    className="flex flex-col w-full text-left px-3 py-2.5 rounded-sm hover:bg-white/5 transition-colors group" data-testid="wa-support">
                     <span className="text-sm text-white/70 group-hover:text-white font-medium transition-colors">Technical Support</span>
                     <span className="text-xs text-white/35">Device queries & assistance</span>
-                  </a>
+                  </button>
                 </div>
               </DropdownMenu>
             </div>
@@ -199,10 +204,10 @@ export default function SiteHeader() {
               <Link to="/contact" onClick={closeMobile} className="px-3 py-3 text-sm font-medium text-white/80">Contact</Link>
 
               <div className="flex gap-2 mt-4">
-                <a href={`https://wa.me/${COMPANY.whatsapp.replace("+", "")}`} target="_blank" rel="noopener noreferrer"
+                <button onClick={() => { closeMobile(); openLead("Sales Enquiry", "Hi, I'd like to enquire about medical devices.", "mobile_menu"); }}
                   className="flex-1 flex items-center justify-center gap-2 rounded-sm bg-[#D4AF37] px-5 py-3 text-sm font-semibold text-black">
                   <MessageCircle size={14} /> WhatsApp
-                </a>
+                </button>
                 <a href={`tel:${COMPANY.phone}`} className="flex-1 flex items-center justify-center gap-2 rounded-sm border border-white/15 px-5 py-3 text-sm font-medium text-white">
                   <Phone size={14} /> Call
                 </a>
@@ -219,16 +224,26 @@ export default function SiteHeader() {
             <Phone size={18} />
             <span className="text-[10px] font-medium">Call</span>
           </a>
-          <a href={`https://wa.me/${COMPANY.whatsapp.replace("+", "")}`} target="_blank" rel="noopener noreferrer" className="flex flex-col items-center gap-0.5 py-1.5 px-3 text-[#D4AF37] hover:text-[#F2C94C] transition-colors">
+          <button onClick={() => openLead("Sales Enquiry", "Hi, I'd like to enquire about medical devices.", "mobile_bar")} className="flex flex-col items-center gap-0.5 py-1.5 px-3 text-[#D4AF37] hover:text-[#F2C94C] transition-colors">
             <MessageCircle size={18} />
             <span className="text-[10px] font-medium">WhatsApp</span>
-          </a>
+          </button>
           <Link to="/catalog" className="flex flex-col items-center gap-0.5 py-1.5 px-3 text-white/60 hover:text-white transition-colors">
             <Bone size={18} />
             <span className="text-[10px] font-medium">Browse</span>
           </Link>
         </div>
       </div>
+
+      {/* Lead Capture Modal */}
+      <LeadCaptureModal
+        isOpen={leadModal.open}
+        onClose={() => setLeadModal({ ...leadModal, open: false })}
+        inquiryType={leadModal.inquiryType}
+        productInterest={leadModal.productInterest}
+        whatsappMessage={leadModal.whatsappMessage}
+        source={leadModal.source}
+      />
     </>
   );
 }

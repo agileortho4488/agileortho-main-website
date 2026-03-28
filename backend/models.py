@@ -10,6 +10,7 @@ class AdminLogin(BaseModel):
 class LeadCreate(BaseModel):
     name: str
     hospital_clinic: str = ""
+    department: str = ""
     phone_whatsapp: str
     email: str = ""
     district: str = ""
