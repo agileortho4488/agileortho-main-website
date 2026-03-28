@@ -11,9 +11,9 @@ import {
 } from "lucide-react";
 
 const DIVISIONS = [
-  "Orthopedics", "Cardiovascular", "Diagnostics",
-  "ENT", "Endo-surgical", "Infection Prevention", "Peripheral Intervention",
-  "Critical Care", "Urology", "Robotics",
+  "Trauma", "Joint Replacement", "Cardiovascular", "Diagnostics", "Spine",
+  "Sports Medicine", "ENT", "Endo Surgery", "Infection Prevention",
+  "Instruments", "Peripheral Intervention", "Critical Care", "Urology", "Robotics",
 ];
 
 const EMPTY_FORM = {
@@ -293,12 +293,12 @@ export default function AdminProducts() {
                             loading="lazy"
                           />
                         ) : null}
-                        <p className="font-semibold text-slate-900">{p.product_name}</p>
+                        <p className="font-semibold text-slate-900">{p.product_name_display || p.product_name}</p>
                       </div>
                     </td>
-                    <td className="px-4 py-3 font-mono text-slate-500 text-xs">{p.sku_code}</td>
+                    <td className="px-4 py-3 font-mono text-slate-500 text-xs">{p.sku_code || "—"}</td>
                     <td className="px-4 py-3">
-                      <span className="text-xs font-semibold text-emerald-600">{p.division}</span>
+                      <span className="text-xs font-semibold text-emerald-600">{p.division_canonical || p.division}</span>
                     </td>
                     <td className="px-4 py-3 text-slate-600 text-xs">{p.category || "—"}</td>
                     <td className="px-4 py-3">
@@ -311,8 +311,8 @@ export default function AdminProducts() {
                       )}
                     </td>
                     <td className="px-4 py-3">
-                      <span className={`text-xs px-2 py-0.5 rounded-sm ${p.status === "published" ? "bg-emerald-50 text-emerald-700" : p.status === "draft" ? "bg-yellow-50 text-yellow-700" : "bg-slate-100 text-slate-500"}`}>
-                        {p.status}
+                      <span className={`text-xs px-2 py-0.5 rounded-sm ${p.status === "published" ? "bg-emerald-50 text-emerald-700" : p.status === "draft" ? "bg-yellow-50 text-yellow-700" : p.status === "live" ? "bg-emerald-50 text-emerald-700" : "bg-slate-100 text-slate-500"}`}>
+                        {p.status || (p.review_required ? "review" : "live")}
                       </span>
                     </td>
                     <td className="px-4 py-3">

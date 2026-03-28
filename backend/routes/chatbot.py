@@ -368,6 +368,21 @@ async def chatbot_query(query: ChatQuery):
     session_id = query.session_id or "anonymous"
     terms = extract_search_terms(question)
 
+    # GUARD 0: Greeting detection — respond warmly to simple greetings
+    GREETINGS = {"hi", "hello", "hey", "hii", "hiii", "helo", "hola", "namaste",
+                 "good morning", "good afternoon", "good evening", "greetings",
+                 "thanks", "thank you", "ok", "okay", "bye", "goodbye"}
+    q_lower = question.lower().strip().rstrip("!.?")
+    if q_lower in GREETINGS or (len(q_lower) <= 12 and any(q_lower.startswith(g) for g in GREETINGS)):
+        greeting_result = {
+            "answer": "Hello! Welcome to Agile Ortho. I'm your AI product assistant.\n\nI can help you with:\n- Finding medical devices by name, brand, or division\n- Looking up SKU codes and specifications\n- Comparing products\n- Connecting you with our sales team\n\nWhat product or division are you interested in?",
+            "sources": [],
+            "confidence": "high"
+        }
+        elapsed_ms = round((time.monotonic() - t_start) * 1000)
+        await _store_conversation(session_id, question, greeting_result, elapsed_ms)
+        return greeting_result
+
     if not terms:
         result = {
             "answer": "Could you please rephrase your question? Try asking about a specific product, brand, division, or SKU code.",

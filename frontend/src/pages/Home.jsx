@@ -232,7 +232,7 @@ export default function Home() {
               return (
                 <Link
                   key={div.name}
-                  to={`/catalog?division=${encodeURIComponent(div.name)}`}
+                  to={`/catalog/${div.slug || div.name.toLowerCase().replace(/\s+/g, "-")}`}
                   className={`group ${meta.bg} rounded-2xl p-7 border border-slate-100 hover:border-teal-300 hover:shadow-lg transition-all`}
                   data-testid={`division-card-${div.name.toLowerCase().replace(/\s/g, "-")}`}
                 >
@@ -305,10 +305,10 @@ export default function Home() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {featuredProducts.slice(0, 8).map((p, i) => (
               <Link
-                key={p.id}
-                to={`/catalog/products/${p.id}`}
+                key={p.slug || p.id}
+                to={`/catalog/products/${p.slug || p.id}`}
                 className="group bg-white border border-slate-100 rounded-2xl overflow-hidden hover:shadow-lg hover:border-teal-200 transition-all"
-                data-testid={`featured-product-${p.id}`}
+                data-testid={`featured-product-${p.slug || p.id}`}
               >
                 <div className="h-44 bg-slate-50 flex items-center justify-center overflow-hidden p-4">
                   {p.images && p.images.length > 0 ? (
