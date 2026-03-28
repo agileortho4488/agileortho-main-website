@@ -75,7 +75,7 @@ export default function ProductDetail() {
       <div className="flex items-center justify-center py-40 font-[Manrope]">
         <div className="flex flex-col items-center gap-3">
           <div className="w-8 h-8 border-2 border-teal-600 border-t-transparent rounded-full animate-spin" />
-          <p className="text-sm text-slate-400">Loading product...</p>
+          <p className="text-sm text-white/30">Loading product...</p>
         </div>
       </div>
     );
@@ -84,9 +84,9 @@ export default function ProductDetail() {
   if (!product) {
     return (
       <div className="text-center py-40 font-[Manrope]">
-        <Package size={48} className="mx-auto text-slate-300 mb-4" />
-        <p className="text-slate-700 font-semibold">Product not found</p>
-        <Link to="/products" className="text-teal-600 font-medium mt-3 inline-block hover:text-teal-700 transition-colors">
+        <Package size={48} className="mx-auto text-white/20 mb-4" />
+        <p className="text-white/70 font-semibold">Product not found</p>
+        <Link to="/products" className="text-[#2DD4BF] font-medium mt-3 inline-block hover:text-[#2DD4BF] transition-colors">
           Back to Products
         </Link>
       </div>
@@ -128,7 +128,7 @@ export default function ProductDetail() {
   ];
 
   return (
-    <div className="min-h-screen bg-white font-[Manrope]">
+    <div className="min-h-screen bg-[#0A0A0A] font-[Manrope]">
       <SEO
         title={product.product_name}
         description={product.description || `${product.product_name} from ${product.manufacturer}. ${product.division} medical device available from authorized Meril distributor in Telangana.`}
@@ -141,13 +141,13 @@ export default function ProductDetail() {
         ]}
       />
       {/* ===== DARK HERO BANNER ===== */}
-      <section className="bg-slate-900 relative overflow-hidden" data-testid="product-detail-hero">
+      <section className="bg-[#0D0D0D] relative overflow-hidden" data-testid="product-detail-hero">
         <div className="absolute inset-0 opacity-10">
           <div className="w-full h-full bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-teal-500 via-transparent to-transparent" />
         </div>
         <div className="relative max-w-7xl mx-auto px-6 py-8 lg:py-10">
           {/* Breadcrumb */}
-          <nav className="flex items-center gap-1.5 text-sm text-slate-400 mb-4" data-testid="breadcrumb">
+          <nav className="flex items-center gap-1.5 text-sm text-white/30 mb-4" data-testid="breadcrumb">
             <Link to="/" className="hover:text-white transition-colors">Home</Link>
             <ChevronRight size={12} />
             <Link to="/products" className="hover:text-white transition-colors">Products</Link>
@@ -159,7 +159,7 @@ export default function ProductDetail() {
 
           <Link
             to="/products"
-            className="inline-flex items-center gap-1.5 text-sm text-slate-400 hover:text-white transition-colors"
+            className="inline-flex items-center gap-1.5 text-sm text-white/30 hover:text-white transition-colors"
             data-testid="back-link"
           >
             <ArrowLeft size={14} /> Back to All Products
@@ -174,7 +174,7 @@ export default function ProductDetail() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
           {/* Left: Image */}
           <div className="lg:col-span-5">
-            <div className="sticky top-20 bg-slate-50 border border-slate-100 rounded-2xl overflow-hidden" data-testid="product-image">
+            <div className="sticky top-20 bg-white/5 border border-white/[0.06] rounded-sm overflow-hidden" data-testid="product-image">
               <div className="aspect-square flex items-center justify-center overflow-hidden p-6">
                 {product.images && product.images.length > 0 ? (
                   <img
@@ -186,17 +186,17 @@ export default function ProductDetail() {
                 ) : (
                   <div className="text-center">
                     <Package size={80} className="text-slate-200 mx-auto" />
-                    <p className="text-xs text-slate-400 mt-4 font-medium">Product Image Coming Soon</p>
+                    <p className="text-xs text-white/30 mt-4 font-medium">Product Image Coming Soon</p>
                   </div>
                 )}
               </div>
               {/* Tags */}
-              <div className="px-5 py-4 border-t border-slate-100 flex flex-wrap gap-2" data-testid="product-tags">
+              <div className="px-5 py-4 border-t border-white/[0.06] flex flex-wrap gap-2" data-testid="product-tags">
                 {[product.division, product.category, product.material].filter(Boolean).map((t) => (
                   <Link
                     key={t}
                     to={`/products?division=${encodeURIComponent(product.division)}`}
-                    className="text-xs font-medium text-slate-500 bg-white hover:bg-teal-50 hover:text-teal-700 border border-slate-200 hover:border-teal-200 px-3 py-1 rounded-full transition-colors"
+                    className="text-xs font-medium text-white/40 bg-[#0A0A0A] hover:bg-[#2DD4BF]/10 hover:text-[#2DD4BF] border border-white/10 hover:border-[#2DD4BF]/20 px-3 py-1 rounded-full transition-colors"
                   >
                     {t}
                   </Link>
@@ -209,60 +209,60 @@ export default function ProductDetail() {
           <div className="lg:col-span-7 space-y-6" data-testid="product-info">
             {/* Division badges */}
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="text-[10px] font-bold uppercase tracking-widest text-teal-700 bg-teal-50 border border-teal-100 px-2.5 py-1 rounded-full" data-testid="product-division">
+              <span className="text-[10px] font-bold uppercase tracking-widest text-[#2DD4BF] bg-[#2DD4BF]/10 border border-teal-100 px-2.5 py-1 rounded-full" data-testid="product-division">
                 {product.division}
               </span>
               {product.category && (
-                <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500 bg-slate-50 border border-slate-100 px-2.5 py-1 rounded-full">
+                <span className="text-[10px] font-bold uppercase tracking-widest text-white/40 bg-white/5 border border-white/[0.06] px-2.5 py-1 rounded-full">
                   {product.category}
                 </span>
               )}
             </div>
 
             {/* Title */}
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900 tracking-tight leading-tight" data-testid="product-name">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white tracking-tight leading-tight" data-testid="product-name">
               {product.product_name}
             </h1>
 
             {product.sku_code && (
-              <p className="text-xs font-mono text-slate-400 flex items-center gap-1.5" data-testid="product-sku">
+              <p className="text-xs font-mono text-white/30 flex items-center gap-1.5" data-testid="product-sku">
                 <Tag size={11} /> SKU: {product.sku_code}
               </p>
             )}
 
             {/* Description */}
-            <p className="text-sm sm:text-base text-slate-600 leading-relaxed" data-testid="product-description">
+            <p className="text-sm sm:text-base text-white/50 leading-relaxed" data-testid="product-description">
               {product.description}
             </p>
 
             {/* Quick attribute chips */}
             <div className="flex flex-wrap gap-2">
               {product.material && (
-                <span className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-600 bg-slate-50 border border-slate-100 px-3 py-2 rounded-xl">
+                <span className="inline-flex items-center gap-1.5 text-xs font-medium text-white/50 bg-white/5 border border-white/[0.06] px-3 py-2 rounded-sm">
                   <Box size={13} className="text-teal-500" /> {product.material}
                 </span>
               )}
               {product.pack_size && (
-                <span className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-600 bg-slate-50 border border-slate-100 px-3 py-2 rounded-xl">
+                <span className="inline-flex items-center gap-1.5 text-xs font-medium text-white/50 bg-white/5 border border-white/[0.06] px-3 py-2 rounded-sm">
                   <Ruler size={13} className="text-teal-500" /> Pack: {product.pack_size}
                 </span>
               )}
-              <span className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-600 bg-slate-50 border border-slate-100 px-3 py-2 rounded-xl">
+              <span className="inline-flex items-center gap-1.5 text-xs font-medium text-white/50 bg-white/5 border border-white/[0.06] px-3 py-2 rounded-sm">
                 <Factory size={13} className="text-teal-500" /> {product.manufacturer}
               </span>
             </div>
 
             {/* Key features */}
             {specEntries.length > 0 && (
-              <div className="bg-slate-50 border border-slate-100 rounded-2xl p-6" data-testid="key-features">
-                <h3 className="text-sm font-bold text-slate-900 mb-3 flex items-center gap-2">
-                  <Stethoscope size={15} className="text-teal-600" /> Key Features
+              <div className="bg-white/5 border border-white/[0.06] rounded-sm p-6" data-testid="key-features">
+                <h3 className="text-sm font-bold text-white mb-3 flex items-center gap-2">
+                  <Stethoscope size={15} className="text-[#2DD4BF]" /> Key Features
                 </h3>
                 <ul className="space-y-2">
                   {specEntries.slice(0, 6).map(([key, value]) => (
-                    <li key={key} className="flex items-start gap-2.5 text-sm text-slate-600">
+                    <li key={key} className="flex items-start gap-2.5 text-sm text-white/50">
                       <CheckCircle2 size={15} className="text-teal-500 mt-0.5 shrink-0" />
-                      <span><span className="font-semibold text-slate-700 capitalize">{key.replace(/_/g, " ")}:</span> {typeof value === "object" ? JSON.stringify(value) : String(value)}</span>
+                      <span><span className="font-semibold text-white/70 capitalize">{key.replace(/_/g, " ")}:</span> {typeof value === "object" ? JSON.stringify(value) : String(value)}</span>
                     </li>
                   ))}
                 </ul>
@@ -274,7 +274,7 @@ export default function ProductDetail() {
               <div className="flex flex-col sm:flex-row gap-3">
                 <button
                   onClick={() => setShowQuoteForm(true)}
-                  className="flex-1 flex items-center justify-center gap-2 px-5 py-3.5 bg-teal-600 text-white text-sm font-bold rounded-xl hover:bg-teal-700 transition-all shadow-lg shadow-teal-600/20"
+                  className="flex-1 flex items-center justify-center gap-2 px-5 py-3.5 bg-teal-600 text-white text-sm font-bold rounded-sm hover:bg-teal-700 transition-all shadow-lg shadow-teal-600/20"
                   data-testid="request-quote-btn"
                 >
                   <Mail size={16} /> Request Bulk Quote
@@ -283,7 +283,7 @@ export default function ProductDetail() {
                   href={`https://wa.me/917416521222?text=${encodeURIComponent(`Hi, I'm interested in ${product.product_name} (${product.sku_code || ""}). Can you share pricing and availability for our hospital?`)}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex-1 flex items-center justify-center gap-2 px-5 py-3.5 bg-[#25D366] text-white text-sm font-bold rounded-xl hover:bg-[#1DA851] transition-all shadow-lg shadow-[#25D366]/20"
+                  className="flex-1 flex items-center justify-center gap-2 px-5 py-3.5 bg-[#25D366] text-white text-sm font-bold rounded-sm hover:bg-[#1DA851] transition-all shadow-lg shadow-[#25D366]/20"
                   data-testid="whatsapp-enquiry-btn"
                 >
                   <MessageCircle size={16} /> WhatsApp Enquiry
@@ -292,17 +292,17 @@ export default function ProductDetail() {
               <div className="flex gap-3">
                 <a
                   href="tel:+917416521222"
-                  className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 border border-slate-200 text-slate-600 text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors"
+                  className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 border border-white/10 text-white/50 text-sm font-semibold rounded-sm hover:bg-white/5 transition-colors"
                   data-testid="call-btn"
                 >
                   <Phone size={14} /> Call Sales Team
                 </a>
                 {(product.brochure_url || product.brochure) ? (
-                  <button onClick={() => setShowBrochureForm(true)} className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 border border-teal-200 text-teal-700 text-sm font-semibold rounded-xl hover:bg-teal-50 transition-colors" data-testid="brochure-btn">
+                  <button onClick={() => setShowBrochureForm(true)} className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 border border-[#2DD4BF]/20 text-[#2DD4BF] text-sm font-semibold rounded-sm hover:bg-[#2DD4BF]/10 transition-colors" data-testid="brochure-btn">
                     <Download size={14} /> Download Brochure
                   </button>
                 ) : (
-                  <Link to="/contact" className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 border border-slate-200 text-slate-600 text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors" data-testid="request-datasheet-btn">
+                  <Link to="/contact" className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 border border-white/10 text-white/50 text-sm font-semibold rounded-sm hover:bg-white/5 transition-colors" data-testid="request-datasheet-btn">
                     <FileText size={14} /> Request Datasheet
                   </Link>
                 )}
@@ -310,7 +310,7 @@ export default function ProductDetail() {
             </div>
 
             {/* Trust badges */}
-            <div className="grid grid-cols-2 gap-4 pt-4 border-t border-slate-100" data-testid="trust-badges">
+            <div className="grid grid-cols-2 gap-4 pt-4 border-t border-white/[0.06]" data-testid="trust-badges">
               {[
                 { icon: Shield, label: "ISO 13485 Certified", sub: "Quality Management" },
                 { icon: Award, label: "CE Mark Compliant", sub: "European Standard" },
@@ -318,12 +318,12 @@ export default function ProductDetail() {
                 { icon: Building2, label: "Authorized Distributor", sub: "Telangana Region" },
               ].map(({ icon: Icon, label, sub }) => (
                 <div key={label} className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-teal-50 border border-teal-100 flex items-center justify-center shrink-0">
-                    <Icon size={16} className="text-teal-600" />
+                  <div className="w-9 h-9 rounded-sm bg-[#2DD4BF]/10 border border-teal-100 flex items-center justify-center shrink-0">
+                    <Icon size={16} className="text-[#2DD4BF]" />
                   </div>
                   <div>
-                    <span className="text-xs font-bold text-slate-700 leading-tight block">{label}</span>
-                    <span className="text-[10px] text-slate-400 leading-tight">{sub}</span>
+                    <span className="text-xs font-bold text-white/70 leading-tight block">{label}</span>
+                    <span className="text-[10px] text-white/30 leading-tight">{sub}</span>
                   </div>
                 </div>
               ))}
@@ -334,24 +334,24 @@ export default function ProductDetail() {
         {/* ════════ QUOTE FORM MODAL ════════ */}
         {showQuoteForm && (
           <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4" data-testid="quote-modal-overlay" onClick={(e) => { if (e.target === e.currentTarget) setShowQuoteForm(false); }}>
-            <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden" data-testid="quote-modal">
-              <div className="bg-slate-900 px-6 py-5">
+            <div className="bg-[#0A0A0A] rounded-sm shadow-2xl w-full max-w-md overflow-hidden" data-testid="quote-modal">
+              <div className="bg-[#0D0D0D] px-6 py-5">
                 <h3 className="text-white font-bold text-lg">Request Bulk Quote</h3>
-                <p className="text-slate-400 text-xs mt-1">For: {product.product_name}</p>
+                <p className="text-white/30 text-xs mt-1">For: {product.product_name}</p>
               </div>
               <form onSubmit={handleSubmitQuote} className="p-6 space-y-3" data-testid="quote-form">
-                <input type="text" placeholder="Your Name *" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/10 transition-all" data-testid="quote-name-input" />
-                <input type="text" placeholder="Hospital / Clinic" value={formData.hospital_clinic} onChange={(e) => setFormData({ ...formData, hospital_clinic: e.target.value })} className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/10 transition-all" data-testid="quote-hospital-input" />
-                <input type="tel" placeholder="WhatsApp Number *" value={formData.phone_whatsapp} onChange={(e) => setFormData({ ...formData, phone_whatsapp: e.target.value })} className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/10 transition-all" data-testid="quote-phone-input" />
-                <input type="email" placeholder="Email Address" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/10 transition-all" data-testid="quote-email-input" />
-                <select value={formData.district} onChange={(e) => setFormData({ ...formData, district: e.target.value })} className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/10 bg-white transition-all" data-testid="quote-district-select">
+                <input type="text" placeholder="Your Name *" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="w-full px-3.5 py-2.5 border border-white/10 rounded-sm text-sm outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/10 transition-all" data-testid="quote-name-input" />
+                <input type="text" placeholder="Hospital / Clinic" value={formData.hospital_clinic} onChange={(e) => setFormData({ ...formData, hospital_clinic: e.target.value })} className="w-full px-3.5 py-2.5 border border-white/10 rounded-sm text-sm outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/10 transition-all" data-testid="quote-hospital-input" />
+                <input type="tel" placeholder="WhatsApp Number *" value={formData.phone_whatsapp} onChange={(e) => setFormData({ ...formData, phone_whatsapp: e.target.value })} className="w-full px-3.5 py-2.5 border border-white/10 rounded-sm text-sm outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/10 transition-all" data-testid="quote-phone-input" />
+                <input type="email" placeholder="Email Address" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="w-full px-3.5 py-2.5 border border-white/10 rounded-sm text-sm outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/10 transition-all" data-testid="quote-email-input" />
+                <select value={formData.district} onChange={(e) => setFormData({ ...formData, district: e.target.value })} className="w-full px-3.5 py-2.5 border border-white/10 rounded-sm text-sm outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/10 bg-[#0A0A0A] transition-all" data-testid="quote-district-select">
                   <option value="">Select District (Telangana)</option>
                   {DISTRICTS.map((d) => <option key={d} value={d}>{d}</option>)}
                 </select>
-                <textarea placeholder="Quantity needed, specific requirements..." value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })} rows={3} className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/10 resize-none transition-all" data-testid="quote-message-input" />
+                <textarea placeholder="Quantity needed, specific requirements..." value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })} rows={3} className="w-full px-3.5 py-2.5 border border-white/10 rounded-sm text-sm outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/10 resize-none transition-all" data-testid="quote-message-input" />
                 <div className="flex gap-3 pt-1">
-                  <button type="button" onClick={() => setShowQuoteForm(false)} className="flex-1 px-4 py-2.5 border border-slate-200 text-slate-600 text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors" data-testid="cancel-quote-btn">Cancel</button>
-                  <button type="submit" disabled={submitting} className="flex-1 px-4 py-2.5 bg-teal-600 text-white text-sm font-bold rounded-xl hover:bg-teal-700 disabled:opacity-50 transition-colors" data-testid="submit-quote-btn">
+                  <button type="button" onClick={() => setShowQuoteForm(false)} className="flex-1 px-4 py-2.5 border border-white/10 text-white/50 text-sm font-semibold rounded-sm hover:bg-white/5 transition-colors" data-testid="cancel-quote-btn">Cancel</button>
+                  <button type="submit" disabled={submitting} className="flex-1 px-4 py-2.5 bg-teal-600 text-white text-sm font-bold rounded-sm hover:bg-teal-700 disabled:opacity-50 transition-colors" data-testid="submit-quote-btn">
                     {submitting ? "Submitting..." : "Submit Request"}
                   </button>
                 </div>
@@ -363,10 +363,10 @@ export default function ProductDetail() {
         {/* ════════ BROCHURE DOWNLOAD MODAL ════════ */}
         {showBrochureForm && (
           <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4" data-testid="brochure-modal-overlay" onClick={(e) => { if (e.target === e.currentTarget) setShowBrochureForm(false); }}>
-            <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden" data-testid="brochure-modal">
+            <div className="bg-[#0A0A0A] rounded-sm shadow-2xl w-full max-w-md overflow-hidden" data-testid="brochure-modal">
               <div className="bg-teal-700 px-6 py-5">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-sm bg-[#0A0A0A]/20 flex items-center justify-center">
                     <Download size={20} className="text-white" />
                   </div>
                   <div>
@@ -411,18 +411,18 @@ export default function ProductDetail() {
                 className="p-6 space-y-3"
                 data-testid="brochure-form"
               >
-                <p className="text-xs text-slate-500 mb-1">Fill in your details to download the product brochure.</p>
-                <input type="text" placeholder="Your Name *" value={brochureData.name} onChange={(e) => setBrochureData({ ...brochureData, name: e.target.value })} className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/10 transition-all" data-testid="brochure-name-input" />
-                <input type="tel" placeholder="WhatsApp / Phone Number *" value={brochureData.phone} onChange={(e) => setBrochureData({ ...brochureData, phone: e.target.value })} className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/10 transition-all" data-testid="brochure-phone-input" />
-                <input type="email" placeholder="Email Address" value={brochureData.email} onChange={(e) => setBrochureData({ ...brochureData, email: e.target.value })} className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/10 transition-all" data-testid="brochure-email-input" />
-                <input type="text" placeholder="Hospital / Clinic Name" value={brochureData.hospital} onChange={(e) => setBrochureData({ ...brochureData, hospital: e.target.value })} className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/10 transition-all" data-testid="brochure-hospital-input" />
-                <select value={brochureData.district} onChange={(e) => setBrochureData({ ...brochureData, district: e.target.value })} className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/10 bg-white transition-all" data-testid="brochure-district-select">
+                <p className="text-xs text-white/40 mb-1">Fill in your details to download the product brochure.</p>
+                <input type="text" placeholder="Your Name *" value={brochureData.name} onChange={(e) => setBrochureData({ ...brochureData, name: e.target.value })} className="w-full px-3.5 py-2.5 border border-white/10 rounded-sm text-sm outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/10 transition-all" data-testid="brochure-name-input" />
+                <input type="tel" placeholder="WhatsApp / Phone Number *" value={brochureData.phone} onChange={(e) => setBrochureData({ ...brochureData, phone: e.target.value })} className="w-full px-3.5 py-2.5 border border-white/10 rounded-sm text-sm outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/10 transition-all" data-testid="brochure-phone-input" />
+                <input type="email" placeholder="Email Address" value={brochureData.email} onChange={(e) => setBrochureData({ ...brochureData, email: e.target.value })} className="w-full px-3.5 py-2.5 border border-white/10 rounded-sm text-sm outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/10 transition-all" data-testid="brochure-email-input" />
+                <input type="text" placeholder="Hospital / Clinic Name" value={brochureData.hospital} onChange={(e) => setBrochureData({ ...brochureData, hospital: e.target.value })} className="w-full px-3.5 py-2.5 border border-white/10 rounded-sm text-sm outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/10 transition-all" data-testid="brochure-hospital-input" />
+                <select value={brochureData.district} onChange={(e) => setBrochureData({ ...brochureData, district: e.target.value })} className="w-full px-3.5 py-2.5 border border-white/10 rounded-sm text-sm outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/10 bg-[#0A0A0A] transition-all" data-testid="brochure-district-select">
                   <option value="">Select District (Optional)</option>
                   {DISTRICTS.map((d) => <option key={d} value={d}>{d}</option>)}
                 </select>
                 <div className="flex gap-3 pt-1">
-                  <button type="button" onClick={() => setShowBrochureForm(false)} className="flex-1 px-4 py-2.5 border border-slate-200 text-slate-600 text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors" data-testid="cancel-brochure-btn">Cancel</button>
-                  <button type="submit" disabled={brochureSubmitting} className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-teal-600 text-white text-sm font-bold rounded-xl hover:bg-teal-700 disabled:opacity-50 transition-colors" data-testid="submit-brochure-btn">
+                  <button type="button" onClick={() => setShowBrochureForm(false)} className="flex-1 px-4 py-2.5 border border-white/10 text-white/50 text-sm font-semibold rounded-sm hover:bg-white/5 transition-colors" data-testid="cancel-brochure-btn">Cancel</button>
+                  <button type="submit" disabled={brochureSubmitting} className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-teal-600 text-white text-sm font-bold rounded-sm hover:bg-teal-700 disabled:opacity-50 transition-colors" data-testid="submit-brochure-btn">
                     <Download size={14} /> {brochureSubmitting ? "Downloading..." : "Download PDF"}
                   </button>
                 </div>
@@ -433,8 +433,8 @@ export default function ProductDetail() {
 
         {/* ════════ TABBED CONTENT ════════ */}
         <div className="mt-14" data-testid="product-tabs">
-          <h2 className="text-xl font-bold text-slate-900 mb-5 tracking-tight">Product Information</h2>
-          <div className="flex border-b border-slate-200 gap-1">
+          <h2 className="text-xl font-bold text-white mb-5 tracking-tight">Product Information</h2>
+          <div className="flex border-b border-white/10 gap-1">
             {TABS.map((tab, i) => (
               <button
                 key={tab.label}
@@ -442,10 +442,10 @@ export default function ProductDetail() {
                 disabled={!tab.enabled}
                 className={`px-5 py-3 text-sm font-semibold transition-colors relative whitespace-nowrap ${
                   activeTab === i
-                    ? "text-teal-700 border-b-2 border-teal-600 -mb-px"
+                    ? "text-[#2DD4BF] border-b-2 border-teal-600 -mb-px"
                     : !tab.enabled
-                    ? "text-slate-300 cursor-not-allowed"
-                    : "text-slate-500 hover:text-slate-700"
+                    ? "text-white/20 cursor-not-allowed"
+                    : "text-white/40 hover:text-white/70"
                 }`}
                 data-testid={`tab-${tab.label.toLowerCase().replace(/\s+/g, "-")}`}
               >
@@ -454,33 +454,33 @@ export default function ProductDetail() {
             ))}
           </div>
 
-          <div className="bg-slate-50 border border-slate-100 border-t-0 rounded-b-2xl p-6 lg:p-8">
+          <div className="bg-white/5 border border-white/[0.06] border-t-0 rounded-b-2xl p-6 lg:p-8">
             {/* Overview Tab */}
             {activeTab === 0 && (
               <div data-testid="tab-content-overview" className="space-y-8">
                 <div>
-                  <h3 className="text-base font-bold text-slate-900 mb-3 flex items-center gap-2">
-                    <ClipboardList size={16} className="text-teal-600" /> Product Description
+                  <h3 className="text-base font-bold text-white mb-3 flex items-center gap-2">
+                    <ClipboardList size={16} className="text-[#2DD4BF]" /> Product Description
                   </h3>
-                  <p className="text-sm text-slate-600 leading-relaxed">{product.description}</p>
+                  <p className="text-sm text-white/50 leading-relaxed">{product.description}</p>
                 </div>
 
                 {specEntries.length > 0 && (
                   <div>
-                    <h3 className="text-base font-bold text-slate-900 mb-3 flex items-center gap-2">
-                      <Stethoscope size={16} className="text-teal-600" /> Key Features
+                    <h3 className="text-base font-bold text-white mb-3 flex items-center gap-2">
+                      <Stethoscope size={16} className="text-[#2DD4BF]" /> Key Features
                     </h3>
                     <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2">
                       {specEntries.map(([key, value]) => (
-                        <li key={key} className="flex items-start gap-2.5 text-sm text-slate-600 py-1">
+                        <li key={key} className="flex items-start gap-2.5 text-sm text-white/50 py-1">
                           <CheckCircle2 size={15} className="text-teal-500 mt-0.5 shrink-0" />
-                          <span><span className="font-semibold text-slate-700 capitalize">{key.replace(/_/g, " ")}:</span> {typeof value === "object" ? JSON.stringify(value) : String(value)}</span>
+                          <span><span className="font-semibold text-white/70 capitalize">{key.replace(/_/g, " ")}:</span> {typeof value === "object" ? JSON.stringify(value) : String(value)}</span>
                         </li>
                       ))}
                       {product.material && (
-                        <li className="flex items-start gap-2.5 text-sm text-slate-600 py-1">
+                        <li className="flex items-start gap-2.5 text-sm text-white/50 py-1">
                           <CheckCircle2 size={15} className="text-teal-500 mt-0.5 shrink-0" />
-                          <span><span className="font-semibold text-slate-700">Material:</span> {product.material}</span>
+                          <span><span className="font-semibold text-white/70">Material:</span> {product.material}</span>
                         </li>
                       )}
                     </ul>
@@ -488,8 +488,8 @@ export default function ProductDetail() {
                 )}
 
                 <div>
-                  <h3 className="text-base font-bold text-slate-900 mb-3 flex items-center gap-2">
-                    <Building2 size={16} className="text-teal-600" /> Applications
+                  <h3 className="text-base font-bold text-white mb-3 flex items-center gap-2">
+                    <Building2 size={16} className="text-[#2DD4BF]" /> Applications
                   </h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {[
@@ -498,16 +498,16 @@ export default function ProductDetail() {
                       { label: "Clinics & Diagnostic Centers", icon: ClipboardList },
                       { label: "Emergency & Trauma Care", icon: Shield },
                     ].map(({ label, icon: Ic }) => (
-                      <div key={label} className="flex items-center gap-3 bg-white rounded-xl px-4 py-3 border border-slate-100">
-                        <Ic size={16} className="text-teal-600 shrink-0" />
-                        <span className="text-sm text-slate-600 font-medium">{label}</span>
+                      <div key={label} className="flex items-center gap-3 bg-[#0A0A0A] rounded-sm px-4 py-3 border border-white/[0.06]">
+                        <Ic size={16} className="text-[#2DD4BF] shrink-0" />
+                        <span className="text-sm text-white/50 font-medium">{label}</span>
                       </div>
                     ))}
                   </div>
                 </div>
 
                 <div>
-                  <h3 className="text-base font-bold text-slate-900 mb-3">Product Details</h3>
+                  <h3 className="text-base font-bold text-white mb-3">Product Details</h3>
                   <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
                     {[
                       { l: "Manufacturer", v: product.manufacturer },
@@ -517,9 +517,9 @@ export default function ProductDetail() {
                       product.pack_size ? { l: "Pack Size", v: product.pack_size } : null,
                       product.sku_code ? { l: "SKU Code", v: product.sku_code } : null,
                     ].filter(Boolean).map(({ l, v }) => (
-                      <div key={l} className="bg-white rounded-xl px-4 py-3 border border-slate-100">
-                        <p className="text-[10px] uppercase tracking-widest text-slate-400 font-bold">{l}</p>
-                        <p className="text-sm font-semibold text-slate-800 mt-1">{v}</p>
+                      <div key={l} className="bg-[#0A0A0A] rounded-sm px-4 py-3 border border-white/[0.06]">
+                        <p className="text-[10px] uppercase tracking-widest text-white/30 font-bold">{l}</p>
+                        <p className="text-sm font-semibold text-white/90 mt-1">{v}</p>
                       </div>
                     ))}
                   </div>
@@ -530,22 +530,22 @@ export default function ProductDetail() {
             {/* Specifications Tab */}
             {activeTab === 1 && specEntries.length > 0 && (
               <div data-testid="tab-content-specs">
-                <h3 className="text-base font-bold text-slate-900 mb-5 flex items-center gap-2">
-                  <FileText size={16} className="text-teal-600" /> Technical Specifications
+                <h3 className="text-base font-bold text-white mb-5 flex items-center gap-2">
+                  <FileText size={16} className="text-[#2DD4BF]" /> Technical Specifications
                 </h3>
-                <div className="rounded-xl overflow-hidden border border-slate-200">
+                <div className="rounded-sm overflow-hidden border border-white/10">
                   <table className="w-full text-sm" data-testid="specs-table">
                     <thead>
-                      <tr className="bg-slate-900 text-white">
+                      <tr className="bg-[#0D0D0D] text-white">
                         <th className="text-left px-5 py-3 font-semibold text-xs uppercase tracking-wider">Attribute</th>
                         <th className="text-left px-5 py-3 font-semibold text-xs uppercase tracking-wider">Detail</th>
                       </tr>
                     </thead>
                     <tbody>
                       {fullSpecRows.map(([key, value], i) => (
-                        <tr key={key + i} className={`${i % 2 === 0 ? "bg-white" : "bg-slate-50"} border-t border-slate-100`}>
-                          <td className="px-5 py-3 font-semibold text-slate-700 capitalize whitespace-nowrap">{key}</td>
-                          <td className="px-5 py-3 text-slate-600">{value}</td>
+                        <tr key={key + i} className={`${i % 2 === 0 ? "bg-[#0A0A0A]" : "bg-white/5"} border-t border-white/[0.06]`}>
+                          <td className="px-5 py-3 font-semibold text-white/70 capitalize whitespace-nowrap">{key}</td>
+                          <td className="px-5 py-3 text-white/50">{value}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -557,10 +557,10 @@ export default function ProductDetail() {
             {/* Sizes Tab */}
             {activeTab === 2 && hasSizes && (
               <div data-testid="tab-content-sizes">
-                <h3 className="text-base font-bold text-slate-900 mb-4">Available Sizes & Variants</h3>
+                <h3 className="text-base font-bold text-white mb-4">Available Sizes & Variants</h3>
                 <div className="flex flex-wrap gap-2">
                   {product.size_variables.map((s) => (
-                    <span key={s} className="px-4 py-2.5 bg-white border border-slate-200 text-sm font-mono rounded-xl hover:border-teal-300 hover:bg-teal-50 transition-colors cursor-default">
+                    <span key={s} className="px-4 py-2.5 bg-[#0A0A0A] border border-white/10 text-sm font-mono rounded-sm hover:border-teal-300 hover:bg-[#2DD4BF]/10 transition-colors cursor-default">
                       {s}
                     </span>
                   ))}
@@ -571,16 +571,16 @@ export default function ProductDetail() {
         </div>
 
         {/* ════════ NEED HELP BANNER ════════ */}
-        <div className="mt-10 bg-slate-900 rounded-2xl p-8 sm:p-10 flex flex-col sm:flex-row items-center justify-between gap-6" data-testid="help-banner">
+        <div className="mt-10 bg-[#0D0D0D] rounded-sm p-8 sm:p-10 flex flex-col sm:flex-row items-center justify-between gap-6" data-testid="help-banner">
           <div>
             <h3 className="text-white font-bold text-lg">Need Technical Assistance?</h3>
-            <p className="text-slate-400 text-sm mt-1.5 max-w-md">Our product specialists can help with sizing, compatibility, and clinical applications across Telangana.</p>
+            <p className="text-white/30 text-sm mt-1.5 max-w-md">Our product specialists can help with sizing, compatibility, and clinical applications across Telangana.</p>
           </div>
           <div className="flex gap-3 shrink-0">
-            <a href="tel:+917416521222" className="flex items-center gap-2 px-5 py-2.5 bg-white/10 text-white text-sm font-semibold rounded-xl hover:bg-white/20 transition-colors border border-white/20">
+            <a href="tel:+917416521222" className="flex items-center gap-2 px-5 py-2.5 bg-[#0A0A0A]/10 text-white text-sm font-semibold rounded-sm hover:bg-[#0A0A0A]/20 transition-colors border border-white/20">
               <Phone size={14} /> Call Now
             </a>
-            <Link to="/contact" className="flex items-center gap-2 px-5 py-2.5 bg-teal-600 text-white text-sm font-bold rounded-xl hover:bg-teal-700 transition-colors" data-testid="contact-specialist-link">
+            <Link to="/contact" className="flex items-center gap-2 px-5 py-2.5 bg-teal-600 text-white text-sm font-bold rounded-sm hover:bg-teal-700 transition-colors" data-testid="contact-specialist-link">
               Contact Specialist <ChevronRight size={14} />
             </Link>
           </div>
@@ -591,12 +591,12 @@ export default function ProductDetail() {
           <div className="mt-14" data-testid="related-products">
             <div className="flex items-end justify-between mb-8">
               <div>
-                <p className="text-teal-600 text-xs font-bold uppercase tracking-[0.2em] mb-2">More from {product.division}</p>
-                <h2 className="text-2xl font-bold text-slate-900 tracking-tight">Related Products</h2>
+                <p className="text-[#2DD4BF] text-xs font-bold uppercase tracking-[0.2em] mb-2">More from {product.division}</p>
+                <h2 className="text-2xl font-bold text-white tracking-tight">Related Products</h2>
               </div>
               <Link
                 to={`/products?division=${encodeURIComponent(product.division)}`}
-                className="text-sm text-teal-600 font-semibold hover:text-teal-700 transition-colors flex items-center gap-1"
+                className="text-sm text-[#2DD4BF] font-semibold hover:text-[#2DD4BF] transition-colors flex items-center gap-1"
                 data-testid="view-all-related-link"
               >
                 View All <ChevronRight size={14} />
@@ -607,10 +607,10 @@ export default function ProductDetail() {
                 <Link
                   key={rp.id}
                   to={`/products/${rp.id}`}
-                  className="group bg-white border border-slate-100 rounded-2xl overflow-hidden hover:shadow-lg hover:border-teal-200 transition-all duration-300"
+                  className="group bg-[#0A0A0A] border border-white/[0.06] rounded-sm overflow-hidden hover:shadow-lg hover:border-[#2DD4BF]/20 transition-all duration-300"
                   data-testid={`related-product-${rp.id}`}
                 >
-                  <div className="h-40 bg-slate-50 flex items-center justify-center overflow-hidden p-3 relative">
+                  <div className="h-40 bg-white/5 flex items-center justify-center overflow-hidden p-3 relative">
                     {rp.images && rp.images.length > 0 ? (
                       <img
                         src={`${API}/api/files/${rp.images[0].storage_path}`}
@@ -622,15 +622,15 @@ export default function ProductDetail() {
                       <Package size={32} className="text-slate-200" />
                     )}
                     <div className="absolute top-2 left-2">
-                      <span className="text-[9px] font-bold uppercase tracking-widest text-teal-700 bg-teal-50 px-2 py-0.5 rounded-full border border-teal-100">{rp.division}</span>
+                      <span className="text-[9px] font-bold uppercase tracking-widest text-[#2DD4BF] bg-[#2DD4BF]/10 px-2 py-0.5 rounded-full border border-teal-100">{rp.division}</span>
                     </div>
                   </div>
                   <div className="p-4">
-                    <h4 className="text-sm font-bold text-slate-900 line-clamp-2 group-hover:text-teal-600 transition-colors leading-snug">
+                    <h4 className="text-sm font-bold text-white line-clamp-2 group-hover:text-[#2DD4BF] transition-colors leading-snug">
                       {rp.product_name}
                     </h4>
-                    {rp.category && <p className="text-xs text-slate-400 mt-1">{rp.category}</p>}
-                    <span className="inline-flex items-center gap-1 text-xs text-teal-600 font-semibold mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
+                    {rp.category && <p className="text-xs text-white/30 mt-1">{rp.category}</p>}
+                    <span className="inline-flex items-center gap-1 text-xs text-[#2DD4BF] font-semibold mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
                       View Details <ChevronRight size={12} />
                     </span>
                   </div>

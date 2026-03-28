@@ -13,7 +13,7 @@ module.exports = {
                         sm: 'calc(var(--radius) - 4px)'
                 },
                 fontFamily: {
-                        heading: ['Chivo', 'sans-serif'],
+                        heading: ['Outfit', 'sans-serif'],
                         body: ['Manrope', 'sans-serif'],
                         mono: ['IBM Plex Mono', 'monospace'],
                 },

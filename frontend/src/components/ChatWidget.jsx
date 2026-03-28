@@ -24,21 +24,21 @@ function logTelemetry(sessionId, eventType, query = null, confidence = null, met
 function ConfidenceBadge({ confidence }) {
   if (confidence === "high") {
     return (
-      <span className="inline-flex items-center gap-1 text-[9px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 border border-emerald-200 px-1.5 py-0.5 rounded-full" data-testid="widget-confidence-high">
+      <span className="inline-flex items-center gap-1 text-[9px] font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-1.5 py-0.5 rounded" data-testid="widget-confidence-high">
         <ShieldCheck size={9} /> Verified
       </span>
     );
   }
   if (confidence === "medium") {
     return (
-      <span className="inline-flex items-center gap-1 text-[9px] font-bold uppercase tracking-wider text-amber-700 bg-amber-50 border border-amber-200 px-1.5 py-0.5 rounded-full" data-testid="widget-confidence-medium">
+      <span className="inline-flex items-center gap-1 text-[9px] font-bold uppercase tracking-wider text-amber-400 bg-amber-500/10 border border-amber-500/20 px-1.5 py-0.5 rounded" data-testid="widget-confidence-medium">
         <ShieldAlert size={9} /> Partial
       </span>
     );
   }
   if (confidence === "low" || confidence === "none") {
     return (
-      <span className="inline-flex items-center gap-1 text-[9px] font-bold uppercase tracking-wider text-slate-500 bg-slate-100 border border-slate-200 px-1.5 py-0.5 rounded-full" data-testid="widget-confidence-low">
+      <span className="inline-flex items-center gap-1 text-[9px] font-bold uppercase tracking-wider text-white/40 bg-white/5 border border-white/10 px-1.5 py-0.5 rounded" data-testid="widget-confidence-low">
         <ShieldX size={9} /> No Match
       </span>
     );
@@ -53,9 +53,9 @@ function ChatBubble({ msg, isUser, sessionId }) {
   return (
     <div className={`flex gap-2.5 ${isUser ? "flex-row-reverse" : "flex-row"} items-end`}>
       <div className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 ${
-        isUser ? "bg-emerald-600" : "bg-[#0B1F3F]"
+        isUser ? "bg-[#2DD4BF]" : "bg-[#D4AF37]"
       }`}>
-        {isUser ? <User size={13} className="text-white" /> : <Bot size={13} className="text-white" />}
+        {isUser ? <User size={13} className="text-black" /> : <Bot size={13} className="text-black" />}
       </div>
       <div className={`max-w-[80%]`}>
         {!isUser && confidence && (
@@ -65,21 +65,21 @@ function ChatBubble({ msg, isUser, sessionId }) {
         )}
         <div className={`px-3.5 py-2.5 rounded-2xl text-sm leading-relaxed ${
           isUser
-            ? "bg-emerald-600 text-white rounded-br-md"
-            : "bg-slate-100 text-slate-800 rounded-bl-md"
+            ? "bg-[#D4AF37] text-black rounded-br-md"
+            : "bg-white/5 text-white/80 rounded-bl-md border border-white/[0.06]"
         }`}>
           <div className="whitespace-pre-wrap" dangerouslySetInnerHTML={{
             __html: msg.content
               .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
               .replace(/\n• /g, "<br/>&#8226; ")
               .replace(/\n- /g, "<br/>&#8211; ")
-              .replace(/\n---\n/g, '<hr class="my-2 border-slate-300"/>')
+              .replace(/\n---\n/g, '<hr class="my-2 border-white/10"/>')
               .replace(/\n/g, "<br/>")
-              .replace(/(https:\/\/wa\.me\/\d+)/g, '<a href="$1" target="_blank" rel="noopener" class="underline font-semibold">$1</a>')
+              .replace(/(https:\/\/wa\.me\/\d+)/g, '<a href="$1" target="_blank" rel="noopener" class="underline font-semibold text-[#2DD4BF]">$1</a>')
           }} />
         </div>
         {showHandoff && (
-          <div className="mt-1.5 flex items-center gap-1.5 text-[10px] text-slate-500" data-testid="widget-handoff-banner">
+          <div className="mt-1.5 flex items-center gap-1.5 text-[10px] text-white/35" data-testid="widget-handoff-banner">
             <Phone size={10} className="shrink-0" />
             <span>Need help?</span>
             <a
@@ -128,14 +128,14 @@ function LeadForm({ sessionId, onClose }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="p-3 space-y-2 border-t border-slate-200 bg-slate-50" data-testid="lead-form">
-      <p className="text-xs font-bold text-slate-700">Share your details for a callback</p>
-      <input type="text" placeholder="Your Name *" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="w-full px-3 py-2 border border-slate-200 rounded-lg text-xs outline-none focus:border-emerald-500" data-testid="chat-lead-name" />
-      <input type="text" placeholder="Hospital / Clinic" value={form.hospital_clinic} onChange={(e) => setForm({ ...form, hospital_clinic: e.target.value })} className="w-full px-3 py-2 border border-slate-200 rounded-lg text-xs outline-none focus:border-emerald-500" data-testid="chat-lead-hospital" />
-      <input type="tel" placeholder="WhatsApp Number *" value={form.phone_whatsapp} onChange={(e) => setForm({ ...form, phone_whatsapp: e.target.value })} className="w-full px-3 py-2 border border-slate-200 rounded-lg text-xs outline-none focus:border-emerald-500" data-testid="chat-lead-phone" />
+    <form onSubmit={handleSubmit} className="p-3 space-y-2 border-t border-white/[0.06] bg-white/5" data-testid="lead-form">
+      <p className="text-xs font-bold text-white/70">Share your details for a callback</p>
+      <input type="text" placeholder="Your Name *" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="w-full px-3 py-2 border border-white/10 bg-white/5 rounded-sm text-xs text-white placeholder:text-white/30 outline-none focus:border-[#D4AF37]/50" data-testid="chat-lead-name" />
+      <input type="text" placeholder="Hospital / Clinic" value={form.hospital_clinic} onChange={(e) => setForm({ ...form, hospital_clinic: e.target.value })} className="w-full px-3 py-2 border border-white/10 bg-white/5 rounded-sm text-xs text-white placeholder:text-white/30 outline-none focus:border-[#D4AF37]/50" data-testid="chat-lead-hospital" />
+      <input type="tel" placeholder="WhatsApp Number *" value={form.phone_whatsapp} onChange={(e) => setForm({ ...form, phone_whatsapp: e.target.value })} className="w-full px-3 py-2 border border-white/10 bg-white/5 rounded-sm text-xs text-white placeholder:text-white/30 outline-none focus:border-[#D4AF37]/50" data-testid="chat-lead-phone" />
       <div className="flex gap-2">
-        <button type="button" onClick={onClose} className="flex-1 px-3 py-2 border border-slate-200 text-slate-600 text-xs font-semibold rounded-lg hover:bg-slate-100" data-testid="lead-form-cancel">Cancel</button>
-        <button type="submit" disabled={submitting} className="flex-1 px-3 py-2 bg-emerald-600 text-white text-xs font-bold rounded-lg hover:bg-emerald-700 disabled:opacity-50" data-testid="lead-form-submit">
+        <button type="button" onClick={onClose} className="flex-1 px-3 py-2 border border-white/10 text-white/50 text-xs font-semibold rounded-sm hover:bg-white/5" data-testid="lead-form-cancel">Cancel</button>
+        <button type="submit" disabled={submitting} className="flex-1 px-3 py-2 bg-[#D4AF37] text-black text-xs font-bold rounded-sm hover:bg-[#F2C94C] disabled:opacity-50" data-testid="lead-form-submit">
           {submitting ? "..." : "Submit"}
         </button>
       </div>
@@ -253,7 +253,7 @@ export default function ChatWidget() {
       {!open && (
         <button
           onClick={() => setOpen(true)}
-          className="fixed bottom-5 right-5 z-50 w-14 h-14 bg-emerald-600 text-white rounded-full shadow-lg shadow-emerald-600/30 flex items-center justify-center hover:bg-emerald-700 hover:scale-105 transition-all duration-200"
+          className="fixed bottom-5 right-5 z-50 w-14 h-14 bg-[#D4AF37] text-black rounded-full shadow-lg shadow-[#D4AF37]/20 flex items-center justify-center hover:bg-[#F2C94C] hover:scale-105 transition-all duration-200"
           data-testid="chat-widget-toggle"
           aria-label="Open chat"
         >
@@ -263,25 +263,25 @@ export default function ChatWidget() {
 
       {/* Chat Window */}
       {open && (
-        <div className="fixed bottom-5 right-5 z-50 w-[380px] max-w-[calc(100vw-2rem)] h-[560px] max-h-[calc(100vh-3rem)] bg-white rounded-2xl shadow-2xl border border-slate-200 flex flex-col overflow-hidden" data-testid="chat-window">
+        <div className="fixed bottom-5 right-5 z-50 w-[380px] max-w-[calc(100vw-2rem)] h-[560px] max-h-[calc(100vh-3rem)] bg-[#0D0D0D] rounded-xl shadow-2xl border border-white/10 flex flex-col overflow-hidden" data-testid="chat-window">
           {/* Header */}
-          <div className="bg-[#0B1F3F] px-4 py-3.5 flex items-center justify-between shrink-0">
+          <div className="bg-[#0A0A0A] border-b border-white/[0.06] px-4 py-3.5 flex items-center justify-between shrink-0">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 bg-emerald-600 rounded-full flex items-center justify-center">
-                <Bot size={18} className="text-white" />
+              <div className="w-9 h-9 bg-[#D4AF37] rounded-full flex items-center justify-center">
+                <Bot size={18} className="text-black" />
               </div>
               <div>
-                <h3 className="text-white font-bold text-sm" style={{ fontFamily: "Chivo" }}>Agile Ortho Assistant</h3>
-                <p className="text-emerald-300 text-[10px] flex items-center gap-1">
-                  <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full inline-block animate-pulse" /> SKU Intelligence
+                <h3 className="text-white font-bold text-sm" style={{ fontFamily: "Outfit" }}>Agile Ortho AI</h3>
+                <p className="text-[#2DD4BF] text-[10px] flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 bg-[#2DD4BF] rounded-full inline-block animate-pulse" /> Powered by SKU Intelligence
                 </p>
               </div>
             </div>
             <div className="flex items-center gap-1">
-              <a href="tel:+917416521222" className="w-8 h-8 rounded-full hover:bg-white/10 flex items-center justify-center text-slate-300 hover:text-white transition-colors" title="Call sales">
+              <a href="tel:+917416521222" className="w-8 h-8 rounded-full hover:bg-white/10 flex items-center justify-center text-white/30 hover:text-white transition-colors" title="Call sales">
                 <Phone size={15} />
               </a>
-              <button onClick={() => setOpen(false)} className="w-8 h-8 rounded-full hover:bg-white/10 flex items-center justify-center text-slate-300 hover:text-white transition-colors" data-testid="chat-close-btn">
+              <button onClick={() => setOpen(false)} className="w-8 h-8 rounded-full hover:bg-white/10 flex items-center justify-center text-white/30 hover:text-white transition-colors" data-testid="chat-close-btn">
                 <X size={17} />
               </button>
             </div>
@@ -294,14 +294,14 @@ export default function ChatWidget() {
             ))}
             {loading && (
               <div className="flex gap-2.5 items-end">
-                <div className="w-7 h-7 rounded-full bg-[#0B1F3F] flex items-center justify-center shrink-0">
-                  <Bot size={13} className="text-white" />
+                <div className="w-7 h-7 rounded-full bg-[#D4AF37] flex items-center justify-center shrink-0">
+                  <Bot size={13} className="text-black" />
                 </div>
-                <div className="bg-slate-100 px-4 py-3 rounded-2xl rounded-bl-md">
+                <div className="bg-white/5 border border-white/[0.06] px-4 py-3 rounded-2xl rounded-bl-md">
                   <div className="flex gap-1">
-                    <span className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
-                    <span className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
-                    <span className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
+                    <span className="w-2 h-2 bg-[#D4AF37] rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
+                    <span className="w-2 h-2 bg-[#D4AF37] rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
+                    <span className="w-2 h-2 bg-[#D4AF37] rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
                   </div>
                 </div>
               </div>
@@ -310,15 +310,15 @@ export default function ChatWidget() {
             {/* Quick Suggestions */}
             {messages.length <= 1 && !loading && suggestions.length > 0 && (
               <div className="space-y-1.5" data-testid="chat-suggestions">
-                <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Quick questions</p>
+                <p className="text-[10px] font-bold uppercase tracking-widest text-white/25">Quick questions</p>
                 {suggestions.map((s, i) => (
                   <button
                     key={i}
                     onClick={() => sendMessage(s)}
-                    className="w-full text-left px-3 py-2 text-xs text-slate-600 bg-white border border-slate-200 rounded-lg hover:border-emerald-300 hover:bg-emerald-50 transition-colors flex items-center justify-between"
+                    className="w-full text-left px-3 py-2 text-xs text-white/50 bg-white/5 border border-white/[0.06] rounded-sm hover:border-[#D4AF37]/30 hover:bg-[#D4AF37]/5 transition-colors flex items-center justify-between"
                     data-testid={`suggestion-${i}`}
                   >
-                    {s} <ChevronRight size={12} className="text-slate-300" />
+                    {s} <ChevronRight size={12} className="text-white/15" />
                   </button>
                 ))}
               </div>
@@ -331,7 +331,7 @@ export default function ChatWidget() {
           )}
 
           {/* Input */}
-          <div className="border-t border-slate-200 p-3 shrink-0">
+          <div className="border-t border-white/[0.06] p-3 shrink-0">
             <div className="flex items-center gap-2">
               <input
                 ref={inputRef}
@@ -340,14 +340,14 @@ export default function ChatWidget() {
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder="Ask about products, specs, SKU codes..."
-                className="flex-1 px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:border-emerald-500 focus:bg-white transition-colors"
+                className="flex-1 px-3 py-2.5 bg-white/5 border border-white/10 rounded-sm text-sm text-white placeholder:text-white/25 outline-none focus:border-[#D4AF37]/50 transition-colors"
                 disabled={loading}
                 data-testid="chat-input"
               />
               <button
                 onClick={() => sendMessage()}
                 disabled={!input.trim() || loading}
-                className="w-10 h-10 bg-emerald-600 text-white rounded-xl flex items-center justify-center hover:bg-emerald-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors shrink-0"
+                className="w-10 h-10 bg-[#D4AF37] text-black rounded-sm flex items-center justify-center hover:bg-[#F2C94C] disabled:opacity-30 disabled:cursor-not-allowed transition-colors shrink-0"
                 data-testid="chat-send-btn"
               >
                 <Send size={16} />

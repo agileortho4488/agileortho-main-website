@@ -25,21 +25,21 @@ function logTelemetry(sessionId, eventType, query = null, confidence = null, met
 function ConfidenceBadge({ confidence }) {
   if (confidence === "high") {
     return (
-      <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full" data-testid="confidence-badge-high">
+      <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-[#2DD4BF] bg-[#2DD4BF]/10 border border-emerald-200 px-2 py-0.5 rounded-full" data-testid="confidence-badge-high">
         <ShieldCheck size={10} /> Verified Match
       </span>
     );
   }
   if (confidence === "medium") {
     return (
-      <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-amber-700 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-full" data-testid="confidence-badge-medium">
+      <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-[#D4AF37] bg-[#D4AF37]/10 border border-[#D4AF37]/20 px-2 py-0.5 rounded-full" data-testid="confidence-badge-medium">
         <ShieldAlert size={10} /> Partial Match
       </span>
     );
   }
   if (confidence === "low" || confidence === "none") {
     return (
-      <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-slate-500 bg-slate-100 border border-slate-200 px-2 py-0.5 rounded-full" data-testid="confidence-badge-low">
+      <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-white/40 bg-white/5 border border-white/10 px-2 py-0.5 rounded-full" data-testid="confidence-badge-low">
         <ShieldX size={10} /> No Match
       </span>
     );
@@ -52,9 +52,9 @@ function HandoffBanner({ sessionId }) {
     logTelemetry(sessionId, "handoff_clicked");
   };
   return (
-    <div className="mt-2 flex items-center gap-2 p-2.5 bg-[#0B1F3F]/5 border border-[#0B1F3F]/10 rounded-xl text-xs" data-testid="handoff-banner">
+    <div className="mt-2 flex items-center gap-2 p-2.5 bg-[#0B1F3F]/5 border border-[#0B1F3F]/10 rounded-sm text-xs" data-testid="handoff-banner">
       <Phone size={12} className="text-[#0B1F3F] shrink-0" />
-      <span className="text-slate-600">Need help? Speak to a product specialist:</span>
+      <span className="text-white/50">Need help? Speak to a product specialist:</span>
       <a
         href="https://wa.me/917416521222"
         target="_blank"
@@ -75,7 +75,7 @@ function ChatBubble({ msg, isUser, sessionId }) {
 
   return (
     <div className={`flex gap-3 ${isUser ? "flex-row-reverse" : "flex-row"} items-end`}>
-      <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${isUser ? "bg-emerald-600" : "bg-[#0B1F3F]"}`}>
+      <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${isUser ? "bg-[#D4AF37]" : "bg-[#0B1F3F]"}`}>
         {isUser ? <User size={14} className="text-white" /> : <Bot size={14} className="text-white" />}
       </div>
       <div className={`max-w-[70%] ${isUser ? "" : ""}`}>
@@ -84,15 +84,15 @@ function ChatBubble({ msg, isUser, sessionId }) {
             <ConfidenceBadge confidence={confidence} />
           </div>
         )}
-        <div className={`px-4 py-3 rounded-2xl text-sm leading-relaxed ${
-          isUser ? "bg-emerald-600 text-white rounded-br-md" : "bg-white text-slate-800 rounded-bl-md border border-slate-200"
+        <div className={`px-4 py-3 rounded-sm text-sm leading-relaxed ${
+          isUser ? "bg-[#D4AF37] text-white rounded-br-md" : "bg-[#0A0A0A] text-white/90 rounded-bl-md border border-white/10"
         }`}>
           <div className="whitespace-pre-wrap" dangerouslySetInnerHTML={{
             __html: msg.content
               .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
               .replace(/\n• /g, "<br/>&#8226; ")
               .replace(/\n- /g, "<br/>&#8211; ")
-              .replace(/\n---\n/g, '<hr class="my-3 border-slate-200"/>')
+              .replace(/\n---\n/g, '<hr class="my-3 border-white/10"/>')
               .replace(/\n/g, "<br/>")
               .replace(/(https:\/\/wa\.me\/\d+)/g, '<a href="$1" target="_blank" rel="noopener" class="underline font-semibold">$1</a>')
           }} />
@@ -189,25 +189,25 @@ export default function Chat() {
   return (
     <div className="min-h-[calc(100vh-180px)] bg-[#FAFAFA] flex flex-col" data-testid="chat-page">
       {/* Header */}
-      <div className="bg-white border-b border-slate-200">
+      <div className="bg-[#0A0A0A] border-b border-white/10">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Link to="/" className="text-slate-400 hover:text-slate-700 transition-colors" data-testid="chat-back-link"><ArrowLeft size={18} /></Link>
+            <Link to="/" className="text-white/30 hover:text-white/70 transition-colors" data-testid="chat-back-link"><ArrowLeft size={18} /></Link>
             <div className="w-10 h-10 bg-[#0B1F3F] rounded-full flex items-center justify-center">
               <Bot size={20} className="text-emerald-400" />
             </div>
             <div>
-              <h1 className="text-lg font-bold text-slate-900" style={{ fontFamily: "Chivo" }}>Agile Ortho AI Assistant</h1>
-              <p className="text-xs text-emerald-600 flex items-center gap-1">
-                <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" /> Powered by SKU Intelligence
+              <h1 className="text-lg font-bold text-white" style={{ fontFamily: "Chivo" }}>Agile Ortho AI Assistant</h1>
+              <p className="text-xs text-[#2DD4BF] flex items-center gap-1">
+                <span className="w-1.5 h-1.5 bg-[#2DD4BF]/100 rounded-full animate-pulse" /> Powered by SKU Intelligence
               </p>
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <a href="https://wa.me/917416521222" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 px-3 py-2 bg-[#25D366] text-white text-xs font-bold rounded-lg hover:bg-[#1DA851] transition-colors" data-testid="chat-whatsapp-link">
+            <a href="https://wa.me/917416521222" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 px-3 py-2 bg-[#25D366] text-white text-xs font-bold rounded-sm hover:bg-[#1DA851] transition-colors" data-testid="chat-whatsapp-link">
               <MessageCircle size={13} /> WhatsApp
             </a>
-            <a href="tel:+917416521222" className="flex items-center gap-1.5 px-3 py-2 border border-slate-200 text-slate-600 text-xs font-semibold rounded-lg hover:bg-slate-50 transition-colors">
+            <a href="tel:+917416521222" className="flex items-center gap-1.5 px-3 py-2 border border-white/10 text-white/50 text-xs font-semibold rounded-sm hover:bg-white/5 transition-colors">
               <Phone size={13} /> Call
             </a>
           </div>
@@ -225,7 +225,7 @@ export default function Chat() {
               <div className="w-8 h-8 rounded-full bg-[#0B1F3F] flex items-center justify-center shrink-0">
                 <Bot size={14} className="text-white" />
               </div>
-              <div className="bg-white px-4 py-3 rounded-2xl rounded-bl-md border border-slate-200">
+              <div className="bg-[#0A0A0A] px-4 py-3 rounded-sm rounded-bl-md border border-white/10">
                 <div className="flex gap-1.5">
                   <span className="w-2 h-2 bg-slate-300 rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
                   <span className="w-2 h-2 bg-slate-300 rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
@@ -238,17 +238,17 @@ export default function Chat() {
           {/* Quick Suggestions */}
           {messages.length <= 1 && !loading && suggestions.length > 0 && (
             <div className="max-w-lg space-y-2" data-testid="chat-page-suggestions">
-              <p className="text-xs font-bold uppercase tracking-widest text-slate-400 ml-11">Try asking</p>
+              <p className="text-xs font-bold uppercase tracking-widest text-white/30 ml-11">Try asking</p>
               <div className="ml-11 grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {suggestions.map((s, i) => (
                   <button
                     key={i}
                     onClick={() => sendMessage(s)}
-                    className="text-left px-3.5 py-2.5 text-xs text-slate-600 bg-white border border-slate-200 rounded-xl hover:border-emerald-300 hover:bg-emerald-50 transition-colors flex items-center justify-between"
+                    className="text-left px-3.5 py-2.5 text-xs text-white/50 bg-[#0A0A0A] border border-white/10 rounded-sm hover:border-emerald-300 hover:bg-[#2DD4BF]/10 transition-colors flex items-center justify-between"
                     data-testid={`page-suggestion-${i}`}
                   >
                     <span className="line-clamp-1">{s}</span>
-                    <ChevronRight size={12} className="text-slate-300 shrink-0 ml-2" />
+                    <ChevronRight size={12} className="text-white/20 shrink-0 ml-2" />
                   </button>
                 ))}
               </div>
@@ -257,7 +257,7 @@ export default function Chat() {
         </div>
 
         {/* Input Bar */}
-        <div className="border-t border-slate-200 bg-white p-4 shrink-0">
+        <div className="border-t border-white/10 bg-[#0A0A0A] p-4 shrink-0">
           <div className="flex items-center gap-3 max-w-4xl mx-auto">
             <input
               ref={inputRef}
@@ -266,14 +266,14 @@ export default function Chat() {
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
               placeholder="Ask about products, specifications, SKU codes..."
-              className="flex-1 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:border-emerald-500 focus:bg-white focus:ring-2 focus:ring-emerald-500/10 transition-all"
+              className="flex-1 px-4 py-3 bg-white/5 border border-white/10 rounded-sm text-sm outline-none focus:border-emerald-500 focus:bg-[#0A0A0A] focus:ring-2 focus:ring-emerald-500/10 transition-all"
               disabled={loading}
               data-testid="chat-page-input"
             />
             <button
               onClick={() => sendMessage()}
               disabled={!input.trim() || loading}
-              className="w-11 h-11 bg-emerald-600 text-white rounded-xl flex items-center justify-center hover:bg-emerald-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors shrink-0"
+              className="w-11 h-11 bg-[#D4AF37] text-white rounded-sm flex items-center justify-center hover:bg-[#F2C94C] disabled:opacity-40 disabled:cursor-not-allowed transition-colors shrink-0"
               data-testid="chat-page-send-btn"
             >
               <Send size={18} />
