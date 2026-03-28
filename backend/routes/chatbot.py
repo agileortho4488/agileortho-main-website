@@ -8,7 +8,7 @@ from pydantic import BaseModel
 from typing import Optional
 from datetime import datetime, timezone, timedelta
 from collections import Counter
-from db import shadow_products_col, shadow_skus_col, shadow_brands_col, shadow_chunks_col, db as mongo_db, catalog_products_col, catalog_skus_col
+from db import shadow_chunks_col, db as mongo_db, catalog_products_col, catalog_skus_col
 from helpers import admin_required
 import re
 import time
@@ -458,23 +458,25 @@ async def _store_conversation(session_id: str, question: str, result: dict,
 
 @router.get("/brands")
 async def list_brands():
-    brands = []
-    cursor = shadow_brands_col.find({}, {"_id": 0, "_batch": 0, "_uploaded_at": 0})
-    async for doc in cursor:
-        brands.append(doc)
-    return {"brands": brands, "total": len(brands)}
+    brands = await catalog_products_col.distinct("semantic_brand_system", {
+        "semantic_brand_system": {"$nin": [None, ""]},
+    })
+    return {"brands": [{"brand": b} for b in sorted(brands) if b], "total": len(brands)}
 
 
 @router.get("/products")
 async def list_products(brand: Optional[str] = None, division: Optional[str] = None, limit: int = 50):
-    query = {}
+    query = dict(CATALOG_LIVE_FILTER)
     if brand:
-        query["brand"] = {"$regex": brand, "$options": "i"}
+        query["$or"] = [
+            {"brand": {"$regex": brand, "$options": "i"}},
+            {"semantic_brand_system": {"$regex": brand, "$options": "i"}},
+        ]
     if division:
-        query["division"] = {"$regex": division, "$options": "i"}
+        query["division_canonical"] = {"$regex": division, "$options": "i"}
 
     products = []
-    cursor = shadow_products_col.find(query, {"_id": 0, "_batch": 0, "_uploaded_at": 0}).limit(limit)
+    cursor = catalog_products_col.find(query, {"_id": 0}).limit(limit)
     async for doc in cursor:
         products.append(doc)
     return {"products": products, "total": len(products)}
@@ -489,26 +491,25 @@ async def search_skus(code: Optional[str] = None, brand: Optional[str] = None, l
         query["brand"] = {"$regex": brand, "$options": "i"}
 
     skus = []
-    cursor = shadow_skus_col.find(query, {"_id": 0, "_batch": 0, "_uploaded_at": 0}).limit(limit)
+    cursor = catalog_skus_col.find(query, {"_id": 0}).limit(limit)
     async for doc in cursor:
         skus.append(doc)
     return {"skus": skus, "total": len(skus)}
 
 
 @router.get("/stats")
-async def shadow_stats():
-    products = await shadow_products_col.count_documents({})
-    skus = await shadow_skus_col.count_documents({})
-    brands = await shadow_brands_col.count_documents({})
-    chunks = await shadow_chunks_col.count_documents({})
+async def catalog_stats():
+    products = await catalog_products_col.count_documents(CATALOG_LIVE_FILTER)
+    total_products = await catalog_products_col.count_documents({})
+    skus = await catalog_skus_col.count_documents({})
+    enriched = await catalog_products_col.count_documents({"semantic_brand_system": {"$nin": [None, ""]}})
     return {
-        "shadow_db_stats": {
-            "products": products,
+        "catalog_stats": {
+            "live_products": products,
+            "total_products": total_products,
+            "enriched": enriched,
             "skus": skus,
-            "brands": brands,
-            "chunks": chunks,
-            "batch": "FINAL_ALL_200_FILES",
-            "status": "active — expanded chunks (product, brand, glossary, clinical)"
+            "status": "live — production-eligible catalog"
         }
     }
 

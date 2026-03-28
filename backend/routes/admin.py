@@ -5,7 +5,7 @@ from datetime import datetime, timezone
 import math
 import uuid
 
-from db import products_col, leads_col
+from db import products_col, leads_col, catalog_products_col, catalog_skus_col
 from models import AdminLogin, LeadUpdate, ProductCreate, ProductUpdate
 from helpers import (
     ADMIN_PASSWORD, create_token, admin_required,
@@ -30,7 +30,18 @@ async def admin_login(body: AdminLogin):
 
 @router.get("/api/admin/stats")
 async def admin_stats(_=Depends(admin_required)):
-    total_products = await products_col.count_documents({})
+    # Live catalog stats
+    live_filter = {
+        "semantic_brand_system": {"$nin": [None, ""]},
+        "review_required": False,
+        "proposed_conflict_detected": {"$ne": True},
+        "mapping_confidence": {"$in": ["high", "medium"]},
+        "division_canonical": {"$nin": ["_REVIEW", None, ""]},
+        "status": {"$ne": "draft"},
+    }
+    total_products = await catalog_products_col.count_documents(live_filter)
+    total_catalog = await catalog_products_col.count_documents({})
+    total_enriched = await catalog_products_col.count_documents({"semantic_brand_system": {"$nin": [None, ""]}})
     total_leads = await leads_col.count_documents({})
     hot_leads = await leads_col.count_documents({"score": {"$in": ["hot", "Hot"]}})
     warm_leads = await leads_col.count_documents({"score": {"$in": ["warm", "Warm"]}})
@@ -38,10 +49,11 @@ async def admin_stats(_=Depends(admin_required)):
     new_leads = await leads_col.count_documents({"status": "new"})
 
     pipeline = [
-        {"$group": {"_id": "$division", "count": {"$sum": 1}}},
+        {"$match": live_filter},
+        {"$group": {"_id": "$division_canonical", "count": {"$sum": 1}}},
         {"$sort": {"count": -1}}
     ]
-    division_counts = await products_col.aggregate(pipeline).to_list(20)
+    division_counts = await catalog_products_col.aggregate(pipeline).to_list(20)
 
     pipeline2 = [
         {"$group": {"_id": "$inquiry_type", "count": {"$sum": 1}}},
@@ -58,6 +70,8 @@ async def admin_stats(_=Depends(admin_required)):
 
     return {
         "total_products": total_products,
+        "total_catalog": total_catalog,
+        "total_enriched": total_enriched,
         "total_leads": total_leads,
         "hot_leads": hot_leads,
         "warm_leads": warm_leads,
@@ -266,22 +280,25 @@ async def admin_list_products(
 ):
     query = {}
     if division:
-        query["division"] = division
+        query["division_canonical"] = division
     if status:
         query["status"] = status
     if search:
         query["$or"] = [
             {"product_name": {"$regex": search, "$options": "i"}},
-            {"sku_code": {"$regex": search, "$options": "i"}},
+            {"product_name_display": {"$regex": search, "$options": "i"}},
+            {"brand": {"$regex": search, "$options": "i"}},
+            {"semantic_brand_system": {"$regex": search, "$options": "i"}},
+            {"category": {"$regex": search, "$options": "i"}},
         ]
 
-    total = await products_col.count_documents(query)
+    total = await catalog_products_col.count_documents(query)
     skip = (page - 1) * limit
-    cursor = products_col.find(query).sort("product_name", 1).skip(skip).limit(limit)
+    cursor = catalog_products_col.find(query, {"_id": 0}).sort("product_name", 1).skip(skip).limit(limit)
     docs = await cursor.to_list(limit)
 
     return {
-        "products": serialize_docs(docs),
+        "products": docs,
         "total": total,
         "page": page,
         "pages": math.ceil(total / limit) if total > 0 else 1
