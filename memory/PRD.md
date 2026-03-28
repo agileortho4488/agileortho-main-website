@@ -2,94 +2,77 @@
 
 ## Original Problem Statement
 Build a B2B medical device platform for a premier medical device master franchise in Telangana, India ("Agile Ortho").
-Core requirement: "SKU Intelligence System" — extract 100% of product data from 200 manufacturer brochures. 6-layer architecture: Raw Extraction → Structured Catalog → Semantic Intelligence → Relationship Graph → Rule Engine → Website Generation.
+Core: 6-layer semantic architecture — Raw Extraction → Structured Catalog → Semantic Intelligence → Relationship Graph → Rule Engine → Website Generation.
 
 ## Tech Stack
-- **Frontend**: React, TailwindCSS, Shadcn UI, Manrope font
-- **Backend**: FastAPI, Motor (Async MongoDB), Pydantic
-- **AI**: Claude Sonnet 4.5 via emergentintegrations
-- **Storage**: Emergent Object Storage
-- **3rd Party**: Interakt WhatsApp API (pending)
+- Frontend: React, TailwindCSS, Shadcn UI, Manrope font
+- Backend: FastAPI, Motor (Async MongoDB), Pydantic
+- AI: Claude Sonnet 4.5 via emergentintegrations
+- Storage: Emergent Object Storage
 
 ## Completed Phases
 
-### Phases 1-4: Pipeline, Chatbot, Taxonomy, Product Template — COMPLETE
+### Phases 1-4: Pipeline → Chatbot → Taxonomy → Product Template — COMPLETE
 - 1206 catalog_products, 5882 catalog_skus, 4 pilot divisions
 
 ### Phase 5A: Semantic Intelligence + Clinical Reclassification — COMPLETE (2026-03-27)
-- 3 MongoDB collections: `brand_system_intelligence`, `family_relationships`, `semantic_rules`
-- 297/1206 products semantically enriched
-- Clinical-first naming by division
+- 3 MongoDB collections: brand_system_intelligence, family_relationships, semantic_rules
+- 297/1206 products enriched, clinical-first naming by division
 
 ### Phase 5B: Relationship Graph + Related Products — COMPLETE (2026-03-27)
-- `GET /api/catalog/products/{slug}/related` — 3 labeled buckets
-- Compatible Components, Same Family Alternatives, Related System Products
+- 3 labeled buckets: Compatible Components, Same Family Alternatives, Related System Products
 - Admin password secured
 
 ### Phase 5C: Split Shared-SKU Products — COMPLETE (2026-03-28)
 - 6 pools resolved, 1,296 SKUs reassigned, 27 products merged
-- MBOSS screws promoted to high confidence
 
-### Phase 5D: Product Comparison Feature — COMPLETE (2026-03-28)
+### Phase 5D: Product Comparison — COMPLETE (2026-03-28)
+- Side-by-side comparison of 2-4 products with clinical guardrails
+- Suggestions endpoint, "Compare with Similar" button
 
-**API Endpoints:**
-- `POST /api/catalog/compare` — Side-by-side comparison of 2-4 products
-  - Input: `{"slugs": ["slug1", "slug2"]}`
-  - Returns: `{products: [...], comparison: [{label, values, is_different}], division}`
-- `GET /api/catalog/compare/suggestions/{slug}` — Suggest comparable products
-  - Returns: `{suggestions: [{slug, product_name_display, comparison_reason}]}`
+### Phase 5E: Comparison QA + Clinical Guardrails — COMPLETE (2026-03-28)
 
-**Supported Comparison Types:**
-| Type | Example |
-|------|---------|
-| Coated vs Uncoated | ARMAR (Titanium) vs AURIC (TiNbN Coated) |
-| Same Category Different Brand | Any products in same category_canonical |
-| Related System Products | Products linked via family_relationships |
-| Multi-product (up to 4) | Any 2-4 products from same division |
+**Clinical-Level Guardrails:**
+- Products must be same `semantic_implant_class` OR same `semantic_system_type` to compare
+- Different clinical classes blocked with clear error messages
+- Cross-division comparison blocked
 
-**Guardrails:**
-- Cross-division comparison blocked (400 error)
-- Maximum 4 products
-- Minimum 2 products
-- Only pilot-filter products (mapping_confidence=high)
-- Merged/draft products excluded
+**QA Results (9 test pairs):**
+| Pair | Expected | Actual | Result |
+|------|----------|--------|--------|
+| ARMAR plate vs AURIC plate | Pass (same plates) | Pass, high conf | ✓ |
+| PFRN vs Elastic Nail | Pass (same nails) | Pass, high conf | ✓ |
+| BioMime vs NexGen | Pass (same stents) | Pass, high conf | ✓ |
+| HIV Test vs Dengue Test | Pass (same rapid tests) | Pass, high conf | ✓ |
+| Albumin vs ALAT Reagent | Pass (same reagents) | Pass, high conf | ✓ |
+| Plate vs Screw | Block (different class) | Blocked | ✓ |
+| Cross-division | Block | Blocked | ✓ |
+| Screw vs Nail | Block (component vs implant) | Blocked | ✓ |
+| Reagent vs Rapid Test | Block (different class) | Blocked | ✓ |
 
-**Comparison Attributes:**
-Division, Category, Brand System, Material, Coating, System Type, Implant Class, technical specs, Available Variants (SKUs), Anatomy Scope, Description
-
-**Example Comparisons:**
-1. ARMAR Titanium Plates vs AURIC 2.4mm LPS Distal Radial Volar Buttress Plate → Highlights coating difference (TiNbN)
-2. BioMime vs MOZEC → Cardiovascular stent vs balloon comparison
-3. Suggestions for AURIC plate → Shows ARMAR base variant, MBOSS screws, same-category alternatives
-
-**Frontend:**
-- `/catalog/compare` page with side-by-side table
-- Amber highlight on differing rows
-- "Add Product" button with search and suggestions
-- "Compare with Similar" button on product detail pages
-- Empty state with "Browse Portfolio" link
+**Response Fields:**
+- `comparison_basis`: same_clinical_class, same_system_type, same_category, same_division_only
+- `comparison_confidence`: high, medium, low
+- `comparison_guardrail_reason`: Human-readable explanation
 
 ### Test Results
-- iteration_37: Phase 5A — 100%
-- iteration_38: Phase 5B — 100%
-- iteration_39: Phase 5C — 100%
-- iteration_40: Phase 5D — 100% (14/14 backend, 100% frontend)
+- iteration_37-40: Phases 5A-D — all 100%
+- iteration_41: Phase 5E — 100% (17/17 backend, 100% frontend)
 
-## Current Priority Stack
-1. ~~Phase 5A-D~~ DONE
-2. **Phase 5E: Re-audit vague/mixed pages** (using semantic rules)
-3. Non-pilot division shared-SKU cleanup (ENT, Endo Surgery)
-4. Live DB push (ON HOLD)
-5. WhatsApp bot (ON HOLD — needs Interakt API key)
+## Priority Stack
+1. ~~Phase 5A-E~~ DONE
+2. Non-pilot division shared-SKU cleanup (ENT, Endo Surgery)
+3. Live DB push (ON HOLD)
+4. WhatsApp bot (ON HOLD — needs Interakt API key)
 
 ## Key API Endpoints
-- `GET /api/catalog/divisions`
-- `GET /api/catalog/divisions/{slug}`
-- `GET /api/catalog/products/{slug}`
-- `GET /api/catalog/products/{slug}/related`
-- `POST /api/catalog/compare`
-- `GET /api/catalog/compare/suggestions/{slug}`
-- `GET /api/catalog/brand-intelligence/{entity_code}`
+- GET /api/catalog/divisions
+- GET /api/catalog/divisions/{slug}
+- GET /api/catalog/products/{slug}
+- GET /api/catalog/products/{slug}/related
+- POST /api/catalog/compare
+- GET /api/catalog/compare/suggestions/{slug}
+- GET /api/catalog/brand-intelligence/{entity_code}
 
 ## Admin Access
 - URL: /admin/login
