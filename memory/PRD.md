@@ -9,6 +9,7 @@ Core: 6-layer semantic architecture — Raw Extraction → Structured Catalog �
 - Backend: FastAPI, Motor (Async MongoDB), Pydantic
 - AI: Claude Sonnet 4.5 via emergentintegrations
 - Storage: Emergent Object Storage
+- Web Search: SerpAPI for product verification
 
 ## Completed Phases
 
@@ -31,29 +32,50 @@ Core: 6-layer semantic architecture — Raw Extraction → Structured Catalog �
 - Suggestions endpoint, "Compare with Similar" button
 
 ### Phase 5E: Comparison QA + Clinical Guardrails — COMPLETE (2026-03-28)
-
-**Clinical-Level Guardrails:**
-- Products must be same `semantic_implant_class` OR same `semantic_system_type` to compare
+- Products must be same semantic_implant_class OR same semantic_system_type to compare
 - Different clinical classes blocked with clear error messages
-- Cross-division comparison blocked
 
-**QA Results (9 test pairs):**
-| Pair | Expected | Actual | Result |
-|------|----------|--------|--------|
-| ARMAR plate vs AURIC plate | Pass (same plates) | Pass, high conf | ✓ |
-| PFRN vs Elastic Nail | Pass (same nails) | Pass, high conf | ✓ |
-| BioMime vs NexGen | Pass (same stents) | Pass, high conf | ✓ |
-| HIV Test vs Dengue Test | Pass (same rapid tests) | Pass, high conf | ✓ |
-| Albumin vs ALAT Reagent | Pass (same reagents) | Pass, high conf | ✓ |
-| Plate vs Screw | Block (different class) | Blocked | ✓ |
-| Cross-division | Block | Blocked | ✓ |
-| Screw vs Nail | Block (component vs implant) | Blocked | ✓ |
-| Reagent vs Rapid Test | Block (different class) | Blocked | ✓ |
+### Phase 5F: Web-Search Fallback Pipeline — COMPLETE (2026-03-28)
+**Goal:** Resolve 908 unenriched products using web search + LLM + rule-based inheritance.
 
-**Response Fields:**
-- `comparison_basis`: same_clinical_class, same_system_type, same_category, same_division_only
-- `comparison_confidence`: high, medium, low
-- `comparison_guardrail_reason`: Human-readable explanation
+**Pipeline Design:**
+- SerpAPI for web evidence (4-tier source priority: Manufacturer > Regulatory > Authorized > General)
+- Claude Sonnet 4.5 for structured semantic parsing
+- Rule-based sibling inheritance for remaining products
+- All results written to STAGED fields (proposed_*) — no canonical overwrites
+
+**Execution:**
+| Phase | Products | Method |
+|-------|----------|--------|
+| Dry-run | 50 | LLM + Web Search |
+| Wave 1 | 150 | LLM + Web Search |
+| Wave 2 | 300 | LLM + Web Search |
+| Wave 3 (partial) | 274 | LLM + Web Search (budget exhausted) |
+| Rule-based | 135 | Sibling inheritance + division defaults |
+| **Total** | **909** | **100% coverage** |
+
+**Results:**
+- Total staged: 909 products
+- Auto-promotable (conf ≥ 0.85, no conflict): 261 (29%)
+- Needs review: 648 (71%)
+- Average confidence: 0.82
+- Verification logs: web_verification_log collection (909 entries)
+
+**Staged fields written (proposed_* prefix):**
+- proposed_clinical_display_title, proposed_clinical_subtitle
+- proposed_semantic_brand_system, proposed_semantic_parent_brand
+- proposed_semantic_system_type, proposed_semantic_implant_class
+- proposed_semantic_material_default, proposed_semantic_coating_default
+- proposed_semantic_anatomy_scope, proposed_semantic_procedure_scope
+- proposed_semantic_family_group, proposed_semantic_use_case_tags
+- proposed_semantic_confidence, proposed_semantic_review_required
+- proposed_web_verification_status, proposed_recommended_action
+- proposed_conflict_detected, proposed_reasoning_summary
+
+**Key Scripts:**
+- `/app/backend/scripts/web_search_fallback.py` — Main pipeline (dry-run, wave, promote modes)
+- `/app/backend/scripts/rule_based_remaining.py` — Sibling inheritance for budget-limited products
+- `/app/backend/scripts/dryrun_report.json` — Dry-run analysis
 
 ### Test Results
 - iteration_37-40: Phases 5A-D — all 100%
@@ -61,9 +83,11 @@ Core: 6-layer semantic architecture — Raw Extraction → Structured Catalog �
 
 ## Priority Stack
 1. ~~Phase 5A-E~~ DONE
-2. Non-pilot division shared-SKU cleanup (ENT, Endo Surgery)
-3. Live DB push (ON HOLD)
-4. WhatsApp bot (ON HOLD — needs Interakt API key)
+2. ~~Phase 5F: Web-Search Fallback~~ DONE (100% coverage, staged)
+3. **NEXT: Promotion of accepted staged fields** — User approval needed
+4. Non-pilot division shared-SKU cleanup (ENT, Endo Surgery)
+5. Live DB push (ON HOLD)
+6. WhatsApp bot (ON HOLD — needs Interakt API key)
 
 ## Key API Endpoints
 - GET /api/catalog/divisions
@@ -74,6 +98,16 @@ Core: 6-layer semantic architecture — Raw Extraction → Structured Catalog �
 - GET /api/catalog/compare/suggestions/{slug}
 - GET /api/catalog/brand-intelligence/{entity_code}
 
+## Key DB Collections
+- catalog_products (1206 docs — 298 canonical + 909 staged)
+- catalog_skus (5882 docs)
+- brand_system_intelligence, family_relationships, semantic_rules
+- web_verification_log (909 docs — per-product verification audit trail)
+
 ## Admin Access
 - URL: /admin/login
 - Password: kOpcELYcEvkVtyDAE5-2uw
+
+## Known Issues
+- File 008 (corrupted DOCX) — BLOCKED, awaiting replacement
+- Emergent LLM Key budget exhausted — 135 products used rule-based fallback instead of LLM
