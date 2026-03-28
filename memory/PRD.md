@@ -30,18 +30,29 @@ Build a B2B medical device platform for Agile Ortho, a premier Meril Life Scienc
   - Delivery tracking (sent/delivered/read/failed)
 
 ### Admin Dashboard
-- Product management (1202 catalog products across 14 divisions)
+- Product management (1202 catalog products across 14 canonical divisions)
 - Lead CRM with scoring and follow-up automation
 - WhatsApp conversation management (view, takeover, reply)
 - 4-Lane Auto-Promotion pipeline (cleared 505 products automatically)
 - Review dashboard for 65 remaining true blockers
-- Analytics: delivery rates, conversation stats, webhook logs
+- **Enhanced Analytics (3 tabs)**:
+  - CRM Leads: funnel, scores, sources, districts, inquiry types
+  - Search Intelligence: top doctor queries, confidence breakdown, unmatched searches (inventory gaps), SKU lookups, off-topic rate, handoff metrics
+  - WhatsApp: conversations, delivery stats, read rates, templates
 
 ### Data Pipeline
 - Enriched catalog from legacy product data via AI classification
 - 810 production-eligible products (live_visible=true, review_required=false)
 - 13 divisions with canonical naming
 - Full system cutover: all public APIs use `catalog_products_col` (no legacy dependencies)
+
+### Staff Contact Numbers (Configured in AI Bots)
+- Dispatch & Delivery: 7416818183
+- Orthopedics & Spine: 7416162350
+- General Queries: 7416216262
+- Consumables: 7416416871
+- Billing & Finance: 7416416093
+- WhatsApp Sales: 7416521222
 
 ## Deployment Configuration
 - **Interakt API Key**: Configured in backend/.env
@@ -52,7 +63,6 @@ Build a B2B medical device platform for Agile Ortho, a premier Meril Life Scienc
 
 ## Pending Items
 - **P0**: Manual review of 65 true blockers (conflicts, weak evidence) via Admin Review Dashboard
-- **P1**: Search Analytics Dashboard (track doctor search patterns)
 - **P2**: Archive legacy phase scripts to `scripts/archive/`
 - **P3**: File 008 (corrupted DOCX) — blocked, awaiting uncorrupted file
 
