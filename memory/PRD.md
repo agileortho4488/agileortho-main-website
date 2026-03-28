@@ -13,34 +13,28 @@ Core: 6-layer semantic architecture — Raw Extraction → Structured Catalog �
 
 ## Completed Phases
 
-### Phases 1-4: Pipeline → Chatbot → Taxonomy → Product Template — COMPLETE
+### Phases 1-4: Pipeline, Chatbot, Taxonomy, Product Template — COMPLETE
 ### Phase 5A-E: Semantic Intelligence, Relationships, SKU Split, Comparison, QA — COMPLETE
+### Phase 5F: Web-Search Fallback Pipeline — COMPLETE
+### Phase 5G: Enrichment Review Dashboard — COMPLETE
+### Phase 5H: Smart Review Suggestions — COMPLETE
+### Phase 5I: Non-Pilot Shared-SKU Cleanup (ENT, Endo Surgery, Cardiovascular) — COMPLETE
+### Phase 5J: 4-Lane Auto-Promotion Pipeline — COMPLETE (505 promoted, 65 manual)
 
-### Phase 5F: Web-Search Fallback Pipeline — COMPLETE (2026-03-28)
-- 774 products via LLM+SerpAPI, 135 via rule-based sibling inheritance
-- 100% coverage (909 staged), 243 auto-promoted
-
-### Phase 5G: Enrichment Review Dashboard — COMPLETE (2026-03-28)
-### Phase 5H: Smart Review Suggestions — COMPLETE (2026-03-28)
-
-### Phase 5I: Non-Pilot Shared-SKU Cleanup — COMPLETE (2026-03-28)
-- ENT: 45 products (0 shared shadow_ids)
-- Endo Surgery: 170 products (0 shared shadow_ids)
-- Cardiovascular: 66 products (0 shared shadow_ids)
-
-### Phase 5J: 4-Lane Auto-Promotion Pipeline — COMPLETE (2026-03-28)
-- Lane 1 (Safe): 245 | Lane 2 (Family): 2 | Lane 3 (Inherit+Standalone): 258
-- Total promoted: 505 products, 65 remain for manual review
-
-### Phase 5K: Live Push — COMPLETE (2026-03-28)
+### Phase 5K: Live Push + Search + Chatbot Integration — COMPLETE (2026-03-28)
 - Expanded from 4 pilot divisions (157 products) → 13 divisions (810 products)
-- Production-eligible filter: enriched + no conflicts + no draft + medium/high confidence
-- Merged Products/Portfolio into single "Products" → `/catalog` path
+- LIVE_FILTER: enriched + no conflicts + no draft + medium/high confidence + no review_required
+- Merged Products/Portfolio → single "Products" → `/catalog` path
 - `/products` redirects to `/catalog`
-- Nav cleaned: single "Products" link, Shop stays separate
+- Catalog search expanded to 12 fields (name, brand, category, material, system_type, implant_class, division, family, clinical_subtitle, etc.)
+- CatalogIndex has inline search with SearchResults component
+- AI Chat (chat.py): search_relevant_products() queries catalog_products_col with LIVE_FILTER
+- Chatbot (chatbot.py): Added search_catalog_products() — searches enriched catalog first, falls back to chunks
+- WhatsApp (whatsapp.py): Inherits chat.py enriched search automatically
+- SKU lookup in chatbot now uses catalog_skus_col
 - Division descriptions for all 13 divisions
-- Homepage updated: catalog API, search → /catalog, division cards → /catalog
-- **Testing: 100% pass (19 backend + all frontend — iteration_46.json)**
+- Homepage: catalog API for divisions, search → /catalog, dynamic product count
+- **Testing: 100% pass (13 backend + all frontend — iteration_47.json)**
 
 ## Current State
 | Metric | Value |
@@ -54,9 +48,11 @@ Core: 6-layer semantic architecture — Raw Extraction → Structured Catalog �
 | Excluded (review/conflict/low) | 324 |
 
 ## Key API Endpoints
-- Catalog: `/api/catalog/divisions`, `/api/catalog/products`, `/api/catalog/products/{slug}`
-- Review: `/api/admin/review/stats`, `/api/admin/review/products`
-- Auto-Promote: `/api/admin/review/auto-promote/preview`, `/api/admin/review/auto-promote/execute`
+- Catalog: `/api/catalog/divisions`, `/api/catalog/products?search=...`, `/api/catalog/products/{slug}`
+- Chatbot: `/api/chatbot/query` (POST {question, session_id})
+- AI Chat: `/api/chat` (POST {message, session_id})
+- WhatsApp: `/api/whatsapp/webhook`
+- Review: `/api/admin/review/stats`, `/api/admin/review/auto-promote/preview`
 - Compare: `/api/catalog/compare`
 
 ## Admin Access
@@ -64,9 +60,9 @@ Core: 6-layer semantic architecture — Raw Extraction → Structured Catalog �
 - Password: kOpcELYcEvkVtyDAE5-2uw
 
 ## Priority Stack
-1. ~~Phase 5A-K~~ DONE
+1. ~~Phase 5A-K~~ ALL DONE
 2. Manual review of 65 true blockers (42 conflicts, 29 very low conf, 15 weak evidence)
-3. WhatsApp bot (ON HOLD — needs Interakt API key)
+3. WhatsApp bot via Interakt (already connected — verify webhook works end-to-end)
 4. Archive old phase scripts to `scripts/archive/`
 
 ## Known Issues
