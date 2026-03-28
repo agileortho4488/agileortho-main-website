@@ -14,6 +14,7 @@ import Chat from "./pages/Chat";
 import CatalogDivision from "./pages/CatalogDivision";
 import CatalogIndex from "./pages/CatalogIndex";
 import CatalogProductDetail from "./pages/CatalogProductDetail";
+import CatalogCompare from "./pages/CatalogCompare";
 import DistrictsIndex from "./pages/DistrictsIndex";
 import DistrictPage from "./pages/DistrictPage";
 import AdminLogin from "./pages/AdminLogin";
@@ -44,6 +45,7 @@ function App() {
             <Route path="/catalog" element={<CatalogIndex />} />
             <Route path="/catalog/:divisionSlug" element={<CatalogDivision />} />
             <Route path="/catalog/products/:slug" element={<CatalogProductDetail />} />
+            <Route path="/catalog/compare" element={<CatalogCompare />} />
             <Route path="/districts" element={<DistrictsIndex />} />
             <Route path="/districts/:slug" element={<DistrictPage />} />
           </Route>

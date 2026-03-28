@@ -3,7 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import {
   ArrowLeft, ChevronRight, Package, Tag, Box, Factory,
   Phone, MessageCircle, Mail, Download, FileText, Shield,
-  Award, BadgeCheck, Building2, Layers, Link2,
+  Award, BadgeCheck, Building2, Layers, Link2, GitCompare,
   Stethoscope, ClipboardList, CheckCircle2, Bone, BookOpen,
   HeartPulse, Microscope, Activity, Search, ChevronDown, ChevronUp
 } from "lucide-react";
@@ -354,6 +354,13 @@ export default function CatalogProductDetail() {
               <a href="tel:+917416521222" className="w-full flex items-center justify-center gap-2 px-4 py-2.5 border border-slate-200 text-slate-600 text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">
                 <Phone size={14} /> Call Sales Team
               </a>
+              <Link
+                to={`/catalog/compare?products=${product.slug}`}
+                className="w-full flex items-center justify-center gap-2 px-4 py-2.5 border border-slate-200 text-slate-600 text-sm font-semibold rounded-xl hover:bg-slate-50 hover:border-amber-300 transition-colors"
+                data-testid="catalog-compare-btn"
+              >
+                <GitCompare size={14} /> Compare with Similar
+              </Link>
             </div>
 
             {/* Trust badges */}

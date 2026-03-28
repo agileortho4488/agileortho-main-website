@@ -607,3 +607,266 @@ async def get_related_products(slug: str):
             buckets["same_family_alternatives"].append(card)
 
     return buckets
+
+
+# ═══════════════════════════════════════════════════
+# PHASE 5D: PRODUCT COMPARISON
+# ═══════════════════════════════════════════════════
+
+from pydantic import BaseModel
+from typing import List
+
+
+class CompareRequest(BaseModel):
+    slugs: List[str]  # 2-4 product slugs
+
+
+COMPARISON_FIELDS = [
+    ("Division", "division_canonical"),
+    ("Category", "category_canonical"),
+    ("Brand System", "semantic_brand_system"),
+    ("Material", "semantic_material_default"),
+    ("Coating", "semantic_coating_default"),
+    ("System Type", "semantic_system_type"),
+    ("Implant Class", "semantic_implant_class"),
+]
+
+
+def _format_value(val):
+    """Format snake_case values for display."""
+    if not val or val == "—":
+        return val
+    return val.replace("_", " ").title() if "_" in val else val
+
+
+def _comparison_card(doc):
+    """Full comparison card for a product."""
+    specs = doc.get("technical_specifications", {}) or {}
+    
+    # Build specs list from both structured and shadow data
+    spec_rows = {}
+    for k, v in specs.items():
+        if v and str(v).strip():
+            label = k.replace("_", " ").title()
+            spec_rows[label] = str(v)
+    
+    # Also include shadow specs
+    shadow_specs = doc.get("technical_specifications_shadow", {}) or {}
+    for k, v in shadow_specs.items():
+        if v and str(v).strip():
+            label = k.replace("_", " ").title()
+            if label not in spec_rows:
+                spec_rows[label] = str(v)
+    
+    return {
+        "slug": doc.get("slug", ""),
+        "product_name_display": doc.get("product_name_display", ""),
+        "clinical_subtitle": doc.get("clinical_subtitle", ""),
+        "description": doc.get("description", "") or doc.get("description_shadow", ""),
+        "division": doc.get("division_canonical", ""),
+        "category": doc.get("category_canonical", ""),
+        "brand": doc.get("brand", ""),
+        "brand_system": doc.get("semantic_brand_system", ""),
+        "material": doc.get("semantic_material_default", "") or doc.get("material_canonical", ""),
+        "coating": doc.get("semantic_coating_default", ""),
+        "system_type": doc.get("semantic_system_type", ""),
+        "implant_class": doc.get("semantic_implant_class", ""),
+        "anatomy_scope": doc.get("semantic_anatomy_scope", []),
+        "sku_count": doc.get("shadow_sku_count", 0),
+        "manufacturer": doc.get("manufacturer", ""),
+        "pack_size": doc.get("pack_size", ""),
+        "brochure_url": doc.get("brochure_url", ""),
+        "specs": spec_rows,
+    }
+
+
+@router.post("/compare")
+async def compare_products(req: CompareRequest):
+    """
+    Compare 2-4 products side by side.
+    
+    Guardrails:
+    - Only compares products from the same division
+    - Only compares pilot-filter products
+    - Rejects unresolved shared-SKU pools (status=merged)
+    - Returns structured comparison with clinical alignment
+    """
+    slugs = req.slugs
+    if len(slugs) < 2:
+        raise HTTPException(status_code=400, detail="Need at least 2 products to compare")
+    if len(slugs) > 4:
+        raise HTTPException(status_code=400, detail="Maximum 4 products can be compared")
+    
+    # Fetch all products
+    products = []
+    for slug in slugs:
+        doc = await catalog_products_col.find_one(
+            {"slug": slug, **PILOT_FILTER},
+            {"_id": 0}
+        )
+        if not doc:
+            raise HTTPException(status_code=404, detail=f"Product not found: {slug}")
+        products.append(doc)
+    
+    # Guardrail: same division
+    divisions = set(p.get("division_canonical", "") for p in products)
+    if len(divisions) > 1:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Cannot compare products from different divisions: {', '.join(divisions)}"
+        )
+    
+    # Build comparison cards
+    cards = [_comparison_card(p) for p in products]
+    
+    # Build comparison rows — collect all unique spec keys across products
+    all_spec_keys = set()
+    for card in cards:
+        all_spec_keys.update(card["specs"].keys())
+    
+    # Build structured comparison attributes
+    comparison_attrs = []
+    for label, field in COMPARISON_FIELDS:
+        values = [_format_value(card.get(field.replace("semantic_", "").replace("_canonical", ""), "") or "—") for card in cards]
+        if any(v != "—" for v in values):
+            is_different = len(set(v for v in values if v != "—")) > 1
+            comparison_attrs.append({
+                "label": label,
+                "values": values,
+                "is_different": is_different,
+            })
+    
+    # Add spec rows
+    for key in sorted(all_spec_keys):
+        values = [card["specs"].get(key, "—") for card in cards]
+        if any(v != "—" for v in values):
+            is_different = len(set(v for v in values if v != "—")) > 1
+            comparison_attrs.append({
+                "label": key,
+                "values": values,
+                "is_different": is_different,
+            })
+    
+    # Add computed rows
+    sku_values = [str(card["sku_count"]) for card in cards]
+    comparison_attrs.append({
+        "label": "Available Variants (SKUs)",
+        "values": sku_values,
+        "is_different": len(set(sku_values)) > 1,
+    })
+    
+    anatomy_values = [", ".join(card["anatomy_scope"]) if card["anatomy_scope"] else "—" for card in cards]
+    if any(v != "—" for v in anatomy_values):
+        comparison_attrs.append({
+            "label": "Anatomy Scope",
+            "values": anatomy_values,
+            "is_different": len(set(v for v in anatomy_values if v != "—")) > 1,
+        })
+    
+    return {
+        "products": cards,
+        "comparison": comparison_attrs,
+        "division": list(divisions)[0],
+    }
+
+
+@router.get("/compare/suggestions/{slug}")
+async def get_comparison_suggestions(slug: str):
+    """
+    Suggest products that can be meaningfully compared with the given product.
+    Uses: same category, related products, same division.
+    """
+    product = await catalog_products_col.find_one(
+        {"slug": slug, **PILOT_FILTER},
+        {"_id": 0}
+    )
+    if not product:
+        raise HTTPException(status_code=404, detail="Product not found")
+    
+    division = product.get("division_canonical", "")
+    category = product.get("category_canonical", "")
+    brand_system = product.get("semantic_brand_system", "")
+    
+    suggestions = []
+    seen = {slug}
+    
+    # Priority 1: Same category, different brand (clinical alternatives)
+    if category:
+        same_cat = await catalog_products_col.find({
+            **PILOT_FILTER,
+            "division_canonical": division,
+            "category_canonical": category,
+            "slug": {"$ne": slug},
+        }, {"_id": 0, "slug": 1, "product_name_display": 1, "clinical_subtitle": 1,
+            "category_canonical": 1, "brand": 1, "semantic_material_default": 1}
+        ).sort("product_name_display", 1).to_list(10)
+        
+        for doc in same_cat:
+            s = doc.get("slug", "")
+            if s not in seen:
+                seen.add(s)
+                suggestions.append({
+                    **_product_card(doc),
+                    "comparison_reason": "Same clinical category",
+                })
+    
+    # Priority 2: Related products (coated/uncoated variants)
+    if brand_system:
+        # Forward relationships
+        fwd_rels = await fr_col.find({
+            "source_entity_code": brand_system,
+            "confidence": {"$gte": MIN_CONFIDENCE},
+            "status": "active",
+        }, {"_id": 0}).to_list(20)
+        
+        for rel in fwd_rels:
+            target = rel.get("target_entity_code", "")
+            target_type = rel.get("target_entity_type", "")
+            if target_type != "brand_system":
+                continue
+            
+            rel_docs = await catalog_products_col.find({
+                **PILOT_FILTER,
+                "semantic_brand_system": target,
+                "division_canonical": division,
+            }, {"_id": 0, "slug": 1, "product_name_display": 1, "clinical_subtitle": 1,
+                "category_canonical": 1, "brand": 1, "semantic_material_default": 1}
+            ).to_list(5)
+            
+            for doc in rel_docs:
+                s = doc.get("slug", "")
+                if s not in seen:
+                    seen.add(s)
+                    suggestions.append({
+                        **_product_card(doc),
+                        "comparison_reason": rel.get("relationship_type", "").replace("_", " ").title(),
+                    })
+        
+        # Reverse relationships
+        rev_rels = await fr_col.find({
+            "target_entity_code": brand_system,
+            "target_entity_type": "brand_system",
+            "confidence": {"$gte": MIN_CONFIDENCE},
+            "status": "active",
+        }, {"_id": 0}).to_list(20)
+        
+        for rel in rev_rels:
+            source = rel.get("source_entity_code", "")
+            rel_docs = await catalog_products_col.find({
+                **PILOT_FILTER,
+                "semantic_brand_system": source,
+                "division_canonical": division,
+            }, {"_id": 0, "slug": 1, "product_name_display": 1, "clinical_subtitle": 1,
+                "category_canonical": 1, "brand": 1, "semantic_material_default": 1}
+            ).to_list(5)
+            
+            for doc in rel_docs:
+                s = doc.get("slug", "")
+                if s not in seen:
+                    seen.add(s)
+                    suggestions.append({
+                        **_product_card(doc),
+                        "comparison_reason": rel.get("relationship_type", "").replace("_", " ").title(),
+                    })
+    
+    return {"suggestions": suggestions[:12]}
