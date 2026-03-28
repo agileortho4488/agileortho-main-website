@@ -7,7 +7,7 @@ import pytest
 import requests
 import os
 
-BASE_URL = os.environ.get('REACT_APP_BACKEND_URL', 'https://agile-ortho-catalog.preview.emergentagent.com').rstrip('/')
+BASE_URL = os.environ.get('REACT_APP_BACKEND_URL', 'https://ortho-b2b-staging.preview.emergentagent.com').rstrip('/')
 ADMIN_PASSWORD = "kOpcELYcEvkVtyDAE5-2uw"
 
 

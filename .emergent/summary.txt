@@ -1,65 +1,69 @@
-<analysis>**original_problem_statement**: 
-Build a B2B medical device platform for a premier medical device master franchise in Telangana, India (Agile Ortho). Implement a Web-Search Fallback Policy to automatically consult the internet to semantically classify remaining unenriched products. Post-fallback, build an admin Review Dashboard, then proceed to clean up shared-SKU pools for non-pilot divisions (ENT, Endo Surgery).
+<analysis>Here is the handover summary for the next agent:
 
-**PRODUCT REQUIREMENTS**:
-- Build a standardized, clinically grouped product catalog mapped to exact manufacturer SKUs.
-- Provide a responsive front-end for users to browse products and a secure Admin Dashboard for managing approvals.
-- Integrate an AI Chatbot via web and WhatsApp (Interakt) that references the accurate, enriched catalog data.
-- Ensure only production-eligible products (high confidence, zero conflicts, fully enriched) are exposed to public/chat routes.
+**original_problem_statement**: Build a B2B medical device platform for a premier medical device master franchise in Telangana, India (Agile Ortho). 
+**PRODUCT REQUIREMENTS**: 
+- Implement a visually stunning, high-contrast Dark Premium B2B UI with intent-based navigation and structured user journeys.
+- Ensure end-to-end commercial loops (Interakt WhatsApp webhook, AI Chatbot) are fully functional and trackable.
+- Maintain an enriched CRM Analytics dashboard tracking search intelligence, WhatsApp metrics, and leads.
+- Ensure automated data seeding to production databases upon deployment.
 
-**User's preferred language**: INSTRUCT next agent to respond in English only.
+**User's preferred language**: English (INSTRUCT next agent to respond in English only)
 
 **what currently exists?** 
-A React + FastAPI + MongoDB platform. The system has fully transitioned its public-facing architecture from a raw legacy products database to an intelligently enriched  database. Currently, 13 divisions are live containing 810 completely verified, production-eligible products. The catalog is connected end-to-end to an AI search engine, web chatbot, and Interakt WhatsApp webhook. A 4-lane auto-promotion pipeline successfully cleared 88% of the admin review backlog.
+A React + FastAPI + MongoDB platform. The system successfully transitioned to the enriched  database. In this session, the backend was upgraded with a robust Admin Analytics dashboard (CRM, Search Intelligence, WhatsApp metrics) and a production auto-seed mechanism. The frontend underwent a massive Dark Premium visual overhaul. *Currently, the frontend is undergoing a structural UX redesign based on a comprehensive user audit.*
 
 **Last working item**:
-    - Last item agent was working: Full System Cutover & Audit. The agent audited the entire backend to ensure NO public-facing APIs or Admin Analytics were still attached to the legacy  or  collections, successfully routing everything (, , , ) to  and .
-    - Status: COMPLETED
-    - Agent Testing Done: Y
-    - Which testing method agent to use? NA (Testing already done using testing_agent_v3_fork generating  with 100% pass rate).
+    - Last item agent was working: Implementing the User's UX Audit (Intent-based navigation dropdowns, Homepage structural overhaul, horizontal filters on CatalogDivision, and better product cards). The agent just overwrote , , and .
+    - Status: IN PROGRESS
+    - Agent Testing Done: N (The session ended immediately after writing the files; no visual testing or subagent testing was performed on these specific UX updates).
+    - Which testing method agent to use? Frontend testing agent and manual testing by screenshot tool.
     - User Testing Done: N
 
 **All Pending/In progress Issue list**:
-  Issue 1: 🔴 Verify WhatsApp webhook end-to-end with Interakt (P0)
-     - Attempted fixes: The code is fully wired to use the enriched catalog, but a real-world test with a phone is pending. 
-     - Next debug checklist: Monitor logs for incoming WhatsApp webhook. Send 5 test messages (Catalog query, Exact SKU query, Brand query, Comparison, Off-topic) from a real phone and verify correct responses via Interakt.
-     - Why fix this issue and what will be achieved with the fix? Validates the end-to-end commercial loop and confirms patients/doctors are getting enriched answers.
-     - Status: TESTING PENDING (Requires user action/real phone)
+  Issue 1: 🔴 Complete and Test UX Audit Implementations (P0)
+     - Attempted fixes: Agent updated , , and  but was unable to test them or complete the rest of the pages.
+     - Next debug checklist: Use the screenshot tool to verify , , and  render correctly without breaking the Dark Premium theme. Ensure dropdowns work and horizontal filters display correctly.
+     - Why fix this issue and what will be achieved with the fix? Fulfills the user's explicit request for a guided, Apple-level clarity UX.
+     - Status: TESTING PENDING
      - Is recurring issue? N
-     - Should Test frontend/backend/both after fix? Backend (logs and DB telemetry).
+     - Should Test frontend/backend/both after fix? Frontend.
      - Blocked on other issue: None.
 
-  Issue 2: 🟡 Resolve Blocked File 008 (P3)
-     - Attempted fixes: File 008 is a corrupted DOCX () causing .
-     - Next debug checklist: Keep explicitly marked as blocked unless the user provides a fixed version.
-     - Why fix this issue and what will be achieved with the fix? Ensures full 200 file completeness.
-     - Status: BLOCKED
-     - Is recurring issue? Y
-     - Should Test frontend/backend/both after fix? Backend.
-     - Blocked on other issue: Awaiting uncorrupted file from the user.
-
 **In progress Task List**:
-  None. (All planned tasks in the current scope were finished).
+  Task 1: 🔴 Redesign Product Detail Layout & Footer (P0)
+     - Where to resume: Modify  and .
+     - What will be achieved with this? Per the user's UX audit, the product page needs a 70% image / 30% info split. The footer needs to be split into 4 clear columns (Brand, Navigation, Locations, Compliance).
+     - Status: NOT STARTED
+     - Should Test frontend/backend/both after fix? Frontend.
+     - Blocked on something: Nothing.
+
+  Task 2: 🟡 Implement Sticky Mobile Action Bar & Scroll Guidance (P1)
+     - Where to resume:  and mobile layout components.
+     - What will be achieved with this? Adds bottom mobile bar (Call / WhatsApp / Browse) and a scroll arrow/hint on the hero section.
+     - Status: NOT STARTED
+     - Should Test frontend/backend/both after fix? Frontend.
+     - Blocked on something: Nothing.
 
 **Upcoming and Future Tasks**
     Upcoming Tasks:
-    - 🔴 P0: Manual review of the 65 true blockers (conflicts, weak evidence, very low confidence) via the Admin Review Dashboard.
-    - 🟡 P1: Build Search Analytics Dashboard to track which products/terms doctors search for most, aiding inventory/marketing prioritization.
+    - 🔴 P0: Manual review of the 65 true blockers via the Admin Review Dashboard.
+    - 🟡 P1: File 008 (corrupted DOCX) — BLOCKED (awaiting uncorrupted file from user).
     
     Future Tasks:
     - 🟢 P2: Archive old phase scripts to  to clean up the backend directory.
 
 **Completed work in this session**
-- Non-pilot shared-SKU cleanup for ENT, Endo Surgery, and Cardiovascular divisions (resolved all 12 shared shadow_id pools) (DONE)
-- Built 4-Lane Auto-Promotion Pipeline (Lane 1: Safe, Lane 2: Family consensus, Lane 3: Inherit/Standalone, Lane 4: True Blockers) (DONE)
-- Auto-promoted 505 pending products, reducing the manual review queue to just 65 blockers (DONE)
-- Executed Live Push: Unified duplicate Products and Portfolio pages into a single  route (DONE)
-- Exposed 13 divisions and 810 production-eligible products to the public frontend (DONE)
-- Repointed Search Engine, Web Chatbot, and WhatsApp Webhook to query  instead of legacy collections (DONE)
-- Full System Cutover Audit: Verified and cleaned up legacy  and  dependencies from all public APIs and dashboards (DONE)
+- Fixed homepage division card routing & Admin products table data mapping (DONE)
+- Fixed AI Chatbot to recognize standard greetings like HI (DONE)
+- Verified Interakt WhatsApp webhook end-to-end and corrected embedded contact numbers (DONE)
+- Built 3-Tab Admin Analytics Dashboard (CRM Leads, Search Intelligence, WhatsApp metrics) (DONE)
+- Built Auto-Seed mechanism ( & ) to push JSON catalog data to production DB on deployment (DONE)
+- Fixed  blocking  files from production deployment (DONE)
+- Implemented global Dark Premium B2B Theme (obsidian/gold/teal) and fixed contrast/readability issues across all pages (DONE)
 
 **Earlier issues found/mentioned but not fixed**
    - Issue 1: Corrupted DOCX file 008 remains blocked.
+   - Debug checklist: Wait for user to provide fixed file.
 
 **Known issue recurrence from previous fork**
   - Issue recurrence in previous fork: None
@@ -70,74 +74,67 @@ A React + FastAPI + MongoDB platform. The system has fully transitioned its publ
 
 
 **Key Technical Concepts**
-- **4-Lane Auto-Promotion**: A strict algorithmic approach to approving staging products. Safe/Family/Inherit lanes auto-promote. Only True Blockers (Material conflicts, extreme low confidence, official source disagreement) require manual admin review.
-- **Production-Eligible Filter**: Public facing products must have , , and no unresolved conflicts or draft statuses.
-- **Enriched vs Legacy Data**: Legacy collections (, ) are strictly reserved for import pipelines and legacy CMS. End-user features (Search, Catalog, AI Bots) MUST use  and .
+- **Production Auto-Seeding:** On startup,  checks if the MongoDB  collection has data. If not, it automatically seeds the database using the JSON files in . 
+- **Dark Premium Theme:** Relies on Tailwind classes utilizing  backgrounds,  (gold) accents, and strict contrast rules to avoid gray-on-gray unreadable text.
+- **Interakt WhatsApp Constraints:** The Interakt API key is valid, but free-form text outbound messages will fail unless the customer has messaged the business number within the last 24 hours (standard Meta policy).
 
 **key DB schema**
-  - : Contains canonical semantic fields for 1,134 enriched products (810 of which are live/production-eligible).
-  - : Exact variant mapping.
-  - : Logs of WhatsApp messages.
-  - : Used for capturing chat interactions/stats.
+  - , : Core public data.
+  - : Tracks AI search patterns, confidence levels, and unmatched queries for the Analytics dashboard.
+  - , : Tracks WhatsApp engagement and delivery rates.
 
 **changes in tech stack**
-  - None
+  - None. (Heavily modified UI layout and Tailwind configurations).
 
 **All files of reference** 
-  -  (Auto-promote logic)
-  -  &  (Search & LLM repointed)
-  -  (Homepage/General APIs repointed)
-  -  (New global search feature)
-  -  (Updated with latest state)
+  -  (Updated with dropdown navigation)
+  -  (Overhauled for UX audit)
+  -  (Overhauled to use horizontal filters instead of sidebars)
+  -  (Pending layout updates)
+  -  &  (Auto-seed logic)
 
 **Areas that need refactoring**: 
-  - The  folder is cluttered with legacy phase scripts. Needs archiving.
+  -  and  need immediate structural refactoring to comply with the user's UX audit.
 
 **key api endpoints**
-  -  &  (4-lane logic)
-  - 
-  -  (repointed to use  w/ search)
-  -  (Interakt webhook)
-  -  (Web Chatbot)
+  -  (CRM Leads)
+  -  (Search Intelligence)
+  -  (WhatsApp metrics)
 
 **Critical Info for New Agent** 
-- **Legacy Collections Transition**: The application has fully transitioned its primary data source. NEVER use  or  collections for public-facing queries, analytics, or chatbot routing. Always use  and .
-- **LLM Key Exhaustion**: The Emergent LLM key ran out of budget in a prior wave. Do not run massive batch LLM scripts.
-- **Admin Credentials**: Username:  | Password: .
-- **WhatsApp Webhook**: Connected to Interakt. Verify testing steps in PRD before building new WhatsApp features.
+- **CRITICAL - READ UX AUDIT:** The user provided a massive, specific UX Audit (See User Message right before the session ended). The previous agent started overwriting files to implement this (, , ) but ran out of context before finishing or testing. Your first step MUST be to verify these files render correctly without breaking the Dark Theme, and then implement the remaining UX requests (Product Detail 70/30 split, Footer 4-column split, micro-interactions, sticky mobile bar).
+- **Auto-Seeding:** Do not manually push data to production MongoDB; the  script now handles this automatically on deployment using  variables.
 
 **documents and test reports created in this job** 
-  -  (SKU Cleanup)
-  -  (Auto-Promote)
-  -  (Live Push)
-  -  (Search/Chatbot Wiring)
-  -  (Final Cutover Audit)
+  - 
+  -  (Dark Theme test)
+  - 
   - 
 
 **Last 10 User Messages and any pending HUMAN messages** 
-1. (LATEST) User: Provided a detailed go-live audit checklist to ensure no backend panels, analytics, or webhooks are accidentally pointing to the old legacy  database. (Agent audited and executed fixes).
-2. User: Instructed that no new features should be built until the full commercial loop (WhatsApp message -> new backend -> enriched catalog response -> telemetry) is verified.
-3. User: Demanded connecting the newly launched catalog to the existing Search Engine and WhatsApp AI Chatbot (via Interakt) because they were still fetching old data. 
-4. User: Agreed to the Live Push but requested only exposing production-eligible products rather than blindly dropping all enriched items. 
-5. User: Pointed out the confusing duplication between Products and Portfolio pages and asked to merge them for the live push.
-6. User: Requested pushing the Enriched Portfolio live.
-7. User: Provided strategic rules to replace manual product review with a 4-lane Auto-Promotion logic (Safe, Family Consensus, Variant Inheritance, True Blockers). Instructed the agent not to waste time on manual review loops.
-8. User: Asked for an assessment of the Cardiovascular division for SKU issues and requested help clearing the 571 pending products.
+1. (LATEST) User: Provided a massive, detailed UX Audit asking to move from sales dashboard to high-end medical brand. Requested intent-based navigation (dropdowns), horizontal filters instead of sidebars, 70/30 split on product detail pages, alternating background sections, micro-interactions, and a 4-column footer.
+2. User: Complained the dark theme was too dark and unreadable. (Agent fixed contrast).
+3. User: Requested a redesign to a dark premium theme.
+4. User: Noted that even after deployment, the production URL still showed 0 products. (Agent fixed  blocking  files).
+5. User: Pointed out the live website URL showed 0 products. (Agent built auto-seeding).
+6. User: Requested the CRM Analytics dashboard be enriched with search queries and doctor intelligence.
+7. User: Provided correct phone numbers for the chat/WhatsApp bots.
+8. User: Provided Interakt API key and Webhook URL for live testing.
 
 **Project Health Check:**
-- Broken: File 008 (corrupted DOCX)
-- Mocked: None currently.
+- Broken: The UI may currently be in an unstable state as the previous agent overwrote key layout files (, , ) right before termination without testing.
+- Mocked: None.
 
 **3rd Party Integrations** 
-  - OpenAI / Claude Sonnet 4.5 via  — uses Emergent LLM Key (Note: Budget exhausted).
-  - Web Search () - available via environment.
+  - OpenAI / Claude Sonnet 4.5 via  — uses Emergent LLM Key.
+  - Web Search ()
   - Interakt (WhatsApp API) — requires User API Key.
 
 **Testing status**
-  - Testing agent used after significant changes: YES (Iterations 44-48)
+  - Testing agent used after significant changes: YES (For Dark Theme redesign - Iteration 50)
   - Troubleshoot agent used after agent stuck in loop: NO
-  - Test files created:  to 
-  - Known regressions: None. All 19 backend tests and all UI tests passed in the final audit.
+  - Test files created: 
+  - Known regressions: Potential visual regressions in  and  due to untested final-minute file overwrites.
 
 **Credentials to test flow:**
   - Admin Login: 
@@ -145,4 +142,4 @@ A React + FastAPI + MongoDB platform. The system has fully transitioned its publ
   - Password: 
 
 **What agent forgot to execute**
-The agent successfully completed the required backend switchovers for the WhatsApp webhook but could not physically verify an end-to-end Interakt text message because it requires a real phone interaction from the user. The next phase must begin by confirming the user has tested the WhatsApp webhook externally as detailed in the PRD and Last Issues list.</analysis>
+The agent failed to complete the User's UX Audit. While they rewrote the Header, Home, and Catalog Division files, they did not test them to ensure they worked with the new Dark Premium theme. Furthermore, they completely missed updating the  (70/30 layout split), the  (4-column layout), and the addition of a sticky mobile action bar. This must be picked up immediately.</analysis>

@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   Search, ArrowRight, Shield, Award, Building2, MapPin,
-  MessageCircle, Phone, Bone, HeartPulse, Activity, Microscope,
-  ShieldCheck, Scissors, Wrench, Dumbbell, EarOff, Droplets,
-  Heart, GitBranch, Cpu, ChevronRight
+  MessageCircle, Phone, ChevronDown, ChevronRight,
+  Bone, HeartPulse, Activity, Microscope, ShieldCheck, Scissors,
+  Wrench, Dumbbell, EarOff, Droplets, Heart, GitBranch, Cpu
 } from "lucide-react";
 import { getDivisions, getFeaturedProducts } from "@/lib/api";
 import { COMPANY } from "@/lib/constants";
@@ -14,7 +14,7 @@ const DIVISION_ICONS = {
   "Diagnostics": Microscope, "Infection Prevention": ShieldCheck,
   "Endo Surgery": Scissors, "Instruments": Wrench, "Sports Medicine": Dumbbell,
   "ENT": EarOff, "Urology": Droplets, "Critical Care": Heart,
-  "Peripheral Intervention": GitBranch, "Robotics": Cpu,
+  "Peripheral Intervention": GitBranch, "Robotics": Cpu, "Spine": Bone,
 };
 
 const HERO_BG = "https://static.prod-images.emergentagent.com/jobs/ba46cd2b-59a7-4ec9-b669-726f82ef2be6/images/1a9163d6801209f9b5299054943c93e970d5743284fe9652166bc8cb79de42f6.png";
@@ -23,6 +23,7 @@ export default function Home() {
   const [divisions, setDivisions] = useState([]);
   const [featuredProducts, setFeaturedProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [searchFocused, setSearchFocused] = useState(false);
 
   useEffect(() => {
     getDivisions().then((r) => setDivisions(r.data.divisions || [])).catch(() => {});
@@ -38,84 +39,102 @@ export default function Home() {
 
   return (
     <div className="bg-[#0A0A0A]">
-      {/* ===== HERO SECTION ===== */}
-      <section className="relative min-h-[85vh] flex items-center overflow-hidden" data-testid="hero-section">
+      {/* ===== HERO ===== */}
+      <section className="relative min-h-[88vh] flex items-center overflow-hidden" data-testid="hero-section">
         <div className="absolute inset-0">
-          <img src={HERO_BG} alt="" className="w-full h-full object-cover opacity-30" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0A0A0A] via-[#0A0A0A]/80 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-[#0A0A0A]/40" />
+          <img src={HERO_BG} alt="" className="w-full h-full object-cover opacity-25" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0A0A0A] via-[#0A0A0A]/85 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-[#0A0A0A]/50" />
         </div>
 
-        <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 py-20">
-          <div className="max-w-2xl">
-            <div className="flex items-center gap-3 mb-6">
-              <span className="h-px w-10 bg-[#D4AF37]" />
-              <span className="text-xs font-bold text-[#D4AF37] tracking-[0.25em] uppercase" data-testid="hero-overline">
-                Meril Authorized Distributor
-              </span>
+        <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 py-20 w-full">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            {/* LEFT: Text */}
+            <div>
+              <div className="flex items-center gap-3 mb-6 animate-fade-up stagger-1">
+                <span className="h-px w-10 bg-[#D4AF37]" />
+                <span className="text-xs font-bold text-[#D4AF37] tracking-[0.25em] uppercase" data-testid="hero-overline">
+                  Meril Authorized Distributor
+                </span>
+              </div>
+
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-light tracking-tight text-white leading-[1.1] animate-fade-up stagger-2" data-testid="hero-title" style={{ fontFamily: 'Outfit' }}>
+                Precision Medical
+                <br />
+                <span className="text-gradient-gold font-medium">Devices</span> for
+                <br />
+                Telangana
+              </h1>
+
+              <p className="mt-6 text-base sm:text-lg text-white/70 max-w-lg leading-relaxed animate-fade-up stagger-3" data-testid="hero-subtitle">
+                Browse <span className="text-white font-semibold">{totalProducts > 0 ? `${totalProducts}+` : "800+"}</span> verified products across{" "}
+                <span className="text-white font-semibold">{divisions.length || 13}</span> clinical divisions.
+                Serving hospitals and clinics in all 33 districts.
+              </p>
+
+              {/* Search */}
+              <div className={`mt-8 transition-all duration-300 max-w-lg animate-fade-up stagger-4 ${searchFocused ? "scale-[1.02]" : ""}`}>
+                <form onSubmit={handleSearch} className="flex items-center gap-0" data-testid="hero-search-form">
+                  <div className="relative flex-1">
+                    <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30" />
+                    <input
+                      type="text"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      onFocus={() => setSearchFocused(true)}
+                      onBlur={() => setSearchFocused(false)}
+                      placeholder="Search products, SKUs, brands..."
+                      className={`w-full bg-white/5 border rounded-l-sm pl-11 pr-4 py-3.5 text-sm text-white placeholder:text-white/30 focus:outline-none transition-all duration-300 ${searchFocused ? "border-[#D4AF37]/60 bg-white/8 shadow-lg shadow-[#D4AF37]/5" : "border-white/10"}`}
+                      data-testid="hero-search-input"
+                    />
+                  </div>
+                  <button type="submit" className="bg-[#D4AF37] hover:bg-[#F2C94C] text-black font-semibold px-6 py-3.5 rounded-r-sm text-sm transition-all hover:shadow-lg hover:shadow-[#D4AF37]/20" data-testid="hero-search-btn">
+                    Search
+                  </button>
+                </form>
+                <p className="mt-2 text-xs text-white/35 pl-1">Try: "trauma plates", "BioMime stent", "knee implant"</p>
+              </div>
+
+              {/* CTAs */}
+              <div className="mt-8 flex flex-wrap gap-4 animate-fade-up stagger-5">
+                <Link to="/catalog" className="group inline-flex items-center gap-2 bg-[#D4AF37] hover:bg-[#F2C94C] text-black font-semibold rounded-sm px-7 py-3.5 text-sm transition-all hover:shadow-lg hover:shadow-[#D4AF37]/20" data-testid="hero-cta-catalog">
+                  Browse Catalog <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                </Link>
+                <a href={`https://wa.me/${COMPANY.whatsapp.replace("+", "")}`} target="_blank" rel="noopener noreferrer"
+                  className="group inline-flex items-center gap-2 border border-white/15 hover:border-white/30 hover:bg-white/5 text-white font-medium rounded-sm px-7 py-3.5 text-sm transition-all" data-testid="hero-cta-whatsapp">
+                  <MessageCircle size={14} /> WhatsApp Sales
+                </a>
+              </div>
             </div>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-light tracking-tight text-white leading-[1.1]" data-testid="hero-title" style={{ fontFamily: 'Outfit' }}>
-              Precision Medical
-              <br />
-              <span className="text-gradient-gold font-medium">Devices</span> for
-              <br />
-              Telangana
-            </h1>
-
-            <p className="mt-6 text-base sm:text-lg text-white/70 max-w-lg leading-relaxed" data-testid="hero-subtitle">
-              {totalProducts > 0 ? `${totalProducts}+` : "800+"} verified products across {divisions.length || 13} clinical divisions.
-              Serving hospitals and clinics in all 33 districts.
-            </p>
-
-            {/* Search Bar */}
-            <form onSubmit={handleSearch} className="mt-8 flex items-center gap-0 max-w-lg" data-testid="hero-search-form">
-              <div className="relative flex-1">
-                <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30" />
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search products, SKUs, brands..."
-                  className="w-full bg-white/5 border border-white/10 rounded-l-sm pl-11 pr-4 py-3.5 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-[#D4AF37]/50 transition-colors"
-                  data-testid="hero-search-input"
-                />
-              </div>
-              <button
-                type="submit"
-                className="bg-[#D4AF37] hover:bg-[#F2C94C] text-black font-semibold px-6 py-3.5 rounded-r-sm text-sm transition-colors whitespace-nowrap"
-                data-testid="hero-search-btn"
-              >
-                Search
-              </button>
-            </form>
-
-            {/* CTAs */}
-            <div className="mt-8 flex flex-wrap gap-4">
-              <Link
-                to="/catalog"
-                className="inline-flex items-center gap-2 bg-[#D4AF37] hover:bg-[#F2C94C] text-black font-semibold rounded-sm px-6 py-3 text-sm transition-colors"
-                data-testid="hero-cta-catalog"
-              >
-                Browse Catalog <ArrowRight size={14} />
-              </Link>
-              <a
-                href={`https://wa.me/${COMPANY.whatsapp.replace("+", "")}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 border border-white/15 hover:bg-white/5 text-white font-medium rounded-sm px-6 py-3 text-sm transition-colors"
-                data-testid="hero-cta-whatsapp"
-              >
-                <MessageCircle size={14} /> WhatsApp Sales
-              </a>
+            {/* RIGHT: Quick Stats */}
+            <div className="hidden lg:grid grid-cols-2 gap-4 animate-fade-up stagger-6">
+              {[
+                { value: `${totalProducts || 810}+`, label: "Verified Products", sub: "Across all divisions" },
+                { value: `${divisions.length || 13}`, label: "Clinical Divisions", sub: "Complete coverage" },
+                { value: "33", label: "Districts", sub: "All of Telangana" },
+                { value: "24/7", label: "AI Support", sub: "Instant product help" },
+              ].map((stat) => (
+                <div key={stat.label} className="card-premium rounded-sm p-6 text-center hover-lift" data-testid={`hero-stat-${stat.label.toLowerCase().replace(/\s/g, '-')}`}>
+                  <p className="text-3xl font-light text-white" style={{ fontFamily: 'Outfit' }}>{stat.value}</p>
+                  <p className="text-xs text-[#D4AF37] font-semibold mt-1 uppercase tracking-wider">{stat.label}</p>
+                  <p className="text-[11px] text-white/40 mt-0.5">{stat.sub}</p>
+                </div>
+              ))}
             </div>
           </div>
+        </div>
+
+        {/* Scroll Guidance */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce" data-testid="scroll-hint">
+          <span className="text-[10px] text-white/30 uppercase tracking-widest font-medium">Browse Categories</span>
+          <ChevronDown size={16} className="text-[#D4AF37]/50" />
         </div>
       </section>
 
       {/* ===== TRUST BAR ===== */}
       <section className="border-y border-white/[0.06] bg-[#0D0D0D]" data-testid="trust-bar">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 py-6 flex flex-wrap items-center justify-center gap-8 sm:gap-14">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 py-5 flex flex-wrap items-center justify-center gap-8 sm:gap-14">
           {[
             { icon: Shield, label: "ISO 13485 Certified" },
             { icon: Award, label: "CDSCO Registered" },
@@ -130,103 +149,94 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== DIVISIONS BENTO GRID ===== */}
-      <section className="py-20 sm:py-28" data-testid="divisions-section">
+      {/* ===== DIVISIONS — Alternating bg #111 ===== */}
+      <section className="py-20 sm:py-24 bg-[#111]" data-testid="divisions-section">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
-          <div className="flex items-center gap-3 mb-3">
-            <span className="h-px w-8 bg-[#D4AF37]" />
+          <div className="text-center mb-12">
             <span className="text-xs font-bold text-[#D4AF37] tracking-[0.2em] uppercase">Product Divisions</span>
-          </div>
-          <div className="flex items-end justify-between mb-10">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-medium tracking-tight text-white" style={{ fontFamily: 'Outfit' }}>
+            <h2 className="mt-2 text-2xl sm:text-3xl lg:text-4xl font-medium tracking-tight text-white" style={{ fontFamily: 'Outfit' }}>
               Clinical Categories
             </h2>
-            <Link to="/catalog" className="hidden sm:flex items-center gap-1.5 text-sm text-[#D4AF37] hover:text-[#F2C94C] transition-colors font-medium">
-              View All <ChevronRight size={14} />
-            </Link>
+            <p className="mt-3 text-sm text-white/50 max-w-md mx-auto">Select a division to explore verified products with specifications and SKU details</p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4">
             {divisions.map((div, i) => {
               const Icon = DIVISION_ICONS[div.name] || Bone;
               return (
                 <Link
                   key={div.name}
                   to={`/catalog/${div.slug || div.name.toLowerCase().replace(/\s+/g, "-")}`}
-                  className={`group card-premium rounded-sm p-6 animate-fade-up stagger-${Math.min(i + 1, 8)}`}
+                  className={`group card-premium rounded-sm p-5 sm:p-6 text-center hover-lift animate-fade-up stagger-${Math.min(i + 1, 8)}`}
                   data-testid={`division-card-${div.slug}`}
                 >
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="w-10 h-10 rounded-sm bg-white/5 flex items-center justify-center border border-white/[0.06] group-hover:border-[#D4AF37]/30 transition-colors">
-                      <Icon size={18} strokeWidth={1.5} className="text-[#D4AF37]" />
-                    </div>
-                    <span className="text-xs font-bold text-[#2DD4BF] bg-[#2DD4BF]/10 px-2 py-0.5 rounded">
-                      {div.product_count}
-                    </span>
+                  <div className="mx-auto w-12 h-12 rounded-sm bg-[#D4AF37]/8 border border-[#D4AF37]/15 flex items-center justify-center mb-4 group-hover:bg-[#D4AF37]/15 group-hover:border-[#D4AF37]/30 transition-all duration-300">
+                    <Icon size={20} strokeWidth={1.5} className="text-[#D4AF37]" />
                   </div>
-                  <h3 className="text-base font-medium text-white group-hover:text-[#D4AF37] transition-colors" style={{ fontFamily: 'Outfit' }}>
+                  <h3 className="text-sm font-semibold text-white group-hover:text-[#D4AF37] transition-colors" style={{ fontFamily: 'Outfit' }}>
                     {div.name}
                   </h3>
-                  <p className="mt-1.5 text-xs text-white/50 line-clamp-2">
-                    {(div.categories || []).slice(0, 4).join(" / ")}
+                  <p className="mt-1 text-xs text-[#2DD4BF] font-medium">{div.product_count} products</p>
+                  <p className="mt-1.5 text-[11px] text-white/40 line-clamp-1">
+                    {(div.categories || []).slice(0, 3).join(", ")}
                   </p>
-                  <div className="mt-4 flex items-center gap-1 text-xs text-white/40 group-hover:text-[#D4AF37]/70 transition-colors">
-                    <span>{(div.categories || []).length} categories</span>
-                    <ChevronRight size={12} />
-                  </div>
                 </Link>
               );
             })}
           </div>
 
-          <Link to="/catalog" className="sm:hidden mt-6 flex items-center justify-center gap-1.5 text-sm text-[#D4AF37] font-medium">
-            View All Divisions <ChevronRight size={14} />
-          </Link>
+          <div className="text-center mt-10">
+            <Link to="/catalog" className="group inline-flex items-center gap-2 text-sm text-[#D4AF37] hover:text-[#F2C94C] font-medium transition-colors" data-testid="view-all-divisions">
+              View Full Catalog <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </div>
         </div>
       </section>
 
-      {/* ===== FEATURED PRODUCTS ===== */}
+      {/* ===== FEATURED PRODUCTS — Back to dark ===== */}
       {featuredProducts.length > 0 && (
-        <section className="py-16 sm:py-20 border-t border-white/[0.06]" data-testid="featured-section">
+        <section className="py-20 sm:py-24 bg-[#0A0A0A]" data-testid="featured-section">
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
-            <div className="flex items-center gap-3 mb-3">
-              <span className="h-px w-8 bg-[#D4AF37]" />
+            <div className="text-center mb-12">
               <span className="text-xs font-bold text-[#D4AF37] tracking-[0.2em] uppercase">Featured</span>
+              <h2 className="mt-2 text-2xl sm:text-3xl font-medium tracking-tight text-white" style={{ fontFamily: 'Outfit' }}>
+                Popular Products
+              </h2>
             </div>
-            <h2 className="text-2xl sm:text-3xl font-medium tracking-tight text-white mb-10" style={{ fontFamily: 'Outfit' }}>
-              Popular Products
-            </h2>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
               {featuredProducts.slice(0, 8).map((p) => (
                 <Link
                   key={p.slug || p.id}
                   to={`/catalog/products/${p.slug || p.id}`}
-                  className="group card-premium rounded-sm overflow-hidden"
+                  className="group card-premium rounded-sm overflow-hidden hover-lift"
                   data-testid={`featured-product-${p.slug || p.id}`}
                 >
                   {p.images && p.images[0] ? (
-                    <div className="aspect-[4/3] bg-[#111] overflow-hidden">
+                    <div className="aspect-[4/3] bg-[#0D0D0D] overflow-hidden flex items-center justify-center p-6">
                       <img
                         src={`${process.env.REACT_APP_BACKEND_URL}/api/files/${p.images[0].storage_path}`}
                         alt={p.product_name}
-                        className="w-full h-full object-contain p-4 opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300"
+                        className="max-w-full max-h-full object-contain opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500"
                         loading="lazy"
                       />
                     </div>
                   ) : (
-                    <div className="aspect-[4/3] bg-[#111] flex items-center justify-center">
-                      <Bone size={32} className="text-white/10" />
+                    <div className="aspect-[4/3] bg-[#0D0D0D] flex items-center justify-center">
+                      <Bone size={36} className="text-white/8" />
                     </div>
                   )}
-                  <div className="p-4">
-                    <p className="text-xs text-[#D4AF37] font-medium mb-1">{p.division_canonical || p.division}</p>
-                    <h3 className="text-sm font-medium text-white group-hover:text-[#D4AF37] transition-colors line-clamp-2" style={{ fontFamily: 'Outfit' }}>
+                  <div className="p-5">
+                    <p className="text-[11px] text-[#D4AF37] font-semibold uppercase tracking-wider mb-1.5">{p.division_canonical || p.division}</p>
+                    <h3 className="text-sm font-semibold text-white group-hover:text-[#D4AF37] transition-colors line-clamp-2 leading-snug" style={{ fontFamily: 'Outfit' }}>
                       {p.product_name_display || p.product_name}
                     </h3>
                     {p.semantic_brand_system && (
-                      <p className="mt-1.5 text-xs text-white/50">{p.semantic_brand_system}</p>
+                      <p className="mt-1.5 text-xs text-white/45">{p.semantic_brand_system}</p>
                     )}
+                    <div className="mt-4 flex items-center gap-1 text-xs text-[#D4AF37] font-medium opacity-0 group-hover:opacity-100 transition-all duration-300">
+                      View Details <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
+                    </div>
                   </div>
                 </Link>
               ))}
@@ -235,55 +245,24 @@ export default function Home() {
         </section>
       )}
 
-      {/* ===== STATS ===== */}
-      <section className="py-16 sm:py-20 border-t border-white/[0.06]" data-testid="stats-section">
+      {/* ===== CTA — Alternating bg #111 ===== */}
+      <section className="py-20 sm:py-28 bg-[#111]" data-testid="cta-section">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            {[
-              { value: `${totalProducts || 810}+`, label: "Verified Products" },
-              { value: `${divisions.length || 13}`, label: "Clinical Divisions" },
-              { value: "33", label: "Districts Covered" },
-              { value: "24/7", label: "AI Support" },
-            ].map((stat) => (
-              <div key={stat.label} className="card-premium rounded-sm p-6 sm:p-8 text-center" data-testid={`stat-${stat.label.toLowerCase().replace(/\s/g, '-')}`}>
-                <p className="text-3xl sm:text-4xl font-light text-white" style={{ fontFamily: 'Outfit' }}>{stat.value}</p>
-                <p className="mt-2 text-xs text-white/50 tracking-wide uppercase">{stat.label}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ===== CTA SECTION ===== */}
-      <section className="py-16 sm:py-24 border-t border-white/[0.06]" data-testid="cta-section">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6">
-          <div className="card-premium rounded-sm p-10 sm:p-16 text-center relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-[#D4AF37]/5 via-transparent to-[#2DD4BF]/5" />
-            <div className="relative z-10">
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-light tracking-tight text-white" style={{ fontFamily: 'Outfit' }}>
-                Ready to <span className="text-[#D4AF37] font-medium">order</span>?
-              </h2>
-              <p className="mt-4 text-sm sm:text-base text-white/60 max-w-lg mx-auto">
-                Connect with our product specialists for bulk quotes, hospital procurement, and technical specifications.
-              </p>
-              <div className="mt-8 flex flex-wrap justify-center gap-4">
-                <a
-                  href={`https://wa.me/${COMPANY.whatsapp.replace("+", "")}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 bg-[#D4AF37] hover:bg-[#F2C94C] text-black font-semibold rounded-sm px-8 py-3.5 text-sm transition-colors"
-                  data-testid="cta-whatsapp"
-                >
-                  <MessageCircle size={14} /> WhatsApp Sales
-                </a>
-                <a
-                  href={`tel:${COMPANY.phone}`}
-                  className="inline-flex items-center gap-2 border border-white/15 hover:bg-white/5 text-white font-medium rounded-sm px-8 py-3.5 text-sm transition-colors"
-                  data-testid="cta-phone"
-                >
-                  <Phone size={14} /> Call Now
-                </a>
-              </div>
+          <div className="text-center max-w-2xl mx-auto">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-light tracking-tight text-white" style={{ fontFamily: 'Outfit' }}>
+              Ready to <span className="text-[#D4AF37] font-medium">order</span>?
+            </h2>
+            <p className="mt-4 text-sm sm:text-base text-white/55">
+              Connect with our product specialists for bulk quotes, hospital procurement, and technical specifications.
+            </p>
+            <div className="mt-10 flex flex-wrap justify-center gap-4">
+              <a href={`https://wa.me/${COMPANY.whatsapp.replace("+", "")}`} target="_blank" rel="noopener noreferrer"
+                className="group inline-flex items-center gap-2 bg-[#D4AF37] hover:bg-[#F2C94C] text-black font-semibold rounded-sm px-8 py-3.5 text-sm transition-all hover:shadow-lg hover:shadow-[#D4AF37]/20" data-testid="cta-whatsapp">
+                <MessageCircle size={14} /> WhatsApp Sales
+              </a>
+              <a href={`tel:${COMPANY.phone}`} className="group inline-flex items-center gap-2 border border-white/15 hover:border-white/30 hover:bg-white/5 text-white font-medium rounded-sm px-8 py-3.5 text-sm transition-all" data-testid="cta-phone">
+                <Phone size={14} /> Call Now
+              </a>
             </div>
           </div>
         </div>

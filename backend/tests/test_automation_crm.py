@@ -15,7 +15,7 @@ import time
 import uuid
 from datetime import datetime
 
-BASE_URL = os.environ.get('REACT_APP_BACKEND_URL', 'https://agile-ortho-catalog.preview.emergentagent.com').rstrip('/')
+BASE_URL = os.environ.get('REACT_APP_BACKEND_URL', 'https://ortho-b2b-staging.preview.emergentagent.com').rstrip('/')
 
 
 class TestAdminLogin:

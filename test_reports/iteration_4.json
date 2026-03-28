@@ -65,8 +65,8 @@
     }
   },
   "test_environment": {
-    "backend_url": "https://agile-ortho-catalog.preview.emergentagent.com",
-    "frontend_url": "https://agile-ortho-catalog.preview.emergentagent.com",
+    "backend_url": "https://ortho-b2b-staging.preview.emergentagent.com",
+    "frontend_url": "https://ortho-b2b-staging.preview.emergentagent.com",
     "test_mobile": "9876543210",
     "admin_password": "admin"
   }
