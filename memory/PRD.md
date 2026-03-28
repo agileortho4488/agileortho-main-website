@@ -13,15 +13,28 @@ Build a B2B medical device platform for Agile Ortho, a premier Meril Life Scienc
 
 ## What's Been Implemented
 
+### UX Audit Implementation (Phase 1-4) — Mar 28, 2026
+- **WhatsApp Header Dropdown**: Converted single WhatsApp button to dropdown with Sales & Availability, Request Catalog (PDF), Technical Support options — each pre-populating WhatsApp message
+- **Hero CTA Consolidation**: Replaced "WhatsApp Sales" with "Check Availability & Pricing" (pre-populated WhatsApp). Primary CTA remains "Browse Catalog"
+- **Search Placeholder**: Updated to "Search by name or SKU (e.g., KET 2.4mm Locking Plate)"
+- **Category Grid Spacing**: Increased gap from gap-3/gap-4 to gap-4/gap-6 for breathing room
+- **Product Cards Redesign**: Centered text, 2-line truncated descriptions, consistent teal material tags + gold brand tags
+- **CTA Section Overhaul**: New headline "Equip Your Hospital with Precision Meril Products", email capture form for catalog requests
+- **Footer 4-Column Layout**: Brand, Navigation, Locations, Compliance columns. Consolidated address. Removed arrow from "All 33 Districts"
+- **Product Detail Dark Theme**: Teal checkmark icons with circular backgrounds for specs, dark form inputs in quote modal
+- **Contact Page**: Updated headline "Equip Your Hospital with Precision Devices", gold focus styling on all inputs
+- **Micro-interactions**: Button press effects, smooth focus transitions, scrollbar-hide utility for horizontal filters
+- **Mobile Sticky Action Bar**: Call / WhatsApp / Browse at bottom for mobile users
+
 ### Dark Premium Theme (Full Redesign)
 - **Global CSS**: Dark background (#0A0A0A), card surface (#141414), white/55+ text contrast
-- **Navigation**: Glassmorphism dark header with gold WhatsApp CTA
-- **Homepage**: Hero with medical device imagery, gold "Devices" text, search bar, division bento grid, featured products, stats, CTA
-- **Catalog**: Dark division cards with teal product counts, gold accent labels
-- **Product Detail**: Dark specs tables, gold brand badges, teal material tags
+- **Navigation**: Glassmorphism dark header with gold WhatsApp dropdown CTA
+- **Homepage**: Hero with medical device imagery, gold "Devices" text, search bar, division bento grid, featured products, stats, email capture CTA
+- **Catalog**: Dark division cards with teal product counts, gold accent labels, centered product cards
+- **Product Detail**: Dark specs tables, gold brand badges, teal material tags, teal checkmarks
 - **Chat Widget**: Dark theme with gold send button, "Agile Ortho AI" header
-- **Footer**: Gold section headers, "AGILE ORTHO" watermark, compliance badges
-- **All public pages**: About, Contact, Districts, Chat — all dark themed
+- **Footer**: 4-column layout, gold section headers, "AGILE ORTHO" watermark, compliance badges
+- **All public pages**: About, Contact, Districts, Chat — all dark themed with gold focus
 
 ### Core Platform
 - Responsive homepage with 13 medical divisions, featured products, district coverage
