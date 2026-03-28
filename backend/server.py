@@ -6,7 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import os
 
 from db import products_col, leads_col, conversations_col
-from seed import seed_database, seed_leads
+from seed import seed_database, seed_leads, seed_catalog
 from helpers import init_storage
 
 from routes.public import router as public_router
@@ -49,6 +49,7 @@ app.include_router(review_router)
 async def startup():
     await seed_database()
     await seed_leads()
+    await seed_catalog()
 
     await products_col.create_index("division")
     await products_col.create_index("category")
