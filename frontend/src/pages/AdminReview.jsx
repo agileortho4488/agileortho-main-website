@@ -692,9 +692,9 @@ export default function AdminReview() {
                   ) : products.length === 0 ? (
                     <tr><td colSpan={9} className="px-4 py-12 text-center text-sm text-slate-400">No products match these filters</td></tr>
                   ) : (
-                    products.map((p) => (
+                    products.map((p, idx) => (
                       <ProductRow
-                        key={p.slug}
+                        key={`${p.slug}-${idx}`}
                         product={p}
                         onView={setDetailSlug}
                         onApprove={handleApprove}
