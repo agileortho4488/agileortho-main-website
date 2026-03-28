@@ -30,8 +30,7 @@ next-env.d.ts
 dist/
 dist
 
-# Environment files (comprehensive coverage)
-
+# Credentials (not env files)
 *token.json*
 *credentials.json*
 
@@ -76,55 +75,5 @@ agenthub/agents/youtube/db
 # Build caches
 .cache/
 
-# Mobile development
-android-sdk/ frontend/node_modules/.cache/default-development/0.pack
-frontend/node_modules/.cache/default-development/0.pack
--e 
-# Environment files
-*.env
-*.env.*
-frontend/node_modules/.cache/default-development/7.pack
--e 
-# Environment files
-*.env
-*.env.*
-frontend/node_modules/.cache/default-development/9.pack
--e 
-# Environment files
-*.env
-*.env.*
-frontend/node_modules/.cache/default-development/1.pack
-frontend/node_modules/.cache/default-development/3.pack
--e 
-# Environment files
-*.env
-*.env.*
-frontend/node_modules/.cache/default-development/5.pack
-frontend/node_modules/.cache/default-development/2.pack
-frontend/node_modules/.cache/default-development/8.pack
-frontend/node_modules/.cache/default-development/4.pack
-frontend/node_modules/.cache/default-development/6.pack
-frontend/node_modules/.cache/default-development/1.pack_
-frontend/node_modules/.cache/default-development/10.pack
--e 
-# Environment files
-*.env
-*.env.*
-frontend/node_modules/.cache/default-development/11.pack
-brochures/Diagnostics/Instruments/Biochemistry
-Analyzers/CliniQuant_Brochure.pdf
-
 # Downloaded brochures (processed, not needed for deployment)
 brochures/
-backend/brochure_intelligence/source_brochures/New
-Pricing.pdf
-backend/brochure_intelligence/source_brochures/Meril
-Brochure_High
-Res.pdf
-backend/brochure_intelligence/source_brochures/CliniQuant_Brochure.pdf
-backend/brochure_intelligence/source_brochures/Corporate
-Product
-Brochure_Diagno.pdf
-backend/brochure_intelligence/source_brochures/M.Guide
-Booklet_New
-logo.pdf
