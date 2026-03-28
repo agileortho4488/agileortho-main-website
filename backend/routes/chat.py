@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException
 from datetime import datetime, timezone
 import uuid
 
-from db import products_col, conversations_col, leads_col
+from db import products_col, conversations_col, leads_col, catalog_products_col, catalog_skus_col
 from models import ChatMessage, ChatLeadCapture
 from helpers import EMERGENT_LLM_KEY
 
@@ -38,7 +38,7 @@ ABOUT AGILE ORTHO:
 - Authorized Meril Life Sciences Master Distributor for Telangana
 - Serves hospitals, clinics, and diagnostic centers across all 33 districts of Telangana
 - Specializes in: Orthopedics, Cardiovascular, Diagnostics, ENT, Endo-surgical, Infection Prevention, Critical Care, Peripheral Intervention, Urology, Robotics devices
-- 814+ products in our catalog across 10 medical divisions
+- 810+ verified products in our catalog across 13 medical divisions
 - ISO 13485 certified supply chain
 - Offers bulk pricing, quick delivery, and after-sales support
 
@@ -55,62 +55,93 @@ PRODUCT CONTEXT (from catalog):
 """
 
 
-async def search_relevant_products(query: str, limit: int = 12) -> list:
-    results = []
-    try:
-        cursor = products_col.find(
-            {"$text": {"$search": query}, "status": "published"},
-            {"score": {"$meta": "textScore"}, "_id": 0, "slug": 0}
-        ).sort([("score", {"$meta": "textScore"})]).limit(limit)
-        async for doc in cursor:
-            doc.pop("score", None)
-            results.append(doc)
-    except Exception:
-        pass
+LIVE_FILTER = {
+    "semantic_brand_system": {"$nin": [None, ""]},
+    "review_required": False,
+    "proposed_conflict_detected": {"$ne": True},
+    "mapping_confidence": {"$in": ["high", "medium"]},
+    "division_canonical": {"$nin": ["_REVIEW", None, ""]},
+    "status": {"$ne": "draft"},
+}
 
+
+async def search_relevant_products(query: str, limit: int = 12) -> list:
+    """Search the enriched catalog_products for relevant products."""
+    results = []
+    keywords = [w.lower() for w in query.split() if len(w) > 2]
+
+    for kw in keywords[:8]:
+        regex = {"$regex": kw, "$options": "i"}
+        filt = {
+            **LIVE_FILTER,
+            "$or": [
+                {"product_name": regex},
+                {"product_name_display": regex},
+                {"brand": regex},
+                {"semantic_brand_system": regex},
+                {"semantic_system_type": regex},
+                {"semantic_implant_class": regex},
+                {"division_canonical": regex},
+                {"category": regex},
+                {"product_family": regex},
+                {"semantic_material_default": regex},
+                {"semantic_coating_default": regex},
+            ],
+        }
+        cursor = catalog_products_col.find(filt, {"_id": 0}).limit(8)
+        async for doc in cursor:
+            slug = doc.get("slug", "")
+            if not any(r.get("slug") == slug for r in results):
+                results.append(doc)
+            if len(results) >= limit:
+                break
+        if len(results) >= limit:
+            break
+
+    # If few results, also search SKU codes
     if len(results) < 5:
-        keywords = [w.lower() for w in query.split() if len(w) > 2]
-        for kw in keywords[:5]:
+        for kw in keywords[:3]:
             regex = {"$regex": kw, "$options": "i"}
-            cursor = products_col.find(
-                {"$or": [
-                    {"product_name": regex},
-                    {"division": regex},
-                    {"category": regex},
-                    {"material": regex},
-                    {"description": regex},
-                    {"manufacturer": regex},
-                ], "status": "published"},
-                {"_id": 0, "slug": 0}
-            ).limit(6)
-            async for doc in cursor:
-                if not any(r.get("sku_code") == doc.get("sku_code") for r in results):
-                    results.append(doc)
+            cursor = catalog_skus_col.find(
+                {"$or": [{"sku_code": regex}, {"description": regex}]},
+                {"_id": 0}
+            ).limit(5)
+            async for sku in cursor:
+                sid = sku.get("product_id_shadow", "")
+                if sid:
+                    prod = await catalog_products_col.find_one(
+                        {**LIVE_FILTER, "shadow_product_id": sid}, {"_id": 0}
+                    )
+                    if prod and not any(r.get("slug") == prod.get("slug") for r in results):
+                        results.append(prod)
 
     return results[:limit]
 
 
 def format_product_context(products: list) -> str:
     if not products:
-        return "No specific products found matching the query. Suggest the user browse the full catalog at /products or contact sales."
+        return "No specific products found matching the query. Suggest the user browse the full catalog at /catalog or contact sales."
 
     lines = []
     for p in products:
-        specs = p.get("technical_specifications", {})
-        spec_str = ", ".join(f"{k}: {v}" for k, v in specs.items()) if isinstance(specs, dict) and specs else "N/A"
-        size_vars = p.get("size_variables", [])
-        if isinstance(size_vars, list) and size_vars:
-            sizes = ", ".join(str(s) if not isinstance(s, dict) else str(s.get("size", s)) for s in size_vars)
-        else:
-            sizes = "N/A"
+        name = p.get("product_name_display") or p.get("product_name", "Unknown")
+        brand = p.get("semantic_brand_system") or p.get("brand", "")
+        division = p.get("division_canonical") or p.get("division", "")
+        category = p.get("category", "")
+        material = p.get("semantic_material_default") or p.get("material", "N/A")
+        coating = p.get("semantic_coating_default", "")
+        system_type = p.get("semantic_system_type", "")
+        implant_class = p.get("semantic_implant_class", "")
+        clinical_sub = p.get("clinical_subtitle", "")
+        slug = p.get("slug", "")
+
         lines.append(
-            f"- **{p.get('product_name', 'Unknown')}** (SKU: {p.get('sku_code', 'N/A')})\n"
-            f"  Division: {p.get('division', '')} | Category: {p.get('category', '')}\n"
-            f"  Material: {p.get('material', 'N/A')} | Manufacturer: {p.get('manufacturer', 'Meril')}\n"
-            f"  Description: {p.get('description', '')[:200]}\n"
-            f"  Specs: {spec_str}\n"
-            f"  Sizes: {sizes}\n"
-            f"  Pack: {p.get('pack_size', 'N/A')}"
+            f"- **{name}** (Brand: {brand})\n"
+            f"  Division: {division} | Category: {category}\n"
+            f"  Material: {material}{f' | Coating: {coating}' if coating else ''}\n"
+            f"  {f'Type: {system_type} | ' if system_type else ''}{f'Class: {implant_class} | ' if implant_class else ''}"
+            f"{f'Details: {clinical_sub}' if clinical_sub else ''}\n"
+            f"  Catalog: /catalog/products/{slug}" if slug else ""
         )
     return "\n".join(lines)
 

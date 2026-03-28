@@ -257,6 +257,14 @@ async def catalog_product_list(
             {"product_name_display": {"$regex": search, "$options": "i"}},
             {"brand": {"$regex": search, "$options": "i"}},
             {"sku_code": {"$regex": search, "$options": "i"}},
+            {"category": {"$regex": search, "$options": "i"}},
+            {"semantic_brand_system": {"$regex": search, "$options": "i"}},
+            {"semantic_system_type": {"$regex": search, "$options": "i"}},
+            {"semantic_implant_class": {"$regex": search, "$options": "i"}},
+            {"semantic_material_default": {"$regex": search, "$options": "i"}},
+            {"product_family": {"$regex": search, "$options": "i"}},
+            {"clinical_subtitle": {"$regex": search, "$options": "i"}},
+            {"division_canonical": {"$regex": search, "$options": "i"}},
         ]
 
     total = await catalog_products_col.count_documents(filt)

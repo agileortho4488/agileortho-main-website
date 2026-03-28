@@ -22,5 +22,6 @@ shadow_brands_col = db["shadow_brands"]
 shadow_chunks_col = db["shadow_chunks"]
 
 catalog_products_col = db["catalog_products"]
+catalog_skus_col = db["catalog_skus"]
 web_verification_log_col = db["web_verification_log"]
 promotion_log_col = db["promotion_log"]

@@ -8,7 +8,7 @@ from pydantic import BaseModel
 from typing import Optional
 from datetime import datetime, timezone, timedelta
 from collections import Counter
-from db import shadow_products_col, shadow_skus_col, shadow_brands_col, shadow_chunks_col, db as mongo_db
+from db import shadow_products_col, shadow_skus_col, shadow_brands_col, shadow_chunks_col, db as mongo_db, catalog_products_col, catalog_skus_col
 from helpers import admin_required
 import re
 import time
@@ -135,11 +135,11 @@ def is_on_topic(question: str, terms: list) -> bool:
 
 
 async def sku_exact_lookup(codes: list) -> list:
-    """Direct exact-match lookup in shadow_skus, with prefix fallback."""
+    """Direct exact-match lookup in catalog_skus (enriched), with prefix fallback."""
     results = []
     for code in codes:
-        # Try exact match first
-        cursor = shadow_skus_col.find(
+        # Try exact match in enriched catalog first
+        cursor = catalog_skus_col.find(
             {"sku_code": {"$regex": f"^{re.escape(code)}$", "$options": "i"}},
             {"_id": 0}
         ).limit(20)
@@ -150,11 +150,11 @@ async def sku_exact_lookup(codes: list) -> list:
         if exact:
             results.extend(exact)
         else:
-            # Prefix fallback: extract alpha prefix and search with it
+            # Prefix fallback
             alpha_prefix = re.match(r'^([A-Z]{2,5})', code.upper())
             if alpha_prefix:
                 prefix = alpha_prefix.group(1)
-                cursor = shadow_skus_col.find(
+                cursor = catalog_skus_col.find(
                     {"sku_code": {"$regex": f"^{re.escape(prefix)}", "$options": "i"}},
                     {"_id": 0}
                 ).limit(30)
@@ -281,6 +281,86 @@ def format_gated_answer(chunks: list, question: str, confidence: str, sku_result
     }
 
 
+CATALOG_LIVE_FILTER = {
+    "semantic_brand_system": {"$nin": [None, ""]},
+    "review_required": False,
+    "proposed_conflict_detected": {"$ne": True},
+    "mapping_confidence": {"$in": ["high", "medium"]},
+    "division_canonical": {"$nin": ["_REVIEW", None, ""]},
+    "status": {"$ne": "draft"},
+}
+
+
+async def search_catalog_products(terms: list, limit: int = 10) -> list:
+    """Search enriched catalog_products by keyword matching."""
+    results = []
+    for term in terms[:8]:
+        regex = {"$regex": re.escape(term), "$options": "i"}
+        filt = {
+            **CATALOG_LIVE_FILTER,
+            "$or": [
+                {"product_name": regex},
+                {"product_name_display": regex},
+                {"brand": regex},
+                {"semantic_brand_system": regex},
+                {"semantic_system_type": regex},
+                {"division_canonical": regex},
+                {"category": regex},
+                {"product_family": regex},
+                {"semantic_implant_class": regex},
+            ],
+        }
+        cursor = catalog_products_col.find(filt, {"_id": 0}).limit(6)
+        async for doc in cursor:
+            slug = doc.get("slug", "")
+            if not any(r.get("slug") == slug for r in results):
+                results.append(doc)
+            if len(results) >= limit:
+                break
+        if len(results) >= limit:
+            break
+    return results[:limit]
+
+
+def format_catalog_answer(products: list, question: str) -> dict:
+    """Format catalog product results as a chatbot answer."""
+    if not products:
+        return None
+
+    lines = []
+    sources = []
+    for p in products[:5]:
+        name = p.get("product_name_display") or p.get("product_name", "Unknown")
+        brand = p.get("semantic_brand_system") or p.get("brand", "")
+        division = p.get("division_canonical", "")
+        material = p.get("semantic_material_default", "")
+        system_type = p.get("semantic_system_type", "")
+        clinical_sub = p.get("clinical_subtitle", "")
+        slug = p.get("slug", "")
+
+        line = f"  - **{name}** ({brand}) — {division}"
+        if material:
+            line += f" | Material: {material}"
+        if system_type:
+            line += f" | Type: {system_type}"
+        if clinical_sub:
+            line += f"\n    {clinical_sub}"
+        if slug:
+            line += f"\n    View: /catalog/products/{slug}"
+        lines.append(line)
+        sources.append({"product": name, "brand": brand, "division": division, "type": "catalog_product"})
+
+    answer = f"Found {len(products)} product(s) matching your query:\n\n" + "\n\n".join(lines)
+    if len(products) > 5:
+        answer += f"\n\n... and {len(products) - 5} more. Browse the full catalog at /catalog"
+
+    return {
+        "answer": answer,
+        "sources": sources[:5],
+        "confidence": "high" if len(products) >= 3 else "medium",
+    }
+
+
 @router.post("/query", response_model=ChatResponse)
 async def chatbot_query(query: ChatQuery):
     t_start = time.monotonic()
@@ -315,7 +395,16 @@ async def chatbot_query(query: ChatQuery):
     if sku_codes:
         sku_results = await sku_exact_lookup(sku_codes)
 
-    # GUARD 3: Keyword search with confidence gating
+    # GUARD 2.5: Search enriched catalog products first
+    catalog_results = await search_catalog_products(terms)
+    if catalog_results and not sku_results:
+        result = format_catalog_answer(catalog_results, question)
+        if result:
+            elapsed_ms = round((time.monotonic() - t_start) * 1000)
+            await _store_conversation(session_id, question, result, elapsed_ms)
+            return result
+
+    # GUARD 3: Keyword search with confidence gating (fallback to chunks)
     chunks = await search_chunks(terms, query.top_k)
     confidence = compute_confidence(chunks, terms)
 
