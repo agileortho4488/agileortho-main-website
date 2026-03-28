@@ -3,7 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import {
   Search, Filter, ChevronLeft, ChevronRight, Check, X,
   Edit3, Users, ArrowUpDown, Eye, AlertTriangle, CheckCircle2,
-  BarChart3, Layers,
+  BarChart3, Layers, Sparkles, ShieldCheck, ShieldAlert, ChevronDown, ChevronUp,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -484,6 +484,235 @@ function FamilyPanel({ onBulkApprove }) {
   );
 }
 
+// ── Smart Suggestions Panel ──
+function SmartSuggestionsPanel({ onBulkApprove, onRefresh }) {
+  const [suggestions, setSuggestions] = useState([]);
+  const [summary, setSummary] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [expanded, setExpanded] = useState(new Set());
+  const [approving, setApproving] = useState(null);
+
+  const loadSuggestions = useCallback(() => {
+    setLoading(true);
+    fetch(`${API}/api/admin/review/smart-suggestions`, { headers: getHeaders() })
+      .then((r) => r.json())
+      .then((d) => {
+        setSuggestions(d.suggestions || []);
+        setSummary(d.summary || null);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, []);
+
+  useEffect(() => { loadSuggestions(); }, [loadSuggestions]);
+
+  const handleApproveFamily = async (suggestion) => {
+    const slugs = suggestion.eligible_slugs;
+    if (!slugs.length) return;
+    const msg = `Approve ${slugs.length} eligible products in "${suggestion.family}" (${suggestion.division})?`;
+    if (!window.confirm(msg)) return;
+
+    setApproving(suggestion.family);
+    const res = await fetch(`${API}/api/admin/review/bulk-approve`, {
+      method: "POST", headers: getHeaders(),
+      body: JSON.stringify({ slugs }),
+    });
+    if (res.ok) {
+      const data = await res.json();
+      toast.success(`Approved ${data.count} products from "${suggestion.family}"`);
+      loadSuggestions();
+      if (onRefresh) onRefresh();
+    } else {
+      toast.error("Failed to approve");
+    }
+    setApproving(null);
+  };
+
+  const toggleExpand = (key) => {
+    const next = new Set(expanded);
+    if (next.has(key)) next.delete(key);
+    else next.add(key);
+    setExpanded(next);
+  };
+
+  const ScoreBadge = ({ score }) => {
+    const cls = score >= 80 ? "bg-emerald-100 text-emerald-800" :
+                score >= 50 ? "bg-amber-100 text-amber-800" :
+                "bg-red-100 text-red-800";
+    return <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${cls}`}>{score}</span>;
+  };
+
+  const ExclusionTag = ({ reason }) => {
+    const labels = {
+      ti_vs_ss_material_ambiguity: "Ti vs SS conflict",
+      mixed_materials: "Mixed materials",
+      mixed_coated_uncoated: "Mixed coated/uncoated",
+      cross_brand_bundle: "Cross-brand",
+      has_conflict_flags: "Conflict flags",
+      conflict_review_members: "Conflict review",
+      avg_confidence_below_threshold: "Low avg confidence",
+      mixed_divisions: "Mixed divisions",
+    };
+    return (
+      <span className="inline-flex items-center gap-0.5 text-[10px] px-1.5 py-0.5 rounded bg-red-50 text-red-700 border border-red-200">
+        <ShieldAlert size={10} /> {labels[reason] || reason.replace(/_/g, " ")}
+      </span>
+    );
+  };
+
+  return (
+    <div data-testid="smart-suggestions-panel">
+      {/* Summary bar */}
+      {summary && (
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4" data-testid="smart-summary">
+          <div className="bg-emerald-50 border border-emerald-200 rounded-lg px-4 py-3">
+            <p className="text-xs text-emerald-600 font-medium">Safe to Approve</p>
+            <p className="text-xl font-bold text-emerald-800">{summary.fully_eligible}</p>
+            <p className="text-[10px] text-emerald-500">families</p>
+          </div>
+          <div className="bg-amber-50 border border-amber-200 rounded-lg px-4 py-3">
+            <p className="text-xs text-amber-600 font-medium">Partially Eligible</p>
+            <p className="text-xl font-bold text-amber-800">{summary.partially_eligible}</p>
+            <p className="text-[10px] text-amber-500">families</p>
+          </div>
+          <div className="bg-red-50 border border-red-200 rounded-lg px-4 py-3">
+            <p className="text-xs text-red-600 font-medium">Not Eligible</p>
+            <p className="text-xl font-bold text-red-800">{summary.ineligible}</p>
+            <p className="text-[10px] text-red-500">families</p>
+          </div>
+          <div className="bg-blue-50 border border-blue-200 rounded-lg px-4 py-3">
+            <p className="text-xs text-blue-600 font-medium">Products Clearable</p>
+            <p className="text-xl font-bold text-blue-800">{summary.total_products_clearable}</p>
+            <p className="text-[10px] text-blue-500">via bulk approve</p>
+          </div>
+        </div>
+      )}
+
+      {loading ? (
+        <div className="bg-white border border-slate-200 rounded-lg p-12 text-center text-sm text-slate-400">
+          Analyzing families...
+        </div>
+      ) : suggestions.length === 0 ? (
+        <div className="bg-white border border-slate-200 rounded-lg p-12 text-center text-sm text-slate-400">
+          No family suggestions available
+        </div>
+      ) : (
+        <div className="space-y-2">
+          {suggestions.map((s) => {
+            const key = `${s.division}||${s.brand}||${s.family}`;
+            const isExpanded = expanded.has(key);
+            const isEligible = s.smart_approve_eligible;
+            const isPartial = s.partially_eligible;
+            const borderCls = isEligible ? "border-emerald-200" : isPartial ? "border-amber-200" : "border-red-200";
+            const headerBg = isEligible ? "bg-emerald-50/50" : isPartial ? "bg-amber-50/50" : "bg-red-50/30";
+
+            return (
+              <div key={key} className={`bg-white border ${borderCls} rounded-lg overflow-hidden`} data-testid={`suggestion-${s.family}`}>
+                {/* Header */}
+                <div
+                  className={`px-4 py-3 ${headerBg} cursor-pointer flex items-center justify-between`}
+                  onClick={() => toggleExpand(key)}
+                >
+                  <div className="flex items-center gap-3 min-w-0">
+                    {isEligible ? (
+                      <ShieldCheck size={18} className="text-emerald-600 flex-shrink-0" />
+                    ) : isPartial ? (
+                      <AlertTriangle size={18} className="text-amber-600 flex-shrink-0" />
+                    ) : (
+                      <ShieldAlert size={18} className="text-red-500 flex-shrink-0" />
+                    )}
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <p className="text-sm font-semibold text-slate-800 truncate">{s.family}</p>
+                        <ScoreBadge score={s.smart_approve_score} />
+                      </div>
+                      <p className="text-xs text-slate-500 mt-0.5">
+                        {s.division} · {s.brand || "(no brand)"} · {s.family_size} products · avg {s.avg_confidence} conf
+                        {s.implant_classes.length > 0 && ` · ${s.implant_classes.join(", ")}`}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 flex-shrink-0">
+                    {(isEligible || isPartial) && s.eligible_count > 0 && (
+                      <button
+                        onClick={(e) => { e.stopPropagation(); handleApproveFamily(s); }}
+                        disabled={approving === s.family}
+                        className="text-xs px-3 py-1.5 bg-emerald-600 text-white rounded-md hover:bg-emerald-700 font-medium disabled:opacity-50"
+                        data-testid={`smart-approve-${s.family}`}
+                      >
+                        {approving === s.family ? "Approving..." : `Approve ${s.eligible_count}`}
+                      </button>
+                    )}
+                    {isExpanded ? <ChevronUp size={16} className="text-slate-400" /> : <ChevronDown size={16} className="text-slate-400" />}
+                  </div>
+                </div>
+
+                {/* Expanded details */}
+                {isExpanded && (
+                  <div className="px-4 py-3 border-t border-slate-100 space-y-3">
+                    {/* Reason */}
+                    <div className="bg-slate-50 rounded-md p-3">
+                      <p className="text-xs text-slate-500 uppercase tracking-wide mb-1">Analysis</p>
+                      <p className="text-sm text-slate-700">{s.smart_approve_reason}</p>
+                    </div>
+
+                    {/* Confidence range */}
+                    <div className="flex items-center gap-4 text-xs">
+                      <span className="text-slate-500">Confidence range:</span>
+                      <span className="font-mono">{s.min_confidence} — {s.max_confidence}</span>
+                      <span className="text-slate-400">|</span>
+                      <span className="text-slate-500">Eligible:</span>
+                      <span className="font-medium text-emerald-700">{s.eligible_count}</span>
+                      <span className="text-slate-500">Excluded:</span>
+                      <span className="font-medium text-red-600">{s.excluded_count}</span>
+                    </div>
+
+                    {/* Exclusions */}
+                    {s.smart_approve_exclusion_reasons.length > 0 && (
+                      <div>
+                        <p className="text-xs text-slate-500 mb-1">Exclusion reasons:</p>
+                        <div className="flex flex-wrap gap-1">
+                          {s.smart_approve_exclusion_reasons.map((r) => <ExclusionTag key={r} reason={r} />)}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Sample titles */}
+                    {s.sample_titles.length > 0 && (
+                      <div>
+                        <p className="text-xs text-slate-500 mb-1">Sample products:</p>
+                        <div className="grid grid-cols-2 gap-1">
+                          {s.sample_titles.map((t, i) => (
+                            <p key={i} className="text-xs text-slate-600 truncate">· {t}</p>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Excluded slugs (if any) */}
+                    {s.excluded_slugs.length > 0 && s.excluded_slugs.length <= 10 && (
+                      <div>
+                        <p className="text-xs text-red-500 mb-1">Excluded items (need individual review):</p>
+                        <div className="flex flex-wrap gap-1">
+                          {s.excluded_slugs.map((slug) => (
+                            <span key={slug} className="text-[10px] bg-red-50 text-red-600 px-1.5 py-0.5 rounded border border-red-100">
+                              {slug}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ── Main Dashboard ──
 export default function AdminReview() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -627,6 +856,15 @@ export default function AdminReview() {
           >
             <Layers size={14} /> Families
           </button>
+          <button
+            onClick={() => setViewMode("smart")}
+            className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+              viewMode === "smart" ? "bg-emerald-700 text-white" : "bg-emerald-50 text-emerald-700 hover:bg-emerald-100"
+            }`}
+            data-testid="view-mode-smart"
+          >
+            <Sparkles size={14} /> Smart Suggestions
+          </button>
         </div>
       </div>
 
@@ -739,8 +977,10 @@ export default function AdminReview() {
             )}
           </div>
         </>
-      ) : (
+      ) : viewMode === "families" ? (
         <FamilyPanel onBulkApprove={handleBulkApprove} />
+      ) : (
+        <SmartSuggestionsPanel onRefresh={() => { loadProducts(); loadStats(); }} />
       )}
 
       {/* Detail Modal */}

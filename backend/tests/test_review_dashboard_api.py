@@ -586,3 +586,407 @@ class TestReviewDashboardWithSpecificSlugs:
             print(f"vircell-dengue-igm product found: {data['product'].get('product_name_display', 'N/A')}")
         else:
             print(f"vircell-dengue-igm not found (status {response.status_code})")
+
+
+class TestSmartSuggestionsAPI:
+    """Tests for the Smart Suggestions feature - analyzes families and recommends bulk approval candidates"""
+    
+    @pytest.fixture(autouse=True)
+    def setup(self):
+        """Get admin token for authenticated requests"""
+        self.session = requests.Session()
+        self.session.headers.update({"Content-Type": "application/json"})
+        
+        login_response = self.session.post(
+            f"{BASE_URL}/api/admin/login",
+            json={"password": ADMIN_PASSWORD}
+        )
+        assert login_response.status_code == 200, f"Admin login failed: {login_response.text}"
+        token = login_response.json().get("token")
+        assert token, "No token returned from admin login"
+        self.session.headers.update({"Authorization": f"Bearer {token}"})
+        self.token = token
+    
+    # ── Smart Suggestions Endpoint Tests ──
+    def test_smart_suggestions_returns_200(self):
+        """GET /api/admin/review/smart-suggestions returns 200 with suggestions data"""
+        response = self.session.get(f"{BASE_URL}/api/admin/review/smart-suggestions")
+        assert response.status_code == 200, f"Smart suggestions endpoint failed: {response.text}"
+        
+        data = response.json()
+        assert "suggestions" in data, "Missing suggestions array"
+        assert "summary" in data, "Missing summary object"
+        
+        assert isinstance(data["suggestions"], list)
+        assert isinstance(data["summary"], dict)
+        
+        print(f"Smart suggestions: {len(data['suggestions'])} families analyzed")
+    
+    def test_smart_suggestions_summary_structure(self):
+        """Summary contains required counts: fully_eligible, partially_eligible, ineligible"""
+        response = self.session.get(f"{BASE_URL}/api/admin/review/smart-suggestions")
+        assert response.status_code == 200
+        
+        data = response.json()
+        summary = data.get("summary", {})
+        
+        # Required summary fields
+        assert "total_families_analyzed" in summary, "Missing total_families_analyzed"
+        assert "fully_eligible" in summary, "Missing fully_eligible count"
+        assert "partially_eligible" in summary, "Missing partially_eligible count"
+        assert "ineligible" in summary, "Missing ineligible count"
+        assert "total_products_clearable" in summary, "Missing total_products_clearable"
+        
+        # Verify data types
+        assert isinstance(summary["total_families_analyzed"], int)
+        assert isinstance(summary["fully_eligible"], int)
+        assert isinstance(summary["partially_eligible"], int)
+        assert isinstance(summary["ineligible"], int)
+        assert isinstance(summary["total_products_clearable"], int)
+        
+        # Verify counts add up
+        total = summary["fully_eligible"] + summary["partially_eligible"] + summary["ineligible"]
+        assert total == summary["total_families_analyzed"], \
+            f"Counts don't add up: {summary['fully_eligible']} + {summary['partially_eligible']} + {summary['ineligible']} != {summary['total_families_analyzed']}"
+        
+        print(f"Summary: fully_eligible={summary['fully_eligible']}, partially_eligible={summary['partially_eligible']}, "
+              f"ineligible={summary['ineligible']}, total_products_clearable={summary['total_products_clearable']}")
+    
+    def test_smart_suggestions_has_eligible_families(self):
+        """At least one fully_eligible family should exist"""
+        response = self.session.get(f"{BASE_URL}/api/admin/review/smart-suggestions")
+        assert response.status_code == 200
+        
+        data = response.json()
+        summary = data.get("summary", {})
+        
+        # Per the request, fully_eligible should be >= 1
+        assert summary.get("fully_eligible", 0) >= 1, \
+            f"Expected at least 1 fully_eligible family, got {summary.get('fully_eligible', 0)}"
+        
+        print(f"Found {summary['fully_eligible']} fully eligible families")
+    
+    def test_smart_suggestions_suggestion_structure(self):
+        """Each suggestion has required fields for eligibility analysis"""
+        response = self.session.get(f"{BASE_URL}/api/admin/review/smart-suggestions")
+        assert response.status_code == 200
+        
+        data = response.json()
+        suggestions = data.get("suggestions", [])
+        
+        if len(suggestions) > 0:
+            suggestion = suggestions[0]
+            
+            # Required fields
+            assert "family" in suggestion, "Missing family name"
+            assert "division" in suggestion, "Missing division"
+            assert "brand" in suggestion, "Missing brand"
+            assert "family_size" in suggestion, "Missing family_size"
+            assert "smart_approve_eligible" in suggestion, "Missing smart_approve_eligible"
+            assert "partially_eligible" in suggestion, "Missing partially_eligible"
+            assert "smart_approve_score" in suggestion, "Missing smart_approve_score"
+            assert "smart_approve_reason" in suggestion, "Missing smart_approve_reason"
+            assert "smart_approve_exclusion_reasons" in suggestion, "Missing smart_approve_exclusion_reasons"
+            assert "avg_confidence" in suggestion, "Missing avg_confidence"
+            assert "min_confidence" in suggestion, "Missing min_confidence"
+            assert "max_confidence" in suggestion, "Missing max_confidence"
+            assert "eligible_count" in suggestion, "Missing eligible_count"
+            assert "eligible_slugs" in suggestion, "Missing eligible_slugs"
+            assert "excluded_count" in suggestion, "Missing excluded_count"
+            assert "excluded_slugs" in suggestion, "Missing excluded_slugs"
+            assert "sample_titles" in suggestion, "Missing sample_titles"
+            
+            # Verify data types
+            assert isinstance(suggestion["smart_approve_eligible"], bool)
+            assert isinstance(suggestion["partially_eligible"], bool)
+            assert isinstance(suggestion["smart_approve_score"], (int, float))
+            assert isinstance(suggestion["eligible_slugs"], list)
+            assert isinstance(suggestion["excluded_slugs"], list)
+            assert isinstance(suggestion["smart_approve_exclusion_reasons"], list)
+            
+            print(f"Sample suggestion: {suggestion['family']} ({suggestion['division']}) - "
+                  f"eligible={suggestion['smart_approve_eligible']}, score={suggestion['smart_approve_score']}")
+    
+    def test_smart_suggestions_eligible_family_criteria(self):
+        """Eligible families have: same division, same brand, no conflicts, avg conf >= 0.85"""
+        response = self.session.get(f"{BASE_URL}/api/admin/review/smart-suggestions")
+        assert response.status_code == 200
+        
+        data = response.json()
+        suggestions = data.get("suggestions", [])
+        
+        eligible_families = [s for s in suggestions if s.get("smart_approve_eligible")]
+        
+        for family in eligible_families:
+            # Avg confidence should be >= 0.85
+            assert family.get("avg_confidence", 0) >= 0.85, \
+                f"Eligible family {family['family']} has avg_confidence {family['avg_confidence']} < 0.85"
+            
+            # No exclusion reasons
+            assert len(family.get("smart_approve_exclusion_reasons", [])) == 0, \
+                f"Eligible family {family['family']} has exclusion reasons: {family['smart_approve_exclusion_reasons']}"
+            
+            # Eligible count should equal family size
+            assert family.get("eligible_count", 0) == family.get("family_size", 0), \
+                f"Eligible family {family['family']} has eligible_count {family['eligible_count']} != family_size {family['family_size']}"
+            
+            # No excluded slugs
+            assert len(family.get("excluded_slugs", [])) == 0, \
+                f"Eligible family {family['family']} has excluded slugs"
+        
+        print(f"Verified {len(eligible_families)} eligible families meet criteria")
+    
+    def test_smart_suggestions_exclusion_reasons(self):
+        """Ineligible families have valid exclusion reasons"""
+        response = self.session.get(f"{BASE_URL}/api/admin/review/smart-suggestions")
+        assert response.status_code == 200
+        
+        data = response.json()
+        suggestions = data.get("suggestions", [])
+        
+        # Valid exclusion reasons
+        valid_reasons = {
+            "mixed_divisions", "cross_brand_bundle", "has_conflict_flags",
+            "ti_vs_ss_material_ambiguity", "mixed_materials", "mixed_coated_uncoated",
+            "avg_confidence_below_threshold", "conflict_review_members"
+        }
+        
+        ineligible_families = [s for s in suggestions if not s.get("smart_approve_eligible") and not s.get("partially_eligible")]
+        
+        for family in ineligible_families:
+            reasons = family.get("smart_approve_exclusion_reasons", [])
+            assert len(reasons) > 0, f"Ineligible family {family['family']} has no exclusion reasons"
+            
+            for reason in reasons:
+                assert reason in valid_reasons, \
+                    f"Unknown exclusion reason '{reason}' in family {family['family']}"
+        
+        print(f"Verified {len(ineligible_families)} ineligible families have valid exclusion reasons")
+    
+    def test_smart_suggestions_score_range(self):
+        """Smart approve score is 0-100"""
+        response = self.session.get(f"{BASE_URL}/api/admin/review/smart-suggestions")
+        assert response.status_code == 200
+        
+        data = response.json()
+        suggestions = data.get("suggestions", [])
+        
+        for suggestion in suggestions:
+            score = suggestion.get("smart_approve_score", 0)
+            assert 0 <= score <= 100, \
+                f"Family {suggestion['family']} has score {score} outside 0-100 range"
+        
+        print(f"All {len(suggestions)} suggestions have valid scores (0-100)")
+    
+    def test_smart_suggestions_ti_vs_ss_exclusion(self):
+        """Families with Ti vs SS material ambiguity are excluded"""
+        response = self.session.get(f"{BASE_URL}/api/admin/review/smart-suggestions")
+        assert response.status_code == 200
+        
+        data = response.json()
+        suggestions = data.get("suggestions", [])
+        
+        ti_ss_families = [s for s in suggestions if "ti_vs_ss_material_ambiguity" in s.get("smart_approve_exclusion_reasons", [])]
+        
+        for family in ti_ss_families:
+            assert not family.get("smart_approve_eligible"), \
+                f"Family {family['family']} with Ti vs SS ambiguity should not be eligible"
+        
+        print(f"Found {len(ti_ss_families)} families with Ti vs SS material ambiguity (correctly excluded)")
+    
+    def test_smart_suggestions_mixed_coated_exclusion(self):
+        """Families with mixed coated/uncoated are excluded"""
+        response = self.session.get(f"{BASE_URL}/api/admin/review/smart-suggestions")
+        assert response.status_code == 200
+        
+        data = response.json()
+        suggestions = data.get("suggestions", [])
+        
+        mixed_coating_families = [s for s in suggestions if "mixed_coated_uncoated" in s.get("smart_approve_exclusion_reasons", [])]
+        
+        for family in mixed_coating_families:
+            assert not family.get("smart_approve_eligible"), \
+                f"Family {family['family']} with mixed coated/uncoated should not be eligible"
+        
+        print(f"Found {len(mixed_coating_families)} families with mixed coated/uncoated (correctly excluded)")
+    
+    def test_smart_suggestions_conflict_flags_exclusion(self):
+        """Families with conflict flags are excluded"""
+        response = self.session.get(f"{BASE_URL}/api/admin/review/smart-suggestions")
+        assert response.status_code == 200
+        
+        data = response.json()
+        suggestions = data.get("suggestions", [])
+        
+        conflict_families = [s for s in suggestions if "has_conflict_flags" in s.get("smart_approve_exclusion_reasons", [])]
+        
+        for family in conflict_families:
+            assert not family.get("smart_approve_eligible"), \
+                f"Family {family['family']} with conflict flags should not be eligible"
+        
+        print(f"Found {len(conflict_families)} families with conflict flags (correctly excluded)")
+    
+    def test_smart_suggestions_cross_brand_exclusion(self):
+        """Families with cross-brand bundles are excluded"""
+        response = self.session.get(f"{BASE_URL}/api/admin/review/smart-suggestions")
+        assert response.status_code == 200
+        
+        data = response.json()
+        suggestions = data.get("suggestions", [])
+        
+        cross_brand_families = [s for s in suggestions if "cross_brand_bundle" in s.get("smart_approve_exclusion_reasons", [])]
+        
+        for family in cross_brand_families:
+            assert not family.get("smart_approve_eligible"), \
+                f"Family {family['family']} with cross-brand bundle should not be eligible"
+        
+        print(f"Found {len(cross_brand_families)} families with cross-brand bundles (correctly excluded)")
+    
+    def test_smart_suggestions_sorting(self):
+        """Suggestions are sorted: eligible first, then by score descending"""
+        response = self.session.get(f"{BASE_URL}/api/admin/review/smart-suggestions")
+        assert response.status_code == 200
+        
+        data = response.json()
+        suggestions = data.get("suggestions", [])
+        
+        if len(suggestions) > 1:
+            # Check eligible families come first
+            found_ineligible = False
+            for suggestion in suggestions:
+                if not suggestion.get("smart_approve_eligible") and not suggestion.get("partially_eligible"):
+                    found_ineligible = True
+                elif found_ineligible and suggestion.get("smart_approve_eligible"):
+                    pytest.fail("Eligible family found after ineligible family - sorting incorrect")
+            
+            print("Suggestions are correctly sorted (eligible first)")
+    
+    def test_smart_suggestions_min_family_size_filter(self):
+        """min_family_size parameter filters small families"""
+        # Default min_family_size is 2
+        response = self.session.get(f"{BASE_URL}/api/admin/review/smart-suggestions?min_family_size=5")
+        assert response.status_code == 200
+        
+        data = response.json()
+        suggestions = data.get("suggestions", [])
+        
+        for suggestion in suggestions:
+            assert suggestion.get("family_size", 0) >= 5, \
+                f"Family {suggestion['family']} has size {suggestion['family_size']} < 5"
+        
+        print(f"min_family_size=5 filter returned {len(suggestions)} families")
+    
+    def test_smart_suggestions_division_filter(self):
+        """Division parameter filters by division"""
+        # First get stats to find a division
+        stats_response = self.session.get(f"{BASE_URL}/api/admin/review/stats")
+        stats = stats_response.json()
+        
+        if len(stats.get("by_division", [])) > 0:
+            division = stats["by_division"][0]["division"]
+            response = self.session.get(f"{BASE_URL}/api/admin/review/smart-suggestions?division={division}")
+            assert response.status_code == 200
+            
+            data = response.json()
+            suggestions = data.get("suggestions", [])
+            
+            for suggestion in suggestions:
+                assert suggestion.get("division") == division, \
+                    f"Family {suggestion['family']} has division {suggestion['division']} != {division}"
+            
+            print(f"Division filter '{division}' returned {len(suggestions)} families")
+    
+    def test_smart_suggestions_requires_auth(self):
+        """Smart suggestions endpoint requires authentication"""
+        no_auth_session = requests.Session()
+        response = no_auth_session.get(f"{BASE_URL}/api/admin/review/smart-suggestions")
+        assert response.status_code in [401, 403], f"Expected 401/403 without auth, got {response.status_code}"
+    
+    # ── Bulk Approve via Smart Suggestions Tests ──
+    def test_bulk_approve_eligible_family_slugs(self):
+        """POST /api/admin/review/bulk-approve with eligible_slugs from smart suggestions works"""
+        # Get smart suggestions
+        suggestions_response = self.session.get(f"{BASE_URL}/api/admin/review/smart-suggestions")
+        assert suggestions_response.status_code == 200
+        
+        data = suggestions_response.json()
+        suggestions = data.get("suggestions", [])
+        
+        # Find an eligible family with slugs
+        eligible_families = [s for s in suggestions if s.get("smart_approve_eligible") and len(s.get("eligible_slugs", [])) > 0]
+        
+        if len(eligible_families) > 0:
+            family = eligible_families[0]
+            slugs = family.get("eligible_slugs", [])[:2]  # Take first 2 slugs to test
+            
+            if len(slugs) > 0:
+                response = self.session.post(
+                    f"{BASE_URL}/api/admin/review/bulk-approve",
+                    json={"slugs": slugs}
+                )
+                assert response.status_code == 200, f"Bulk approve failed: {response.text}"
+                
+                result = response.json()
+                assert result.get("status") == "bulk_approved"
+                assert "count" in result
+                
+                print(f"Bulk approved {result['count']} products from eligible family '{family['family']}'")
+            else:
+                pytest.skip("No slugs available in eligible family")
+        else:
+            pytest.skip("No eligible families with slugs available")
+    
+    def test_smart_suggestions_partially_eligible_structure(self):
+        """Partially eligible families have correct structure"""
+        response = self.session.get(f"{BASE_URL}/api/admin/review/smart-suggestions")
+        assert response.status_code == 200
+        
+        data = response.json()
+        suggestions = data.get("suggestions", [])
+        
+        partial_families = [s for s in suggestions if s.get("partially_eligible")]
+        
+        for family in partial_families:
+            # Should not be fully eligible
+            assert not family.get("smart_approve_eligible"), \
+                f"Partially eligible family {family['family']} should not be fully eligible"
+            
+            # Should have some eligible members
+            assert family.get("eligible_count", 0) > 0, \
+                f"Partially eligible family {family['family']} should have eligible_count > 0"
+            
+            # Should have exclusion reasons
+            assert len(family.get("smart_approve_exclusion_reasons", [])) > 0, \
+                f"Partially eligible family {family['family']} should have exclusion reasons"
+        
+        print(f"Verified {len(partial_families)} partially eligible families")
+    
+    def test_smart_suggestions_sample_titles(self):
+        """Suggestions include sample product titles"""
+        response = self.session.get(f"{BASE_URL}/api/admin/review/smart-suggestions")
+        assert response.status_code == 200
+        
+        data = response.json()
+        suggestions = data.get("suggestions", [])
+        
+        for suggestion in suggestions:
+            sample_titles = suggestion.get("sample_titles", [])
+            assert isinstance(sample_titles, list), f"sample_titles should be a list"
+            # Should have at most 4 sample titles
+            assert len(sample_titles) <= 4, f"sample_titles should have at most 4 items"
+        
+        print(f"All {len(suggestions)} suggestions have valid sample_titles")
+    
+    def test_smart_suggestions_implant_classes(self):
+        """Suggestions include implant_classes array"""
+        response = self.session.get(f"{BASE_URL}/api/admin/review/smart-suggestions")
+        assert response.status_code == 200
+        
+        data = response.json()
+        suggestions = data.get("suggestions", [])
+        
+        for suggestion in suggestions:
+            implant_classes = suggestion.get("implant_classes", [])
+            assert isinstance(implant_classes, list), f"implant_classes should be a list"
+        
+        print(f"All {len(suggestions)} suggestions have implant_classes field")

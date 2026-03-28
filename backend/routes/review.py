@@ -489,3 +489,224 @@ async def review_families(
         ],
         "total_families": len(families),
     }
+
+
+
+@router.get("/api/admin/review/smart-suggestions")
+async def smart_suggestions(
+    _=Depends(admin_required),
+    division: Optional[str] = None,
+    min_family_size: int = Query(2, ge=2),
+):
+    """Analyze families and return smart bulk-approve suggestions.
+
+    A family is eligible only when ALL criteria are met:
+    - Same division_canonical across all members
+    - Same brand (or proposed_semantic_brand_system)
+    - No conflict flags on any member
+    - No material/coating disagreement within the family
+    - Avg proposed_semantic_confidence >= 0.85
+    - Minimum family size threshold met
+    - No member has review_required_conflict status
+    """
+    # Gather all pending-review products with proposed fields
+    query = {
+        "proposed_web_verification_status": {"$exists": True},
+        "semantic_brand_system": {"$in": [None, ""]},
+    }
+    if division:
+        query["division_canonical"] = division
+
+    products = await catalog_products_col.find(query, {"_id": 0}).to_list(5000)
+
+    # Group by family key: (division, brand, family_group)
+    families = {}
+    for p in products:
+        div = p.get("division_canonical", "")
+        brand = p.get("proposed_semantic_brand_system") or p.get("brand") or ""
+        family = p.get("proposed_semantic_family_group") or p.get("product_family") or ""
+        if not family:
+            continue
+        key = f"{div}||{brand}||{family}"
+        families.setdefault(key, []).append(p)
+
+    suggestions = []
+
+    for key, members in families.items():
+        if len(members) < min_family_size:
+            continue
+
+        parts = key.split("||")
+        div, brand, family = parts[0], parts[1], parts[2]
+
+        # --- Eligibility checks ---
+        exclusions = []
+        excluded_slugs = []
+
+        # Check 1: Division consistency
+        divs = set(m.get("division_canonical", "") for m in members)
+        if len(divs) > 1:
+            exclusions.append("mixed_divisions")
+
+        # Check 2: Brand consistency
+        brands = set()
+        for m in members:
+            b = m.get("proposed_semantic_brand_system") or m.get("brand") or ""
+            if b:
+                brands.add(b.upper())
+        if len(brands) > 1:
+            exclusions.append("cross_brand_bundle")
+
+        # Check 3: Conflict flags
+        conflict_members = []
+        for m in members:
+            if m.get("proposed_conflict_detected"):
+                conflict_members.append(m.get("slug", ""))
+            if m.get("proposed_web_verification_status") == "review_required_conflict":
+                conflict_members.append(m.get("slug", ""))
+        if conflict_members:
+            exclusions.append("has_conflict_flags")
+            excluded_slugs.extend(list(set(conflict_members)))
+
+        # Check 4: Material/coating disagreement
+        materials = set()
+        coatings = set()
+        for m in members:
+            mat = m.get("proposed_semantic_material_default") or ""
+            coat = m.get("proposed_semantic_coating_default") or ""
+            if mat:
+                materials.add(mat.upper().strip())
+            if coat:
+                coatings.add(coat.upper().strip())
+
+        # Ti vs SS ambiguity detection
+        material_keywords = {mat.lower() for mat in materials}
+        has_titanium = any("titan" in mk for mk in material_keywords)
+        has_steel = any("steel" in mk or "ss " in mk or "ss316" in mk for mk in material_keywords)
+        if has_titanium and has_steel:
+            exclusions.append("ti_vs_ss_material_ambiguity")
+
+        if len(materials) > 1 and "ti_vs_ss_material_ambiguity" not in exclusions:
+            exclusions.append("mixed_materials")
+
+        # Mixed coated/uncoated
+        has_coated = any(c for c in coatings if c and c.lower() != "none")
+        has_uncoated = any(not m.get("proposed_semantic_coating_default") for m in members)
+        if has_coated and has_uncoated:
+            exclusions.append("mixed_coated_uncoated")
+
+        # Check 5: Avg confidence >= 0.85
+        confs = [m.get("proposed_semantic_confidence", 0) for m in members]
+        avg_conf = sum(confs) / len(confs) if confs else 0
+        min_conf = min(confs) if confs else 0
+        max_conf = max(confs) if confs else 0
+
+        if avg_conf < 0.85:
+            exclusions.append("avg_confidence_below_threshold")
+
+        # Check 6: No member with send_to_review due to conflict
+        conflict_review_members = [
+            m.get("slug", "") for m in members
+            if m.get("proposed_recommended_action") == "send_to_review"
+            and m.get("proposed_web_verification_status") == "review_required_conflict"
+        ]
+        if conflict_review_members:
+            if "has_conflict_flags" not in exclusions:
+                exclusions.append("conflict_review_members")
+            excluded_slugs.extend(conflict_review_members)
+
+        # Separate eligible vs excluded members
+        excluded_slug_set = set(excluded_slugs)
+        eligible_members = [m for m in members if m.get("slug", "") not in excluded_slug_set]
+        excluded_members = [m for m in members if m.get("slug", "") in excluded_slug_set]
+
+        # If global exclusions (affects whole family), nobody is eligible
+        global_exclusions = {"mixed_divisions", "cross_brand_bundle", "ti_vs_ss_material_ambiguity",
+                             "mixed_coated_uncoated", "avg_confidence_below_threshold"}
+        has_global_exclusion = bool(set(exclusions) & global_exclusions)
+
+        is_eligible = len(exclusions) == 0
+        is_partially_eligible = not is_eligible and not has_global_exclusion and len(eligible_members) >= min_family_size
+
+        # Compute smart score (0-100)
+        score = 0
+        if avg_conf >= 0.95:
+            score += 40
+        elif avg_conf >= 0.90:
+            score += 30
+        elif avg_conf >= 0.85:
+            score += 20
+        if len(exclusions) == 0:
+            score += 30
+        elif len(exclusions) == 1 and not has_global_exclusion:
+            score += 15
+        if len(members) >= 5:
+            score += 15
+        elif len(members) >= 3:
+            score += 10
+        else:
+            score += 5
+        if not has_global_exclusion:
+            score += 15
+
+        # Build reason string
+        if is_eligible:
+            reason = (
+                f"All {len(members)} members share the same division ({div}), "
+                f"brand ({brand}), and family group. "
+                f"Avg confidence {avg_conf:.2f}, no conflicts, no material disagreements. "
+                f"Safe for bulk approval."
+            )
+        elif is_partially_eligible:
+            reason = (
+                f"{len(eligible_members)}/{len(members)} members eligible. "
+                f"{len(excluded_members)} excluded: {', '.join(exclusions)}. "
+                f"Eligible members can be bulk-approved; excluded need individual review."
+            )
+        else:
+            reason = f"Not eligible: {', '.join(exclusions)}."
+
+        # Implant class consistency
+        classes = set(m.get("proposed_semantic_implant_class", "") for m in members if m.get("proposed_semantic_implant_class"))
+
+        suggestions.append({
+            "family": family,
+            "division": div,
+            "brand": brand,
+            "family_size": len(members),
+            "smart_approve_eligible": is_eligible,
+            "partially_eligible": is_partially_eligible,
+            "smart_approve_score": min(score, 100),
+            "smart_approve_reason": reason,
+            "smart_approve_exclusion_count": len(excluded_members),
+            "smart_approve_exclusion_reasons": exclusions,
+            "avg_confidence": round(avg_conf, 2),
+            "min_confidence": round(min_conf, 2),
+            "max_confidence": round(max_conf, 2),
+            "implant_classes": list(classes),
+            "eligible_count": len(eligible_members) if not has_global_exclusion else 0,
+            "eligible_slugs": [m.get("slug", "") for m in eligible_members] if not has_global_exclusion else [],
+            "excluded_count": len(excluded_members) if not has_global_exclusion else len(members),
+            "excluded_slugs": [m.get("slug", "") for m in excluded_members] if not has_global_exclusion else [m.get("slug", "") for m in members],
+            "sample_titles": [m.get("proposed_clinical_display_title") or m.get("product_name_display", "") for m in members[:4]],
+        })
+
+    # Sort: eligible first, then by score desc
+    suggestions.sort(key=lambda s: (-int(s["smart_approve_eligible"]), -int(s["partially_eligible"]), -s["smart_approve_score"]))
+
+    # Summary counts
+    total_eligible = sum(1 for s in suggestions if s["smart_approve_eligible"])
+    total_partial = sum(1 for s in suggestions if s["partially_eligible"])
+    total_ineligible = len(suggestions) - total_eligible - total_partial
+    total_products_clearable = sum(s["eligible_count"] for s in suggestions if s["smart_approve_eligible"] or s["partially_eligible"])
+
+    return {
+        "suggestions": suggestions,
+        "summary": {
+            "total_families_analyzed": len(suggestions),
+            "fully_eligible": total_eligible,
+            "partially_eligible": total_partial,
+            "ineligible": total_ineligible,
+            "total_products_clearable": total_products_clearable,
+        },
+    }
