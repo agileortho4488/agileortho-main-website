@@ -1,123 +1,101 @@
 {
-  "project_name": "Agile Ortho B2B Homepage",
-  "theme": "light",
-  "archetype": "1_and_4_hybrid_medical_authority",
-  "brand_identity": {
-    "primary_color": "#0F172A",
-    "accent_color": "#0D9488",
-    "background_color": "#F8FAFC",
-    "text_color": "#0F172A",
-    "muted_text_color": "#64748B",
-    "surface_color": "#FFFFFF",
-    "border_color": "#E2E8F0"
+  "project_name": "Agile Ortho Redesign",
+  "theme_mode": "dark",
+  "archetype": "Archetype 5: Jewel & Luxury + Archetype 4: Swiss & High-Contrast (Dark Premium B2B)",
+  "design_principles": [
+    "Precision and Trust: Use stark contrasts, fine 1px borders, and geometric alignment to evoke medical precision.",
+    "Luxury Medical: Deep obsidian backgrounds with champagne gold accents instead of standard medical blue/green.",
+    "Bento Data Density: Use dense, structured grids for the 13 division cards to allow easy scanning.",
+    "Optical Clarity: Glassmorphism headers with sharp inner strokes to separate from the dark background.",
+    "Contextual Emotion: Every design decision maps to trust, authority, and high-end engineering."
+  ],
+  "colors": {
+    "background": "#0A0A0A",
+    "surface": "#171717",
+    "surface_elevated": "#1C1C1E",
+    "primary": "#D4AF37",
+    "primary_hover": "#F2C94C",
+    "primary_foreground": "#000000",
+    "secondary": "#2DD4BF",
+    "secondary_foreground": "#000000",
+    "text_primary": "#FFFFFF",
+    "text_secondary": "#A3A3A3",
+    "border": "rgba(255, 255, 255, 0.1)"
   },
   "typography": {
-    "heading_font": "Satoshi, sans-serif",
-    "body_font": "Manrope, sans-serif",
-    "rules": {
-      "h1": "text-5xl lg:text-6xl font-bold tracking-tight text-slate-900 (or white on dark hero)",
-      "h2": "text-3xl lg:text-4xl font-bold tracking-tight text-slate-900",
-      "h3": "text-xl font-semibold tracking-tight text-slate-900",
-      "body": "text-base leading-relaxed text-slate-600",
-      "overline": "text-xs font-bold uppercase tracking-[0.2em] text-teal-600"
-    }
+    "fonts": {
+      "heading": "'Outfit', sans-serif",
+      "body": "'Manrope', sans-serif"
+    },
+    "scale": {
+      "h1": "text-4xl sm:text-5xl lg:text-6xl tracking-tight font-light",
+      "h2": "text-2xl sm:text-3xl lg:text-4xl tracking-tight font-medium",
+      "h3": "text-xl sm:text-2xl font-medium",
+      "body": "text-base leading-relaxed text-[#A3A3A3]",
+      "labels": "text-xs tracking-[0.2em] uppercase font-bold text-[#D4AF37]"
+    },
+    "rules": [
+      "Headings strictly use tracking-tight.",
+      "Never use bold for main H1, use font-light or font-medium for a premium editorial look.",
+      "Overlines/Subtitles must be uppercase, tiny, and widely spaced.",
+      "Import fonts via Google Fonts in the global CSS or HTML."
+    ]
   },
-  "spacing_and_layout": {
-    "section_padding": "py-24",
-    "container_width": "max-w-7xl mx-auto px-6",
-    "grid_gap": "gap-8"
+  "layout_and_spacing": {
+    "spacing_scale": "Generous spacing. p-8 to p-12 for major containers, p-6 for bento cards.",
+    "grid_system": "Bento Grid Mode B (Control Room) for catalog grids. grid-cols-1 md:grid-cols-3 lg:grid-cols-4. gap-6.",
+    "surfaces": "Cards use flat background (#171717), 1px solid border (rgba(255,255,255,0.1)), no shadow. Hover: slight lift (-translate-y-1), border color becomes rgba(212, 175, 55, 0.5) (Gold)."
   },
   "components": {
-    "button_primary": "bg-teal-600 text-white hover:bg-teal-700 px-6 py-3 rounded-lg font-semibold transition-colors shadow-sm",
-    "button_secondary": "bg-white text-slate-900 border border-slate-200 hover:border-slate-300 px-6 py-3 rounded-lg font-semibold transition-colors",
-    "card_base": "bg-white rounded-2xl p-8 border border-slate-100 shadow-sm",
-    "trust_badge": "inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-50 text-teal-700 text-sm font-medium"
+    "header": "Crystal Glassmorphism: backdrop-blur-xl bg-[#0A0A0A]/70, border-b border-white/10. Sticky top positioning with z-50.",
+    "hero_section": "Dark luxury hero. Image overlay max bg-black/40 to let the abstract tech background shine. Left aligned text. Hero height around 85vh.",
+    "division_cards": "13 bento cards for medical divisions. Top section: icon and count. Bottom: Title. Use grid span logic to avoid equal squares if possible (e.g., make top 2 categories col-span-2).",
+    "trust_badges": "Monochrome rendering of logos where possible (ISO, CDSCO, Meril Authorized), or placed on solid #1C1C1E pill shapes with 1px border. Muted teal accents (#2DD4BF) can be used here.",
+    "buttons": "Primary CTA (WhatsApp/Catalog): bg-[#D4AF37] text-black font-semibold rounded-sm hover:bg-[#F2C94C] transition-colors. Secondary: border border-white/20 text-white rounded-sm hover:bg-white/5.",
+    "footer": "Massive padding (py-24). Background #000000. Large 'AGILE ORTHO' text at text-[8vw] at the bottom with text-white/5.",
+    "district_coverage": "Use the abstract glowing map background. Display the 33 districts as a dense technical list or grid."
   },
-  "sections": [
-    {
-      "name": "utility_bar",
-      "description": "Thin strip at the top. Background: slate-900. Text: white/slate-300.",
-      "layout": "flex justify-between items-center py-2 px-6 text-sm"
-    },
-    {
-      "name": "header",
-      "description": "Sticky header with nav. Background: white/90 backdrop-blur-md. Border-bottom.",
-      "layout": "flex justify-between items-center py-4 px-6 sticky top-0 z-50"
-    },
-    {
-      "name": "hero",
-      "description": "Dark hero section. Background: slate-900 with subtle background image overlay (opacity-20).",
-      "layout": "py-24 lg:py-32 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center",
-      "visuals": "Dark navy background, large white typography, teal accents for buttons/badges."
-    },
-    {
-      "name": "trust_metrics",
-      "description": "Stats strip immediately below hero or overlapping hero bottom.",
-      "layout": "grid grid-cols-2 md:grid-cols-4 gap-4 p-8 bg-white rounded-2xl shadow-lg -mt-12 relative z-10 border border-slate-100"
-    },
-    {
-      "name": "who_we_serve",
-      "description": "5 audience cards. B2B focus.",
-      "layout": "grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 mt-24"
-    },
-    {
-      "name": "product_divisions",
-      "description": "10 divisions with subtle pastel card backgrounds.",
-      "layout": "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6",
-      "visuals": "Cards use very light tints (e.g., slate-50, teal-50, blue-50) for background, no heavy borders."
-    },
-    {
-      "name": "why_agile_ortho",
-      "description": "6 value prop cards.",
-      "layout": "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-    },
-    {
-      "name": "featured_products",
-      "description": "High demand products grid.",
-      "layout": "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
-    },
-    {
-      "name": "how_ordering_works",
-      "description": "4-step process.",
-      "layout": "grid grid-cols-1 md:grid-cols-4 gap-8 relative"
-    },
-    {
-      "name": "compliance_band",
-      "description": "Trust band for certifications and compliance.",
-      "layout": "py-16 bg-slate-50 border-y border-slate-200 text-center"
-    },
-    {
-      "name": "final_cta",
-      "description": "Final action driving band.",
-      "layout": "py-24 bg-slate-900 text-white rounded-3xl my-24 text-center mx-6"
-    }
-  ],
+  "interactions_and_motion": {
+    "hover_states": "All cards and buttons must have clear hover transitions. Change border colors or add subtle text highlighting.",
+    "animations": "Use Framer Motion for staggered entrance animations of the division cards (staggerChildren)."
+  },
   "media": {
-    "images": {
-      "hero_background": {
-        "url": "https://images.unsplash.com/photo-1761639935303-67b032fe5fcf?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA3MDB8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBob3NwaXRhbCUyMGFyY2hpdGVjdHVyZSUyMGNsZWFuJTIwaW50ZXJpb3J8ZW58MHx8fHwxNzc0NTA2OTE4fDA&ixlib=rb-4.1.0&q=85",
-        "description": "Modern clean hospital interior to be used as dark overlaid background."
+    "images": [
+      {
+        "category": "hero_background",
+        "url": "https://static.prod-images.emergentagent.com/jobs/ba46cd2b-59a7-4ec9-b669-726f82ef2be6/images/dd0d07aa977d083636931db306446a85fc2084a2e072aae2a719c960f0064660.png",
+        "description": "Abstract dark luxury background with gold/teal geometric lines for precision medical technology."
       },
-      "who_we_serve_team": {
-        "url": "https://images.pexels.com/photos/6129507/pexels-photo-6129507.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
-        "description": "Diverse team of doctors and nurses."
+      {
+        "category": "featured_product_ortho",
+        "url": "https://static.prod-images.emergentagent.com/jobs/ba46cd2b-59a7-4ec9-b669-726f82ef2be6/images/5b098912997442959d2b65dac4940ae0cedb48dd708751fa0cef010753195625.png",
+        "description": "Macro photography of titanium orthopedic implant. Use in Ortho Division card or About section."
       },
-      "medical_devices": {
-        "url": "https://images.unsplash.com/photo-1728102197400-0648e058fddd?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Njd8MHwxfHNlYXJjaHw0fHxzdXJnaWNhbCUyMHRvb2xzJTIwbWVkaWNhbCUyMGRldmljZXN8ZW58MHx8fHwxNzc0NTA2OTE0fDA&ixlib=rb-4.1.0&q=85",
-        "description": "Surgical instruments on a table."
+      {
+        "category": "telangana_map",
+        "url": "https://static.prod-images.emergentagent.com/jobs/ba46cd2b-59a7-4ec9-b669-726f82ef2be6/images/e1d53a0027dd45d74d4e0fa8e79017b9c9d3d2c279d9e0ff49dee6d2fbc09d06.png",
+        "description": "Glowing wireframe map for the District Coverage section."
       },
-      "medical_lab": {
-        "url": "https://images.pexels.com/photos/6627667/pexels-photo-6627667.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
-        "description": "Lab tech operating centrifuge."
+      {
+        "category": "surgery_context",
+        "url": "https://images.pexels.com/photos/7108115/pexels-photo-7108115.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "description": "Sterile operating room. Good for background in About Us or Trust section."
+      },
+      {
+        "category": "laboratory_context",
+        "url": "https://images.pexels.com/photos/8442027/pexels-photo-8442027.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "description": "Advanced laboratory machinery. Good for Diagnostics division."
       }
-    }
+    ],
+    "icons": "Use lucide-react (default). For technical luxury, use very thin stroke widths (e.g., strokeWidth={1.5})."
   },
   "instructions_to_main_agent": [
-    "Strictly adhere to the dark navy (#0F172A) and teal (#0D9488) palette. The hero MUST be dark.",
-    "Use Phosphor icons (via @phosphor-icons/react or lucide-react) for medical specialties (Bone, Heart, Lungs, etc).",
-    "Divisions should have subtle pastel backgrounds (e.g. bg-slate-50, bg-teal-50/50, bg-blue-50/50).",
-    "Make sure all components use generous padding (e.g., p-8 or p-12) as per the spacing system.",
-    "The Hero background image MUST have a heavy dark overlay (e.g. bg-slate-900/80 or bg-slate-900/90) so it looks like a subtle texture, not a distracting bright image.",
-    "Ensure all interactive elements have data-testid attributes."
+    "You have .js files not .tsx files, so write all React components in .js/.jsx syntax without TypeScript types.",
+    "Inject the custom font imports (Outfit, Manrope) into index.css.",
+    "Update tailwind.config.js to include the custom colors (obsidian, charcoal, primary gold, secondary muted teal) and the font families.",
+    "Apply this theme universally: homepage, catalog pages, product details, and map it into the admin panel for consistency.",
+    "Replace all existing generic light mode cards with the Dark Premium Bento Grid 'Control Room' style.",
+    "Ensure all text against dark backgrounds meets APCA/WCAG contrast (no gray-on-gray).",
+    "CRITICAL: All interactive and key informational elements MUST include a 'data-testid' attribute (e.g., data-testid='whatsapp-cta', data-testid='division-card-ortho')."
   ]
 }
