@@ -1,52 +1,62 @@
 <analysis>**original_problem_statement**: 
 Build a B2B medical device platform for a premier medical device master franchise in Telangana, India (Agile Ortho). Implement a Web-Search Fallback Policy to automatically consult the internet to semantically classify remaining unenriched products. Post-fallback, build an admin Review Dashboard, then proceed to clean up shared-SKU pools for non-pilot divisions (ENT, Endo Surgery).
 
-**User's preferred language**: English (INSTRUCT next agent to respond in English only)
+**PRODUCT REQUIREMENTS**:
+- Build a standardized, clinically grouped product catalog mapped to exact manufacturer SKUs.
+- Provide a responsive front-end for users to browse products and a secure Admin Dashboard for managing approvals.
+- Integrate an AI Chatbot via web and WhatsApp (Interakt) that references the accurate, enriched catalog data.
+- Ensure only production-eligible products (high confidence, zero conflicts, fully enriched) are exposed to public/chat routes.
+
+**User's preferred language**: INSTRUCT next agent to respond in English only.
 
 **what currently exists?** 
-A React + FastAPI + MongoDB platform. The catalog has been clinically reclassified. The Web-Search Fallback Policy pipeline has been successfully run (achieving 100% staging coverage via LLM and rule-based sibling inheritance). An Admin Review Dashboard () with a Smart Review Suggestions feature is live, allowing the user to batch-approve products safely. 633 products are now fully enriched (canonical), and 571 remain in the pending review queue.
+A React + FastAPI + MongoDB platform. The system has fully transitioned its public-facing architecture from a raw legacy products database to an intelligently enriched  database. Currently, 13 divisions are live containing 810 completely verified, production-eligible products. The catalog is connected end-to-end to an AI search engine, web chatbot, and Interakt WhatsApp webhook. A 4-lane auto-promotion pipeline successfully cleared 88% of the admin review backlog.
 
 **Last working item**:
-    - Last item agent was working: Non-pilot division shared-SKU cleanup (specifically ENT and Endo Surgery). The agent investigated the shared shadow IDs and SKU contamination in these divisions, and created the script  to resolve them but did not finish executing it.
-    - Status: IN PROGRESS
-    - Agent Testing Done: N
-    - Which testing method agent to use? Backend testing by running the script via bash ( or direct execution) to verify DB updates, followed by frontend manual testing using the screenshot tool to ensure product pages for ENT/Endo Surgery render properly.
+    - Last item agent was working: Full System Cutover & Audit. The agent audited the entire backend to ensure NO public-facing APIs or Admin Analytics were still attached to the legacy  or  collections, successfully routing everything (, , , ) to  and .
+    - Status: COMPLETED
+    - Agent Testing Done: Y
+    - Which testing method agent to use? NA (Testing already done using testing_agent_v3_fork generating  with 100% pass rate).
     - User Testing Done: N
 
 **All Pending/In progress Issue list**:
-  Issue 1: Resolve Blocked File 008 (P3)
+  Issue 1: 🔴 Verify WhatsApp webhook end-to-end with Interakt (P0)
+     - Attempted fixes: The code is fully wired to use the enriched catalog, but a real-world test with a phone is pending. 
+     - Next debug checklist: Monitor logs for incoming WhatsApp webhook. Send 5 test messages (Catalog query, Exact SKU query, Brand query, Comparison, Off-topic) from a real phone and verify correct responses via Interakt.
+     - Why fix this issue and what will be achieved with the fix? Validates the end-to-end commercial loop and confirms patients/doctors are getting enriched answers.
+     - Status: TESTING PENDING (Requires user action/real phone)
+     - Is recurring issue? N
+     - Should Test frontend/backend/both after fix? Backend (logs and DB telemetry).
+     - Blocked on other issue: None.
+
+  Issue 2: 🟡 Resolve Blocked File 008 (P3)
      - Attempted fixes: File 008 is a corrupted DOCX () causing .
      - Next debug checklist: Keep explicitly marked as blocked unless the user provides a fixed version.
      - Why fix this issue and what will be achieved with the fix? Ensures full 200 file completeness.
      - Status: BLOCKED
      - Is recurring issue? Y
-     - Should Test frontend/backend/both after fix? Backend
+     - Should Test frontend/backend/both after fix? Backend.
      - Blocked on other issue: Awaiting uncorrupted file from the user.
 
 **In progress Task List**:
-  Task 1: Non-pilot division shared-SKU cleanup (ENT, Endo Surgery) (P0)
-     - Where to resume: Complete the implementation of , execute it, and verify the SKU pools are split correctly.
-     - What will be achieved with this? Resolves structural SKU-pool issues and contamination in non-pilot divisions (similar to prior pilot division fixes).
-     - Status: IN PROGRESS
-     - Should Test frontend/backend/both after fix? Backend (DB verification) then Frontend UI check.
-     - Blocked on something: None.
+  None. (All planned tasks in the current scope were finished).
 
 **Upcoming and Future Tasks**
     Upcoming Tasks:
-    - P1: Non-pilot division shared-SKU cleanup for Cardiovascular (if applicable/requested after ENT and Endo Surgery are completed).
-    - P1: Reassess whether the remaining staged review set (571 products) is small enough for a final manual pass or worth another LLM run (DO NOT trigger LLM immediately, wait for user instruction).
+    - 🔴 P0: Manual review of the 65 true blockers (conflicts, weak evidence, very low confidence) via the Admin Review Dashboard.
+    - 🟡 P1: Build Search Analytics Dashboard to track which products/terms doctors search for most, aiding inventory/marketing prioritization.
     
     Future Tasks:
-    - P2: Push Shadow DB to Live Production DB (ON HOLD - user explicitly stated not to push to live yet).
-    - P3: WhatsApp AI Chatbot integration via Interakt (ON HOLD).
-    - P4: Archive old phase scripts to  (Only after promotion and dashboard are completely stable).
+    - 🟢 P2: Archive old phase scripts to  to clean up the backend directory.
 
 **Completed work in this session**
-- Executed Web-Search Fallback Pipeline for 908 unenriched products (100% coverage via LLM + rule-based sibling inheritance) (DONE)
-- Built Admin Review Dashboard () with family-level review and side-by-side spec comparison (DONE)
-- Promoted 243 safe auto-promotable products to canonical fields (DONE)
-- Built Smart Review Suggestions feature for safe batch approval of products in the admin panel (DONE)
-- Bulk approved ~35 safe products across eligible families using the new Smart Suggestions (DONE)
+- Non-pilot shared-SKU cleanup for ENT, Endo Surgery, and Cardiovascular divisions (resolved all 12 shared shadow_id pools) (DONE)
+- Built 4-Lane Auto-Promotion Pipeline (Lane 1: Safe, Lane 2: Family consensus, Lane 3: Inherit/Standalone, Lane 4: True Blockers) (DONE)
+- Auto-promoted 505 pending products, reducing the manual review queue to just 65 blockers (DONE)
+- Executed Live Push: Unified duplicate Products and Portfolio pages into a single  route (DONE)
+- Exposed 13 divisions and 810 production-eligible products to the public frontend (DONE)
+- Repointed Search Engine, Web Chatbot, and WhatsApp Webhook to query  instead of legacy collections (DONE)
+- Full System Cutover Audit: Verified and cleaned up legacy  and  dependencies from all public APIs and dashboards (DONE)
 
 **Earlier issues found/mentioned but not fixed**
    - Issue 1: Corrupted DOCX file 008 remains blocked.
@@ -60,67 +70,74 @@ A React + FastAPI + MongoDB platform. The catalog has been clinically reclassifi
 
 
 **Key Technical Concepts**
-- **Staged vs Canonical Fields**: The fallback pipeline wrote to  fields in MongoDB. Promotion moves these to actual semantic fields (e.g., ).
-- **Smart Review Suggestions**: A reviewer-facing tool (not silent auto-promote) that groups products by family and checks 8 strict eligibility criteria (no material conflicts, avg conf >= 0.85, etc.) to safely batch approve.
+- **4-Lane Auto-Promotion**: A strict algorithmic approach to approving staging products. Safe/Family/Inherit lanes auto-promote. Only True Blockers (Material conflicts, extreme low confidence, official source disagreement) require manual admin review.
+- **Production-Eligible Filter**: Public facing products must have , , and no unresolved conflicts or draft statuses.
+- **Enriched vs Legacy Data**: Legacy collections (, ) are strictly reserved for import pipelines and legacy CMS. End-user features (Search, Catalog, AI Bots) MUST use  and .
 
 **key DB schema**
-  - : Contains canonical semantic fields and newly added  fields for pending review items.
-  - : Contains reasoning, confidence, and status outputs from the web search fallback LLM script.
+  - : Contains canonical semantic fields for 1,134 enriched products (810 of which are live/production-eligible).
+  - : Exact variant mapping.
+  - : Logs of WhatsApp messages.
+  - : Used for capturing chat interactions/stats.
 
 **changes in tech stack**
   - None
 
 **All files of reference** 
-  -  (Resume point)
-  - 
-  - 
-  - 
-  -  (MUST read for admin login)
+  -  (Auto-promote logic)
+  -  &  (Search & LLM repointed)
+  -  (Homepage/General APIs repointed)
+  -  (New global search feature)
+  -  (Updated with latest state)
 
 **Areas that need refactoring**: 
-  - The  folder is cluttered. Need to archive old  through  scripts into an  folder once the current pipeline is deemed stable.
+  - The  folder is cluttered with legacy phase scripts. Needs archiving.
 
 **key api endpoints**
+  -  &  (4-lane logic)
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  -  (repointed to use  w/ search)
+  -  (Interakt webhook)
+  -  (Web Chatbot)
 
 **Critical Info for New Agent** 
-- **DO NOT push to full live DB yet.** User explicitly stated this is on hold.
-- **LLM Key Budget Exhausted:** The Emergent LLM key ran out of budget during Wave 3. Do not run massive batch LLM scripts. The user explicitly stated they want to focus on operational review and non-pilot cleanup right now rather than recharging/running more LLM tasks.
-- **Admin Credentials:** The admin password is  (Username: ). Always check  if authentication is needed.
+- **Legacy Collections Transition**: The application has fully transitioned its primary data source. NEVER use  or  collections for public-facing queries, analytics, or chatbot routing. Always use  and .
+- **LLM Key Exhaustion**: The Emergent LLM key ran out of budget in a prior wave. Do not run massive batch LLM scripts.
+- **Admin Credentials**: Username:  | Password: .
+- **WhatsApp Webhook**: Connected to Interakt. Verify testing steps in PRD before building new WhatsApp features.
 
 **documents and test reports created in this job** 
-  - 
-  - 
+  -  (SKU Cleanup)
+  -  (Auto-Promote)
+  -  (Live Push)
+  -  (Search/Chatbot Wiring)
+  -  (Final Cutover Audit)
   - 
 
 **Last 10 User Messages and any pending HUMAN messages** 
-1. (LATEST) User: Approved the Smart Review Suggestions. Instructed to process the safe families, then explicitly move to **non-pilot shared-SKU cleanup (ENT, Endo Surgery)**. Demanded NOT to push to full live DB yet and NOT to spend time reprocessing with LLMs right now.
-2. User: Refined the Smart Suggestions feature. Required it to be a reviewer-facing tool with explicit eligibility criteria and exclusion tags, NOT a blind auto-promotion.
-3. User: Asked for the admin portal password (which the agent provided).
-4. User: Approved the Review Dashboard build and the promotion of the safe 261 auto-promotable products. Instructed to add a family-level review mode.
-5. User: Mentioned they don't have money to recharge the LLM budget. (Agent then used rule-based sibling inheritance for the remaining 135 products).
-6. User: Approved Wave 1 of the fallback search but requested completing the 9 missing dry-run products first before full batch processing.
-7. User: Mandated running a 50-product dry-run for the fallback script before doing all 908, detailing exact JSON output schema and source priority (Tier 1-4).
+1. (LATEST) User: Provided a detailed go-live audit checklist to ensure no backend panels, analytics, or webhooks are accidentally pointing to the old legacy  database. (Agent audited and executed fixes).
+2. User: Instructed that no new features should be built until the full commercial loop (WhatsApp message -> new backend -> enriched catalog response -> telemetry) is verified.
+3. User: Demanded connecting the newly launched catalog to the existing Search Engine and WhatsApp AI Chatbot (via Interakt) because they were still fetching old data. 
+4. User: Agreed to the Live Push but requested only exposing production-eligible products rather than blindly dropping all enriched items. 
+5. User: Pointed out the confusing duplication between Products and Portfolio pages and asked to merge them for the live push.
+6. User: Requested pushing the Enriched Portfolio live.
+7. User: Provided strategic rules to replace manual product review with a 4-lane Auto-Promotion logic (Safe, Family Consensus, Variant Inheritance, True Blockers). Instructed the agent not to waste time on manual review loops.
+8. User: Asked for an assessment of the Cardiovascular division for SKU issues and requested help clearing the 571 pending products.
 
 **Project Health Check:**
-- Broken: File 008 (corrupted DOCX).
+- Broken: File 008 (corrupted DOCX)
 - Mocked: None currently.
 
 **3rd Party Integrations** 
-  - OpenAI / Claude Sonnet 4.5 via  — uses Emergent LLM Key (Note: Budget was depleted during Wave 3).
+  - OpenAI / Claude Sonnet 4.5 via  — uses Emergent LLM Key (Note: Budget exhausted).
   - Web Search () - available via environment.
-  - Interakt (WhatsApp API) — requires User API Key. (ON HOLD)
+  - Interakt (WhatsApp API) — requires User API Key.
 
 **Testing status**
-  - Testing agent used after significant changes: YES (Iterations 42 and 43 for Review Dashboard passed 100%).
-  - Troubleshoot agent used after agent stuck in loop: NO.
-  - Test files created:  (latest).
-  - Known regressions: None.
+  - Testing agent used after significant changes: YES (Iterations 44-48)
+  - Troubleshoot agent used after agent stuck in loop: NO
+  - Test files created:  to 
+  - Known regressions: None. All 19 backend tests and all UI tests passed in the final audit.
 
 **Credentials to test flow:**
   - Admin Login: 
@@ -128,4 +145,4 @@ A React + FastAPI + MongoDB platform. The catalog has been clinically reclassifi
   - Password: 
 
 **What agent forgot to execute**
-The agent created  to fix ENT and Endo Surgery SKU contaminations as requested by the user, but context ended before writing the logic and executing the script. The next agent must finish and run this script.</analysis>
+The agent successfully completed the required backend switchovers for the WhatsApp webhook but could not physically verify an end-to-end Interakt text message because it requires a real phone interaction from the user. The next phase must begin by confirming the user has tested the WhatsApp webhook externally as detailed in the PRD and Last Issues list.</analysis>
