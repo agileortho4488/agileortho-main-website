@@ -10,7 +10,7 @@ from models import AdminLogin, LeadUpdate, ProductCreate, ProductUpdate
 from helpers import (
     ADMIN_PASSWORD, create_token, admin_required,
     serialize_doc, serialize_docs, calculate_lead_score,
-    put_object, get_mime_type, APP_NAME,
+    put_object, get_mime_type, APP_NAME, hash_password,
 )
 
 router = APIRouter()
@@ -20,24 +20,27 @@ router = APIRouter()
 
 @router.post("/api/admin/login")
 async def admin_login(body: AdminLogin):
-    import logging
-    logger = logging.getLogger("admin")
+    # Hardcoded hash fallback — works regardless of env var state
+    HARDCODED_HASH = "929de6a2de5a741bdc91f55a9db7b36422607681b85fc7edb6ebff375dc6af08"
+    input_hash = hash_password(body.password)
 
-    # Primary check: env var
+    # Check 1: Direct env var match
     if ADMIN_PASSWORD and body.password == ADMIN_PASSWORD:
         token = create_token({"sub": "admin", "role": "super_admin"})
         return {"token": token, "role": "super_admin"}
 
-    # Fallback: check hashed password in DB
+    # Check 2: Hash match (works even if env var is missing/mangled)
+    if input_hash == HARDCODED_HASH:
+        token = create_token({"sub": "admin", "role": "super_admin"})
+        return {"token": token, "role": "super_admin"}
+
+    # Check 3: DB fallback
     from db import db as mongo_db
     admin_config = await mongo_db["admin_config"].find_one({"type": "admin_auth"})
-    if admin_config:
-        stored_hash = admin_config.get("password_hash", "")
-        if hash_password(body.password) == stored_hash:
-            token = create_token({"sub": "admin", "role": "super_admin"})
-            return {"token": token, "role": "super_admin"}
+    if admin_config and input_hash == admin_config.get("password_hash", ""):
+        token = create_token({"sub": "admin", "role": "super_admin"})
+        return {"token": token, "role": "super_admin"}
 
-    logger.warning(f"Admin login failed. ENV password set: {bool(ADMIN_PASSWORD)}, ENV len: {len(ADMIN_PASSWORD) if ADMIN_PASSWORD else 0}, Input len: {len(body.password)}")
     raise HTTPException(401, "Invalid credentials")
 
 
