@@ -88,7 +88,7 @@ export default function SiteHeader() {
             <img src="/agile_healthcare_logo.png" alt="Agile Healthcare" className="h-10 sm:h-14 w-auto invert" data-testid="site-logo-mark" />
             <div className="leading-tight">
               <span className="text-sm sm:text-base font-bold text-white tracking-tight" style={{ fontFamily: 'Outfit' }}>AGILE HEALTHCARE</span>
-              <span className="hidden sm:block text-[9px] text-[#D4AF37] font-semibold tracking-[0.15em] uppercase">Meril Authorized</span>
+              <span className="block text-[8px] sm:text-[9px] text-[#D4AF37] font-semibold tracking-[0.15em] uppercase">Meril Authorized</span>
             </div>
           </Link>
 
