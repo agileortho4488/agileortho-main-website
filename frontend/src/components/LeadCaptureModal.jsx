@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { COMPANY } from "@/lib/constants";
 import { modalOverlayVariants, modalContentVariants } from "@/lib/motion";
 import { useVisitor } from "@/context/VisitorContext";
+import { trackLeadConversion } from "@/lib/tracking";
 
 const DISTRICTS = ["Hyderabad","Rangareddy","Medchal-Malkajgiri","Sangareddy","Nalgonda","Warangal","Karimnagar","Khammam","Nizamabad","Adilabad","Mahabubnagar","Medak","Siddipet","Suryapet","Jagtial","Peddapalli","Kamareddy","Mancherial","Wanaparthy","Nagarkurnool","Vikarabad","Jogulamba Gadwal","Rajanna Sircilla","Kumuram Bheem","Mulugu","Narayanpet","Mahabubabad","Jayashankar","Jangaon","Nirmal","Yadadri","Bhadradri","Hanumakonda"];
 
@@ -48,6 +49,14 @@ export default function LeadCaptureModal({ isOpen, onClose, inquiryType, product
         product_interest: productInterest || "",
         source: source || "website_enquiry",
         message: whatsappMessage || ""
+      });
+
+      // Fire conversion tracking (Meta Pixel + GA4 + Google Ads)
+      trackLeadConversion({
+        ...form,
+        inquiry_type: inquiryType || "General",
+        product_interest: productInterest || "",
+        source: source || "website_enquiry",
       });
 
       const waMsg = whatsappMessage || `Hi, I'm ${form.name}${form.hospital_clinic ? ` from ${form.hospital_clinic}` : ""}. I'd like to enquire about your medical devices.`;

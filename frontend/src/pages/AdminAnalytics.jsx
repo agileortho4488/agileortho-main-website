@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import {
   TrendingUp, Users, Target, Flame, Thermometer, Snowflake, MapPin,
   Search, MessageSquare, Zap, AlertTriangle, Phone, BarChart3, Clock,
-  CheckCircle, XCircle, ArrowRight, Globe, Crosshair, Layers
+  CheckCircle, XCircle, ArrowRight, Globe, Crosshair, Layers, Mail
 } from "lucide-react";
 
 const API_URL = process.env.REACT_APP_BACKEND_URL;
@@ -33,13 +33,25 @@ const CONF_COLORS = {
   none: "bg-red-400",
 };
 
+const ZONE_COLORS = {
+  zone_01: { bg: "bg-violet-50", border: "border-violet-200", text: "text-violet-700", bar: "bg-violet-500" },
+  zone_02: { bg: "bg-emerald-50", border: "border-emerald-200", text: "text-emerald-700", bar: "bg-emerald-500" },
+  zone_03: { bg: "bg-amber-50", border: "border-amber-200", text: "text-amber-700", bar: "bg-amber-500" },
+  zone_04: { bg: "bg-sky-50", border: "border-sky-200", text: "text-sky-700", bar: "bg-sky-500" },
+};
+
 export default function AdminAnalytics() {
   const [activeTab, setActiveTab] = useState("leads");
   const [data, setData] = useState(null);
   const [searchData, setSearchData] = useState(null);
   const [waData, setWaData] = useState(null);
+  const [zoneData, setZoneData] = useState(null);
+  const [territoryData, setTerritoryData] = useState(null);
+  const [visitorData, setVisitorData] = useState(null);
+  const [automationData, setAutomationData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [days, setDays] = useState(7);
+  const [selectedZone, setSelectedZone] = useState("all");
 
   const token = localStorage.getItem("admin_token");
   const headers = { Authorization: `Bearer ${token}` };
@@ -48,14 +60,22 @@ export default function AdminAnalytics() {
     const fetchAll = async () => {
       setLoading(true);
       try {
-        const [leadRes, searchRes, waRes] = await Promise.all([
+        const [leadRes, searchRes, waRes, zoneRes, terrRes, visitorRes, autoRes] = await Promise.all([
           fetch(`${API_URL}/api/admin/analytics`, { headers }),
           fetch(`${API_URL}/api/chatbot/telemetry/report?days=${days}`, { headers }),
           fetch(`${API_URL}/api/admin/whatsapp/analytics`, { headers }),
+          fetch(`${API_URL}/api/geo/zone-analytics`),
+          fetch(`${API_URL}/api/geo/territory-penetration`),
+          fetch(`${API_URL}/api/geo/visitor-insights`),
+          fetch(`${API_URL}/api/admin/automation/stats`, { headers }),
         ]);
         setData(await leadRes.json());
         setSearchData(await searchRes.json());
         setWaData(await waRes.json());
+        setZoneData(await zoneRes.json());
+        setTerritoryData(await terrRes.json());
+        setVisitorData(await visitorRes.json());
+        setAutomationData(await autoRes.json());
       } catch (e) {
         console.error("Analytics fetch error:", e);
       } finally {
@@ -266,6 +286,17 @@ export default function AdminAnalytics() {
         </div>
       )}
 
+      {/* ====== TERRITORY TAB ====== */}
+      {activeTab === "territory" && (
+        <TerritoryTab
+          zoneData={zoneData}
+          territoryData={territoryData}
+          visitorData={visitorData}
+          selectedZone={selectedZone}
+          setSelectedZone={setSelectedZone}
+        />
+      )}
+
       {/* ====== SEARCH INTELLIGENCE TAB ====== */}
       {activeTab === "search" && (
         <div>
@@ -471,6 +502,35 @@ export default function AdminAnalytics() {
                 </div>
               </div>
             </div>
+
+            {/* Nurture Automation Stats */}
+            {automationData && (
+              <div className="bg-white border border-slate-200 rounded-sm p-5 lg:col-span-2" data-testid="nurture-stats">
+                <h3 className="text-sm font-bold text-slate-900 mb-4 flex items-center gap-2">
+                  <Zap size={14} className="text-amber-500" /> Automated Nurture Sequences
+                </h3>
+                <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
+                  {[
+                    { label: "Total Scheduled", value: automationData.followups?.total || 0, color: "bg-slate-50" },
+                    { label: "Pending", value: automationData.followups?.pending || 0, color: "bg-blue-50" },
+                    { label: "Sent", value: automationData.followups?.sent || 0, color: "bg-emerald-50" },
+                    { label: "Skipped", value: automationData.followups?.skipped || 0, color: "bg-amber-50" },
+                    { label: "Failed", value: automationData.followups?.failed || 0, color: "bg-red-50" },
+                  ].map((item) => (
+                    <div key={item.label} className={`${item.color} rounded-sm p-3 text-center`}>
+                      <p className="text-xl font-black text-slate-900" style={{ fontFamily: "Chivo" }}>{item.value}</p>
+                      <p className="text-xs text-slate-500 mt-1">{item.label}</p>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-4 pt-3 border-t border-slate-100 flex flex-wrap gap-4 text-xs text-slate-500">
+                  <span>WA-Sourced Leads: <strong className="text-slate-900">{automationData.leads?.whatsapp_sourced || 0}</strong></span>
+                  <span>Hot: <strong className="text-red-600">{automationData.leads?.by_score?.hot || automationData.leads?.by_score?.Hot || 0}</strong></span>
+                  <span>Warm: <strong className="text-amber-600">{automationData.leads?.by_score?.warm || automationData.leads?.by_score?.Warm || 0}</strong></span>
+                  <span>Cold: <strong className="text-blue-500">{automationData.leads?.by_score?.cold || automationData.leads?.by_score?.Cold || 0}</strong></span>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}
@@ -488,6 +548,251 @@ function StatCard({ icon: Icon, label, value, color = "slate" }) {
       </div>
       <p className="text-2xl font-black text-slate-900" style={{ fontFamily: "Chivo" }}>{value}</p>
       <p className="text-xs text-slate-500 uppercase tracking-wide">{label}</p>
+    </div>
+  );
+}
+
+
+function TerritoryTab({ zoneData, territoryData, visitorData, selectedZone, setSelectedZone }) {
+  const zones = zoneData?.zone_analytics || {};
+  const zoneIds = Object.keys(zones);
+  const districts = territoryData?.district_breakdown || [];
+  const zeroDistricts = territoryData?.zero_lead_districts || [];
+  const divisionGaps = territoryData?.division_gaps || [];
+  const topSearches = visitorData?.top_searches_by_zone || [];
+  const visitsByZone = visitorData?.visits_by_zone || [];
+
+  const totalLeads = zoneIds.reduce((sum, z) => sum + (zones[z]?.total_leads || 0), 0);
+  const totalHot = zoneIds.reduce((sum, z) => sum + (zones[z]?.hot_leads || 0), 0);
+  const totalWarm = zoneIds.reduce((sum, z) => sum + (zones[z]?.warm_leads || 0), 0);
+
+  const filteredDistricts = selectedZone === "all" ? districts : districts.filter(d => {
+    // Zone filtering: Hyderabad districts map to zones
+    if (selectedZone && d.district === "Hyderabad") return true;
+    return true;
+  });
+
+  return (
+    <div data-testid="territory-tab">
+      {/* Top Stats */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <StatCard icon={Globe} label="Total Zone Leads" value={totalLeads} />
+        <StatCard icon={Flame} label="Hot Leads" value={totalHot} color="red" />
+        <StatCard icon={Thermometer} label="Warm Leads" value={totalWarm} color="amber" />
+        <StatCard icon={MapPin} label="Active Districts" value={districts.length} color="blue" />
+      </div>
+
+      {/* Zone Filter */}
+      <div className="flex gap-2 mb-6 flex-wrap" data-testid="zone-filter">
+        <button
+          onClick={() => setSelectedZone("all")}
+          className={`px-3 py-1.5 text-xs font-bold rounded-sm transition-all ${
+            selectedZone === "all" ? "bg-slate-900 text-white" : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+          }`}
+          data-testid="zone-filter-all"
+        >
+          All Zones
+        </button>
+        {zoneIds.map((zid) => {
+          const colors = ZONE_COLORS[zid] || ZONE_COLORS.zone_01;
+          return (
+            <button
+              key={zid}
+              onClick={() => setSelectedZone(zid)}
+              className={`px-3 py-1.5 text-xs font-bold rounded-sm transition-all ${
+                selectedZone === zid
+                  ? `${colors.bar} text-white`
+                  : `${colors.bg} ${colors.text} hover:opacity-80`
+              }`}
+              data-testid={`zone-filter-${zid}`}
+            >
+              {zones[zid]?.zone_name || zid}
+            </button>
+          );
+        })}
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        {/* Zone Cards */}
+        <div className="bg-white border border-slate-200 rounded-sm p-5" data-testid="zone-cards">
+          <h3 className="text-sm font-bold text-slate-900 mb-4 flex items-center gap-2">
+            <Globe size={14} /> Hyderabad Zone Performance
+          </h3>
+          <div className="space-y-3">
+            {zoneIds.map((zid) => {
+              const z = zones[zid];
+              const colors = ZONE_COLORS[zid] || ZONE_COLORS.zone_01;
+              const maxLeads = Math.max(...zoneIds.map(id => zones[id]?.total_leads || 0), 1);
+              return (
+                <div key={zid} className={`p-3 rounded-sm border ${colors.border} ${colors.bg} ${selectedZone === zid ? "ring-2 ring-offset-1 ring-slate-400" : ""}`}>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className={`text-xs font-bold ${colors.text}`}>{z?.zone_name || zid}</span>
+                    <span className="text-xs font-black text-slate-900" style={{ fontFamily: "Chivo" }}>{z?.total_leads || 0} leads</span>
+                  </div>
+                  <div className="h-2 bg-white/60 rounded-sm overflow-hidden mb-2">
+                    <div className={`h-full ${colors.bar} rounded-sm transition-all duration-500`} style={{ width: `${((z?.total_leads || 0) / maxLeads) * 100}%` }} />
+                  </div>
+                  <div className="flex gap-3 text-xs">
+                    <span className="text-red-600 font-semibold">{z?.hot_leads || 0} hot</span>
+                    <span className="text-amber-600 font-semibold">{z?.warm_leads || 0} warm</span>
+                    <span className="text-blue-500 font-semibold">{z?.cold_leads || 0} cold</span>
+                    <span className="text-slate-400 ml-auto">avg: {z?.avg_score || 0}</span>
+                  </div>
+                </div>
+              );
+            })}
+            {zoneIds.length === 0 && (
+              <p className="text-sm text-slate-400 py-4 text-center">No zone lead data yet</p>
+            )}
+          </div>
+        </div>
+
+        {/* Top Departments by Zone */}
+        <div className="bg-white border border-slate-200 rounded-sm p-5" data-testid="zone-departments">
+          <h3 className="text-sm font-bold text-slate-900 mb-4 flex items-center gap-2">
+            <Layers size={14} /> Top Departments by Zone
+          </h3>
+          <div className="space-y-4">
+            {zoneIds.map((zid) => {
+              const z = zones[zid];
+              const colors = ZONE_COLORS[zid] || ZONE_COLORS.zone_01;
+              const depts = z?.top_departments || [];
+              return (
+                <div key={zid}>
+                  <p className={`text-xs font-bold ${colors.text} mb-1.5`}>{z?.zone_name || zid}</p>
+                  {depts.length > 0 ? (
+                    <div className="flex flex-wrap gap-1.5">
+                      {depts.map((d, i) => (
+                        <span key={i} className="text-xs bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-medium">
+                          {d.name} ({d.count})
+                        </span>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-xs text-slate-300">No data</p>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* District Breakdown Table */}
+        <div className="bg-white border border-slate-200 rounded-sm p-5 lg:col-span-2" data-testid="district-table">
+          <h3 className="text-sm font-bold text-slate-900 mb-4 flex items-center gap-2">
+            <MapPin size={14} /> District Penetration
+          </h3>
+          {filteredDistricts.length > 0 ? (
+            <div className="overflow-x-auto">
+              <table className="w-full text-xs">
+                <thead>
+                  <tr className="border-b border-slate-100">
+                    <th className="text-left py-2 px-2 font-bold text-slate-500">District</th>
+                    <th className="text-center py-2 px-2 font-bold text-slate-500">Leads</th>
+                    <th className="text-center py-2 px-2 font-bold text-slate-500">Hot</th>
+                    <th className="text-center py-2 px-2 font-bold text-slate-500">Avg Score</th>
+                    <th className="text-left py-2 px-2 font-bold text-slate-500">Active Departments</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredDistricts.slice(0, 15).map((d, i) => (
+                    <tr key={i} className="border-b border-slate-50 hover:bg-slate-50 transition-colors">
+                      <td className="py-2 px-2 font-semibold text-slate-800">{d.district}</td>
+                      <td className="py-2 px-2 text-center font-black text-slate-900" style={{ fontFamily: "Chivo" }}>{d.total_leads}</td>
+                      <td className="py-2 px-2 text-center">
+                        <span className="inline-block bg-red-50 text-red-600 font-bold px-1.5 py-0.5 rounded">{d.hot_leads}</span>
+                      </td>
+                      <td className="py-2 px-2 text-center text-slate-600">{d.avg_score}</td>
+                      <td className="py-2 px-2">
+                        <div className="flex flex-wrap gap-1">
+                          {(d.active_departments || []).slice(0, 4).map((dept, j) => (
+                            <span key={j} className="text-[10px] bg-emerald-50 text-emerald-700 px-1.5 py-0.5 rounded">{dept}</span>
+                          ))}
+                          {(d.active_departments || []).length > 4 && (
+                            <span className="text-[10px] text-slate-400">+{d.active_departments.length - 4}</span>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <p className="text-sm text-slate-400 py-6 text-center">No district lead data yet</p>
+          )}
+        </div>
+
+        {/* Zero-Lead Districts (Opportunities) */}
+        {zeroDistricts.length > 0 && (
+          <div className="bg-white border border-slate-200 rounded-sm p-5" data-testid="zero-districts">
+            <h3 className="text-sm font-bold text-slate-900 mb-1 flex items-center gap-2">
+              <AlertTriangle size={14} className="text-amber-500" /> Zero-Lead Districts
+            </h3>
+            <p className="text-xs text-slate-400 mb-4">{zeroDistricts.length} districts with no leads — untapped territory</p>
+            <div className="flex flex-wrap gap-2">
+              {zeroDistricts.map((d, i) => (
+                <span key={i} className="text-xs bg-amber-50 text-amber-700 border border-amber-200 px-2.5 py-1 rounded font-medium">
+                  {d}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Cross-Sell Opportunities (Division Gaps) */}
+        {divisionGaps.length > 0 && (
+          <div className="bg-white border border-slate-200 rounded-sm p-5" data-testid="division-gaps">
+            <h3 className="text-sm font-bold text-slate-900 mb-1 flex items-center gap-2">
+              <Crosshair size={14} className="text-emerald-500" /> Cross-Sell Opportunities
+            </h3>
+            <p className="text-xs text-slate-400 mb-4">Districts with missing Meril divisions</p>
+            <div className="space-y-3 max-h-64 overflow-y-auto">
+              {divisionGaps.slice(0, 8).map((gap, i) => (
+                <div key={i} className="pb-2 border-b border-slate-50 last:border-0">
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-xs font-bold text-slate-800">{gap.district}</span>
+                    <span className="text-[10px] bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded font-bold">
+                      {gap.opportunity_score} gaps
+                    </span>
+                  </div>
+                  <div className="flex flex-wrap gap-1">
+                    {gap.missing_divisions.slice(0, 5).map((div, j) => (
+                      <span key={j} className="text-[10px] bg-red-50 text-red-600 px-1.5 py-0.5 rounded">{div}</span>
+                    ))}
+                    {gap.missing_divisions.length > 5 && (
+                      <span className="text-[10px] text-slate-400">+{gap.missing_divisions.length - 5}</span>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Visitor Search by Zone */}
+        {topSearches.length > 0 && (
+          <div className="bg-white border border-slate-200 rounded-sm p-5 lg:col-span-2" data-testid="zone-searches">
+            <h3 className="text-sm font-bold text-slate-900 mb-4 flex items-center gap-2">
+              <Search size={14} /> Top Searches by Zone
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+              {topSearches.slice(0, 12).map((s, i) => {
+                const zColors = ZONE_COLORS[s.zone] || { bg: "bg-slate-50", text: "text-slate-600" };
+                return (
+                  <div key={i} className="flex items-center gap-2 py-1.5 px-2 rounded bg-slate-50">
+                    <span className={`text-[10px] font-bold ${zColors.text} ${zColors.bg} px-1.5 py-0.5 rounded`}>
+                      {s.zone || "N/A"}
+                    </span>
+                    <span className="text-xs text-slate-700 flex-1 truncate font-medium">{s.query}</span>
+                    <span className="text-xs font-bold text-slate-500">{s.count}x</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

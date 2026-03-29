@@ -21,6 +21,7 @@ from routes.chatbot import router as chatbot_router
 from routes.catalog import router as catalog_router
 from routes.review import router as review_router
 from routes.geo import router as geo_router
+from routes.email import router as email_router
 
 app = FastAPI(title="Agile Ortho API")
 
@@ -45,6 +46,7 @@ app.include_router(chatbot_router)
 app.include_router(catalog_router)
 app.include_router(review_router)
 app.include_router(geo_router)
+app.include_router(email_router)
 
 
 @app.on_event("startup")
