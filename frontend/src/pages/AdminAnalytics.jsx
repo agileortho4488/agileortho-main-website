@@ -22,6 +22,8 @@ const SCORE_COLORS = { Hot: "text-red-600 bg-red-50", Warm: "text-amber-600 bg-a
 const TABS = [
   { id: "leads", label: "CRM Leads", icon: Users },
   { id: "territory", label: "Territory", icon: Globe },
+  { id: "hospitals", label: "Hospitals", icon: Layers },
+  { id: "competitive", label: "Competitive Intel", icon: Crosshair },
   { id: "search", label: "Search Intelligence", icon: Search },
   { id: "whatsapp", label: "WhatsApp", icon: Phone },
 ];
@@ -49,6 +51,8 @@ export default function AdminAnalytics() {
   const [territoryData, setTerritoryData] = useState(null);
   const [visitorData, setVisitorData] = useState(null);
   const [automationData, setAutomationData] = useState(null);
+  const [hospitalData, setHospitalData] = useState(null);
+  const [competitiveData, setCompetitiveData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [days, setDays] = useState(7);
   const [selectedZone, setSelectedZone] = useState("all");
@@ -60,7 +64,7 @@ export default function AdminAnalytics() {
     const fetchAll = async () => {
       setLoading(true);
       try {
-        const [leadRes, searchRes, waRes, zoneRes, terrRes, visitorRes, autoRes] = await Promise.all([
+        const [leadRes, searchRes, waRes, zoneRes, terrRes, visitorRes, autoRes, hospRes, compRes] = await Promise.all([
           fetch(`${API_URL}/api/admin/analytics`, { headers }),
           fetch(`${API_URL}/api/chatbot/telemetry/report?days=${days}`, { headers }),
           fetch(`${API_URL}/api/admin/whatsapp/analytics`, { headers }),
@@ -68,6 +72,8 @@ export default function AdminAnalytics() {
           fetch(`${API_URL}/api/geo/territory-penetration`),
           fetch(`${API_URL}/api/geo/visitor-insights`),
           fetch(`${API_URL}/api/admin/automation/stats`, { headers }),
+          fetch(`${API_URL}/api/geo/hospital-intelligence`),
+          fetch(`${API_URL}/api/geo/competitive-intelligence`),
         ]);
         setData(await leadRes.json());
         setSearchData(await searchRes.json());
@@ -76,6 +82,8 @@ export default function AdminAnalytics() {
         setTerritoryData(await terrRes.json());
         setVisitorData(await visitorRes.json());
         setAutomationData(await autoRes.json());
+        setHospitalData(await hospRes.json());
+        setCompetitiveData(await compRes.json());
       } catch (e) {
         console.error("Analytics fetch error:", e);
       } finally {
@@ -295,6 +303,16 @@ export default function AdminAnalytics() {
           selectedZone={selectedZone}
           setSelectedZone={setSelectedZone}
         />
+      )}
+
+      {/* ====== HOSPITAL INTELLIGENCE TAB ====== */}
+      {activeTab === "hospitals" && hospitalData && (
+        <HospitalIntelTab hospitalData={hospitalData} />
+      )}
+
+      {/* ====== COMPETITIVE INTELLIGENCE TAB ====== */}
+      {activeTab === "competitive" && competitiveData && (
+        <CompetitiveIntelTab competitiveData={competitiveData} />
       )}
 
       {/* ====== SEARCH INTELLIGENCE TAB ====== */}
@@ -560,26 +578,20 @@ function TerritoryTab({ zoneData, territoryData, visitorData, selectedZone, setS
   const zeroDistricts = territoryData?.zero_lead_districts || [];
   const divisionGaps = territoryData?.division_gaps || [];
   const topSearches = visitorData?.top_searches_by_zone || [];
-  const visitsByZone = visitorData?.visits_by_zone || [];
 
   const totalLeads = zoneIds.reduce((sum, z) => sum + (zones[z]?.total_leads || 0), 0);
   const totalHot = zoneIds.reduce((sum, z) => sum + (zones[z]?.hot_leads || 0), 0);
-  const totalWarm = zoneIds.reduce((sum, z) => sum + (zones[z]?.warm_leads || 0), 0);
-
-  const filteredDistricts = selectedZone === "all" ? districts : districts.filter(d => {
-    // Zone filtering: Hyderabad districts map to zones
-    if (selectedZone && d.district === "Hyderabad") return true;
-    return true;
-  });
+  const totalAccounts = zoneIds.reduce((sum, z) => sum + (zones[z]?.accounts || 0), 0);
+  const totalHospitals = zoneIds.reduce((sum, z) => sum + (zones[z]?.hospitals || 0), 0);
 
   return (
     <div data-testid="territory-tab">
       {/* Top Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        <StatCard icon={Globe} label="Total Zone Leads" value={totalLeads} />
+        <StatCard icon={Globe} label="Total Accounts" value={totalAccounts.toLocaleString()} />
+        <StatCard icon={Target} label="Total Hospitals" value={totalHospitals.toLocaleString()} color="blue" />
+        <StatCard icon={Users} label="Zone Leads" value={totalLeads} color="emerald" />
         <StatCard icon={Flame} label="Hot Leads" value={totalHot} color="red" />
-        <StatCard icon={Thermometer} label="Warm Leads" value={totalWarm} color="amber" />
-        <StatCard icon={MapPin} label="Active Districts" value={districts.length} color="blue" />
       </div>
 
       {/* Zone Filter */}
@@ -613,63 +625,70 @@ function TerritoryTab({ zoneData, territoryData, visitorData, selectedZone, setS
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-        {/* Zone Cards */}
-        <div className="bg-white border border-slate-200 rounded-sm p-5" data-testid="zone-cards">
+        {/* Zone Cards — ALL 4 always visible */}
+        <div className="bg-white border border-slate-200 rounded-sm p-5 lg:col-span-2" data-testid="zone-cards">
           <h3 className="text-sm font-bold text-slate-900 mb-4 flex items-center gap-2">
-            <Globe size={14} /> Hyderabad Zone Performance
+            <Globe size={14} /> All 4 Zones — Hyderabad Metro
           </h3>
-          <div className="space-y-3">
-            {zoneIds.map((zid) => {
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            {(selectedZone === "all" ? zoneIds : [selectedZone]).filter(z => zones[z]).map((zid) => {
               const z = zones[zid];
               const colors = ZONE_COLORS[zid] || ZONE_COLORS.zone_01;
-              const maxLeads = Math.max(...zoneIds.map(id => zones[id]?.total_leads || 0), 1);
+              const hasLeads = (z?.total_leads || 0) > 0;
               return (
-                <div key={zid} className={`p-3 rounded-sm border ${colors.border} ${colors.bg} ${selectedZone === zid ? "ring-2 ring-offset-1 ring-slate-400" : ""}`}>
+                <div key={zid} className={`p-4 rounded-sm border ${colors.border} ${colors.bg} ${selectedZone === zid ? "ring-2 ring-offset-1 ring-slate-400" : ""}`}>
                   <div className="flex items-center justify-between mb-2">
                     <span className={`text-xs font-bold ${colors.text}`}>{z?.zone_name || zid}</span>
-                    <span className="text-xs font-black text-slate-900" style={{ fontFamily: "Chivo" }}>{z?.total_leads || 0} leads</span>
+                    {z?.is_primary && <span className="text-[10px] bg-emerald-500 text-white px-1.5 py-0.5 rounded font-bold">PRIMARY</span>}
+                  </div>
+                  {/* Accounts / Hospitals / Labs */}
+                  <div className="flex gap-3 text-xs mb-3 pb-2 border-b border-black/5">
+                    <span className="text-slate-600"><strong className="text-slate-900">{z?.accounts}</strong> accounts</span>
+                    <span className="text-slate-600"><strong className="text-slate-900">{z?.hospitals}</strong> hospitals</span>
+                    <span className="text-slate-600"><strong className="text-slate-900">{z?.labs}</strong> labs</span>
+                  </div>
+                  {/* Lead Stats */}
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-xs text-slate-500">{z?.total_leads || 0} leads ({z?.penetration_pct || 0}% penetration)</span>
+                    <span className="text-xs text-slate-400">avg score: {z?.avg_score || 0}</span>
                   </div>
                   <div className="h-2 bg-white/60 rounded-sm overflow-hidden mb-2">
-                    <div className={`h-full ${colors.bar} rounded-sm transition-all duration-500`} style={{ width: `${((z?.total_leads || 0) / maxLeads) * 100}%` }} />
+                    <div className={`h-full ${colors.bar} rounded-sm transition-all duration-500`} style={{ width: `${Math.max((z?.penetration_pct || 0) * 5, hasLeads ? 3 : 0)}%` }} />
                   </div>
-                  <div className="flex gap-3 text-xs">
+                  <div className="flex gap-3 text-xs mb-3">
                     <span className="text-red-600 font-semibold">{z?.hot_leads || 0} hot</span>
                     <span className="text-amber-600 font-semibold">{z?.warm_leads || 0} warm</span>
                     <span className="text-blue-500 font-semibold">{z?.cold_leads || 0} cold</span>
-                    <span className="text-slate-400 ml-auto">avg: {z?.avg_score || 0}</span>
                   </div>
-                </div>
-              );
-            })}
-            {zoneIds.length === 0 && (
-              <p className="text-sm text-slate-400 py-4 text-center">No zone lead data yet</p>
-            )}
-          </div>
-        </div>
-
-        {/* Top Departments by Zone */}
-        <div className="bg-white border border-slate-200 rounded-sm p-5" data-testid="zone-departments">
-          <h3 className="text-sm font-bold text-slate-900 mb-4 flex items-center gap-2">
-            <Layers size={14} /> Top Departments by Zone
-          </h3>
-          <div className="space-y-4">
-            {zoneIds.map((zid) => {
-              const z = zones[zid];
-              const colors = ZONE_COLORS[zid] || ZONE_COLORS.zone_01;
-              const depts = z?.top_departments || [];
-              return (
-                <div key={zid}>
-                  <p className={`text-xs font-bold ${colors.text} mb-1.5`}>{z?.zone_name || zid}</p>
-                  {depts.length > 0 ? (
-                    <div className="flex flex-wrap gap-1.5">
-                      {depts.map((d, i) => (
-                        <span key={i} className="text-xs bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-medium">
-                          {d.name} ({d.count})
-                        </span>
-                      ))}
+                  {/* Marketing Opportunities */}
+                  {(z?.missing_divisions || []).length > 0 && (
+                    <div className="mt-2 pt-2 border-t border-black/5">
+                      <p className="text-[10px] font-bold text-amber-700 mb-1">
+                        {z.marketing_opportunity} untapped divisions:
+                      </p>
+                      <div className="flex flex-wrap gap-1">
+                        {z.missing_divisions.slice(0, 6).map((div, i) => (
+                          <span key={i} className="text-[10px] bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded">{div}</span>
+                        ))}
+                        {z.missing_divisions.length > 6 && <span className="text-[10px] text-slate-400">+{z.missing_divisions.length - 6}</span>}
+                      </div>
                     </div>
-                  ) : (
-                    <p className="text-xs text-slate-300">No data</p>
+                  )}
+                  {/* Active Products */}
+                  {(z?.top_departments || []).length > 0 && (
+                    <div className="mt-2 pt-2 border-t border-black/5">
+                      <p className="text-[10px] font-bold text-emerald-700 mb-1">Active departments:</p>
+                      <div className="flex flex-wrap gap-1">
+                        {z.top_departments.map((d, i) => (
+                          <span key={i} className="text-[10px] bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded">{d.name} ({d.count})</span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  {!hasLeads && (
+                    <div className="mt-2 p-2 bg-red-50 rounded border border-red-200">
+                      <p className="text-[10px] font-bold text-red-600">No leads yet — {z?.accounts} accounts available for outreach</p>
+                    </div>
                   )}
                 </div>
               );
@@ -682,7 +701,7 @@ function TerritoryTab({ zoneData, territoryData, visitorData, selectedZone, setS
           <h3 className="text-sm font-bold text-slate-900 mb-4 flex items-center gap-2">
             <MapPin size={14} /> District Penetration
           </h3>
-          {filteredDistricts.length > 0 ? (
+          {districts.length > 0 ? (
             <div className="overflow-x-auto">
               <table className="w-full text-xs">
                 <thead>
@@ -695,7 +714,7 @@ function TerritoryTab({ zoneData, territoryData, visitorData, selectedZone, setS
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredDistricts.slice(0, 15).map((d, i) => (
+                  {districts.slice(0, 15).map((d, i) => (
                     <tr key={i} className="border-b border-slate-50 hover:bg-slate-50 transition-colors">
                       <td className="py-2 px-2 font-semibold text-slate-800">{d.district}</td>
                       <td className="py-2 px-2 text-center font-black text-slate-900" style={{ fontFamily: "Chivo" }}>{d.total_leads}</td>
@@ -723,72 +742,287 @@ function TerritoryTab({ zoneData, territoryData, visitorData, selectedZone, setS
           )}
         </div>
 
-        {/* Zero-Lead Districts (Opportunities) */}
+        {/* Zero-Lead Districts */}
         {zeroDistricts.length > 0 && (
           <div className="bg-white border border-slate-200 rounded-sm p-5" data-testid="zero-districts">
             <h3 className="text-sm font-bold text-slate-900 mb-1 flex items-center gap-2">
               <AlertTriangle size={14} className="text-amber-500" /> Zero-Lead Districts
             </h3>
-            <p className="text-xs text-slate-400 mb-4">{zeroDistricts.length} districts with no leads — untapped territory</p>
+            <p className="text-xs text-slate-400 mb-4">{zeroDistricts.length} untapped districts</p>
             <div className="flex flex-wrap gap-2">
               {zeroDistricts.map((d, i) => (
-                <span key={i} className="text-xs bg-amber-50 text-amber-700 border border-amber-200 px-2.5 py-1 rounded font-medium">
-                  {d}
-                </span>
+                <span key={i} className="text-xs bg-amber-50 text-amber-700 border border-amber-200 px-2.5 py-1 rounded font-medium">{d}</span>
               ))}
             </div>
           </div>
         )}
 
-        {/* Cross-Sell Opportunities (Division Gaps) */}
+        {/* Cross-Sell Division Gaps */}
         {divisionGaps.length > 0 && (
           <div className="bg-white border border-slate-200 rounded-sm p-5" data-testid="division-gaps">
             <h3 className="text-sm font-bold text-slate-900 mb-1 flex items-center gap-2">
               <Crosshair size={14} className="text-emerald-500" /> Cross-Sell Opportunities
             </h3>
-            <p className="text-xs text-slate-400 mb-4">Districts with missing Meril divisions</p>
+            <p className="text-xs text-slate-400 mb-4">Districts missing Meril divisions</p>
             <div className="space-y-3 max-h-64 overflow-y-auto">
               {divisionGaps.slice(0, 8).map((gap, i) => (
                 <div key={i} className="pb-2 border-b border-slate-50 last:border-0">
                   <div className="flex items-center justify-between mb-1">
                     <span className="text-xs font-bold text-slate-800">{gap.district}</span>
-                    <span className="text-[10px] bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded font-bold">
-                      {gap.opportunity_score} gaps
-                    </span>
+                    <span className="text-[10px] bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded font-bold">{gap.opportunity_score} gaps</span>
                   </div>
                   <div className="flex flex-wrap gap-1">
                     {gap.missing_divisions.slice(0, 5).map((div, j) => (
                       <span key={j} className="text-[10px] bg-red-50 text-red-600 px-1.5 py-0.5 rounded">{div}</span>
                     ))}
-                    {gap.missing_divisions.length > 5 && (
-                      <span className="text-[10px] text-slate-400">+{gap.missing_divisions.length - 5}</span>
-                    )}
                   </div>
                 </div>
               ))}
             </div>
           </div>
         )}
+      </div>
+    </div>
+  );
+}
 
-        {/* Visitor Search by Zone */}
-        {topSearches.length > 0 && (
-          <div className="bg-white border border-slate-200 rounded-sm p-5 lg:col-span-2" data-testid="zone-searches">
-            <h3 className="text-sm font-bold text-slate-900 mb-4 flex items-center gap-2">
-              <Search size={14} /> Top Searches by Zone
-            </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
-              {topSearches.slice(0, 12).map((s, i) => {
-                const zColors = ZONE_COLORS[s.zone] || { bg: "bg-slate-50", text: "text-slate-600" };
+
+function HospitalIntelTab({ hospitalData }) {
+  const hospitals = hospitalData?.hospitals || [];
+  const summary = hospitalData?.summary || {};
+  const topUpsell = summary.top_upsell_opportunities || [];
+
+  return (
+    <div data-testid="hospital-intel-tab">
+      {/* Summary Stats */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <StatCard icon={Layers} label="Total Hospitals" value={summary.total_hospitals || 0} />
+        <StatCard icon={Target} label="Multi-Department" value={summary.multi_department || 0} color="emerald" />
+        <StatCard icon={Users} label="Single Department" value={summary.single_department || 0} color="amber" />
+        <StatCard icon={TrendingUp} label="Avg Depts/Hospital" value={summary.avg_departments_per_hospital || 0} color="blue" />
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        {/* Top Upsell Opportunities */}
+        <div className="bg-white border border-slate-200 rounded-sm p-5" data-testid="upsell-opportunities">
+          <h3 className="text-sm font-bold text-slate-900 mb-1 flex items-center gap-2">
+            <Crosshair size={14} className="text-emerald-500" /> Top Upsell Opportunities
+          </h3>
+          <p className="text-xs text-slate-400 mb-4">Hospitals with most missing Meril divisions</p>
+          {topUpsell.length > 0 ? (
+            <div className="space-y-3">
+              {topUpsell.map((h, i) => (
+                <div key={i} className="p-3 bg-slate-50 rounded-sm border border-slate-100">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-xs font-bold text-slate-900">{h.hospital}</span>
+                    <span className="text-[10px] bg-red-50 text-red-600 px-2 py-0.5 rounded font-bold">{h.upsell_opportunity} divisions missing</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs text-slate-500 mb-2">
+                    {h.district && <span className="flex items-center gap-1"><MapPin size={10} /> {h.district}</span>}
+                    <span>{h.total_leads} leads</span>
+                    <span className="text-slate-300">|</span>
+                    <span>Score: {h.avg_score}</span>
+                  </div>
+                  <p className="text-[10px] font-bold text-emerald-700 mb-1">Currently active: {h.departments.join(", ") || "None"}</p>
+                  <div className="flex flex-wrap gap-1 mt-1">
+                    {h.missing_divisions.slice(0, 5).map((div, j) => (
+                      <span key={j} className="text-[10px] bg-amber-50 text-amber-700 border border-amber-200 px-1.5 py-0.5 rounded">{div}</span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-sm text-slate-400 py-6 text-center">No hospital data yet</p>
+          )}
+        </div>
+
+        {/* Engagement Depth Overview */}
+        <div className="bg-white border border-slate-200 rounded-sm p-5" data-testid="engagement-depth">
+          <h3 className="text-sm font-bold text-slate-900 mb-4 flex items-center gap-2">
+            <BarChart3 size={14} /> Engagement Depth
+          </h3>
+          <div className="flex items-end justify-center gap-8 py-4 mb-4">
+            {[
+              { label: "Deep (3+)", count: summary.deep_engaged || 0, color: "text-emerald-600 bg-emerald-50" },
+              { label: "Moderate (2)", count: summary.multi_department - (summary.deep_engaged || 0), color: "text-amber-600 bg-amber-50" },
+              { label: "Single (1)", count: summary.single_department || 0, color: "text-blue-500 bg-blue-50" },
+            ].map((item) => (
+              <div key={item.label} className="flex flex-col items-center">
+                <p className="text-3xl font-black text-slate-900 mb-2" style={{ fontFamily: "Chivo" }}>{Math.max(item.count, 0)}</p>
+                <span className={`text-xs font-bold px-3 py-1.5 rounded-sm ${item.color}`}>{item.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Hospital Table */}
+        <div className="bg-white border border-slate-200 rounded-sm p-5 lg:col-span-2" data-testid="hospital-table">
+          <h3 className="text-sm font-bold text-slate-900 mb-4">All Hospital Accounts</h3>
+          {hospitals.length > 0 ? (
+            <div className="overflow-x-auto">
+              <table className="w-full text-xs">
+                <thead>
+                  <tr className="border-b border-slate-100">
+                    <th className="text-left py-2 px-2 font-bold text-slate-500">Hospital</th>
+                    <th className="text-center py-2 px-2 font-bold text-slate-500">Leads</th>
+                    <th className="text-center py-2 px-2 font-bold text-slate-500">Depts</th>
+                    <th className="text-center py-2 px-2 font-bold text-slate-500">Depth</th>
+                    <th className="text-center py-2 px-2 font-bold text-slate-500">Score</th>
+                    <th className="text-left py-2 px-2 font-bold text-slate-500">Active Departments</th>
+                    <th className="text-center py-2 px-2 font-bold text-slate-500">Upsell</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {hospitals.slice(0, 20).map((h, i) => {
+                    const depthColor = h.engagement_depth === "deep" ? "bg-emerald-50 text-emerald-700" : h.engagement_depth === "moderate" ? "bg-amber-50 text-amber-700" : "bg-blue-50 text-blue-600";
+                    return (
+                      <tr key={i} className="border-b border-slate-50 hover:bg-slate-50 transition-colors">
+                        <td className="py-2 px-2 font-semibold text-slate-800">{h.hospital}</td>
+                        <td className="py-2 px-2 text-center font-black" style={{ fontFamily: "Chivo" }}>{h.total_leads}</td>
+                        <td className="py-2 px-2 text-center font-bold">{h.department_count}</td>
+                        <td className="py-2 px-2 text-center">
+                          <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${depthColor}`}>{h.engagement_depth}</span>
+                        </td>
+                        <td className="py-2 px-2 text-center text-slate-600">{h.avg_score}</td>
+                        <td className="py-2 px-2">
+                          <div className="flex flex-wrap gap-1">
+                            {h.departments.slice(0, 3).map((d, j) => (
+                              <span key={j} className="text-[10px] bg-emerald-50 text-emerald-700 px-1.5 py-0.5 rounded">{d}</span>
+                            ))}
+                          </div>
+                        </td>
+                        <td className="py-2 px-2 text-center">
+                          <span className="text-[10px] bg-red-50 text-red-600 font-bold px-1.5 py-0.5 rounded">{h.upsell_opportunity}</span>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <p className="text-sm text-slate-400 py-6 text-center">No hospital data yet</p>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+function CompetitiveIntelTab({ competitiveData }) {
+  const ranked = competitiveData?.ranked_competitors || [];
+  const divisionThreats = competitiveData?.division_threats || [];
+  const recentQueries = competitiveData?.recent_competitor_queries || [];
+  const trackedCompetitors = competitiveData?.tracked_competitors || [];
+  const totalMentions = competitiveData?.total_competitor_mentions || 0;
+  const uniqueCompetitors = competitiveData?.unique_competitors_detected || 0;
+
+  return (
+    <div data-testid="competitive-intel-tab">
+      {/* Summary */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <StatCard icon={Crosshair} label="Competitor Mentions" value={totalMentions} color="red" />
+        <StatCard icon={Target} label="Unique Competitors" value={uniqueCompetitors} color="amber" />
+        <StatCard icon={Layers} label="Divisions Threatened" value={divisionThreats.length} color="blue" />
+        <StatCard icon={Search} label="Tracking" value={`${trackedCompetitors.length} brands`} />
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        {/* Ranked Competitors */}
+        <div className="bg-white border border-slate-200 rounded-sm p-5" data-testid="competitor-ranking">
+          <h3 className="text-sm font-bold text-slate-900 mb-1 flex items-center gap-2">
+            <Crosshair size={14} className="text-red-500" /> Competitor Ranking
+          </h3>
+          <p className="text-xs text-slate-400 mb-4">Most searched competitor brands</p>
+          {ranked.length > 0 ? (
+            <div className="space-y-3">
+              {ranked.map((c, i) => (
+                <div key={i} className="p-3 bg-slate-50 rounded-sm border border-slate-100">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-xs font-bold text-slate-900">{c.competitor}</span>
+                    <span className="text-xs font-black text-red-600 bg-red-50 px-2 py-0.5 rounded">{c.mention_count}x</span>
+                  </div>
+                  <p className="text-[10px] text-slate-500 mb-1">Threatens: {c.threatened_divisions.join(", ")}</p>
+                  {c.meril_counter_products.length > 0 && (
+                    <div className="mt-2 pt-2 border-t border-slate-200">
+                      <p className="text-[10px] font-bold text-emerald-700 mb-1">Meril Counter-Products:</p>
+                      {c.meril_counter_products.map((p, j) => (
+                        <p key={j} className="text-[10px] text-emerald-600">{p}</p>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="py-6 text-center">
+              <p className="text-sm text-slate-400">No competitor mentions detected yet</p>
+              <p className="text-xs text-slate-300 mt-2">Tracking {trackedCompetitors.length} brands across chatbot & search</p>
+            </div>
+          )}
+        </div>
+
+        {/* Division Threat Map */}
+        <div className="bg-white border border-slate-200 rounded-sm p-5" data-testid="division-threats">
+          <h3 className="text-sm font-bold text-slate-900 mb-1 flex items-center gap-2">
+            <AlertTriangle size={14} className="text-amber-500" /> Division Threat Map
+          </h3>
+          <p className="text-xs text-slate-400 mb-4">Which Meril divisions face most competition</p>
+          {divisionThreats.length > 0 ? (
+            <div className="space-y-2">
+              {divisionThreats.map((d, i) => {
+                const maxCount = Math.max(...divisionThreats.map(x => x.threat_count), 1);
                 return (
-                  <div key={i} className="flex items-center gap-2 py-1.5 px-2 rounded bg-slate-50">
-                    <span className={`text-[10px] font-bold ${zColors.text} ${zColors.bg} px-1.5 py-0.5 rounded`}>
-                      {s.zone || "N/A"}
-                    </span>
-                    <span className="text-xs text-slate-700 flex-1 truncate font-medium">{s.query}</span>
-                    <span className="text-xs font-bold text-slate-500">{s.count}x</span>
+                  <div key={i}>
+                    <div className="flex items-center gap-3 mb-1">
+                      <span className="text-xs font-semibold text-slate-700 w-28">{d.division}</span>
+                      <div className="flex-1 h-5 bg-slate-100 rounded-sm overflow-hidden relative">
+                        <div className="h-full bg-red-400 rounded-sm transition-all" style={{ width: `${(d.threat_count / maxCount) * 100}%` }} />
+                        <span className="absolute inset-0 flex items-center px-2 text-[10px] font-bold">{d.threat_count}</span>
+                      </div>
+                    </div>
+                    {d.meril_alternative && <p className="text-[10px] text-emerald-600 ml-28 mb-1">{d.meril_alternative}</p>}
                   </div>
                 );
               })}
+            </div>
+          ) : (
+            <div className="py-6 text-center">
+              <p className="text-sm text-slate-400">No division threats detected</p>
+              <p className="text-xs text-slate-300 mt-2">As doctors search for competitor brands, threats will appear here</p>
+            </div>
+          )}
+        </div>
+
+        {/* Tracked Brands */}
+        <div className="bg-white border border-slate-200 rounded-sm p-5 lg:col-span-2" data-testid="tracked-brands">
+          <h3 className="text-sm font-bold text-slate-900 mb-1 flex items-center gap-2">
+            <Search size={14} /> Actively Monitoring
+          </h3>
+          <p className="text-xs text-slate-400 mb-4">{trackedCompetitors.length} competitor brands being tracked across chatbot queries & website searches</p>
+          <div className="flex flex-wrap gap-2">
+            {trackedCompetitors.sort().map((b, i) => (
+              <span key={i} className="text-xs bg-slate-100 text-slate-600 border border-slate-200 px-2.5 py-1 rounded font-medium">{b}</span>
+            ))}
+          </div>
+        </div>
+
+        {/* Recent Competitor Queries */}
+        {recentQueries.length > 0 && (
+          <div className="bg-white border border-slate-200 rounded-sm p-5 lg:col-span-2" data-testid="competitor-queries">
+            <h3 className="text-sm font-bold text-slate-900 mb-4 flex items-center gap-2">
+              <Clock size={14} /> Recent Competitor Queries
+            </h3>
+            <div className="space-y-2">
+              {recentQueries.slice(0, 10).map((q, i) => (
+                <div key={i} className="flex items-center gap-3 py-1.5 px-2 rounded bg-red-50/50">
+                  <span className="text-[10px] font-bold text-red-600 bg-red-100 px-1.5 py-0.5 rounded">{q.competitor}</span>
+                  <span className="text-xs text-slate-700 flex-1 truncate">{q.query}</span>
+                  <span className="text-[10px] text-slate-400">{q.source}</span>
+                </div>
+              ))}
             </div>
           </div>
         )}
