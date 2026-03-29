@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import {
   TrendingUp, Users, Target, Flame, Thermometer, Snowflake, MapPin,
   Search, MessageSquare, Zap, AlertTriangle, Phone, BarChart3, Clock,
-  CheckCircle, XCircle, ArrowRight
+  CheckCircle, XCircle, ArrowRight, Globe, Crosshair, Layers
 } from "lucide-react";
 
 const API_URL = process.env.REACT_APP_BACKEND_URL;
@@ -21,6 +21,7 @@ const SCORE_COLORS = { Hot: "text-red-600 bg-red-50", Warm: "text-amber-600 bg-a
 
 const TABS = [
   { id: "leads", label: "CRM Leads", icon: Users },
+  { id: "territory", label: "Territory", icon: Globe },
   { id: "search", label: "Search Intelligence", icon: Search },
   { id: "whatsapp", label: "WhatsApp", icon: Phone },
 ];
