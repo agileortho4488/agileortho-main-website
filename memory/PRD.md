@@ -1,57 +1,74 @@
 # Agile Healthcare — Product Requirements Document
 
 ## Original Problem Statement
-Build a B2B medical device platform for Agile Healthcare (formerly Agile Ortho), a premier Meril Life Sciences master franchise in Telangana, India. The platform provides a standardized, clinically grouped product catalog with AI Chatbot, WhatsApp integration, and Admin Dashboard.
+Build a B2B medical device platform for Agile Healthcare, the Meril Life Sciences master franchise for ALL of Telangana, India. The platform provides a clinically grouped product catalog across ALL 13 Meril divisions, with AI Chatbot, WhatsApp integration, CRM/Lead scoring, zone-based territory analytics, and Admin Dashboard.
 
 ## Architecture
 - **Frontend**: React (CRA) + Tailwind + Shadcn UI + Framer Motion
 - **Backend**: FastAPI + Motor (async MongoDB)
-- **Database**: MongoDB (`catalog_products`, `catalog_skus`, `wa_conversations`, `chatbot_telemetry`, `leads`)
-- **AI**: Claude Sonnet 4.5 via `emergentintegrations`
+- **Database**: MongoDB (catalog_products, catalog_skus, leads, visitor_events, zones, wa_conversations, chatbot_telemetry)
+- **AI**: Claude Sonnet 4.5 via emergentintegrations
 - **WhatsApp**: Interakt API
-- **Design**: Dark Premium theme — Outfit font, gold (#D4AF37) + teal (#2DD4BF) on obsidian (#0A0A0A)
+- **Geolocation**: ip-api.com (free tier)
+- **Design**: Dark Premium — Outfit font, gold (#D4AF37) + teal (#2DD4BF) on obsidian (#0A0A0A)
+
+## Telangana Market Structure
+### Hyderabad Metro (4 Zones — ALL Agile Healthcare)
+- Zone 01 (Kukatpally): 365 accounts, 209 hospitals, 156 labs
+- Zone 02 (Ameerpet/Hitech City): 413 accounts, 276 hospitals, 138 labs — PRIMARY
+- Zone 03 (Central/Old City): 379 accounts, 226 hospitals, 153 labs
+- Zone 04 (Dilsukhnagar/Secunderabad): 734 accounts, 430 hospitals, 304 labs
+- **Total Metro: 1,891 accounts**
+### 33 Districts — Full Telangana coverage
+
+### 13 Meril Divisions (ALL Equal Priority)
+Trauma, Joints/Arthroplasty, Spine, Cardiology, Endosurgery, Endo, ENT, Diagnostics, Vascular, Consumables, Sports Medicine, Dental, Orthobiologics
 
 ## What's Been Implemented
 
+### Zone/Territory + IP Geolocation + Lead Intelligence — Mar 29, 2026
+- **IP Geolocation**: Auto-detect visitor's city/zone from IP on page load (ip-api.com)
+- **4-Zone Hyderabad Mapping**: 130+ localities mapped to zones, coordinate-based fallback
+- **Equal Department Scoring**: ALL 13 divisions score equally (25pts) — no bias toward Ortho
+- **Lead Auto-Scoring** (0-100): Department + inquiry type + hospital + email + product interest
+- **Auto-Routing**: All leads → "Agile Healthcare" (removed Arka/Medisun/Pride)
+- **Visitor Event Tracking**: page_view, search, product_view events tagged with zone/district
+- **Territory Penetration API**: District × Division matrix, zero-lead districts, division gaps (cross-sell)
+- **Zone Analytics API**: Leads/score/hot-warm-cold per zone, top departments, top products
+- **Visitor Insights API**: Top searches by zone, visits by zone, top pages
+- **Auto-fill District**: LeadCaptureModal pre-fills district from IP geolocation
+
 ### Framer Motion Animations — Mar 28, 2026
-- **Page Transitions**: AnimatePresence in Layout.jsx for smooth fade/slide between routes
-- **Scroll-Triggered Animations**: FadeUp, StaggerContainer, StaggerItem on homepage sections (divisions, featured products)
-- **Hero Staggered Reveal**: Overline, title, subtitle, search, CTAs animate in sequence with easeOut timing
-- **Stats Cards**: Individual staggered entrance with scale + fade
-- **CTA Section**: ScaleIn animation on scroll
-- **Dropdown Animations**: dropdownVariants for WhatsApp menu open/close
-- **Modal Animations**: modalOverlayVariants + modalContentVariants for LeadCaptureModal
-- **Motion Library**: `/app/frontend/src/lib/motion.jsx` — reusable animation components
+- Page transitions, scroll-triggered section animations, modal animations, dropdown animations
 
 ### Universal Lead Capture System — Mar 28, 2026
-- LeadCaptureModal intercepts all WhatsApp/enquiry actions
+- LeadCaptureModal on ALL WhatsApp/enquiry touchpoints
 - Captures: Name, Hospital, Department, Phone, Email, District
-- Integrated: Header dropdown, Hero CTA, CTA section, Product detail, Mobile bar
-- Backend `department` field in LeadCreate model, sent to Interakt traits
+- 16 department options covering all Meril divisions
 
-### UX Audit Implementations — Mar 28, 2026
-- Logo: Agile Healthcare branding with new icon + text
-- WhatsApp dropdown: 3 options (Sales, Catalog PDF, Support)
-- Hero: Better search placeholder, consolidated CTAs
-- Product cards: Centered, 2-line truncation, material/brand tags
-- Footer: 4-column layout (Brand, Navigation, Locations, Compliance)
-- Contact page: Gold focus styling, dark theme consistency
+### UX Audit + Dark Premium Theme — Mar 28, 2026
+- Agile Healthcare branding, WhatsApp dropdown, consolidated CTAs, 4-column footer
 
-### Deployment Fix — Mar 28, 2026
-- Removed 2.5GB of large binaries from git history (uploads, brochures, brochure_intelligence)
-- Git repo reduced from 4.4GB to 8.6MB
-- .gitignore updated to prevent re-tracking
+### Core Platform
+- 810+ products, 13 divisions, AI chatbot, Admin CRM, 3-tab analytics, auto-seed
 
-### Core Platform (Previous Sessions)
-- 810+ products across 13 clinical divisions
-- AI Chatbot (web + WhatsApp), Admin Dashboard with CRM
-- 3-Tab Analytics, Auto-seed on deployment
+## Key API Endpoints
+- `GET /api/geo/detect` — IP geolocation
+- `POST /api/geo/track` — Visitor event tracking
+- `GET /api/geo/zones` — Zone data with lead counts
+- `GET /api/geo/zone-analytics` — Zone-level CRM analytics
+- `GET /api/geo/territory-penetration` — District × Division penetration
+- `GET /api/geo/visitor-insights` — Search/visit analytics
 
 ## Pending Items
-- **P0**: Manual review of 65 true blockers via Admin Review Dashboard
-- **P2**: Archive legacy phase scripts to `scripts/archive/`
-- **P3**: File 008 (corrupted DOCX) — blocked
+- **P0**: Upgrade existing CRM dashboard tabs with zone filters, lead scores, territory data
+- **P1**: Automated WhatsApp nurture sequences via Interakt templates
+- **P1**: Meta Pixel + Google Ads conversion tracking tags
+- **P2**: Zoho email integration for catalog PDF delivery
+- **P2**: Consent management (opt-in/opt-out)
+- **P2**: Archive legacy phase scripts
 
 ## Known Constraints
+- ip-api.com free tier: 45 requests/min (sufficient for B2B traffic)
+- WhatsApp free-form replies only within 24h
 - Emergent LLM Key budget — avoid batch LLM scripts
-- WhatsApp free-form replies only within 24h of customer's last message
