@@ -118,6 +118,26 @@ async def admin_analytics(_=Depends(admin_required)):
     won = await leads_col.count_documents({"status": "won"})
     conversion_rate = round((won / total * 100), 1) if total > 0 else 0
 
+    # Product interest intelligence from learning engine
+    from db import db as mongo_db
+    learning_cache = await mongo_db["learning_cache"].find_one(
+        {"type": "chatbot_learning"}, {"_id": 0}
+    )
+    trending = learning_cache.get("trending_divisions", []) if learning_cache else []
+    product_associations = learning_cache.get("product_associations", []) if learning_cache else []
+
+    # Count leads with product insights
+    enriched_leads = await leads_col.count_documents({"product_insights": {"$exists": True}})
+
+    # Division demand from leads
+    division_pipeline = [
+        {"$match": {"product_insights.divisions_interested": {"$exists": True}}},
+        {"$unwind": "$product_insights.divisions_interested"},
+        {"$group": {"_id": "$product_insights.divisions_interested", "count": {"$sum": 1}}},
+        {"$sort": {"count": -1}}
+    ]
+    by_division_demand = await leads_col.aggregate(division_pipeline).to_list(20)
+
     return {
         "total_leads": total,
         "conversion_rate": conversion_rate,
@@ -127,6 +147,12 @@ async def admin_analytics(_=Depends(admin_required)):
         "by_district": [{"district": d["_id"], "count": d["count"]} for d in by_district],
         "by_inquiry": [{"type": d["_id"], "count": d["count"]} for d in by_inquiry],
         "recent_leads": serialize_docs(recent),
+        "product_intelligence": {
+            "trending_divisions": trending,
+            "product_associations": product_associations,
+            "enriched_leads_count": enriched_leads,
+            "division_demand": [{"division": d["_id"], "count": d["count"]} for d in by_division_demand],
+        },
     }
 
 

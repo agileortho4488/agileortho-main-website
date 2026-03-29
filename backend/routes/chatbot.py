@@ -375,7 +375,7 @@ async def chatbot_query(query: ChatQuery):
     q_lower = question.lower().strip().rstrip("!.?")
     if q_lower in GREETINGS or (len(q_lower) <= 12 and any(q_lower.startswith(g) for g in GREETINGS)):
         greeting_result = {
-            "answer": "Hello! Welcome to Agile Ortho. I'm your AI product assistant.\n\nI can help you with:\n- Finding medical devices by name, brand, or division\n- Looking up SKU codes and specifications\n- Comparing products\n- Connecting you with our sales team\n\nWhat product or division are you interested in?",
+            "answer": "Hello! Welcome to Agile Healthcare. I'm your AI product assistant.\n\nI can help you with:\n- Finding medical devices by name, brand, or division\n- Looking up SKU codes and specifications\n- Comparing products across 13 Meril divisions\n- Connecting you with our sales team\n\nWhat product or division are you interested in?",
             "sources": [],
             "confidence": "high"
         }
@@ -392,6 +392,13 @@ async def chatbot_query(query: ChatQuery):
         elapsed_ms = round((time.monotonic() - t_start) * 1000)
         await _store_conversation(session_id, question, result, elapsed_ms)
         return result
+
+    # GUARD 0.5: Check learned FAQ cache for exact/close matches
+    faq_result = await _check_faq_cache(question, q_lower)
+    if faq_result:
+        elapsed_ms = round((time.monotonic() - t_start) * 1000)
+        await _store_conversation(session_id, question, faq_result, elapsed_ms)
+        return faq_result
 
     # GUARD 1: Off-topic rejection
     if not is_on_topic(question, terms):
@@ -701,3 +708,36 @@ async def telemetry_report(
         "failed_sku_queries": failed_sku,
         "top_handoff_trigger_queries": top_handoff_trigger_queries,
     }
+
+
+
+async def _check_faq_cache(question: str, q_lower: str) -> dict | None:
+    """Check if this question has a learned high-quality answer from past conversations."""
+    from db import db as mongo_db
+    cache = await mongo_db["learning_cache"].find_one(
+        {"type": "chatbot_learning"}, {"_id": 0, "faq_cache": 1}
+    )
+    if not cache or not cache.get("faq_cache"):
+        return None
+
+    # Check for exact or near-exact match (>80% word overlap)
+    q_words = set(q_lower.split())
+    best_match = None
+    best_score = 0
+
+    for faq in cache["faq_cache"]:
+        faq_words = set(faq["question"].lower().split())
+        if not faq_words:
+            continue
+        overlap = len(q_words & faq_words) / max(len(q_words | faq_words), 1)
+        if overlap > best_score and overlap >= 0.7:
+            best_score = overlap
+            best_match = faq
+
+    if best_match and best_score >= 0.7:
+        return {
+            "answer": best_match["answer"],
+            "sources": [{"type": "learned_faq", "match_score": round(best_score, 2)}],
+            "confidence": best_match.get("confidence", "medium"),
+        }
+    return None

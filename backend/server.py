@@ -90,6 +90,13 @@ async def startup():
     asyncio.create_task(followup_scheduler())
     print("Follow-up automation scheduler started")
 
+    # Start self-learning engine
+    from routes.learning import learning_scheduler, learn_from_all_conversations
+    asyncio.create_task(learning_scheduler())
+    # Run initial learning pass immediately
+    asyncio.create_task(learn_from_all_conversations())
+    print("Self-learning engine started")
+
     # Index for automation collections
     from db import db as mongo_db
     followup_col = mongo_db["followup_queue"]

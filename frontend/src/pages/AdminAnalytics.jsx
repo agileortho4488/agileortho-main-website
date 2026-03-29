@@ -267,25 +267,108 @@ export default function AdminAnalytics() {
                 ))}
               </div>
             </div>
+
+            {/* Product Demand Intelligence (from learning engine) */}
+            {(data.product_intelligence?.trending_divisions?.length > 0 || data.product_intelligence?.division_demand?.length > 0) && (
+              <div className="bg-white border border-slate-200 rounded-sm p-5 lg:col-span-2" data-testid="product-demand">
+                <h3 className="text-sm font-bold text-slate-900 mb-1 flex items-center gap-2">
+                  <TrendingUp size={14} className="text-emerald-500" /> Product Demand Intelligence
+                </h3>
+                <p className="text-xs text-slate-400 mb-4">
+                  Auto-learned from chatbot + WhatsApp conversations
+                  {data.product_intelligence?.enriched_leads_count > 0 && (
+                    <span className="ml-2 text-emerald-600 font-semibold">
+                      ({data.product_intelligence.enriched_leads_count} leads enriched)
+                    </span>
+                  )}
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {/* Trending Divisions from searches */}
+                  {(data.product_intelligence?.trending_divisions || []).length > 0 && (
+                    <div>
+                      <p className="text-[10px] font-bold text-slate-500 uppercase mb-2">Trending (Search Demand)</p>
+                      <div className="space-y-1.5">
+                        {data.product_intelligence.trending_divisions.slice(0, 8).map((t, i) => {
+                          const maxSearch = Math.max(...data.product_intelligence.trending_divisions.map(x => x.search_count), 1);
+                          return (
+                            <div key={i} className="flex items-center gap-2">
+                              <span className="text-xs font-semibold text-slate-700 w-28 truncate">{t.division}</span>
+                              <div className="flex-1 h-4 bg-slate-100 rounded-sm overflow-hidden">
+                                <div className="h-full bg-emerald-400 rounded-sm" style={{ width: `${(t.search_count / maxSearch) * 100}%` }} />
+                              </div>
+                              <span className="text-xs font-bold text-slate-600 w-8 text-right">{t.search_count}</span>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+                  {/* Division Demand from lead product insights */}
+                  {(data.product_intelligence?.division_demand || []).length > 0 && (
+                    <div>
+                      <p className="text-[10px] font-bold text-slate-500 uppercase mb-2">Lead Product Interest</p>
+                      <div className="space-y-1.5">
+                        {data.product_intelligence.division_demand.slice(0, 8).map((d, i) => {
+                          const maxDemand = Math.max(...data.product_intelligence.division_demand.map(x => x.count), 1);
+                          return (
+                            <div key={i} className="flex items-center gap-2">
+                              <span className="text-xs font-semibold text-slate-700 w-28 truncate">{d.division}</span>
+                              <div className="flex-1 h-4 bg-slate-100 rounded-sm overflow-hidden">
+                                <div className="h-full bg-blue-400 rounded-sm" style={{ width: `${(d.count / maxDemand) * 100}%` }} />
+                              </div>
+                              <span className="text-xs font-bold text-slate-600 w-8 text-right">{d.count}</span>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+                </div>
+                {/* Product Associations */}
+                {(data.product_intelligence?.product_associations || []).length > 0 && (
+                  <div className="mt-4 pt-3 border-t border-slate-100">
+                    <p className="text-[10px] font-bold text-slate-500 uppercase mb-2">Frequently Asked Together</p>
+                    <div className="flex flex-wrap gap-2">
+                      {data.product_intelligence.product_associations.slice(0, 5).map((a, i) => (
+                        <span key={i} className="text-xs bg-purple-50 text-purple-700 border border-purple-200 px-2.5 py-1 rounded font-medium">
+                          {a.divisions.join(" + ")} ({a.co_occurrence}x)
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
 
-          {/* Recent Leads */}
+          {/* Recent Leads with Product Intelligence */}
           <div className="bg-white border border-slate-200 rounded-sm p-5">
-            <h3 className="text-sm font-bold text-slate-900 mb-4">Recent Leads</h3>
+            <h3 className="text-sm font-bold text-slate-900 mb-4">Recent Leads — Product Interests</h3>
             <div className="space-y-2">
               {(data.recent_leads || []).map((lead) => {
                 const Icon = SCORE_ICONS[lead.score] || Snowflake;
+                const insights = lead.product_insights;
                 return (
-                  <div key={lead.id} className="flex items-center gap-3 py-2 border-b border-slate-50 last:border-0">
-                    <div className={`w-7 h-7 rounded flex items-center justify-center ${SCORE_COLORS[lead.score] || "bg-slate-50"}`}>
+                  <div key={lead.id} className="flex items-center gap-3 py-2.5 border-b border-slate-50 last:border-0">
+                    <div className={`w-7 h-7 rounded flex items-center justify-center shrink-0 ${SCORE_COLORS[lead.score] || "bg-slate-50"}`}>
                       <Icon size={14} />
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-semibold text-slate-900 truncate">{lead.name}</p>
                       <p className="text-xs text-slate-400">{lead.hospital_clinic || lead.inquiry_type}</p>
                     </div>
-                    <span className="text-xs text-slate-400 capitalize">{lead.source}</span>
-                    <span className="text-xs font-medium text-slate-500 capitalize">{lead.status}</span>
+                    {/* Product interests column */}
+                    <div className="flex flex-wrap gap-1 max-w-[240px]">
+                      {insights?.divisions_interested?.length > 0 ? (
+                        insights.divisions_interested.slice(0, 3).map((div, j) => (
+                          <span key={j} className="text-[10px] bg-emerald-50 text-emerald-700 px-1.5 py-0.5 rounded font-medium">{div}</span>
+                        ))
+                      ) : lead.department ? (
+                        <span className="text-[10px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded">{lead.department}</span>
+                      ) : null}
+                    </div>
+                    <span className="text-xs text-slate-400 capitalize shrink-0">{lead.source}</span>
+                    <span className="text-xs font-medium text-slate-500 capitalize shrink-0">{lead.status}</span>
                   </div>
                 );
               })}
