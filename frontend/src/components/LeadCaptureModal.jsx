@@ -12,7 +12,8 @@ const DISTRICTS = ["Hyderabad","Rangareddy","Medchal-Malkajgiri","Sangareddy","N
 const DEPARTMENTS = [
   "Orthopedics", "Cardiology", "General Surgery", "Neurosurgery",
   "Urology", "ENT", "Spine Surgery", "Sports Medicine",
-  "Diagnostics / Pathology", "Hospital Administration", "Procurement / Purchase",
+  "Diagnostics / Pathology", "Vascular Surgery", "Endosurgery", "Dental",
+  "Hospital Administration", "Procurement / Purchase",
   "Biomedical Engineering", "Other"
 ];
 

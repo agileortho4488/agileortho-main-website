@@ -329,7 +329,7 @@ async def create_lead(lead: LeadCreate):
         "zone_id": zone_id,
         "zone_name": zone_name,
         "status": "new",
-        "assigned_to": HYDERABAD_ZONES[zone_id]["db_partner"] if zone_id and zone_id in HYDERABAD_ZONES else "",
+        "assigned_to": "Agile Healthcare",
         "notes": [],
         "created_at": datetime.now(timezone.utc).isoformat(),
         "updated_at": datetime.now(timezone.utc).isoformat(),

@@ -12,31 +12,39 @@ HYDERABAD_ZONES = {
         "name": "Zone 01 — Kukatpally",
         "areas": ["Balanagar","Borabanda","Chanda Nagar","Chandanagar","Gajularamaram","Kukatpally","Miyapur","Patancheru","Suraram","KPHB","Bachupally","Nizampet","Pragathi Nagar","Moosapet"],
         "accounts": 365, "hospitals": 209, "labs": 156,
-        "db_partner": "Agile", "dm_count": 1,
+        "operator": "Agile Healthcare",
         "center": [17.4947, 78.3996],
     },
     "zone_02": {
         "name": "Zone 02 — Ameerpet/Hitech City",
         "areas": ["Ameerpet","Banjara Hills","Banjarahills","Begumpet","Erragadda","Jubilee Hills","Khairatabad","Punjagutta","SR Nagar","S.R. Nagar","Gachibowli","Gandipet","Hitech City","Hi-Tech City","Kokapet","Madhapur","Manikonda","Serilingampally","Shankarpally","Kondapur","Nanakramguda","Financial District","Raidurg"],
         "accounts": 413, "hospitals": 276, "labs": 138,
-        "db_partner": "Arka", "dm_count": 2,
+        "operator": "Agile Healthcare",
+        "primary": True,
         "center": [17.4400, 78.3489],
     },
     "zone_03": {
         "name": "Zone 03 — Central City/Old City",
         "areas": ["Langar Houz","Masab Tank","Mehdipatnam","Narsingi","Rajendra Nagar","Tolichowki","Bahadurpura","Bandlaguda","Begum Bazar","Chaderghat","Chandrayangutta","Charminar","Malakpet","Saidabad","Santosh Nagar","Attapur","Basheer Bagh","Basheerbagh","Chikkadpally","Domalaguda","Himayath Nagar","Himayatnagar","Adikmet","Nallakunta","Nampally","Narayanguda","RTC X Road","Sultan Bazar","Abids","Koti"],
         "accounts": 379, "hospitals": 226, "labs": 153,
-        "db_partner": "Medisun", "dm_count": 2,
+        "operator": "Agile Healthcare",
         "center": [17.3850, 78.4867],
     },
     "zone_04": {
         "name": "Zone 04 — Dilsukhnagar/Secunderabad",
         "areas": ["Malkajgiri","Nacharam","Moula Ali","Musheerabad","Padmarao Nagar","Secunderabad","Tarnaka","Uppal","West Marredpally","Marredpally","Amberpet","Champapet","Chintal","LB Nagar","Vanasthalipuram","Alwal","Bhongir","Bowenpally","Boduppal","Kompally","Medchal","Quthbullapur","Suchitra","Dilsukhnagar","Kachiguda","Habsiguda","Sainikpuri","ECIL","AS Rao Nagar","Nagole"],
         "accounts": 734, "hospitals": 430, "labs": 304,
-        "db_partner": "Pride", "dm_count": 3,
+        "operator": "Agile Healthcare",
         "center": [17.4399, 78.5143],
     },
 }
+
+# All 13 Meril divisions (equal priority)
+MERIL_DIVISIONS = [
+    "Trauma", "Joints / Arthroplasty", "Spine", "Cardiology",
+    "Endosurgery", "Endo", "ENT", "Diagnostics", "Vascular",
+    "Consumables", "Sports Medicine", "Dental", "Orthobiologics"
+]
 
 # Flatten area → zone lookup (lowercase)
 AREA_TO_ZONE = {}
@@ -63,13 +71,14 @@ def detect_zone_from_coords(lat: float, lon: float) -> str | None:
     return best_zone if min_dist < 0.15 else None  # ~15km radius
 
 
-# ── Lead Scoring ────────────────────────────────────────────────
+# ── Lead Scoring (ALL divisions equal priority) ────────────────
 DEPARTMENT_SCORES = {
-    "Orthopedics": 25, "Cardiology": 25, "General Surgery": 20,
-    "Neurosurgery": 20, "Spine Surgery": 20, "Urology": 15,
-    "ENT": 15, "Sports Medicine": 15, "Diagnostics / Pathology": 15,
+    "Orthopedics": 25, "Cardiology": 25, "General Surgery": 25,
+    "Neurosurgery": 25, "Spine Surgery": 25, "Urology": 25,
+    "ENT": 25, "Sports Medicine": 25, "Diagnostics / Pathology": 25,
+    "Vascular Surgery": 25, "Endosurgery": 25, "Dental": 25,
     "Procurement / Purchase": 30, "Hospital Administration": 25,
-    "Biomedical Engineering": 20, "Other": 5,
+    "Biomedical Engineering": 20, "Other": 10,
 }
 INQUIRY_SCORES = {
     "Sales Enquiry": 20, "Product Enquiry": 20, "Bulk Procurement": 30,
@@ -180,8 +189,8 @@ async def get_zones():
             "accounts": zone["accounts"],
             "hospitals": zone["hospitals"],
             "labs": zone["labs"],
-            "db_partner": zone["db_partner"],
-            "dm_count": zone["dm_count"],
+            "operator": "Agile Healthcare",
+            "is_primary": zone.get("primary", False),
             "lead_count": lead_count,
         })
     return {"zones": zones, "total_metro_accounts": 1891}
@@ -217,7 +226,6 @@ async def get_zone_analytics():
             "cold_leads": r["total_leads"] - r["hot_leads"] - r["warm_leads"],
             "top_departments": _top_items([d for d in r["departments"] if d]),
             "top_products": _top_items([p for p in r["products"] if p]),
-            "db_partner": zone_info.get("db_partner", ""),
         }
 
     # Visitor event stats by zone
@@ -268,3 +276,64 @@ async def get_visitor_insights():
 def _top_items(items: list, limit=3) -> list:
     from collections import Counter
     return [{"name": k, "count": v} for k, v in Counter(items).most_common(limit)]
+
+
+@router.get("/territory-penetration")
+async def get_territory_penetration():
+    """District × Division penetration — which districts have leads in which divisions"""
+    # Leads by district + department
+    pipeline = [
+        {"$group": {
+            "_id": {"district": "$district", "department": "$department"},
+            "count": {"$sum": 1},
+            "avg_score": {"$avg": "$lead_score"},
+        }},
+        {"$sort": {"count": -1}},
+    ]
+    results = await leads_col.aggregate(pipeline).to_list(500)
+
+    # District summary
+    district_pipeline = [
+        {"$group": {
+            "_id": "$district",
+            "total_leads": {"$sum": 1},
+            "avg_score": {"$avg": "$lead_score"},
+            "departments": {"$addToSet": "$department"},
+            "hot_leads": {"$sum": {"$cond": [{"$gte": ["$lead_score", 70]}, 1, 0]}},
+        }},
+        {"$sort": {"total_leads": -1}},
+    ]
+    districts = await leads_col.aggregate(district_pipeline).to_list(50)
+
+    # Find gaps — districts with ZERO leads
+    ALL_DISTRICTS = ["Hyderabad","Rangareddy","Medchal-Malkajgiri","Sangareddy","Nalgonda","Warangal","Karimnagar","Khammam","Nizamabad","Adilabad","Mahabubnagar","Medak","Siddipet","Suryapet","Jagtial","Peddapalli","Kamareddy","Mancherial","Wanaparthy","Nagarkurnool","Vikarabad","Jogulamba Gadwal","Rajanna Sircilla","Kumuram Bheem","Mulugu","Narayanpet","Mahabubabad","Jayashankar","Jangaon","Nirmal","Yadadri","Bhadradri","Hanumakonda"]
+    active_districts = {d["_id"] for d in districts if d["_id"]}
+    zero_lead_districts = [d for d in ALL_DISTRICTS if d not in active_districts]
+
+    # Division gaps per active district
+    district_division_gaps = []
+    for d in districts:
+        if not d["_id"]:
+            continue
+        active_depts = set(d.get("departments", []))
+        missing = [div for div in MERIL_DIVISIONS if div not in active_depts and div.lower() not in {ad.lower() for ad in active_depts}]
+        if missing:
+            district_division_gaps.append({
+                "district": d["_id"],
+                "active_divisions": list(active_depts),
+                "missing_divisions": missing,
+                "opportunity_score": len(missing),
+            })
+
+    return {
+        "district_breakdown": [
+            {"district": d["_id"], "total_leads": d["total_leads"],
+             "avg_score": round(d["avg_score"] or 0, 1), "hot_leads": d["hot_leads"],
+             "active_departments": d["departments"]}
+            for d in districts if d["_id"]
+        ],
+        "cross_sell": results[:30],
+        "zero_lead_districts": zero_lead_districts,
+        "division_gaps": sorted(district_division_gaps, key=lambda x: x["opportunity_score"], reverse=True),
+        "all_divisions": MERIL_DIVISIONS,
+    }
