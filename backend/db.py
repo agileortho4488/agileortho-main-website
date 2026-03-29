@@ -25,3 +25,7 @@ catalog_products_col = db["catalog_products"]
 catalog_skus_col = db["catalog_skus"]
 web_verification_log_col = db["web_verification_log"]
 promotion_log_col = db["promotion_log"]
+
+# Zone/Territory & Analytics
+zones_col = db["zones"]
+visitor_events_col = db["visitor_events"]

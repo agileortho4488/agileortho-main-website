@@ -26,13 +26,15 @@ import AdminProducts from "./pages/AdminProducts";
 import AdminImports from "./pages/AdminImports";
 import AdminWhatsApp from "./pages/AdminWhatsApp";
 import AdminReview from "./pages/AdminReview";
+import { VisitorProvider } from "./context/VisitorContext";
 import "./App.css";
 
 function App() {
   return (
     <SEOProvider>
-      <BrowserRouter>
-        <Toaster position="top-right" richColors closeButton />
+      <VisitorProvider>
+        <BrowserRouter>
+          <Toaster position="top-right" richColors closeButton />
         <Routes>
           {/* Public routes with header/footer */}
           <Route element={<Layout />}>
@@ -79,6 +81,7 @@ function App() {
         </Routes>
         <ChatWidget />
       </BrowserRouter>
+      </VisitorProvider>
     </SEOProvider>
   );
 }

@@ -20,6 +20,7 @@ from routes.automation import router as automation_router
 from routes.chatbot import router as chatbot_router
 from routes.catalog import router as catalog_router
 from routes.review import router as review_router
+from routes.geo import router as geo_router
 
 app = FastAPI(title="Agile Ortho API")
 
@@ -43,6 +44,7 @@ app.include_router(automation_router)
 app.include_router(chatbot_router)
 app.include_router(catalog_router)
 app.include_router(review_router)
+app.include_router(geo_router)
 
 
 @app.on_event("startup")
@@ -101,5 +103,14 @@ async def startup():
     await chatbot_telem.create_index("session_id")
     await chatbot_telem.create_index("event_type")
     await chatbot_telem.create_index("timestamp")
+
+    # Visitor event tracking indexes
+    from db import visitor_events_col
+    await visitor_events_col.create_index("zone_id")
+    await visitor_events_col.create_index("event_type")
+    await visitor_events_col.create_index("timestamp")
+    await visitor_events_col.create_index("session_id")
+    await leads_col.create_index("zone_id")
+    await leads_col.create_index("lead_score")
 
     print("Agile Ortho API started")

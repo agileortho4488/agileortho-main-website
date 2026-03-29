@@ -10,6 +10,7 @@ import {
 import { getDivisions, getFeaturedProducts } from "@/lib/api";
 import { COMPANY } from "@/lib/constants";
 import { FadeUp, StaggerContainer, StaggerItem, ScaleIn } from "@/lib/motion";
+import { useVisitor } from "@/context/VisitorContext";
 import LeadCaptureModal from "@/components/LeadCaptureModal";
 
 const DIVISION_ICONS = {
@@ -28,17 +29,22 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchFocused, setSearchFocused] = useState(false);
   const [leadModal, setLeadModal] = useState({ open: false, inquiryType: "", productInterest: "", whatsappMessage: "", source: "" });
+  const { trackEvent } = useVisitor();
 
   useEffect(() => {
     getDivisions().then((r) => setDivisions(r.data.divisions || [])).catch(() => {});
     getFeaturedProducts().then((r) => setFeaturedProducts(r.data.products || [])).catch(() => {});
-  }, []);
+    trackEvent("page_view", { page: "/" });
+  }, [trackEvent]);
 
   const totalProducts = divisions.reduce((s, d) => s + (d.product_count || 0), 0);
 
   const handleSearch = (e) => {
     e.preventDefault();
-    if (searchQuery.trim()) window.location.href = `/catalog?search=${encodeURIComponent(searchQuery)}`;
+    if (searchQuery.trim()) {
+      trackEvent("search", { search_query: searchQuery.trim(), page: "/" });
+      window.location.href = `/catalog?search=${encodeURIComponent(searchQuery)}`;
+    }
   };
 
   const openLeadCapture = (inquiryType, productInterest, whatsappMessage, source) => {

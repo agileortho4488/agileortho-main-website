@@ -1,10 +1,11 @@
-import { useState } from "react";
-import { X, MessageCircle, ArrowRight } from "lucide-react";
+import { useState, useEffect } from "react";
+import { X, MessageCircle, ArrowRight, MapPin } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { submitLead } from "@/lib/api";
 import { toast } from "sonner";
 import { COMPANY } from "@/lib/constants";
 import { modalOverlayVariants, modalContentVariants } from "@/lib/motion";
+import { useVisitor } from "@/context/VisitorContext";
 
 const DISTRICTS = ["Hyderabad","Rangareddy","Medchal-Malkajgiri","Sangareddy","Nalgonda","Warangal","Karimnagar","Khammam","Nizamabad","Adilabad","Mahabubnagar","Medak","Siddipet","Suryapet","Jagtial","Peddapalli","Kamareddy","Mancherial","Wanaparthy","Nagarkurnool","Vikarabad","Jogulamba Gadwal","Rajanna Sircilla","Kumuram Bheem","Mulugu","Narayanpet","Mahabubabad","Jayashankar","Jangaon","Nirmal","Yadadri","Bhadradri","Hanumakonda"];
 
@@ -16,11 +17,19 @@ const DEPARTMENTS = [
 ];
 
 export default function LeadCaptureModal({ isOpen, onClose, inquiryType, productInterest, whatsappMessage, source }) {
+  const { geo } = useVisitor();
   const [form, setForm] = useState({
     name: "", hospital_clinic: "", department: "",
     phone_whatsapp: "", email: "", district: ""
   });
   const [submitting, setSubmitting] = useState(false);
+
+  // Auto-fill district from IP geolocation
+  useEffect(() => {
+    if (isOpen && geo?.district && !form.district) {
+      setForm((prev) => ({ ...prev, district: geo.district }));
+    }
+  }, [isOpen, geo, form.district]);
 
   if (!isOpen) return null;
 

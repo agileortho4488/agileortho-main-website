@@ -302,13 +302,34 @@ async def get_product_by_slug(slug: str):
 
 @router.post("/api/leads")
 async def create_lead(lead: LeadCreate):
-    score_label, score_value = calculate_lead_score(lead.model_dump())
+    from routes.geo import compute_lead_score, score_label as get_score_label, detect_zone_from_area, HYDERABAD_ZONES
+
+    # Auto-detect zone from district + area
+    zone_id = None
+    zone_name = None
+    if lead.district and lead.district.lower() in ("hyderabad", "rangareddy", "medchal-malkajgiri"):
+        # Try detecting from hospital/clinic name or any area hint
+        zone_id = detect_zone_from_area(lead.hospital_clinic) or detect_zone_from_area(lead.district)
+    if lead.district and lead.district.lower() == "hyderabad" and not zone_id:
+        zone_id = "zone_02"  # Default: Zone 02 (primary focus area)
+
+    if zone_id and zone_id in HYDERABAD_ZONES:
+        zone_name = HYDERABAD_ZONES[zone_id]["name"]
+
+    # Compute enhanced lead score
+    lead_data = lead.model_dump()
+    lead_score = compute_lead_score(lead_data)
+    label = get_score_label(lead_score)
+
     doc = {
-        **lead.model_dump(),
-        "score": score_label,
-        "score_value": score_value,
+        **lead_data,
+        "score": label,
+        "score_value": lead_score,
+        "lead_score": lead_score,
+        "zone_id": zone_id,
+        "zone_name": zone_name,
         "status": "new",
-        "assigned_to": "",
+        "assigned_to": HYDERABAD_ZONES[zone_id]["db_partner"] if zone_id and zone_id in HYDERABAD_ZONES else "",
         "notes": [],
         "created_at": datetime.now(timezone.utc).isoformat(),
         "updated_at": datetime.now(timezone.utc).isoformat(),
@@ -322,14 +343,14 @@ async def create_lead(lead: LeadCreate):
         asyncio.create_task(track_user_in_interakt(
             lead.phone_whatsapp, name=lead.name, email=lead.email or "",
             traits={"hospital": lead.hospital_clinic or "", "department": lead.department or "",
-                    "district": lead.district or "",
+                    "district": lead.district or "", "zone": zone_name or "",
                     "inquiry_type": lead.inquiry_type or "", "product_interest": lead.product_interest or ""},
-            tags=["website-lead", f"score-{score_label.lower()}"]
+            tags=["website-lead", f"score-{label.lower()}", f"zone-{zone_id or 'unknown'}"]
         ))
         asyncio.create_task(track_event_in_interakt(
             lead.phone_whatsapp, "Lead Created",
             {"source": lead.source or "website", "inquiry_type": lead.inquiry_type or "",
-             "product_interest": lead.product_interest or ""}
+             "product_interest": lead.product_interest or "", "zone": zone_id or ""}
         ))
 
     return {"message": "Lead captured successfully", "lead": doc}
