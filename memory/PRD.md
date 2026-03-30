@@ -1,71 +1,62 @@
 # Agile Healthcare — Product Requirements Document
 
 ## Original Problem Statement
-Build a B2B medical device platform for Agile Healthcare, the Meril Life Sciences master franchise for ALL of Telangana, India. The platform provides a clinically grouped product catalog across ALL 13 Meril divisions, with AI Chatbot, WhatsApp integration, CRM/Lead scoring, zone-based territory analytics, and Admin Dashboard.
+Build a B2B medical device platform for Agile Healthcare, the Meril Life Sciences master franchise for ALL of Telangana, India. Full catalog, AI chatbot, WhatsApp integration, CRM/Lead scoring, zone-based territory analytics, competitive intelligence, and self-learning chatbot. SEO-optimized for search engines and AI crawlers.
 
 ## Architecture
-- **Frontend**: React (CRA) + Tailwind + Shadcn UI + Framer Motion
+- **Frontend**: React (CRA) + Tailwind + Shadcn UI + Framer Motion + react-helmet-async
 - **Backend**: FastAPI + Motor (async MongoDB)
-- **Database**: MongoDB (catalog_products, catalog_skus, leads, visitor_events, zones, wa_conversations, chatbot_telemetry, learning_cache)
+- **Database**: MongoDB
 - **AI**: Claude Sonnet 4.5 via emergentintegrations
 - **WhatsApp**: Interakt API
 - **Email**: Zoho SMTP (smtppro.zoho.in)
-- **Geolocation**: ip-api.com (free tier)
-- **Tracking**: Meta Pixel + Google Analytics 4 (G-MXXC41JFLG)
-- **Self-Learning**: Background engine analyzing conversations → enriching leads → FAQ cache for smarter chatbot
+- **Geolocation**: ip-api.com
+- **Tracking**: Meta Pixel + Google Analytics 4
+- **SEO**: JSON-LD (MedicalBusiness + FAQ), sitemap.xml, robots.txt, llms.txt, react-helmet-async
 
-## Telangana Market Structure
-### Hyderabad Metro (4 Zones — ALL Agile Healthcare)
-- Zone 01 (Kukatpally): 365 accounts, 209 hospitals, 156 labs
-- Zone 02 (Ameerpet/Hitech City): 413 accounts, 276 hospitals, 138 labs — PRIMARY
-- Zone 03 (Central/Old City): 379 accounts, 226 hospitals, 153 labs
-- Zone 04 (Dilsukhnagar/Secunderabad): 734 accounts, 430 hospitals, 304 labs
-### 33 Districts — Full Telangana coverage
-### 13 Meril Divisions (ALL Equal Priority)
-
-## Admin Dashboard Tabs (6 total)
-1. **CRM Leads** — Funnel, scores, sources, districts, recent leads with product interest tags, Product Demand Intelligence (trending + demand + associations)
-2. **Territory** — All 4 zones with accounts/hospitals/labs, penetration %, marketing gaps, district table
-3. **Hospitals** — Multi-department engagement depth, upsell opportunities
-4. **Competitive Intel** — 24 tracked competitor brands, division threat map, Meril counter-products
-5. **Search Intelligence** — Chatbot queries, confidence, no-match patterns
-6. **WhatsApp** — Conversations, delivery, nurture automation stats
+## Admin Dashboard (6 tabs)
+1. CRM Leads — Funnel, product demand intelligence, recent leads with product interests
+2. Territory — All 4 zones, penetration %, marketing gaps
+3. Hospitals — Multi-department engagement, upsell opportunities
+4. Competitive Intel — 24 tracked brands, division threats
+5. Search Intelligence — Chatbot queries, confidence
+6. WhatsApp — Conversations, delivery, nurture pipeline stats
 
 ## What's Been Implemented
 
+### SEO Overhaul — Mar 30, 2026
+- **index.html**: Full meta tags (title, description, OG, Twitter, geo, canonical), 2 JSON-LD schemas (MedicalBusiness + FAQ), noscript fallback with full content for crawlers
+- **Static Files**: robots.txt (allows all bots + AI crawlers), sitemap.xml (20 URLs), llms.txt
+- **Heading Hierarchy**: H1 "Meril Medical Devices for Hyderabad & Telangana", H2s with local keywords
+- **Branding**: All "Agile Ortho" references → "Agile Healthcare"
+- **SEO Component**: react-helmet-async for dynamic page-level meta tags
+
+### Admin Login Fix — Mar 30, 2026
+- Changed password to `AgileHealth2026admin` (no special chars)
+- Added SHA-256 hash fallback in code (works regardless of env var state)
+- Added show/hide password toggle
+- Added DB-stored hash as tertiary fallback
+
 ### Self-Learning Chatbot Engine — Mar 29, 2026
-- Background engine (runs every 5 min) analyzes chatbot + WhatsApp conversations
-- Extracts product interests using 45+ medical device keyword patterns
-- Enriches leads with `product_insights` field (divisions_interested, products_mentioned)
-- Builds FAQ cache from successful conversations (70% word overlap matching)
-- Tracks product associations (what divisions are asked together)
-- Surfaces trending divisions + lead product interest in existing CRM Leads tab
-- **31 leads enriched** with intelligence; Trauma, ENT, Cardiology trending highest
+- Background engine analyzing conversations, enriching leads with product insights
+- FAQ cache for smarter chatbot responses
 
-### Hospital Account Intelligence & Competitive Intelligence — Mar 29, 2026
-- Hospital multi-department engagement tracking, upsell scoring
-- 24 competitor brands tracked (Stryker, Zimmer, DePuy, Medtronic, Abbott, etc.)
-- Division threat map with Meril counter-products
+### Hospital Intelligence + Competitive Intelligence — Mar 29, 2026
+### Territory Dashboard + Marketing Integrations — Mar 29, 2026
+### Core Platform — Earlier dates
 
-### Admin CRM + Marketing Integrations — Mar 29, 2026
-- Territory tab (all 4 zones), Meta Pixel + GA4, Interakt nurture, Zoho SMTP email
-
-### Earlier Features
-- IP Geolocation + 4-Zone mapping, Framer Motion, Universal Lead Capture
-- 810+ products, 13 divisions, AI chatbot, Admin CRM, WhatsApp automation
-
-## Key API Endpoints
-- `GET /api/admin/analytics` — Now includes product_intelligence (trending, demand, associations)
-- `GET /api/geo/zone-analytics` — All 4 zones with full metadata
-- `GET /api/geo/hospital-intelligence` — Hospital account tracking
-- `GET /api/geo/competitive-intelligence` — 24 competitor brands tracked
-- `POST /api/chatbot/query` — Now checks FAQ cache first
+## Admin Password
+`AgileHealth2026admin` (3-layer auth: env var → hardcoded hash → DB hash)
 
 ## Pending Items
 - **P0**: Replace Meta Pixel PIXEL_ID_PLACEHOLDER with actual Pixel ID
-- **P0**: Replace Google Ads Conversion ID placeholder with actual ID
+- **P0**: Replace Google Ads Conversion ID placeholder
+- **P0**: Configure Cloudflare to whitelist Googlebot, GPTBot, ClaudeBot
+- **P1**: Submit sitemap.xml to Google Search Console
 - **P1**: Manual review of blockers via Admin Review Dashboard
-- **P2**: Consent management, archive legacy scripts, File 008 (BLOCKED)
+- **P2**: Consent management, archive legacy scripts
 
 ## Future/Backlog
-- Reorder prediction based on consumption patterns
+- Reorder prediction
+- Product individual URL pages with unique crawlable routes
+- Service areas page with district-specific content
