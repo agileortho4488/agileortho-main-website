@@ -248,7 +248,7 @@ async def schedule_followups(phone: str, score_label: str, conv: dict):
 
 async def process_followup_queue():
     """Process pending follow-ups that are due. Called by background scheduler."""
-    from routes.whatsapp import send_whatsapp_message
+    from services import send_whatsapp_message
 
     now = datetime.now(timezone.utc)
     pending = await followup_col.find({

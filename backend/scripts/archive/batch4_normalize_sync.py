@@ -20,7 +20,7 @@ NOW = datetime.now(timezone.utc).isoformat()
 def gen_product_id(name, brand):
     """Generate deterministic product ID from name+brand."""
     key = f"{name}|{brand}".lower()
-    return hashlib.md5(key.encode()).hexdigest()[:16]
+    return hashlib.sha256(key.encode()).hexdigest()[:16]
 
 
 def load_json(path):

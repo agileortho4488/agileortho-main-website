@@ -30,7 +30,7 @@ async def assign_unique_shadow(slug):
     if not p:
         print(f"    SKIP {slug}: not found")
         return None
-    new_id = hashlib.md5(f"split2_{slug}_{NOW}".encode()).hexdigest()[:16]
+    new_id = hashlib.sha256(f"split2_{slug}_{NOW}".encode()).hexdigest()[:16]
     await products_col.update_one(
         {"_id": p["_id"]},
         {"$set": {"shadow_product_id": new_id}},

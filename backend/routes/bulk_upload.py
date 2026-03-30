@@ -352,7 +352,8 @@ async def _check_duplicate(product: dict):
 # --- Approve products ---
 
 @router.post("/api/admin/bulk-catalog/jobs/{job_id}/approve")
-async def approve_bulk_products(job_id: str, body: dict = {}, _=Depends(admin_required)):
+async def approve_bulk_products(job_id: str, body: dict = None, _=Depends(admin_required)):
+    body = body or {}
     try:
         job = await bulk_col.find_one({"_id": ObjectId(job_id)})
     except Exception:

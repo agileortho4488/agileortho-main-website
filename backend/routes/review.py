@@ -1016,8 +1016,9 @@ async def auto_promote_preview(_=Depends(admin_required)):
 
 
 @router.post("/api/admin/review/auto-promote/execute")
-async def auto_promote_execute(body: dict = {}, _=Depends(admin_required)):
+async def auto_promote_execute(body: dict = None, _=Depends(admin_required)):
     """Execute the 4-lane auto-promotion pipeline."""
+    body = body or {}
     lanes = body.get("lanes", ["lane1", "lane2", "lane3"])  # default: all auto lanes
     results = {"lane1": 0, "lane2": 0, "lane3": 0, "lane4_remaining": 0}
 

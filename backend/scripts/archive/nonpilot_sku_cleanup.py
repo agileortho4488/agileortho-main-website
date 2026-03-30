@@ -82,7 +82,7 @@ async def assign_unique_shadow_ids(slugs):
         p = await products_col.find_one({"slug": slug})
         if not p:
             continue
-        new_id = hashlib.md5(f"split_{slug}_{NOW}".encode()).hexdigest()[:16]
+        new_id = hashlib.sha256(f"split_{slug}_{NOW}".encode()).hexdigest()[:16]
         await products_col.update_one(
             {"_id": p["_id"]},
             {"$set": {"shadow_product_id": new_id}},

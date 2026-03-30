@@ -5,6 +5,7 @@ import {
   AlertTriangle, Upload, Zap,
 } from "lucide-react";
 import { toast } from "sonner";
+import DOMPurify from "dompurify";
 
 const API_URL = process.env.REACT_APP_BACKEND_URL;
 const WA_NUMBER = "+917416521222";
@@ -113,10 +114,10 @@ function MessageBubble({ msg }) {
           </div>
         )}
         <div className="whitespace-pre-wrap" dangerouslySetInnerHTML={{
-          __html: (msg.content || msg.text || "")
+          __html: DOMPurify.sanitize((msg.content || msg.text || "")
             .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
             .replace(/\n- /g, "<br/>- ")
-            .replace(/\n/g, "<br/>")
+            .replace(/\n/g, "<br/>"))
         }} />
         <p className={`text-[10px] mt-1 ${isCustomer ? "text-slate-400" : "text-white/60"}`}>
           {msg.role === "admin" ? "Admin" : msg.role === "assistant" ? "AI Bot" : "Customer"} &middot; {timeAgo(msg.timestamp)}
@@ -136,7 +137,7 @@ function AnalyticsTab({ headers }) {
       try {
         const res = await fetch(`${API_URL}/api/admin/whatsapp/analytics`, { headers });
         setAnalytics(await res.json());
-      } catch { /* ignore */ }
+      } catch (e) { console.error("WhatsApp op error:", e); }
       setLoading(false);
     })();
   }, []);
@@ -251,7 +252,7 @@ function TemplatesTab({ headers, conversations }) {
       } else {
         toast.error(data.data?.message || "Failed to send template");
       }
-    } catch { toast.error("Network error"); }
+    } catch (e) { console.error("Network error:", e); toast.error("Network error"); }
     setSending(false);
   };
 
@@ -378,7 +379,7 @@ function ContactSyncTab({ headers }) {
       const data = await res.json();
       setSyncResult(data);
       toast.success(`Synced ${data.synced} leads to Interakt`);
-    } catch { toast.error("Sync failed"); }
+    } catch (e) { console.error("Sync failed:", e); toast.error("Sync failed"); }
     setSyncing(false);
   };
 
@@ -394,7 +395,7 @@ function ContactSyncTab({ headers }) {
       setContacts(data.contacts || []);
       setPullResult({ total: data.total });
       toast.success(`Found ${data.total} contacts in Interakt`);
-    } catch { toast.error("Failed to fetch contacts"); }
+    } catch (e) { console.error("Fetch contacts error:", e); toast.error("Failed to fetch contacts"); }
     setPulling(false);
   };
 
@@ -407,7 +408,7 @@ function ContactSyncTab({ headers }) {
       const data = await res.json();
       setPullResult(data);
       toast.success(`Synced! ${data.created} new leads, ${data.updated} updated`);
-    } catch { toast.error("Sync to CRM failed"); }
+    } catch (e) { console.error("Sync to CRM error:", e); toast.error("Sync to CRM failed"); }
     setPulling(false);
   };
 
@@ -590,7 +591,7 @@ export default function AdminWhatsApp() {
       const res = await fetch(`${API_URL}/api/admin/whatsapp/conversations`, { headers });
       const data = await res.json();
       setConversations(data.conversations || []);
-    } catch { /* ignore */ }
+    } catch (e) { console.error("WhatsApp op error:", e); }
     setLoading(false);
   };
 
@@ -602,7 +603,7 @@ export default function AdminWhatsApp() {
       setConversations((prev) =>
         prev.map((c) => (c.phone === phone ? { ...c, unread: 0 } : c))
       );
-    } catch { /* ignore */ }
+    } catch (e) { console.error("WhatsApp op error:", e); }
   };
 
   useEffect(() => { fetchConversations(); }, []);
@@ -637,7 +638,7 @@ export default function AdminWhatsApp() {
       toast.success("Reply sent via WhatsApp");
       fetchConversation(activePhone);
       fetchConversations();
-    } catch { toast.error("Failed to send reply"); }
+    } catch (e) { console.error("Send reply error:", e); toast.error("Failed to send reply"); }
     setSending(false);
   };
 
@@ -650,7 +651,7 @@ export default function AdminWhatsApp() {
       toast.success(mode === "human" ? "Switched to human mode" : "Switched to AI mode");
       fetchConversation(phone);
       fetchConversations();
-    } catch { toast.error("Failed to switch mode"); }
+    } catch (e) { console.error("Switch mode error:", e); toast.error("Failed to switch mode"); }
   };
 
   return (

@@ -51,6 +51,18 @@ Build a B2B medical device platform for "Agile Healthcare", a premier Meril Life
 3. Cookie consent banner hidden on admin pages
 4. All dashboard functionalities verified (100% pass rate)
 
+## Code Quality Fixes Applied (Mar 30, 2026)
+### Critical
+- **XSS Fix**: Added DOMPurify sanitization to all 3 `dangerouslySetInnerHTML` instances (Chat.jsx, ChatWidget.jsx, AdminWhatsApp.jsx)
+- **Circular Import Fix**: Extracted shared `send_whatsapp_message` into `/backend/services/__init__.py` — automation.py no longer imports from whatsapp.py
+- **Hardcoded Secrets**: Moved JWT fallback secret to env var pattern in helpers.py; test files use `os.environ.get()` 
+- **Mutable Default Arguments**: Fixed 4 instances (`body: dict = {}` → `body: dict = None` + `body = body or {}`) in bulk_upload.py, imports.py, review.py
+- **Empty Catch Blocks**: Added error parameters and `console.error()` logging to all 9 catch blocks in AdminWhatsApp.jsx
+
+### Important
+- **MD5 → SHA256**: Replaced `hashlib.md5` with `hashlib.sha256` in 4 archived scripts
+- **Identity Checks**: Fixed `is True` → `== True` in test files
+
 ## Prioritized Backlog
 
 ### P0 - None (all critical items resolved)

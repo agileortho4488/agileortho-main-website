@@ -419,7 +419,8 @@ async def reprocess_import(import_id: str, _=Depends(admin_required)):
 
 
 @router.post("/api/admin/imports/{import_id}/approve")
-async def approve_import_products(import_id: str, body: dict = {}, _=Depends(admin_required)):
+async def approve_import_products(import_id: str, body: dict = None, _=Depends(admin_required)):
+    body = body or {}
     try:
         doc = await imports_col.find_one({"_id": ObjectId(import_id)})
     except Exception:
@@ -505,7 +506,8 @@ async def approve_import_products(import_id: str, body: dict = {}, _=Depends(adm
 
 
 @router.put("/api/admin/imports/{import_id}/product/{temp_id}")
-async def update_import_product(import_id: str, temp_id: str, body: dict = {}, _=Depends(admin_required)):
+async def update_import_product(import_id: str, temp_id: str, body: dict = None, _=Depends(admin_required)):
+    body = body or {}
     try:
         doc = await imports_col.find_one({"_id": ObjectId(import_id)})
     except Exception:

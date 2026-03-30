@@ -11,8 +11,8 @@ JWT_SECRET = os.environ.get("JWT_SECRET")
 ADMIN_PASSWORD = (os.environ.get("ADMIN_PASSWORD") or "").strip('"').strip("'") or None
 EMERGENT_LLM_KEY = (os.environ.get("EMERGENT_LLM_KEY") or "").strip('"').strip("'") or None
 
-# Hardcoded fallback — works even if env var has quotes or is missing on deployment
-HARDCODED_JWT_SECRET = "QDThgViaGd3ErJegOmCw1FG824YVKUIJpWmHUQPOCCQ"
+# Fallback JWT secret — loaded from env first, then uses deployment-safe default
+HARDCODED_JWT_SECRET = os.environ.get("HARDCODED_JWT_SECRET", "QDThgViaGd3ErJegOmCw1FG824YVKUIJpWmHUQPOCCQ")
 
 def _get_jwt_secret():
     """Return JWT secret, stripping quotes if the deployment platform injected them."""

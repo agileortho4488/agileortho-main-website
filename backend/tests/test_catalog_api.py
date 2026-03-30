@@ -19,7 +19,7 @@ class TestCatalogDivisions:
         data = response.json()
         assert "divisions" in data, "Response should have 'divisions' key"
         assert "pilot_active" in data, "Response should have 'pilot_active' key"
-        assert data["pilot_active"] is True, "Pilot should be active"
+        assert data["pilot_active"] == True, "Pilot should be active"
         
         # Find Trauma division
         trauma = next((d for d in data["divisions"] if d["name"] == "Trauma"), None)

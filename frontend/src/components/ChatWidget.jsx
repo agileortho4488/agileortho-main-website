@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { MessageCircle, X, Send, ChevronRight, User, Bot, Phone, ShieldCheck, ShieldAlert, ShieldX, ExternalLink } from "lucide-react";
 import { toast } from "sonner";
+import DOMPurify from "dompurify";
 
 const API_URL = process.env.REACT_APP_BACKEND_URL;
 
@@ -69,13 +70,13 @@ function ChatBubble({ msg, isUser, sessionId }) {
             : "bg-white/5 text-white/80 rounded-bl-md border border-white/[0.06]"
         }`}>
           <div className="whitespace-pre-wrap" dangerouslySetInnerHTML={{
-            __html: msg.content
+            __html: DOMPurify.sanitize(msg.content
               .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
               .replace(/\n• /g, "<br/>&#8226; ")
               .replace(/\n- /g, "<br/>&#8211; ")
               .replace(/\n---\n/g, '<hr class="my-2 border-white/10"/>')
               .replace(/\n/g, "<br/>")
-              .replace(/(https:\/\/wa\.me\/\d+)/g, '<a href="$1" target="_blank" rel="noopener" class="underline font-semibold text-[#2DD4BF]">$1</a>')
+              .replace(/(https:\/\/wa\.me\/\d+)/g, '<a href="$1" target="_blank" rel="noopener" class="underline font-semibold text-[#2DD4BF]">$1</a>'))
           }} />
         </div>
         {showHandoff && (

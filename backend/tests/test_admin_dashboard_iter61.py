@@ -7,7 +7,7 @@ import requests
 import os
 
 BASE_URL = os.environ.get('REACT_APP_BACKEND_URL', '').rstrip('/')
-ADMIN_PASSWORD = "AgileHealth2026admin"
+ADMIN_PASSWORD = os.environ.get("TEST_ADMIN_PASSWORD", "AgileHealth2026admin")
 
 
 class TestAdminAuth:
