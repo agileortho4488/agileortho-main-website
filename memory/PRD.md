@@ -11,8 +11,8 @@ Build a B2B medical device platform for Agile Healthcare, the Meril Life Science
 - **WhatsApp**: Interakt API
 - **Email**: Zoho SMTP (smtppro.zoho.in)
 - **Geolocation**: ip-api.com
-- **Tracking**: Meta Pixel + Google Analytics 4
-- **SEO**: JSON-LD (MedicalBusiness + FAQ + Product + BreadcrumbList + ItemList), dynamic sitemap.xml, robots.txt, llms.txt, react-helmet-async
+- **Tracking**: Meta Pixel + Google Analytics 4 (consent-gated)
+- **SEO**: JSON-LD schemas, dynamic sitemap, robots.txt, llms.txt, react-helmet-async
 
 ## Admin Dashboard (6 tabs)
 1. CRM Leads — Funnel, product demand intelligence, recent leads with product interests
@@ -24,48 +24,36 @@ Build a B2B medical device platform for Agile Healthcare, the Meril Life Science
 
 ## What's Been Implemented
 
+### Cookie Consent Banner — Mar 30, 2026
+- GDPR-style consent banner with "Accept All" / "Reject Non-Essential" / X dismiss
+- GA4 consent mode: defaults to `denied`, updates on user choice
+- Meta Pixel: `fbq('consent', 'revoke')` by default, grants on accept
+- Persists choice in localStorage (`agile_cookie_consent`)
+- Dark premium design with slide-up animation, matching site aesthetic
+
 ### Advanced SEO Implementation — Mar 30, 2026
-- **Catalog SEO**: All catalog pages (Index, Division, Product Detail, Compare) now have dedicated SEO via react-helmet-async
-- **Product JSON-LD**: Each product page injects Product schema with brand, material, manufacturer, SKU, and offer details
-- **BreadcrumbList**: Full breadcrumb schema on all catalog pages for search result snippets
-- **ItemList Schema**: Division and catalog index pages include ItemList for product discovery
-- **Descriptive Alt Texts**: All product images have rich alt text including product name, brand, division, and material
-- **Canonical URLs**: Each page has a unique canonical URL (e.g., `/catalog/products/mboss-screw-system`)
-- **OG Tags**: Product pages use `og:type=product`, with product-specific title/description/image
-- **Dynamic Sitemap**: `/api/seo/sitemap.xml` dynamically includes 500+ product URLs, division pages, and district pages
-- **Deduplication**: Removed static meta tags from index.html that caused duplicates with Helmet; Helmet is sole source of truth
-- **robots.txt**: Updated to point to dynamic sitemap at `/api/seo/sitemap.xml`
-- **noIndex**: Compare page marked as noindex to prevent crawling
+- Product JSON-LD, BreadcrumbList, ItemList schemas across all catalog pages
+- Descriptive image alt texts (brand, material, division)
+- Unique canonical URLs per page, OG type=product on detail pages
+- Dynamic sitemap (520 URLs), no duplicate meta tags
+- Compare page marked noindex
 
-### Foundational SEO Overhaul — Mar 30, 2026
-- **index.html**: JSON-LD schemas (MedicalBusiness + FAQ), noscript fallback with full content for crawlers
-- **Static Files**: robots.txt (allows all bots + AI crawlers), llms.txt
-- **Heading Hierarchy**: H1 "Meril Medical Devices for Hyderabad & Telangana", H2s with local keywords
-- **SEO Component**: react-helmet-async for dynamic page-level meta tags
+### Backend Cleanup — Mar 30, 2026
+- 47 legacy phase/batch scripts archived to `/backend/scripts/archive/`
 
-### Admin Login Fix — Mar 30, 2026
-- Changed password to `AgileHealth2026admin` (no special chars)
-- Added SHA-256 hash fallback in code (works regardless of env var state)
-
-### Self-Learning Chatbot Engine — Mar 29, 2026
-- Background engine analyzing conversations, enriching leads with product insights
-
-### Hospital Intelligence + Competitive Intelligence — Mar 29, 2026
-### Territory Dashboard + Marketing Integrations — Mar 29, 2026
-### Core Platform — Earlier dates
+### Foundational SEO, Admin Login Fix, Self-Learning Chatbot, Territory Intelligence — Earlier
 
 ## Admin Password
-`AgileHealth2026admin` (3-layer auth: env var -> hardcoded hash -> DB hash)
+`AgileHealth2026admin` (hardcoded SHA-256 hash in admin.py — DO NOT revert to env var)
 
 ## Pending Items
-- **P0**: Replace Meta Pixel PIXEL_ID_PLACEHOLDER with actual Pixel ID
-- **P0**: Replace Google Ads Conversion ID placeholder
-- **P0**: Configure Cloudflare to whitelist Googlebot, GPTBot, ClaudeBot
-- **P1**: Submit sitemap.xml to Google Search Console
-- **P1**: Service areas page with district-specific content (for Local SEO)
-- **P2**: Consent management, archive legacy scripts
+- **P0**: Replace Meta Pixel `PIXEL_ID_PLACEHOLDER` with actual Pixel ID (user will provide later)
+- **P0**: Replace Google Ads Conversion ID placeholder (user will provide later)
+- **P1**: Service areas page enhancement with district-specific content for Local SEO
+- **P1**: Submit dynamic sitemap to Google Search Console
 
 ## Future/Backlog
+- SSR/Prerendering for non-JS crawlers
 - Reorder prediction based on consumption patterns
-- SSR/Prerendering for non-JS crawlers (complete SPA SEO fix)
+- Consent management for WhatsApp/email (opt-in/opt-out)
 - File 008 processing (awaiting uncorrupted DOCX)
