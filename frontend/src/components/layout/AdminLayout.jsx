@@ -1,14 +1,34 @@
 import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { LayoutDashboard, Users, Package, LogOut, ChevronRight, BarChart3, Kanban, FileUp, MessageCircle, ClipboardCheck } from "lucide-react";
+
+const API_URL = process.env.REACT_APP_BACKEND_URL;
 
 export const AdminLayout = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const [verified, setVerified] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("admin_token");
-    if (!token) navigate("/admin/login");
+    if (!token) {
+      navigate("/admin/login", { replace: true });
+      return;
+    }
+    // Validate token by calling a protected endpoint
+    fetch(`${API_URL}/api/admin/stats`, {
+      headers: { Authorization: `Bearer ${token}` },
+    }).then((res) => {
+      if (!res.ok) {
+        localStorage.removeItem("admin_token");
+        navigate("/admin/login", { replace: true });
+      } else {
+        setVerified(true);
+      }
+    }).catch(() => {
+      localStorage.removeItem("admin_token");
+      navigate("/admin/login", { replace: true });
+    });
   }, [navigate]);
 
   const handleLogout = () => {
@@ -31,6 +51,14 @@ export const AdminLayout = () => {
     if (path === "/admin") return location.pathname === "/admin";
     return location.pathname.startsWith(path);
   };
+
+  if (!verified) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+        <div className="animate-pulse text-slate-400 text-sm">Verifying access...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex bg-slate-50">
