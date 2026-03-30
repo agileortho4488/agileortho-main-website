@@ -2,6 +2,7 @@
 from fastapi import APIRouter
 from fastapi.responses import PlainTextResponse, Response
 from datetime import datetime, timezone
+from xml.sax.saxutils import escape as xml_escape
 from db import catalog_products_col, db
 
 router = APIRouter()
@@ -66,7 +67,7 @@ async def sitemap_xml():
     ]
     for p in static_pages:
         urls.append(f"""  <url>
-    <loc>{SITE_URL}{p['loc']}</loc>
+    <loc>{xml_escape(SITE_URL + p['loc'])}</loc>
     <lastmod>{now}</lastmod>
     <changefreq>{p['changefreq']}</changefreq>
     <priority>{p['priority']}</priority>
@@ -78,7 +79,7 @@ async def sitemap_xml():
         if div:
             slug = div.lower().replace(" ", "-").replace("/", "-")
             urls.append(f"""  <url>
-    <loc>{SITE_URL}/catalog/{slug}</loc>
+    <loc>{xml_escape(f'{SITE_URL}/catalog/{slug}')}</loc>
     <lastmod>{now}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -92,7 +93,7 @@ async def sitemap_xml():
     for p in products:
         if p.get("slug"):
             urls.append(f"""  <url>
-    <loc>{SITE_URL}/catalog/products/{p['slug']}</loc>
+    <loc>{xml_escape(f"{SITE_URL}/catalog/products/{p['slug']}")}</loc>
     <lastmod>{now}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -106,7 +107,7 @@ async def sitemap_xml():
     for d in districts:
         if d.get("slug"):
             urls.append(f"""  <url>
-    <loc>{SITE_URL}/districts/{d['slug']}</loc>
+    <loc>{xml_escape(f"{SITE_URL}/districts/{d['slug']}")}</loc>
     <lastmod>{now}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
