@@ -43,6 +43,9 @@ export default function CookieConsent() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
+    // Don't show cookie banner on admin pages
+    if (window.location.pathname.startsWith("/admin")) return;
+
     const consent = getConsent();
     if (consent === "accepted") {
       enableAnalytics();

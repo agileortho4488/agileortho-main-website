@@ -363,6 +363,10 @@ function TemplatesTab({ headers, conversations }) {
 function ContactSyncTab({ headers }) {
   const [syncing, setSyncing] = useState(false);
   const [syncResult, setSyncResult] = useState(null);
+  const [pulling, setPulling] = useState(false);
+  const [pullResult, setPullResult] = useState(null);
+  const [contacts, setContacts] = useState([]);
+  const [showContacts, setShowContacts] = useState(false);
 
   const handleBulkSync = async () => {
     setSyncing(true);
@@ -378,24 +382,159 @@ function ContactSyncTab({ headers }) {
     setSyncing(false);
   };
 
+  const handlePullContacts = async () => {
+    setPulling(true);
+    setPullResult(null);
+    setContacts([]);
+    try {
+      const res = await fetch(`${API_URL}/api/admin/whatsapp/fetch-interakt-contacts`, {
+        method: "POST", headers,
+      });
+      const data = await res.json();
+      setContacts(data.contacts || []);
+      setPullResult({ total: data.total });
+      toast.success(`Found ${data.total} contacts in Interakt`);
+    } catch { toast.error("Failed to fetch contacts"); }
+    setPulling(false);
+  };
+
+  const handleSyncToCrm = async () => {
+    setPulling(true);
+    try {
+      const res = await fetch(`${API_URL}/api/admin/whatsapp/sync-interakt-to-crm`, {
+        method: "POST", headers,
+      });
+      const data = await res.json();
+      setPullResult(data);
+      toast.success(`Synced! ${data.created} new leads, ${data.updated} updated`);
+    } catch { toast.error("Sync to CRM failed"); }
+    setPulling(false);
+  };
+
   return (
-    <div className="p-6 max-w-2xl mx-auto space-y-6" data-testid="wa-contacts">
+    <div className="p-6 max-w-3xl mx-auto space-y-6" data-testid="wa-contacts">
       <h2 className="text-lg font-bold text-slate-900" style={{ fontFamily: "Chivo" }}>Contact Sync</h2>
       <p className="text-sm text-slate-500">
-        Sync your CRM leads to Interakt's contact database. This enables you to send template campaigns,
-        track events, and manage contacts directly in Interakt.
+        Pull contacts from Interakt into your CRM, or push CRM leads to Interakt.
       </p>
 
-      <div className="bg-white border border-slate-200 rounded-xl p-5 space-y-4">
+      {/* Pull FROM Interakt */}
+      <div className="bg-white border-2 border-emerald-200 rounded-xl p-5 space-y-4" data-testid="wa-pull-section">
         <div className="flex items-start gap-4">
-          <div className="w-12 h-12 rounded-xl bg-emerald-100 flex items-center justify-center shrink-0">
-            <Upload size={20} className="text-emerald-700" />
+          <div className="w-12 h-12 rounded-xl bg-emerald-600 flex items-center justify-center shrink-0">
+            <RefreshCw size={20} className="text-white" />
           </div>
           <div className="flex-1">
-            <h3 className="text-sm font-bold text-slate-900">Bulk Sync All Leads</h3>
+            <h3 className="text-sm font-bold text-slate-900">Pull Contacts from Interakt</h3>
             <p className="text-xs text-slate-500 mt-1">
-              Syncs all CRM leads (with WhatsApp numbers) to Interakt with traits like name, email,
-              hospital, district, and tags for lead score and source.
+              Fetches all your WhatsApp contacts from Interakt and syncs them into the CRM as leads.
+              This includes contacts from campaigns, manual chats, and CSV uploads.
+            </p>
+          </div>
+        </div>
+
+        <div className="flex gap-2">
+          <button
+            onClick={handlePullContacts}
+            disabled={pulling}
+            className="flex-1 py-2.5 bg-slate-100 text-slate-700 font-bold rounded-lg text-sm hover:bg-slate-200 disabled:opacity-60 transition-colors flex items-center justify-center gap-2 border border-slate-200"
+            data-testid="wa-preview-contacts-btn"
+          >
+            <Users size={14} />
+            {pulling ? "Fetching..." : "Preview Contacts"}
+          </button>
+          <button
+            onClick={handleSyncToCrm}
+            disabled={pulling}
+            className="flex-1 py-2.5 bg-emerald-600 text-white font-bold rounded-lg text-sm hover:bg-emerald-700 disabled:opacity-60 transition-colors flex items-center justify-center gap-2"
+            data-testid="wa-sync-to-crm-btn"
+          >
+            <Zap size={14} />
+            {pulling ? "Syncing..." : "Sync to CRM"}
+          </button>
+        </div>
+
+        {pullResult && (
+          <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-3 text-sm space-y-1" data-testid="wa-pull-result">
+            <div className="flex justify-between">
+              <span className="text-slate-600">Total contacts fetched:</span>
+              <span className="font-bold text-slate-900">{pullResult.total_fetched || pullResult.total || 0}</span>
+            </div>
+            {pullResult.created !== undefined && (
+              <>
+                <div className="flex justify-between">
+                  <span className="text-emerald-600">New leads created:</span>
+                  <span className="font-bold text-emerald-700">{pullResult.created}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-blue-600">Existing leads updated:</span>
+                  <span className="font-bold text-blue-700">{pullResult.updated}</span>
+                </div>
+                {pullResult.skipped > 0 && (
+                  <div className="flex justify-between">
+                    <span className="text-slate-400">Skipped (no phone):</span>
+                    <span className="font-bold text-slate-500">{pullResult.skipped}</span>
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+        )}
+
+        {/* Contact list preview */}
+        {contacts.length > 0 && (
+          <div>
+            <button
+              onClick={() => setShowContacts(!showContacts)}
+              className="text-xs text-emerald-600 font-bold hover:underline mb-2"
+              data-testid="wa-toggle-contacts"
+            >
+              {showContacts ? "Hide" : "Show"} {contacts.length} contacts
+            </button>
+            {showContacts && (
+              <div className="max-h-64 overflow-y-auto border border-slate-200 rounded-lg" data-testid="wa-contact-list">
+                <table className="w-full text-xs">
+                  <thead className="bg-slate-50 sticky top-0">
+                    <tr>
+                      <th className="text-left px-3 py-2 text-slate-500 font-bold">Name</th>
+                      <th className="text-left px-3 py-2 text-slate-500 font-bold">Phone</th>
+                      <th className="text-left px-3 py-2 text-slate-500 font-bold">Tags</th>
+                      <th className="text-left px-3 py-2 text-slate-500 font-bold">Source</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {contacts.map((c, i) => (
+                      <tr key={i} className="border-t border-slate-100 hover:bg-slate-50">
+                        <td className="px-3 py-2 text-slate-800 font-medium">{c.name || "-"}</td>
+                        <td className="px-3 py-2 text-slate-600">{c.country_code}{c.phone}</td>
+                        <td className="px-3 py-2">
+                          {(c.tags || []).slice(0, 3).map((t, j) => (
+                            <span key={j} className="inline-block bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded text-[10px] mr-1">
+                              {t}
+                            </span>
+                          ))}
+                        </td>
+                        <td className="px-3 py-2 text-slate-400">{c.source || "-"}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+
+      {/* Push TO Interakt */}
+      <div className="bg-white border border-slate-200 rounded-xl p-5 space-y-4">
+        <div className="flex items-start gap-4">
+          <div className="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center shrink-0">
+            <Upload size={20} className="text-slate-600" />
+          </div>
+          <div className="flex-1">
+            <h3 className="text-sm font-bold text-slate-900">Push CRM Leads to Interakt</h3>
+            <p className="text-xs text-slate-500 mt-1">
+              Syncs all CRM leads (with WhatsApp numbers) to Interakt with traits and tags.
             </p>
           </div>
         </div>
@@ -403,11 +542,11 @@ function ContactSyncTab({ headers }) {
         <button
           onClick={handleBulkSync}
           disabled={syncing}
-          className="w-full py-2.5 bg-emerald-600 text-white font-bold rounded-lg text-sm hover:bg-emerald-700 disabled:opacity-60 transition-colors flex items-center justify-center gap-2"
+          className="w-full py-2.5 bg-slate-600 text-white font-bold rounded-lg text-sm hover:bg-slate-700 disabled:opacity-60 transition-colors flex items-center justify-center gap-2"
           data-testid="wa-bulk-sync-btn"
         >
-          <Users size={14} />
-          {syncing ? "Syncing leads..." : "Sync All Leads to Interakt"}
+          <Upload size={14} />
+          {syncing ? "Syncing leads..." : "Push All Leads to Interakt"}
         </button>
 
         {syncResult && (
@@ -428,11 +567,6 @@ function ContactSyncTab({ headers }) {
             )}
           </div>
         )}
-      </div>
-
-      <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 text-sm text-blue-800">
-        <strong>How it works:</strong> Each lead is pushed to Interakt with traits (name, email, hospital, district) and
-        tags (lead score, source). This data powers Interakt's segments and targeted campaigns.
       </div>
     </div>
   );

@@ -816,3 +816,204 @@ async def get_wa_webhook_logs(_=Depends(admin_required)):
     cursor = wa_webhook_logs_col.find({}, {"_id": 0}).sort("received_at", -1).limit(50)
     logs = await cursor.to_list(50)
     return {"logs": logs, "total": len(logs)}
+
+
+INTERAKT_USERS_URL = "https://api.interakt.ai/v1/public/apis/users/"
+
+
+@router.post("/api/admin/whatsapp/fetch-interakt-contacts")
+async def fetch_interakt_contacts(_=Depends(admin_required)):
+    """Pull all contacts from Interakt's Customer API with pagination."""
+    if not INTERAKT_API_KEY:
+        raise HTTPException(400, "Interakt API key not configured")
+
+    headers = {
+        "Authorization": interakt_auth_header(),
+        "Content-Type": "application/json",
+    }
+
+    all_customers = []
+    offset = 0
+    limit = 100
+    max_pages = 20  # Safety cap: 2000 contacts max
+    # Interakt requires at least one filter; use created_at > epoch start
+    filters = [{"trait": "created_at_utc", "op": "gt", "val": "2020-01-01"}]
+
+    for _ in range(max_pages):
+        try:
+            resp = req.post(
+                f"{INTERAKT_USERS_URL}?offset={offset}&limit={limit}",
+                headers=headers,
+                json={"filters": filters},
+                timeout=30,
+            )
+            if resp.status_code != 200:
+                print(f"[INTERAKT] API returned {resp.status_code}: {resp.text[:200]}")
+                break
+            data = resp.json()
+            if not data.get("result"):
+                break
+            customers = data.get("data", {}).get("customers", [])
+            if not customers:
+                break
+            all_customers.extend(customers)
+            has_next = data.get("data", {}).get("has_next_page", False)
+            if not has_next:
+                break
+            offset += limit
+        except Exception as e:
+            print(f"[INTERAKT] Fetch page error at offset={offset}: {e}")
+            break
+
+    # Format for frontend display
+    contacts = []
+    for c in all_customers:
+        traits = c.get("traits", {})
+        contacts.append({
+            "interakt_id": c.get("id", ""),
+            "phone": c.get("phone_number", ""),
+            "country_code": c.get("country_code", "+91"),
+            "full_phone": c.get("channel_phone_number", ""),
+            "name": traits.get("name", ""),
+            "email": traits.get("email", ""),
+            "whatsapp_opted_in": traits.get("whatsapp_opted_in", False),
+            "tags": c.get("tag_names", []),
+            "source": c.get("customer_created_at_source", ""),
+            "created_at": c.get("created_at_utc", ""),
+            "modified_at": c.get("modified_at_utc", ""),
+            "traits": {k: v for k, v in traits.items()
+                       if k not in ("name", "email", "whatsapp_opted_in") and v},
+        })
+
+    return {"contacts": contacts, "total": len(contacts)}
+
+
+@router.post("/api/admin/whatsapp/sync-interakt-to-crm")
+async def sync_interakt_contacts_to_crm(_=Depends(admin_required)):
+    """Fetch contacts from Interakt and upsert them as CRM leads."""
+    if not INTERAKT_API_KEY:
+        raise HTTPException(400, "Interakt API key not configured")
+
+    headers = {
+        "Authorization": interakt_auth_header(),
+        "Content-Type": "application/json",
+    }
+
+    all_customers = []
+    offset = 0
+    limit = 100
+    max_pages = 20
+    filters = [{"trait": "created_at_utc", "op": "gt", "val": "2020-01-01"}]
+
+    for _ in range(max_pages):
+        try:
+            resp = req.post(
+                f"{INTERAKT_USERS_URL}?offset={offset}&limit={limit}",
+                headers=headers,
+                json={"filters": filters},
+                timeout=30,
+            )
+            if resp.status_code != 200:
+                print(f"[INTERAKT SYNC] API returned {resp.status_code}: {resp.text[:200]}")
+                break
+            data = resp.json()
+            if not data.get("result"):
+                break
+            customers = data.get("data", {}).get("customers", [])
+            if not customers:
+                break
+            all_customers.extend(customers)
+            has_next = data.get("data", {}).get("has_next_page", False)
+            if not has_next:
+                break
+            offset += limit
+        except Exception as e:
+            print(f"[INTERAKT SYNC] Fetch error at offset={offset}: {e}")
+            break
+
+    created = 0
+    updated = 0
+    skipped = 0
+
+    for c in all_customers:
+        traits = c.get("traits", {})
+        phone = c.get("phone_number", "")
+        if not phone:
+            skipped += 1
+            continue
+
+        name = traits.get("name", "") or f"WhatsApp {phone}"
+        email = traits.get("email", "") or ""
+
+        # Check if lead already exists by phone
+        existing = await leads_col.find_one({
+            "$or": [
+                {"phone_whatsapp": phone},
+                {"phone_whatsapp": f"+91{phone}"},
+                {"phone_whatsapp": c.get("channel_phone_number", "NONE")},
+            ]
+        })
+
+        now_iso = datetime.now(timezone.utc).isoformat()
+
+        if existing:
+            # Update with Interakt data if we have richer info
+            update_fields = {"updated_at": now_iso, "interakt_synced": True}
+            if name and name != f"WhatsApp {phone}" and not existing.get("name", "").strip():
+                update_fields["name"] = name
+            if email and not existing.get("email", "").strip():
+                update_fields["email"] = email
+            interakt_tags = c.get("tag_names", [])
+            if interakt_tags:
+                update_fields["interakt_tags"] = interakt_tags
+
+            await leads_col.update_one(
+                {"_id": existing["_id"]},
+                {"$set": update_fields}
+            )
+            updated += 1
+        else:
+            # Create new lead from Interakt contact
+            lead = {
+                "name": name,
+                "phone_whatsapp": phone,
+                "email": email,
+                "hospital_clinic": traits.get("hospital", ""),
+                "district": traits.get("district", ""),
+                "inquiry_type": "WhatsApp Contact",
+                "product_interest": traits.get("product_interest", ""),
+                "source": "interakt_sync",
+                "score": "Cold",
+                "score_value": 10,
+                "status": "new",
+                "interakt_synced": True,
+                "interakt_id": c.get("id", ""),
+                "interakt_tags": c.get("tag_names", []),
+                "whatsapp_opted_in": traits.get("whatsapp_opted_in", False),
+                "created_at": now_iso,
+                "updated_at": now_iso,
+            }
+            await leads_col.insert_one(lead)
+            created += 1
+
+        # Also create/update a WA conversation stub so they show in inbox
+        conv_exists = await wa_conversations_col.find_one({"phone": phone})
+        if not conv_exists:
+            await wa_conversations_col.insert_one({
+                "phone": phone,
+                "session_id": f"interakt-sync-{phone}",
+                "customer_name": name,
+                "messages": [],
+                "status": "synced",
+                "source": "interakt_sync",
+                "lead_created": True,
+                "created_at": c.get("created_at_utc", now_iso),
+                "updated_at": now_iso,
+            })
+
+    return {
+        "total_fetched": len(all_customers),
+        "created": created,
+        "updated": updated,
+        "skipped": skipped,
+    }
