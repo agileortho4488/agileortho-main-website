@@ -468,7 +468,11 @@ async def whatsapp_webhook(request: Request):
     elif event_type in ("message_campaign_sent", "message_campaign_delivered",
                         "message_campaign_read", "message_campaign_failed"):
         message = data.get("message", {})
+        customer = data.get("customer", {})
         msg_id = message.get("id", "")
+        phone = customer.get("channel_phone_number", data.get("customer", {}).get("phone_number", ""))
+        customer_name = customer.get("traits", {}).get("name", phone)
+        campaign_id = message.get("campaign_id", data.get("campaign_id", ""))
         status_map = {
             "message_campaign_sent": "sent",
             "message_campaign_delivered": "delivered",
@@ -476,21 +480,60 @@ async def whatsapp_webhook(request: Request):
             "message_campaign_failed": "failed",
         }
         new_status = status_map.get(event_type, event_type)
-        update_fields = {
+
+        # 1. Track delivery status
+        status_update = {
             "status": new_status,
             "source": "campaign",
             f"{new_status}_at": datetime.now(timezone.utc).isoformat(),
-            "phone": data.get("customer", {}).get("channel_phone_number", ""),
-            "campaign_id": message.get("campaign_id", ""),
+            "phone": phone,
+            "campaign_id": campaign_id,
         }
         if event_type == "message_campaign_failed":
-            update_fields["failure_reason"] = message.get("channel_failure_reason", "")
-        if msg_id:
-            await wa_message_status_col.update_one(
-                {"message_id": msg_id},
-                {"$set": update_fields},
-                upsert=True,
-            )
+            status_update["failure_reason"] = message.get("channel_failure_reason", "")
+
+        status_key = msg_id or f"campaign_{phone}_{campaign_id}"
+        await wa_message_status_col.update_one(
+            {"message_id": status_key},
+            {"$set": status_update},
+            upsert=True,
+        )
+
+        # 2. Create/update conversation so it appears in the dashboard
+        if phone:
+            now_iso = datetime.now(timezone.utc).isoformat()
+            campaign_msg = {
+                "direction": "outbound",
+                "text": f"[Campaign] Status: {new_status}",
+                "timestamp": now_iso,
+                "type": "campaign",
+                "campaign_id": campaign_id,
+                "status": new_status,
+            }
+            existing = await wa_conversations_col.find_one({"phone": phone})
+            if existing:
+                await wa_conversations_col.update_one(
+                    {"phone": phone},
+                    {
+                        "$set": {"updated_at": now_iso, "last_campaign_status": new_status},
+                        "$push": {"messages": {"$each": [campaign_msg], "$slice": -100}},
+                        "$inc": {"message_count": 1},
+                    },
+                )
+            else:
+                await wa_conversations_col.insert_one({
+                    "phone": phone,
+                    "customer_name": customer_name or phone,
+                    "session_id": f"campaign_{phone}",
+                    "status": "campaign",
+                    "source": "campaign",
+                    "messages": [campaign_msg],
+                    "message_count": 1,
+                    "created_at": now_iso,
+                    "updated_at": now_iso,
+                    "last_campaign_status": new_status,
+                    "campaign_id": campaign_id,
+                })
 
     elif event_type == "message_template_status_update":
         template_event = data.get("event", "")
@@ -741,6 +784,13 @@ async def get_wa_analytics(_=Depends(admin_required)):
     agg = await wa_conversations_col.aggregate(pipeline).to_list(1)
     total_chat_msgs = agg[0]["total"] if agg else 0
 
+    # Campaign stats from message status tracking
+    campaign_total = await wa_message_status_col.count_documents({"source": "campaign"})
+    campaign_delivered = await wa_message_status_col.count_documents({"source": "campaign", "status": "delivered"})
+    campaign_read = await wa_message_status_col.count_documents({"source": "campaign", "status": "read"})
+    campaign_failed = await wa_message_status_col.count_documents({"source": "campaign", "status": "failed"})
+    campaign_convs = await wa_conversations_col.count_documents({"source": "campaign"})
+
     return {
         "conversations": {
             "total": total_convs,
@@ -758,6 +808,14 @@ async def get_wa_analytics(_=Depends(admin_required)):
             "template_messages": template_msgs,
             "delivery_rate": round((delivered_msgs / total_msgs * 100) if total_msgs > 0 else 0, 1),
             "read_rate": round((read_msgs / total_msgs * 100) if total_msgs > 0 else 0, 1),
+        },
+        "campaigns": {
+            "total_events": campaign_total,
+            "delivered": campaign_delivered,
+            "read": campaign_read,
+            "failed": campaign_failed,
+            "conversations_created": campaign_convs,
+            "read_rate": round((campaign_read / campaign_total * 100) if campaign_total > 0 else 0, 1),
         },
     }
 

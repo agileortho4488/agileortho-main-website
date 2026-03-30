@@ -144,7 +144,7 @@ function AnalyticsTab({ headers }) {
   if (loading) return <div className="flex justify-center py-20"><div className="w-6 h-6 border-2 border-emerald-600 border-t-transparent rounded-full animate-spin" /></div>;
   if (!analytics) return <div className="text-center py-20 text-slate-400">Failed to load analytics</div>;
 
-  const { conversations: c, delivery: d } = analytics;
+  const { conversations: c, delivery: d, campaigns: camp } = analytics;
   return (
     <div className="p-6 space-y-6 max-w-4xl mx-auto" data-testid="wa-analytics">
       <h2 className="text-lg font-bold text-slate-900" style={{ fontFamily: "Chivo" }}>WhatsApp Analytics</h2>
@@ -169,6 +169,31 @@ function AnalyticsTab({ headers }) {
           ))}
         </div>
       </div>
+
+      {/* Campaign Stats */}
+      {camp && camp.total_events > 0 && (
+        <div>
+          <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">Campaign Delivery</h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            {[
+              { label: "Campaign Events", value: camp.total_events, icon: Zap, color: "bg-indigo-100 text-indigo-700" },
+              { label: "Delivered", value: camp.delivered, icon: CheckCheck, color: "bg-emerald-100 text-emerald-700" },
+              { label: "Read", value: camp.read, icon: CheckCheck, color: "bg-green-100 text-green-800" },
+              { label: "Failed", value: camp.failed, icon: AlertTriangle, color: "bg-red-100 text-red-700" },
+              { label: "Contacts Reached", value: camp.conversations_created, icon: Users, color: "bg-blue-100 text-blue-700" },
+              { label: "Read Rate", value: `${camp.read_rate}%`, icon: Zap, color: "bg-teal-100 text-teal-700" },
+            ].map((s) => (
+              <div key={s.label} className="bg-white border border-slate-200 rounded-xl p-4" data-testid={`wa-campaign-${s.label.toLowerCase().replace(/ /g, '-')}`}>
+                <div className={`w-8 h-8 rounded-lg ${s.color} flex items-center justify-center mb-2`}>
+                  <s.icon size={16} />
+                </div>
+                <p className="text-2xl font-bold text-slate-900">{s.value}</p>
+                <p className="text-xs text-slate-500">{s.label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Delivery Stats */}
       <div>
