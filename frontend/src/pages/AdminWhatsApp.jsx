@@ -113,7 +113,7 @@ function MessageBubble({ msg }) {
           </div>
         )}
         <div className="whitespace-pre-wrap" dangerouslySetInnerHTML={{
-          __html: msg.content
+          __html: (msg.content || msg.text || "")
             .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
             .replace(/\n- /g, "<br/>- ")
             .replace(/\n/g, "<br/>")
