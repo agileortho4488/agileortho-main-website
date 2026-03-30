@@ -142,7 +142,7 @@ async def seed_catalog():
 
     # Seed admin auth fallback (hashed password stored in DB)
     from helpers import hash_password
-    admin_pw = os.environ.get("ADMIN_PASSWORD", "AgileHealth2026admin")
+    admin_pw = (os.environ.get("ADMIN_PASSWORD") or "").strip('"').strip("'") or "AgileHealth2026admin"
     await mongo_db["admin_config"].update_one(
         {"type": "admin_auth"},
         {"$set": {

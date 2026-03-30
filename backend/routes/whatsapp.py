@@ -12,12 +12,12 @@ from helpers import admin_required, EMERGENT_LLM_KEY
 
 router = APIRouter()
 
-INTERAKT_API_KEY = os.environ.get("INTERAKT_API_KEY", "")
+INTERAKT_API_KEY = (os.environ.get("INTERAKT_API_KEY", "") or "").strip('"').strip("'")
 INTERAKT_API_URL = "https://api.interakt.ai/v1/public/message/"
 INTERAKT_TRACK_URL = "https://api.interakt.ai/v1/public/track/users/"
 INTERAKT_EVENT_URL = "https://api.interakt.ai/v1/public/track/events/"
-INTERAKT_WEBHOOK_SECRET = os.environ.get("INTERAKT_WEBHOOK_SECRET", "")
-WHATSAPP_NUMBER = os.environ.get("WHATSAPP_BUSINESS_NUMBER", "+917416521222")
+INTERAKT_WEBHOOK_SECRET = (os.environ.get("INTERAKT_WEBHOOK_SECRET", "") or "").strip('"').strip("'")
+WHATSAPP_NUMBER = (os.environ.get("WHATSAPP_BUSINESS_NUMBER", "+917416521222") or "").strip('"').strip("'")
 
 
 def interakt_auth_header():

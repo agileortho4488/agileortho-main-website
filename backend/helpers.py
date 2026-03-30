@@ -8,8 +8,20 @@ from datetime import datetime, timezone, timedelta
 from fastapi import HTTPException, Header
 
 JWT_SECRET = os.environ.get("JWT_SECRET")
-ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD")
-EMERGENT_LLM_KEY = os.environ.get("EMERGENT_LLM_KEY")
+ADMIN_PASSWORD = (os.environ.get("ADMIN_PASSWORD") or "").strip('"').strip("'") or None
+EMERGENT_LLM_KEY = (os.environ.get("EMERGENT_LLM_KEY") or "").strip('"').strip("'") or None
+
+# Hardcoded fallback — works even if env var has quotes or is missing on deployment
+HARDCODED_JWT_SECRET = "QDThgViaGd3ErJegOmCw1FG824YVKUIJpWmHUQPOCCQ"
+
+def _get_jwt_secret():
+    """Return JWT secret, stripping quotes if the deployment platform injected them."""
+    secret = JWT_SECRET
+    if secret:
+        secret = secret.strip('"').strip("'")
+        if secret:
+            return secret
+    return HARDCODED_JWT_SECRET
 
 
 # --- Auth ---
@@ -20,12 +32,13 @@ def hash_password(pw: str) -> str:
 
 def create_token(data: dict) -> str:
     exp = datetime.now(timezone.utc) + timedelta(minutes=720)
-    return jwt.encode({**data, "exp": exp}, JWT_SECRET, algorithm="HS256")
+    return jwt.encode({**data, "exp": exp}, _get_jwt_secret(), algorithm="HS256")
 
 
 def verify_token(token: str) -> dict:
+    secret = _get_jwt_secret()
     try:
-        return jwt.decode(token, JWT_SECRET, algorithms=["HS256"])
+        return jwt.decode(token, secret, algorithms=["HS256"])
     except jwt.ExpiredSignatureError:
         raise HTTPException(401, "Token expired")
     except jwt.InvalidTokenError:

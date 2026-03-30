@@ -37,10 +37,14 @@ export default function AdminPipeline() {
       const res = await fetch(`${API_URL}/api/admin/pipeline`, {
         headers: { Authorization: `Bearer ${token}` },
       });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.detail || `Server error ${res.status}`);
+      }
       const data = await res.json();
       setPipeline(data.pipeline || {});
-    } catch {
-      toast.error("Failed to load pipeline");
+    } catch (e) {
+      toast.error(e.message || "Failed to load pipeline");
     } finally {
       setLoading(false);
     }
