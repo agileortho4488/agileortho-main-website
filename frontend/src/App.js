@@ -4,6 +4,7 @@ import { SEOProvider } from "./components/SEO";
 import { Layout } from "./components/layout/Layout";
 import { AdminLayout } from "./components/layout/AdminLayout";
 import ChatWidget from "./components/ChatWidget";
+import CookieConsent from "./components/CookieConsent";
 import Home from "./pages/Home";
 import Products from "./pages/Products";
 import ProductDetail from "./pages/ProductDetail";
@@ -80,6 +81,7 @@ function App() {
           } />
         </Routes>
         <ChatWidget />
+        <CookieConsent />
       </BrowserRouter>
       </VisitorProvider>
     </SEOProvider>
