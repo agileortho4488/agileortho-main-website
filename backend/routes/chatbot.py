@@ -10,6 +10,7 @@ from datetime import datetime, timezone, timedelta
 from collections import Counter
 from db import shadow_chunks_col, db as mongo_db, catalog_products_col, catalog_skus_col
 from helpers import admin_required
+from services.knowledge_graph import kg
 import re
 import time
 
@@ -417,10 +418,21 @@ async def chatbot_query(query: ChatQuery):
     if sku_codes:
         sku_results = await sku_exact_lookup(sku_codes)
 
-    # GUARD 2.5: Search enriched catalog products first
+    # GUARD 2.2: Knowledge Graph lookup (Entity-Aware)
+    kg_results = kg.query(terms)
+    if kg_results:
+        result = format_catalog_answer(kg_results, question)
+        if result and result["confidence"] == "high":
+            elapsed_ms = round((time.monotonic() - t_start) * 1000)
+            await _store_conversation(session_id, question, result, elapsed_ms)
+            return result
+
+    # GUARD 2.5: Search enriched catalog products first (Keyword-based fallback)
     catalog_results = await search_catalog_products(terms)
-    if catalog_results and not sku_results:
-        result = format_catalog_answer(catalog_results, question)
+    if (catalog_results or kg_results) and not sku_results:
+        # Combine KG and search results if confidence wasn't already high
+        all_catalog = kg_results + [p for p in catalog_results if p["slug"] not in {k["slug"] for k in kg_results}]
+        result = format_catalog_answer(all_catalog, question)
         if result:
             elapsed_ms = round((time.monotonic() - t_start) * 1000)
             await _store_conversation(session_id, question, result, elapsed_ms)
