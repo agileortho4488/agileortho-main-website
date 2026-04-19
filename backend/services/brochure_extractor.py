@@ -13,7 +13,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # Constants
-JSON_PATH = "/Users/harsha/.gemini/antigravity/scratch/agileortho-main-website/backend/seed_data/catalog_products.json"
+JSON_PATH = "/Users/harsha/.gemini/antigravity/scratch/agileortho-main-website/frontend/src/data/catalog_products.json"
 
 # Pydantic models for structured output
 class TechSpec(BaseModel):

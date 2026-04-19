@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const SEED_DATA_PATH = path.join(process.cwd(), '../backend/seed_data/catalog_products.json');
+const SEED_DATA_PATH = path.join(process.cwd(), 'src/data/catalog_products.json');
 
 export async function getAllProducts() {
   try {
