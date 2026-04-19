@@ -15,8 +15,17 @@ export default function OTCommandDesk() {
     urgency: 'Emergency'
   });
 
+  const getZoneTag = (district: string) => {
+    const d = district.toLowerCase().trim();
+    if (['hyderabad', 'rangareddy', 'medchal', 'secunderabad'].some(h => d.includes(h))) return 'HYD_METRO';
+    if (['warangal', 'karimnagar', 'nizamabad', 'adilabad'].some(h => d.includes(h))) return 'NORTH_TS';
+    if (['khammam', 'nalgonda', 'mahbubnagar'].some(h => d.includes(h))) return 'SOUTH_TS';
+    return 'GEN_TS';
+  };
+
   const handleRequest = () => {
-    const message = `🚨 EMERGENCY OT SUPPORT REQUESTED\n\nSolution: ${form.surgeryType}\nHospital: ${form.hospital}\nDistrict: ${form.district}\nUrgency: ${form.urgency}\n\nPlease confirm personnel and instrumentation availability immediately.`;
+    const zone = getZoneTag(form.district);
+    const message = `🚨 EMERGENCY OT SUPPORT [${zone}]\n\nSolution: ${form.surgeryType}\nHospital: ${form.hospital}\nDistrict: ${form.district}\nUrgency: ${form.urgency}\n\nPlease confirm personnel and instrumentation availability immediately.`;
     const waUrl = `https://wa.me/${COMPANY.whatsapp.replace("+", "")}?text=${encodeURIComponent(message)}`;
     window.open(waUrl, "_blank");
     setIsOpen(false);

@@ -45,8 +45,12 @@ export default function PremiumHeader() {
                 A
               </div>
               <div className="flex flex-col">
-                <span className="text-xl font-black tracking-tighter leading-none group-hover:text-primary transition-colors">AGILE</span>
-                <span className="text-[10px] uppercase tracking-[0.3em] font-bold text-muted-foreground">Healthcare</span>
+                <span className="text-xl font-black tracking-tighter leading-none group-hover:text-primary transition-colors uppercase">AGILE</span>
+                <span className="text-[10px] uppercase tracking-[0.3em] font-bold text-muted-foreground leading-none mt-1">Surgical Hub</span>
+              </div>
+              <div className="hidden lg:flex items-center gap-2 ml-4 px-3 py-1 bg-white/5 border border-white/10 rounded-full">
+                <div className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse" />
+                <span className="text-[9px] font-black uppercase tracking-widest text-primary/80">Master Franchise</span>
               </div>
             </Link>
 

@@ -22,6 +22,7 @@ import {
 import PremiumHeader from '../components/PremiumHeader';
 import StatsCounter from '../components/StatsCounter';
 import SizingWizard from '../components/SizingWizard';
+import TrustStrip from '../components/TrustStrip';
 
 const SOLUTIONS = [
   { 
@@ -65,6 +66,7 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-[#0A0A0A] text-white selection:bg-primary/30">
       <PremiumHeader />
+      <TrustStrip />
 
       {/* 10-SECOND HERO: AUTHORITY & TRUST */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
