@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import PremiumHeader from '../components/PremiumHeader';
 import StatsCounter from '../components/StatsCounter';
+import SizingWizard from '../components/SizingWizard';
 
 const SOLUTIONS = [
   { 
@@ -157,71 +158,51 @@ export default function Home() {
       {/* OT COMMAND CENTER: THE DIFFERENTIATION */}
       <section className="py-32 px-4 relative overflow-hidden bg-[#CC2020]/[0.02]">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div className="relative">
-              <motion.div 
-                initial={{ opacity: 0, x: -50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-              >
-                <div className="text-primary font-black uppercase tracking-[0.3em] text-xs mb-6 flex items-center gap-3">
-                  <span className="h-[2px] w-12 bg-primary"></span>
-                  The Agile Guarantee
-                </div>
-                <h2 className="text-5xl md:text-8xl font-black tracking-tighter mb-8 leading-none uppercase italic">
-                  OT Mastery.<br />
-                  <span className="text-primary">Beyond Supply.</span>
-                </h2>
-                <p className="text-xl text-muted-foreground leading-relaxed mb-12 max-w-xl">
-                  Most distributors just drop boxes. We deploy **Surgical Command Systems**. 
-                  Our clinical support specialists are available 24/7 to ensure instrumentation 
-                  integrity and implant precision during live surgeries.
-                </p>
-                
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-12">
-                  <div className="space-y-4">
-                    <Truck className="w-8 h-8 text-primary" />
-                    <h4 className="font-black text-lg uppercase">Hyper-Local Logistics</h4>
-                    <p className="text-sm text-muted-foreground">Emergency dispatch via dedicated 2-wheel/4-wheel fleet for 33 districts of Telangana.</p>
-                  </div>
-                  <div className="space-y-4">
-                    <Clock className="w-8 h-8 text-primary" />
-                    <h4 className="font-black text-lg uppercase">2HR Turnaround</h4>
-                    <p className="text-sm text-muted-foreground">From scrub-matching to theater delivery in record time, optimized for trauma emergencies.</p>
-                  </div>
-                </div>
-              </motion.div>
-            </div>
-            
-            <div className="relative group">
-               <div className="absolute -inset-4 bg-primary/10 blur-[60px] rounded-full group-hover:bg-primary/20 transition-all" />
-               <div className="relative aspect-square rounded-[40px] border border-white/10 bg-[#141414] p-12 flex flex-col justify-center">
-                  <h3 className="text-4xl font-black mb-8 tracking-tighter">Ready for Surgery?</h3>
-                  <div className="space-y-6 mb-12">
-                     <div className="flex items-center gap-6 p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-primary/50 transition-all cursor-pointer">
-                        <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary font-black">1</div>
-                        <span className="font-bold text-lg italic">Instant Inventory Check</span>
-                     </div>
-                     <div className="flex items-center gap-6 p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-primary/50 transition-all cursor-pointer">
-                        <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary font-black">2</div>
-                        <span className="font-bold text-lg italic">Request OT Assistance</span>
-                     </div>
-                     <div className="flex items-center gap-6 p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-primary/50 transition-all cursor-pointer">
-                        <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary font-black">3</div>
-                        <span className="font-bold text-lg italic">Specialized Screw/Plate Lookup</span>
-                     </div>
-                  </div>
-                  <Link 
-                    href="https://wa.me/918500204488"
-                    className="w-full py-6 bg-primary text-black text-center font-black uppercase tracking-widest rounded-2xl shadow-2xl shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
-                  >
-                    Open Surgery Desk (WhatsApp)
-                  </Link>
-               </div>
-            </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+             <div>
+                <motion.div 
+                   initial={{ opacity: 0, x: -50 }}
+                   whileInView={{ opacity: 1, x: 0 }}
+                   viewport={{ once: true }}
+                >
+                   <div className="text-primary font-black uppercase tracking-[0.3em] text-xs mb-6 flex items-center gap-3">
+                      <span className="h-[2px] w-12 bg-primary"></span>
+                      The Surgeon's Toolkit
+                   </div>
+                   <h2 className="text-5xl md:text-8xl font-black tracking-tighter mb-8 leading-none uppercase italic">
+                      Clinical<br />
+                      <span className="text-primary text-4xl md:text-6xl">Intelligence.</span>
+                   </h2>
+                   <p className="text-xl text-muted-foreground leading-relaxed mb-12 max-w-xl">
+                      Precision surgery requires perfect sizing and clinical validation. Use our 
+                      **Mechanical Sizing Wizard** and **Evidence Hub** to optimize your 
+                      procedure selection in 33 districts.
+                   </p>
+                   
+                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-12">
+                      <div className="space-y-4">
+                        <Link href="/evidence" className="group flex items-center gap-4 text-sm font-black uppercase tracking-widest text-primary border border-primary/20 px-6 py-4 rounded-xl hover:bg-primary/5 transition-all">
+                           Evidence Hub
+                        </Link>
+                      </div>
+                      <div className="space-y-4">
+                        <Link href="/catalog" className="group flex items-center gap-4 text-sm font-black uppercase tracking-widest text-white border border-white/20 px-6 py-4 rounded-xl hover:bg-white/5 transition-all">
+                           Catalog Desk
+                        </Link>
+                      </div>
+                   </div>
+                </motion.div>
+             </div>
+             
+             <div className="relative group">
+                <SizingWizard />
+             </div>
           </div>
         </div>
       </section>
+
+      {/* OT COMMAND CENTER: THE DIFFERENTIATION */}
+      <section className="py-32 px-4 relative overflow-hidden bg-[#CC2020]/[0.02]">
 
       {/* SOLUTIONS SECTION: BEYOND PRODUCTS */}
       <section className="py-32 bg-[#0A0A0A] relative" id="solutions">
