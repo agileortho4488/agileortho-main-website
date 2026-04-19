@@ -2,6 +2,50 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --primary: 45 60% 53%; /* Agile Gold */
+  --primary-foreground: 0 0% 100%;
+  --background: 0 0% 4%;
+  --foreground: 0 0% 98%;
+  --card: 0 0% 6%;
+  --card-foreground: 0 0% 98%;
+  --muted: 0 0% 15%;
+  --muted-foreground: 0 0% 63%;
+  --border: 0 0% 12%;
+}
+
+@layer base {
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer components {
+  .text-gradient-gold {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-[#D4AF37] via-[#F9E27E] to-[#D4AF37] bg-[length:200%_auto] animate-gradient-x;
+  }
+
+  .card-premium {
+    @apply bg-white/[0.03] backdrop-blur-md border border-white/10 hover:border-primary/50 transition-all duration-300;
+    box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+  }
+
+  .btn-primary {
+    @apply bg-gradient-to-r from-[#D4AF37] to-[#B8860B] text-black hover:brightness-110 active:scale-95 transition-all duration-200 shadow-lg shadow-primary/20;
+  }
+}
+
+@keyframes gradient-x {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-gradient-x {
+  animation: gradient-x 5s ease infinite;
+}
+
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
 
 @layer base {

@@ -2,9 +2,11 @@
 module.exports = {
     darkMode: ["class"],
     content: [
-    "./src/**/*.{js,jsx,ts,tsx}",
-    "./public/index.html"
-  ],
+      "./src/**/*.{js,jsx,ts,tsx}",
+      "./public/index.html",
+      "./app/**/*.{js,ts,jsx,tsx}", // If app is in root
+      "./src/app/**/*.{js,ts,jsx,tsx}", // If app is in src
+    ],
   theme: {
         extend: {
                 borderRadius: {

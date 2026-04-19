@@ -24,6 +24,7 @@ from routes.geo import router as geo_router
 from routes.email import router as email_router
 from routes.seo import router as seo_router
 from routes.prerender import router as prerender_router
+from routes.brochure import router as brochure_router
 
 app = FastAPI(title="Agile Ortho API")
 
@@ -51,6 +52,7 @@ app.include_router(geo_router)
 app.include_router(email_router)
 app.include_router(seo_router)
 app.include_router(prerender_router)
+app.include_router(brochure_router)
 
 
 @app.on_event("startup")
