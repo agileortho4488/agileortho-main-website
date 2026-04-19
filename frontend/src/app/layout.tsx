@@ -98,6 +98,7 @@ export default function RootLayout({
       <body>
         {children}
         <ChatWidget />
+        <OTCommandDesk />
 
         {/* Google Analytics 4 */}
         <Script

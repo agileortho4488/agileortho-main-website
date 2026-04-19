@@ -3,6 +3,7 @@ import { Metadata, ResolvingMetadata } from 'next';
 import { getProductBySlug, getAllProducts } from '@/lib/data';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import ProductActions from '@/components/ProductActions';
 
 interface ProductPageProps {
   params: Promise<{ slug: string }>;
@@ -155,21 +156,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4 mt-auto">
-              <button className="btn-primary py-4 px-10 rounded-full flex items-center justify-center font-bold text-sm tracking-wider uppercase transition-all hover:shadow-[0_0_20px_rgba(212,175,55,0.4)]">
-                Connect with Sales
-              </button>
-              {product.brochure_url && (
-                <a 
-                  href={product.brochure_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-white/5 hover:bg-white/10 border border-white/20 py-4 px-10 rounded-full flex items-center justify-center font-bold text-sm tracking-wider uppercase transition-all"
-                >
-                  View Brochure
-                </a>
-              )}
-            </div>
+            <ProductActions product={product} />
           </div>
         </div>
       </div>
