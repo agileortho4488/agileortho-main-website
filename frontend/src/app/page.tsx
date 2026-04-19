@@ -13,233 +13,293 @@ import {
   ExternalLink,
   ShieldCheck,
   Globe,
-  Award
+  Award,
+  Zap,
+  Truck,
+  UserCheck,
+  Clock
 } from 'lucide-react';
 import PremiumHeader from '../components/PremiumHeader';
 import StatsCounter from '../components/StatsCounter';
 
-export default function Home() {
-  const divisions = [
-    { title: 'Trauma', desc: 'Advanced anatomical plating systems and intramedullary nails for high-precision fracture management.', icon: Activity, color: 'primary', size: 'large' },
-    { title: 'Cardiovascular', desc: 'World-class coronary stents and biological heart valves.', icon: Heart, color: 'red-500', size: 'medium' },
-    { title: 'Diagnostics', desc: 'Precision laboratory analyzers and rapid diagnostic test kits.', icon: Microscope, color: 'blue-500', size: 'small' },
-    { title: 'Orthopedics', desc: 'Primary and revision joint replacement solutions for hip and knee.', icon: Stethoscope, color: 'teal-500', size: 'small' },
-    { title: 'Endo-Surgical', desc: 'Comprehensive range of staplers and laparoscopic instrumentation.', icon: Dna, color: 'purple-500', size: 'medium' },
-  ];
+const SOLUTIONS = [
+  { 
+    title: 'Fracture Management', 
+    desc: 'Anatomical plating systems and intramedullary nails engineered for early weight-bearing and stability.', 
+    icon: Activity, 
+    division: 'Trauma',
+    slug: 'trauma'
+  },
+  { 
+    title: 'Arthroplasty & Joint Care', 
+    desc: 'Primary and revision joint replacement solutions for hip and knee with proprietary wear-reduction technology.', 
+    icon: Stethoscope, 
+    division: 'Joint Replacement',
+    slug: 'ortho'
+  },
+  { 
+    title: 'Cardiovascular Life', 
+    desc: 'Bio-mimetic coronary stents and biological heart valves representing the pinnacle of interventional logic.', 
+    icon: Heart, 
+    division: 'Cardiovascular',
+    slug: 'cardio'
+  },
+  { 
+    title: 'Precision Endo-Surgery', 
+    desc: 'Smart-stapling systems and laparoscopic instrumentation for minimally invasive excellence.', 
+    icon: Dna, 
+    division: 'Endo-Surgery',
+    slug: 'endo'
+  },
+  { 
+    title: 'Clinical Diagnostics', 
+    desc: 'Advanced laboratory analyzers and rapid diagnostic test kits for hospital-wide accuracy.', 
+    icon: Microscope, 
+    division: 'Diagnostics',
+    slug: 'diagnostics'
+  },
+];
 
+export default function Home() {
   return (
     <main className="min-h-screen bg-[#0A0A0A] text-white selection:bg-primary/30">
       <PremiumHeader />
 
-      {/* Hero Section */}
-      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden pt-20">
-        {/* Animated Background Elements */}
+      {/* 10-SECOND HERO: AUTHORITY & TRUST */}
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+        {/* Immersive Background */}
         <div className="absolute inset-0 z-0">
+          <div 
+            className="absolute inset-0 bg-cover bg-center grayscale opacity-40 mix-blend-overlay"
+            style={{ backgroundImage: "url('/images/hero-bg.png')" }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black" />
           <motion.div 
             animate={{ 
-              scale: [1, 1.2, 1],
-              x: [0, 50, 0],
-              y: [0, -30, 0]
+              opacity: [0.2, 0.4, 0.2],
+              scale: [1, 1.1, 1],
             }}
-            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-            className="absolute top-[-10%] left-[-5%] w-[50%] h-[50%] bg-primary/20 rounded-full blur-[120px]"
+            transition={{ duration: 15, repeat: Infinity }}
+            className="absolute top-1/4 left-1/4 w-[60%] h-[60%] bg-primary/10 rounded-full blur-[160px]"
           />
-          <motion.div 
-            animate={{ 
-              scale: [1, 1.3, 1],
-              x: [0, -40, 0],
-              y: [0, 60, 0]
-            }}
-            transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-            className="absolute bottom-[5%] right-[-5%] w-[40%] h-[40%] bg-[#B8860B]/10 rounded-full blur-[100px]"
-          />
-          <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none" />
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-20">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 1 }}
           >
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-8 backdrop-blur-md">
-              <ShieldCheck className="w-4 h-4 text-primary" />
-              <span className="text-[10px] uppercase tracking-[0.2em] font-black text-primary">Master Franchise Telangana</span>
+            <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-white/5 border border-white/10 mb-10 backdrop-blur-2xl">
+              <span className="flex h-2 w-2 rounded-full bg-primary animate-ping" />
+              <span className="text-[10px] uppercase tracking-[0.4em] font-black text-white/60">Master Partner: Meril Life Sciences</span>
             </div>
             
-            <h1 className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter mb-8 leading-[0.85] font-heading">
-              <span className="block italic opacity-40">Precision</span>
-              <span className="text-gradient-gold">Healthcare</span>
+            <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-black tracking-tighter mb-8 leading-[0.8] font-heading uppercase italic">
+              Surgery.<br />
+              <span className="text-gradient-gold">Accelerated.</span>
             </h1>
             
-            <p className="max-w-3xl mx-auto text-lg md:text-2xl text-muted-foreground mb-12 leading-relaxed font-medium">
-              Authorized Master Distributor for <span className="text-white font-bold">Meril Life Sciences</span>. 
-              Bridging world-class medical innovation to all 33 districts of Telangana.
+            <p className="max-w-4xl mx-auto text-xl md:text-3xl text-muted-foreground mb-16 leading-tight font-medium">
+              The Surgical Ecosystem of Telangana. We provide the <span className="text-white">clinical precision</span> of global leaders with the <span className="text-white">OT speed</span> of a local partner.
             </p>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-8">
               <Link 
-                href="/catalog" 
-                className="group relative px-10 py-5 bg-primary text-black font-black uppercase tracking-widest text-sm rounded-2xl overflow-hidden transition-all hover:scale-105 active:scale-95 shadow-[0_0_40px_rgba(212,175,55,0.3)] w-full sm:w-auto"
+                href="https://wa.me/918500204488?text=I%20need%20OT%20support%20for%20a%20surgery."
+                className="group relative px-12 py-6 bg-[#CC2020] text-white font-black uppercase tracking-widest text-sm rounded-none border-b-4 border-black/30 hover:bg-[#E02020] transition-all hover:scale-105 active:scale-95 shadow-[0_20px_40px_rgba(204,32,32,0.3)] w-full sm:w-auto"
               >
-                <span className="relative z-10">Explore Catalog</span>
-                <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+                Request OT Support
               </Link>
-              <button className="px-10 py-5 rounded-2xl bg-white/5 border border-white/10 font-bold text-sm uppercase tracking-widest hover:bg-white/10 transition-all w-full sm:w-auto">
-                Distribution Login
-              </button>
+              <Link 
+                href="/catalog"
+                className="px-12 py-6 rounded-none bg-transparent border border-white/20 font-black text-sm uppercase tracking-widest hover:bg-white hover:text-black transition-all w-full sm:w-auto"
+              >
+                Clinical Solutions
+              </Link>
+            </div>
+
+            {/* Trust Markers */}
+            <div className="mt-24 grid grid-cols-2 md:grid-cols-4 gap-8 opacity-40 grayscale hover:grayscale-0 hover:opacity-100 transition-all">
+              <div className="flex items-center justify-center gap-2">
+                <ShieldCheck className="w-5 h-5 text-primary" />
+                <span className="text-[10px] font-black uppercase tracking-widest">CDSCO Certified</span>
+              </div>
+              <div className="flex items-center justify-center gap-2">
+                <Award className="w-5 h-5 text-primary" />
+                <span className="text-[10px] font-black uppercase tracking-widest">ISO 13485:2016</span>
+              </div>
+              <div className="flex items-center justify-center gap-2">
+                <Zap className="w-5 h-5 text-primary" />
+                <span className="text-[10px] font-black uppercase tracking-widest">2-Hour Dispatch</span>
+              </div>
+              <div className="flex items-center justify-center gap-2">
+                <UserCheck className="w-5 h-5 text-primary" />
+                <span className="text-[10px] font-black uppercase tracking-widest">Verified Master Distributor</span>
+              </div>
             </div>
           </motion.div>
         </div>
       </section>
 
-      {/* Stats Section with Advanced Counters */}
-      <section className="py-24 border-y border-white/5 bg-white/[0.01] relative overflow-hidden">
+      {/* STATS: THE DOMINATION METRICS */}
+      <section className="py-24 bg-white/[0.02] border-y border-white/5">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-12 md:gap-8">
-            <StatsCounter value={967} label="Verified Products" suffix="+" />
-            <StatsCounter value={33} label="Districts Served" />
-            <StatsCounter value={13} label="Clinical Divisions" />
-            <StatsCounter value={1} label="Master Partner" suffix="Meril" />
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 text-center">
+            <StatsCounter value={967} label="Global Implants" suffix="+" />
+            <StatsCounter value={33} label="Districts Optimized" />
+            <StatsCounter value={24} label="Surgery Support" suffix="/7" />
+            <StatsCounter value={100} label="Hospital Trust" suffix="%" />
           </div>
         </div>
       </section>
 
-      {/* Bento-Inspired Division Grid */}
-      <section className="py-32 px-4 sm:px-6 lg:px-8" id="divisions">
+      {/* OT COMMAND CENTER: THE DIFFERENTIATION */}
+      <section className="py-32 px-4 relative overflow-hidden bg-[#CC2020]/[0.02]">
         <div className="max-w-7xl mx-auto">
-          <motion.div 
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8"
-          >
-            <div className="max-w-2xl">
-              <h2 className="text-4xl md:text-7xl font-black tracking-tighter mb-6 font-heading leading-none">
-                Clinical <br />
-                <span className="text-primary italic">Excellence.</span>
-              </h2>
-              <p className="text-xl text-muted-foreground leading-relaxed">
-                Aggregating the entire Meril portfolio to provide the most comprehensive 
-                medical device ecosystem in South India.
-              </p>
-            </div>
-            <Link href="/catalog" className="btn-secondary group flex items-center gap-4 text-sm font-black uppercase tracking-widest text-primary border border-primary/20 px-8 py-4 rounded-2xl hover:bg-primary/5 transition-all">
-              All Divisions
-              <ChevronRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
-            </Link>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 auto-rows-[300px]">
-            {divisions.map((div, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div className="relative">
+              <motion.div 
+                initial={{ opacity: 0, x: -50 }}
+                whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className={`
-                  relative group cursor-pointer p-8 rounded-[32px] overflow-hidden border border-white/10 bg-[#141414] hover:border-primary/50 transition-all duration-500
-                  ${div.size === 'large' ? 'md:col-span-2 md:row-span-2' : ''}
-                  ${div.size === 'medium' ? 'md:col-span-2' : ''}
-                `}
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="text-primary font-black uppercase tracking-[0.3em] text-xs mb-6 flex items-center gap-3">
+                  <span className="h-[2px] w-12 bg-primary"></span>
+                  The Agile Guarantee
+                </div>
+                <h2 className="text-5xl md:text-8xl font-black tracking-tighter mb-8 leading-none uppercase italic">
+                  OT Mastery.<br />
+                  <span className="text-primary">Beyond Supply.</span>
+                </h2>
+                <p className="text-xl text-muted-foreground leading-relaxed mb-12 max-w-xl">
+                  Most distributors just drop boxes. We deploy **Surgical Command Systems**. 
+                  Our clinical support specialists are available 24/7 to ensure instrumentation 
+                  integrity and implant precision during live surgeries.
+                </p>
                 
-                <div className="relative z-10 h-full flex flex-col justify-between">
-                  <div>
-                    <div className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center mb-6 group-hover:bg-primary group-hover:text-black transition-all duration-500">
-                      <div.icon className="w-7 h-7" />
-                    </div>
-                    <h3 className={`${div.size === 'large' ? 'text-4xl' : 'text-2xl'} font-black tracking-tight mb-4 group-hover:text-primary transition-colors`}>{div.title}</h3>
-                    <p className={`text-muted-foreground leading-relaxed ${div.size === 'large' ? 'text-lg max-w-sm' : 'text-sm'}`}>
-                      {div.desc}
-                    </p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-12">
+                  <div className="space-y-4">
+                    <Truck className="w-8 h-8 text-primary" />
+                    <h4 className="font-black text-lg uppercase">Hyper-Local Logistics</h4>
+                    <p className="text-sm text-muted-foreground">Emergency dispatch via dedicated 2-wheel/4-wheel fleet for 33 districts of Telangana.</p>
                   </div>
-                  
-                  <div className="flex items-center justify-between pt-4 opacity-0 group-hover:opacity-100 transition-all transform translate-y-4 group-hover:translate-y-0">
-                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-primary">Explore Products</span>
-                    <ExternalLink className="w-4 h-4 text-primary" />
+                  <div className="space-y-4">
+                    <Clock className="w-8 h-8 text-primary" />
+                    <h4 className="font-black text-lg uppercase">2HR Turnaround</h4>
+                    <p className="text-sm text-muted-foreground">From scrub-matching to theater delivery in record time, optimized for trauma emergencies.</p>
                   </div>
                 </div>
               </motion.div>
-            ))}
+            </div>
             
-            {/* Call to Action Tile */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              className="md:col-span-1 border border-primary/20 bg-primary/5 p-8 rounded-[32px] flex flex-col justify-between"
-            >
-              <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center">
-                <Globe className="w-6 h-6 text-primary" />
-              </div>
-              <div>
-                <h4 className="text-xl font-bold mb-2">Network Expansion</h4>
-                <p className="text-sm text-muted-foreground mb-4">Are you a sub-distributor in Telangana?</p>
-                <button className="w-full py-4 bg-primary text-black rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl shadow-primary/20">
-                  Partner Now
-                </button>
-              </div>
-            </motion.div>
+            <div className="relative group">
+               <div className="absolute -inset-4 bg-primary/10 blur-[60px] rounded-full group-hover:bg-primary/20 transition-all" />
+               <div className="relative aspect-square rounded-[40px] border border-white/10 bg-[#141414] p-12 flex flex-col justify-center">
+                  <h3 className="text-4xl font-black mb-8 tracking-tighter">Ready for Surgery?</h3>
+                  <div className="space-y-6 mb-12">
+                     <div className="flex items-center gap-6 p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-primary/50 transition-all cursor-pointer">
+                        <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary font-black">1</div>
+                        <span className="font-bold text-lg italic">Instant Inventory Check</span>
+                     </div>
+                     <div className="flex items-center gap-6 p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-primary/50 transition-all cursor-pointer">
+                        <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary font-black">2</div>
+                        <span className="font-bold text-lg italic">Request OT Assistance</span>
+                     </div>
+                     <div className="flex items-center gap-6 p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-primary/50 transition-all cursor-pointer">
+                        <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary font-black">3</div>
+                        <span className="font-bold text-lg italic">Specialized Screw/Plate Lookup</span>
+                     </div>
+                  </div>
+                  <Link 
+                    href="https://wa.me/918500204488"
+                    className="w-full py-6 bg-primary text-black text-center font-black uppercase tracking-widest rounded-2xl shadow-2xl shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
+                  >
+                    Open Surgery Desk (WhatsApp)
+                  </Link>
+               </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Certification Section */}
-      <section className="py-24 border-t border-white/5">
-        <div className="max-w-7xl mx-auto px-4 flex flex-col items-center gap-12 opacity-40 hover:opacity-100 transition-opacity">
-          <div className="flex flex-wrap justify-center items-center gap-12 md:gap-24">
-             <div className="flex items-center gap-4">
-                <Award className="w-8 h-8" />
-                <span className="font-black text-xl uppercase tracking-tighter">Authorized Master Distributor</span>
+      {/* SOLUTIONS SECTION: BEYOND PRODUCTS */}
+      <section className="py-32 bg-[#0A0A0A] relative" id="solutions">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-24">
+             <h2 className="text-5xl md:text-8xl font-black tracking-tighter mb-8 uppercase italic">Clinical <span className="text-primary underline decoration-4 underline-offset-[12px]">Solutions</span></h2>
+             <p className="max-w-3xl mx-auto text-xl text-muted-foreground">Moving from simple hardware to outcome-driven clinical segments.</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {SOLUTIONS.map((sol, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="group relative p-10 bg-[#111] border border-white/5 rounded-[40px] hover:border-primary/50 transition-all overflow-hidden"
+              >
+                <div className="absolute top-0 right-0 p-6 opacity-0 group-hover:opacity-100 transition-opacity">
+                   <ChevronRight className="w-8 h-8 text-primary" />
+                </div>
+                <sol.icon className="w-12 h-12 text-primary mb-8" />
+                <h3 className="text-2xl font-black mb-4 uppercase tracking-tighter">{sol.title}</h3>
+                <p className="text-muted-foreground leading-relaxed mb-8">
+                  {sol.desc}
+                </p>
+                <div className="flex items-center gap-3">
+                   <span className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40">Division: {sol.division}</span>
+                </div>
+                <Link href={`/catalog?division=${sol.slug}`} className="absolute inset-0 z-10" />
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* GLOBAL FOOTER */}
+      <footer className="py-32 border-t border-white/5 bg-black">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex flex-col md:flex-row justify-between items-start gap-16 mb-24">
+             <div className="space-y-8">
+                <div className="text-4xl font-black tracking-tighter uppercase italic">AGILE <span className="text-primary">HEALTHCARE</span></div>
+                <p className="text-lg text-muted-foreground max-w-sm">
+                  Authorized Master Franchise Distributor for Meril Life Sciences. Serving the future of surgery in Telangana.
+                </p>
+                <div className="flex gap-4">
+                   <div className="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center hover:bg-primary transition-all cursor-pointer"><Globe className="w-5 h-5" /></div>
+                   <div className="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center hover:bg-primary transition-all cursor-pointer"><ShieldCheck className="w-5 h-5" /></div>
+                </div>
              </div>
-             <div className="text-4xl font-black italic tracking-tighter">MERIL LIFE SCIENCES</div>
-             <div className="text-sm font-bold uppercase tracking-widest">Est. 2026</div>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer 2.0 */}
-      <footer className="py-32 bg-white/[0.02] border-t border-white/5 relative overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full pointer-events-none opacity-30">
-          <div className="absolute top-[-50%] left-[-20%] w-[100%] h-[100%] bg-primary/5 blur-[150px] rounded-full" />
-        </div>
-        
-        <div className="relative z-10 max-w-7xl mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-16 mb-24">
-            <div className="space-y-6">
-               <div className="text-3xl font-black tracking-tighter">AGILE <span className="text-primary italic">ORTHO</span></div>
-               <p className="text-muted-foreground leading-relaxed max-w-xs transition-colors hover:text-white">
-                 Leading the transformation of medical device distribution in Telangana through speed, technology, and clinical depth.
-               </p>
-            </div>
-            <div>
-               <h5 className="text-xs font-black uppercase tracking-[0.3em] text-primary mb-8">Clinical Focus</h5>
-               <ul className="space-y-4 text-sm font-bold text-muted-foreground">
-                 <li><Link href="/catalog" className="hover:text-primary transition-colors">Trauma & Orthopedic</Link></li>
-                 <li><Link href="/catalog" className="hover:text-primary transition-colors">Cardiovascular Life</Link></li>
-                 <li><Link href="/catalog" className="hover:text-primary transition-colors">Endo-Surgical Solutions</Link></li>
-                 <li><Link href="/catalog" className="hover:text-primary transition-colors">In-Vitro Diagnostics</Link></li>
-               </ul>
-            </div>
-            <div>
-               <h5 className="text-xs font-black uppercase tracking-[0.3em] text-primary mb-8">Organization</h5>
-               <ul className="space-y-4 text-sm font-bold text-muted-foreground">
-                 <li><Link href="/districts" className="hover:text-primary transition-colors">Districts Network</Link></li>
-                 <li><button className="hover:text-primary transition-colors">Corporate Governance</button></li>
-                 <li><button className="hover:text-primary transition-colors">Vigilance & Support</button></li>
-               </ul>
-            </div>
+             
+             <div className="grid grid-cols-2 lg:grid-cols-3 gap-16">
+                <div>
+                  <h5 className="text-[10px] font-black uppercase tracking-[0.4em] text-primary mb-8">Surgical Desk</h5>
+                  <ul className="space-y-4 text-sm font-bold opacity-60 hover:opacity-100 transition-opacity">
+                    <li><Link href="/catalog?division=trauma">Fracture Mgmt</Link></li>
+                    <li><Link href="/catalog?division=ortho">Joint Care</Link></li>
+                    <li><Link href="/catalog?division=cardio">Heart Solutions</Link></li>
+                  </ul>
+                </div>
+                <div>
+                  <h5 className="text-[10px] font-black uppercase tracking-[0.4em] text-primary mb-8">Regional Hubs</h5>
+                  <ul className="space-y-4 text-sm font-bold opacity-60 hover:opacity-100 transition-opacity">
+                    <li><Link href="/districts/hyderabad">Hyderabad</Link></li>
+                    <li><Link href="/districts/warangal">Warangal</Link></li>
+                    <li><Link href="/districts/nizamabad">Nizamabad</Link></li>
+                  </ul>
+                </div>
+             </div>
           </div>
           
-          <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-6">
-            <p className="text-xs text-muted-foreground font-medium">© 2026 Agile Healthcare. All Rights Reserved. Master Distributor for Telangana State.</p>
-            <div className="flex items-center gap-8">
-               <Link href="/privacy" className="text-[10px] uppercase tracking-widest font-black text-muted-foreground hover:text-white">Privacy</Link>
-               <Link href="/terms" className="text-[10px] uppercase tracking-widest font-black text-muted-foreground hover:text-white">Terms</Link>
-            </div>
+          <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] font-black uppercase tracking-[0.3em] text-white/20">
+             <div>© 2026 Agile Healthcare Private Limited</div>
+             <div className="flex gap-8">
+                <span>Privacy Strategy</span>
+                <span>Clinical Governance</span>
+             </div>
           </div>
         </div>
       </footer>
