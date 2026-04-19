@@ -3,13 +3,15 @@ import { Metadata, ResolvingMetadata } from 'next';
 import { getProductBySlug, getAllProducts } from '@/lib/data';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import ProductActions from '@/components/ProductActions';
+import TechnicalMatrix from '@/components/TechnicalMatrix';
 
 interface ProductPageProps {
   params: Promise<{ slug: string }>;
 }
 
-// SSG: Pre-generate all 967+ product paths at build time
+// SSG: Pre-generate all product paths at build time
 export async function generateStaticParams() {
   const products = await getAllProducts();
   return products.map((product: any) => ({
@@ -24,7 +26,6 @@ export async function generateMetadata(
 ): Promise<Metadata> {
   const { slug } = await params;
   const product = await getProductBySlug(slug);
-  
   if (!product) return { title: 'Product Not Found' };
 
   return {
@@ -38,30 +39,38 @@ export async function generateMetadata(
   };
 }
 
+// Division-based clinical render mapping (Cool Surgical Blue assets)
+const DIVISION_FALLBACK_IMAGES: Record<string, string> = {
+  'Trauma': '/assets/renders/trauma_plate_blue.jpg',
+  'Joint Replacement': '/assets/renders/knee_implant_blue.jpg',
+  'Peripheral Intervention': '/assets/renders/vascular_blue.jpg',
+  'Cardiovascular': '/assets/renders/cardiac_blue.jpg',
+  'ENT': '/assets/renders/ent_blue.jpg',
+};
+
+const DIVISION_LABELS: Record<string, string> = {
+  'Trauma': '🔩 Trauma Fixation',
+  'Joint Replacement': '🦿 Arthroplasty',
+  'Cardiovascular': '❤️ Cardiovascular',
+  'ENT': '👂 ENT Solutions',
+  'Peripheral Intervention': '🫀 Peripheral Intervention',
+};
+
 export default async function ProductPage({ params }: ProductPageProps) {
   const { slug } = await params;
   const product = await getProductBySlug(slug);
 
-  if (!product) {
-    notFound();
-  }
+  if (!product) notFound();
 
-  // JSON-LD for Richest Search Results
+  // JSON-LD for Rich Search Results
   const jsonLd = {
     '@context': 'https://schema.org/',
     '@type': 'Product',
     name: product.product_name_display,
-    image: product.images?.[0]?.storage_path,
     description: product.description_live || product.description_shadow,
-    brand: {
-      '@type': 'Brand',
-      name: product.parent_brand || 'Meril',
-    },
+    brand: { '@type': 'Brand', name: product.parent_brand || 'Meril' },
     category: product.category,
-    manufacturer: {
-      '@type': 'Organization',
-      name: product.manufacturer || 'Meril Life Sciences',
-    },
+    manufacturer: { '@type': 'Organization', name: product.manufacturer || 'Meril Life Sciences' },
     offers: {
       '@type': 'AggregateOffer',
       offerCount: '1',
@@ -71,93 +80,170 @@ export default async function ProductPage({ params }: ProductPageProps) {
     },
   };
 
+  // Determine visual style based on division
+  const isTrauma = product.division_canonical === 'Trauma';
+  const visualStyle = (product.visual_style as 'cool_surgical_blue' | 'default') || 
+    (isTrauma ? 'cool_surgical_blue' : 'default');
+
+  // Get brochure-verified or fallback image URL
+  const primaryImage = product.images?.[0];
+  const hasClinicalImage = Boolean(primaryImage?.storage_path);
+
+  // Has brochure-extracted specs?
+  const hasTechMatrix = Boolean(
+    product.brochure_intelligence_updated &&
+    (product.technical_specifications || product.features_list?.length)
+  );
+
   return (
     <div className="min-h-screen bg-[#0A0A0A] text-white">
-      {/* JSON-LD Injection */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
-        <nav className="flex mb-8 text-sm text-muted-foreground" aria-label="Breadcrumb">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-24">
+        {/* Breadcrumb */}
+        <nav className="flex mb-10 text-sm text-muted-foreground" aria-label="Breadcrumb">
           <Link href="/catalog" className="hover:text-primary transition-colors">Catalog</Link>
           <span className="mx-2">/</span>
-          <span className="text-white">{product.division_canonical}</span>
+          <Link href={`/catalog?division=${product.division_canonical}`} className="hover:text-primary transition-colors">
+            {product.division_canonical}
+          </Link>
+          <span className="mx-2">/</span>
+          <span className="text-white truncate max-w-[200px]">{product.product_name_display}</span>
         </nav>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
-          {/* Image Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 mb-16">
+          {/* Product Visual */}
           <div className="relative group">
-            <div className="aspect-square rounded-2xl bg-gradient-to-br from-[#1A1A1A] to-[#0D0D0D] border border-white/5 overflow-hidden flex items-center justify-center">
-               {/* Using a placeholder-style design that looks premium for now */}
-               <div className="text-center p-8">
-                 <div className="text-8xl mb-4 group-hover:scale-110 transition-transform duration-500">
-                    {product.division_canonical === 'Cardiovascular' ? '❤️' : 
-                     product.division_canonical === 'Trauma' ? '🦴' : '📦'}
-                 </div>
-                 <p className="text-muted-foreground text-sm uppercase tracking-widest">
-                   {product.brand || product.manufacturer}
-                 </p>
-               </div>
+            <div className={`absolute -inset-4 rounded-full blur-[80px] opacity-20 transition-opacity group-hover:opacity-40 ${
+              visualStyle === 'cool_surgical_blue' ? 'bg-blue-500' : 'bg-primary'
+            }`} />
+            <div className={`relative aspect-square rounded-[40px] border overflow-hidden flex items-center justify-center bg-gradient-to-br from-[#111] to-[#0A0A0A] ${
+              visualStyle === 'cool_surgical_blue' ? 'border-blue-500/20' : 'border-white/10'
+            }`}>
+              {hasClinicalImage ? (
+                <Image
+                  src={`https://cdn.agileortho.in/${primaryImage.storage_path}`}
+                  alt={product.product_name_display}
+                  fill
+                  className="object-contain p-8 group-hover:scale-105 transition-transform duration-700"
+                />
+              ) : (
+                /* Premium Clinical Render Placeholder */
+                <div className="w-full h-full flex flex-col items-center justify-center p-12">
+                  <div className={`w-32 h-32 rounded-full mb-8 flex items-center justify-center text-5xl ${
+                    visualStyle === 'cool_surgical_blue' ? 'bg-blue-500/10 border border-blue-500/20' : 'bg-primary/10 border border-primary/20'
+                  }`}>
+                    {isTrauma ? '🔩' : product.division_canonical === 'Cardiovascular' ? '❤️' : '⚕️'}
+                  </div>
+                  <p className={`text-[10px] font-black uppercase tracking-widest opacity-40 ${
+                    visualStyle === 'cool_surgical_blue' ? 'text-blue-400' : 'text-primary'
+                  }`}>
+                    {product.brand || product.manufacturer || 'Meril Life Sciences'}
+                  </p>
+                  <p className="text-white/20 text-xs mt-2 text-center">{product.category}</p>
+                </div>
+              )}
+
+              {/* Visual Style Badge */}
+              {visualStyle === 'cool_surgical_blue' && (
+                <div className="absolute top-6 left-6 flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/30 backdrop-blur-md">
+                  <div className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
+                  <span className="text-[9px] font-black uppercase tracking-widest text-blue-400">Cool Surgical Blue</span>
+                </div>
+              )}
             </div>
           </div>
 
-          {/* Info Section */}
+          {/* Product Info */}
           <div className="flex flex-col">
-            <h1 className="text-3xl md:text-5xl font-bold font-heading mb-2 text-gradient-gold">
+            {/* Division tag */}
+            <div className="flex items-center gap-3 mb-6">
+              <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border ${
+                visualStyle === 'cool_surgical_blue'
+                  ? 'bg-blue-500/10 border-blue-500/30 text-blue-400'
+                  : 'bg-primary/10 border-primary/20 text-primary'
+              }`}>
+                {DIVISION_LABELS[product.division_canonical] || product.division_canonical}
+              </span>
+              <span className="text-muted-foreground text-xs font-mono border-l border-white/10 pl-3">
+                REF: {product.sku_code || 'MRL-GEN'}
+              </span>
+              {product.brochure_intelligence_updated && (
+                <span className="px-2 py-1 rounded-full bg-green-500/10 border border-green-500/20 text-green-400 text-[9px] font-black uppercase tracking-widest">
+                  ✓ Brochure Verified
+                </span>
+              )}
+            </div>
+
+            <h1 className="text-3xl md:text-5xl font-black tracking-tighter mb-4 leading-tight uppercase italic">
               {product.product_name_display}
             </h1>
-            
-            <p className="text-xl font-medium text-primary/80 mb-6 font-heading tracking-wide uppercase text-sm">
-              {product.clinical_subtitle || `${product.brand} ${product.division_canonical} System`}
+
+            <p className={`text-sm font-black uppercase tracking-[0.2em] mb-6 ${
+              visualStyle === 'cool_surgical_blue' ? 'text-blue-400' : 'text-primary'
+            }`}>
+              {product.brand} · {product.category}
             </p>
 
-            <div className="flex items-center gap-4 mb-4">
-              <span className="px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold uppercase tracking-widest">
-                {product.division_canonical}
-              </span>
-              <span className="text-muted-foreground text-xs font-mono border-l border-white/10 pl-4">
-                REF: {product.sku_code || 'MRL-GEN-001'}
-              </span>
-            </div>
-
-            <p className="text-lg text-muted-foreground leading-relaxed mb-10 border-l-2 border-primary/30 pl-6 italic">
-              {product.description_live || product.description_shadow}
+            <p className="text-lg text-muted-foreground leading-relaxed mb-10 border-l-2 border-white/10 pl-6 italic">
+              {product.description_shadow || product.description_live}
             </p>
 
-            {/* Technical Specifications Hub */}
-            <div className="mb-10">
-              <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-white mb-4 flex items-center">
-                <span className="w-8 h-[1px] bg-primary mr-3"></span>
-                Technical Specifications
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {Object.entries(product.technical_specifications || {}).map(([key, value]: [string, any]) => (
-                  <div key={key} className="flex justify-between items-center p-3 rounded-lg bg-white/[0.02] border border-white/5">
-                    <span className="text-xs text-muted-foreground capitalize">{key.replace(/_/g, ' ')}</span>
-                    <span className="text-sm font-medium">
-                      {Array.isArray(value) 
-                        ? value.join(', ') 
-                        : (typeof value === 'object' && value !== null 
-                            ? Object.entries(value).map(([k, v]) => `${k.replace(/_/g, ' ')}: ${v}`).join(' | ') 
-                            : String(value))}
-                    </span>
-                  </div>
-                ))}
-                <div className="flex justify-between items-center p-3 rounded-lg bg-white/[0.02] border border-white/5">
-                  <span className="text-xs text-muted-foreground">Manufacturer</span>
-                  <span className="text-sm font-medium">{product.manufacturer}</span>
-                </div>
-                <div className="flex justify-between items-center p-3 rounded-lg bg-white/[0.02] border border-white/5">
-                  <span className="text-xs text-muted-foreground">Material</span>
-                  <span className="text-sm font-medium">{product.material_canonical || "Medical Grade"}</span>
-                </div>
+            {/* Material Badge */}
+            {(product.materials_canonical || product.material_canonical) && (
+              <div className={`flex items-center gap-3 px-5 py-4 rounded-2xl mb-8 border ${
+                visualStyle === 'cool_surgical_blue'
+                  ? 'bg-blue-500/5 border-blue-500/20'
+                  : 'bg-primary/5 border-primary/20'
+              }`}>
+                <span className={`text-xs font-black uppercase tracking-widest ${
+                  visualStyle === 'cool_surgical_blue' ? 'text-blue-400' : 'text-primary'
+                }`}>Material</span>
+                <span className="text-sm font-bold text-white">
+                  {product.materials_canonical || product.material_canonical}
+                </span>
               </div>
-            </div>
+            )}
 
             <ProductActions product={product} />
           </div>
+        </div>
+
+        {/* FULL TECHNICAL MATRIX — The Big Differentiator */}
+        {hasTechMatrix && (
+          <div className="mb-16">
+            <div className="flex items-center gap-4 mb-8">
+              <div className={`h-[2px] flex-1 ${visualStyle === 'cool_surgical_blue' ? 'bg-blue-500/20' : 'bg-primary/20'}`} />
+              <span className={`text-[10px] font-black uppercase tracking-[0.4em] ${
+                visualStyle === 'cool_surgical_blue' ? 'text-blue-400' : 'text-primary'
+              }`}>Full Technical Matrix</span>
+              <div className={`h-[2px] flex-1 ${visualStyle === 'cool_surgical_blue' ? 'bg-blue-500/20' : 'bg-primary/20'}`} />
+            </div>
+            <TechnicalMatrix
+              productName={product.product_name_display}
+              specs={product.technical_specifications || {}}
+              materials={product.materials_canonical || product.material_canonical}
+              features={product.features_list || []}
+              indications={product.clinical_indications || []}
+              visualStyle={visualStyle}
+            />
+          </div>
+        )}
+
+        {/* Related Products Placeholder */}
+        <div className="pt-16 border-t border-white/5 text-center">
+          <p className="text-[10px] font-black uppercase tracking-[0.4em] text-white/20 mb-6">
+            Agile Healthcare · Authorized Meril Distributor · Telangana & AP
+          </p>
+          <Link
+            href="/catalog"
+            className="inline-flex items-center gap-3 px-8 py-4 border border-white/10 rounded-full text-sm font-black uppercase tracking-widest hover:border-white/30 transition-all"
+          >
+            ← Back to Full Catalog
+          </Link>
         </div>
       </div>
     </div>
