@@ -63,9 +63,19 @@ export default async function DivisionPage({ params }: DivisionPageProps) {
               href={`/catalog/products/${product.slug}`}
               className="group card-premium p-4 rounded-xl flex flex-col h-full"
             >
-              <div className="aspect-square rounded-lg bg-white/5 mb-4 flex items-center justify-center text-3xl group-hover:scale-105 transition-transform duration-300">
-                {divisionName === 'Cardiovascular' ? '❤️' : 
-                 divisionName === 'Trauma' ? '🦴' : '📦'}
+              <div className="aspect-square rounded-lg bg-white/5 mb-4 flex items-center justify-center text-4xl group-hover:scale-105 transition-transform duration-300">
+                {product.division_canonical === 'Cardiovascular' ? '❤️' : 
+                 product.division_canonical === 'Trauma' ? '🦴' : 
+                 product.division_canonical === 'Joint Replacement' ? '🦿' :
+                 product.division_canonical === 'Endo-Surgical' ? '🔬' :
+                 product.division_canonical === 'Diagnostics' ? '🧪' :
+                 product.division_canonical === 'Infection Prevention' ? '🛡️' :
+                 product.division_canonical === 'Surgical Instruments' ? '✂️' :
+                 product.division_canonical === 'Sports Medicine' ? '⚡' :
+                 product.division_canonical === 'ENT' ? '👂' :
+                 product.division_canonical === 'Urology' ? '💧' :
+                 product.division_canonical === 'Critical Care' ? '🏥' :
+                 product.division_canonical === 'Peripheral Intervention' ? '💉' : '📦'}
               </div>
               <h2 className="text-lg font-bold mb-2 group-hover:text-primary transition-colors line-clamp-2">
                 {product.product_name_display}

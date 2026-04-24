@@ -122,15 +122,23 @@ export default function TechnicalMatrix({
                 {activeTab === 'matrix' && (
                   <motion.div key="matrix" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
                     {sizingRows.length > 0 ? (
-                      <div className="overflow-x-auto">
-                        <table className="w-full text-sm">
+                      <div className="overflow-x-auto relative">
+                        {visualStyle === 'cool_surgical_blue' && (
+                          <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
+                            style={{ 
+                              backgroundImage: 'linear-gradient(#3b82f6 1px, transparent 1px), linear-gradient(90deg, #3b82f6 1px, transparent 1px)',
+                              backgroundSize: '20px 20px'
+                            }} 
+                          />
+                        )}
+                        <table className="w-full text-sm relative z-10">
                           <thead>
-                            <tr className="border-b border-white/10">
-                              <th className={`text-left py-3 px-4 text-[10px] font-black uppercase tracking-widest ${visualStyle === 'cool_surgical_blue' ? 'text-blue-400/60' : 'text-primary/60'}`}>
-                                Specification
+                            <tr className={`border-b ${visualStyle === 'cool_surgical_blue' ? 'border-blue-500/20' : 'border-white/10'}`}>
+                              <th className={`text-left py-3 px-4 text-[10px] font-black uppercase tracking-widest ${visualStyle === 'cool_surgical_blue' ? 'text-blue-400' : 'text-primary/60'}`}>
+                                Technical Blueprint Specification
                               </th>
-                              <th className={`text-right py-3 px-4 text-[10px] font-black uppercase tracking-widest ${visualStyle === 'cool_surgical_blue' ? 'text-blue-400/60' : 'text-primary/60'}`}>
-                                Value
+                              <th className={`text-right py-3 px-4 text-[10px] font-black uppercase tracking-widest ${visualStyle === 'cool_surgical_blue' ? 'text-blue-400' : 'text-primary/60'}`}>
+                                Clinical Value
                               </th>
                             </tr>
                           </thead>
@@ -138,11 +146,18 @@ export default function TechnicalMatrix({
                             {sizingRows.map((row, i) => (
                               <tr
                                 key={i}
-                                className={`border-b border-white/5 hover:bg-white/[0.02] transition-colors ${
+                                className={`border-b ${
+                                  visualStyle === 'cool_surgical_blue' ? 'border-blue-500/10' : 'border-white/5'
+                                } hover:bg-white/[0.02] transition-colors ${
                                   i % 2 === 0 ? 'bg-transparent' : 'bg-white/[0.01]'
                                 }`}
                               >
-                                <td className="py-3 px-4 text-white/60 font-medium">{row.label}</td>
+                                <td className="py-3 px-4 text-white/60 font-medium">
+                                  {visualStyle === 'cool_surgical_blue' && (
+                                    <span className="inline-block w-1 h-1 rounded-full bg-blue-500/40 mr-2" />
+                                  )}
+                                  {row.label}
+                                </td>
                                 <td className="py-3 px-4 text-right">
                                   <span className={`font-black tabular-nums ${visualStyle === 'cool_surgical_blue' ? 'text-blue-300' : 'text-primary'}`}>
                                     {row.value}

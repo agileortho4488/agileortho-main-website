@@ -125,7 +125,9 @@ export default async function ProductPage({ params }: ProductPageProps) {
             }`}>
               {hasClinicalImage ? (
                 <Image
-                  src={`https://cdn.agileortho.in/${primaryImage.storage_path}`}
+                  src={primaryImage.storage_path.startsWith('/') 
+                    ? primaryImage.storage_path 
+                    : `https://cdn.agileortho.in/${primaryImage.storage_path}`}
                   alt={product.product_name_display}
                   fill
                   className="object-contain p-8 group-hover:scale-105 transition-transform duration-700"

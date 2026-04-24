@@ -3,11 +3,13 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, ChevronRight, Phone, MessageSquare } from 'lucide-react';
+import { Menu, X, ChevronRight, Phone, MessageSquare, Search } from 'lucide-react';
+import CommandSearch from './CommandSearch';
 
 export default function PremiumHeader() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -70,6 +72,12 @@ export default function PremiumHeader() {
 
             {/* CTA Buttons */}
             <div className="hidden md:flex items-center gap-3">
+              <button 
+                onClick={() => setSearchOpen(true)}
+                className="p-2 w-10 h-10 rounded-full hover:bg-white/5 transition-all flex items-center justify-center text-white/60 hover:text-primary mr-2"
+              >
+                <Search className="w-5 h-5" />
+              </button>
               <button className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-muted-foreground hover:text-white transition-colors px-4">
                 <Phone className="w-4 h-4 text-primary" />
                 Contact
@@ -92,6 +100,9 @@ export default function PremiumHeader() {
           </div>
         </div>
       </div>
+
+      {/* Command Search Modal */}
+      <CommandSearch isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
 
       {/* Mobile Menu */}
       <AnimatePresence>

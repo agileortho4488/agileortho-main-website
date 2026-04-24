@@ -40,7 +40,7 @@ class BrochureExtractor:
         if not api_key:
             raise ValueError("GOOGLE_API_KEY not found in environment variables")
         self.client = genai.Client(api_key=api_key)
-        self.model_id = "gemini-2.0-flash"
+        self.model_id = "gemini-flash-latest"
 
     async def extract_pdf_data(self, pdf_path: str) -> Optional[ProductSpecs]:
         """Uploads PDF to Gemini and extracts structured JSON."""
@@ -55,12 +55,12 @@ class BrochureExtractor:
             ACT AS A TOP-TIER SURGICAL CLINICAL ENGINEER. 
             Analyze this medical brochure PDF and perform a DEEP SCAN extraction of the FULL TECHNICAL MATRIX.
             
-            1. EXTRACT FULL SIZE TABLES: Every Part Number, Length (mm), Width (mm), and Hole Count must be captured.
-            2. FORMAT FOR TABLE: Return the technical specifications in a way that can be rendered as a dense medical table.
-            3. MATERIAL CODES: Identify exact alloys (ASTM F138, Ti6Al4V ELI, etc.).
-            4. VISUAL STYLE: Note the 'Cool Surgical Blue' technical appearance for reconstruction.
+            1. EXTRACT FULL SIZE TABLES: Capture EVERY variant including Part Numbers, Lengths (mm), Widths (mm), and Hole Counts.
+            2. BLUEPRINT FIDELITY: If the brochure has a sizing table, replicate its structure exactly. Do not summarize.
+            3. MATERIAL CODES: Identify exact alloys (e.g., ASTM F138 Stainless Steel, Ti6Al4V ELI Titanium).
+            4. VISUAL STYLE: Note that the reconstruction will use a 'Cool Surgical Blue Blueprint' aesthetic.
             
-            Maintain 100% fidelity. If a table exists in the PDF, copy its structure exactly into the technical_specifications.
+            Return the technical specifications as a list of label/value pairs. If the data is inherently a multi-column table, join the related values into a single string for the 'value' field (e.g., label: 'Size 5 Holes', value: 'Part #1234, Length 80mm').
             """
 
             # Definition for structured output (as a dict to avoid SDK conversion bugs)
@@ -164,6 +164,14 @@ class BrochureExtractor:
                 if family_score > 90:
                     is_match = True
                     break
+                
+                # NEW: Match by original_filename in images (often contains brochure name)
+                for img in p.get("images", []):
+                    img_name = img.get("original_filename", "").lower()
+                    if target.lower() in img_name:
+                        is_match = True
+                        break
+                if is_match: break
 
             if is_match:
                 logger.info(f"Syncing brochure data to: {p['product_name']}")

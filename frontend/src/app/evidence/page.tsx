@@ -3,7 +3,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ShieldCheck, FileText, Activity, Microscope, ExternalLink, Download, Award, Beaker } from 'lucide-react';
-import PremiumHeader from '../components/PremiumHeader';
+import PremiumHeader from '@/components/PremiumHeader';
 
 const STUDIES = [
   {
