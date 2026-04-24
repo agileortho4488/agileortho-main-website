@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Script from 'next/script';
 import '../index.css';
 import ChatWidget from '../components/ChatWidget';
+import OTCommandDesk from '../components/OTCommandDesk';
 
 export const metadata: Metadata = {
   title: {
