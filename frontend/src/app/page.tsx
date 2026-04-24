@@ -203,8 +203,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* OT COMMAND CENTER: THE DIFFERENTIATION */}
-      <section className="py-32 px-4 relative overflow-hidden bg-[#CC2020]/[0.02]">
+
 
       {/* SOLUTIONS SECTION: BEYOND PRODUCTS */}
       <section className="py-32 bg-[#0A0A0A] relative" id="solutions">
