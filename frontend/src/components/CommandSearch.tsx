@@ -4,7 +4,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, X, ChevronRight, Package, Activity, MapPin, Zap, Microscope } from 'lucide-react';
 import Link from 'next/link';
-import { getAllProducts } from '@/lib/data';
 
 interface SearchResult {
   type: 'product' | 'division' | 'district' | 'procedure';
@@ -28,8 +27,13 @@ export default function CommandSearch({ isOpen, onClose }: { isOpen: boolean, on
   }, [isOpen]);
 
   async function loadData() {
-    const products = await getAllProducts();
-    setAllProducts(products);
+    try {
+      const res = await fetch('/api/products');
+      const data = await res.json();
+      setAllProducts(data);
+    } catch (err) {
+      console.error('Failed to load products for search:', err);
+    }
   }
 
   useEffect(() => {
