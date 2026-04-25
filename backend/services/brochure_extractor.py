@@ -29,8 +29,8 @@ class SizingOption(BaseModel):
     size: str
 
 class SizingLogic(BaseModel):
-    metric: str
-    options: List[SizingOption]
+    metric: Optional[str] = None
+    options: Optional[List[SizingOption]] = None
 
 class ProductSpecs(BaseModel):
     model_config = ConfigDict(extra='forbid')
@@ -93,18 +93,15 @@ class BrochureExtractor:
             raise e
 
     async def _extract_gemini(self, pdf_path: str, target_products: Optional[List[str]] = None) -> Optional[ProductSpecs]:
-        """Native Gemini File API extraction."""
+        """Native Gemini File API extraction with auto-fallback to Vision for large files."""
         file_name = os.path.basename(pdf_path)
         target_context = ""
         if target_products:
             target_context = f"\nPRIORITIZE EXTRACTING DATA FOR THESE SPECIFIC PRODUCTS: {', '.join(target_products)}\n"
 
-        # Upload file
-        uploaded_file = self.gemini_client.files.upload(file=pdf_path)
-        
         prompt = f"""
         ACT AS A TOP-TIER SURGICAL CLINICAL ENGINEER. 
-        Analyze this medical brochure PDF and perform a DEEP SCAN extraction of the FULL TECHNICAL MATRIX.{target_context}
+        Analyze this medical brochure and perform a DEEP SCAN extraction of the FULL TECHNICAL MATRIX.{target_context}
         
         1. EXTRACT FULL SIZE TABLES: Capture EVERY variant including Part Numbers, Lengths (mm), Widths (mm), and Hole Counts.
         2. BLUEPRINT FIDELITY: If the brochure has a sizing table, replicate its structure exactly. Do not summarize.
@@ -156,16 +153,39 @@ class BrochureExtractor:
             "required": ["product_name", "division", "category", "catalog_matches", "description", "technical_specifications", "clinical_indications", "materials", "key_features"]
         }
 
-        response = self.gemini_client.models.generate_content(
-            model="gemini-2.0-flash",
-            contents=[uploaded_file, prompt],
-            config=types.GenerateContentConfig(
-                response_mime_type="application/json",
-                response_schema=response_schema,
-            ),
-        )
-        self.gemini_client.files.delete(name=uploaded_file.name)
-        return ProductSpecs(**json.loads(response.text))
+        try:
+            # Attempt File API first
+            uploaded_file = self.gemini_client.files.upload(file=pdf_path)
+            response = self.gemini_client.models.generate_content(
+                model="gemini-2.0-flash",
+                contents=[uploaded_file, prompt],
+                config=types.GenerateContentConfig(
+                    response_mime_type="application/json",
+                    response_schema=response_schema,
+                ),
+            )
+            self.gemini_client.files.delete(name=uploaded_file.name)
+            return ProductSpecs(**json.loads(response.text))
+            
+        except Exception as e:
+            if "INVALID_ARGUMENT" in str(e) or "too large" in str(e).lower():
+                logger.info(f"File {file_name} too large for File API. Falling back to Vision extraction...")
+                images = self._pdf_to_base64_images(pdf_path, max_pages=10) # Process more pages for large docs
+                if not images: raise e
+                
+                # Convert base64 to parts for Gemini
+                image_parts = [{"inline_data": {"mime_type": "image/jpeg", "data": img}} for img in images]
+                
+                response = self.gemini_client.models.generate_content(
+                    model="gemini-2.0-flash",
+                    contents=[prompt, *image_parts],
+                    config=types.GenerateContentConfig(
+                        response_mime_type="application/json",
+                        response_schema=response_schema,
+                    ),
+                )
+                return ProductSpecs(**json.loads(response.text))
+            raise e
 
     async def _extract_litellm(self, pdf_path: str, target_products: Optional[List[str]] = None) -> Optional[ProductSpecs]:
         """LiteLLM (Claude/GPT) vision-based extraction."""

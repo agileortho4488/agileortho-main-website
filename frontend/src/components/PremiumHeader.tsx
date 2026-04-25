@@ -20,10 +20,10 @@ export default function PremiumHeader() {
   }, []);
 
   const navLinks = [
-    { name: 'Products', href: '/catalog' },
-    { name: 'Divisions', href: '/catalog#divisions' },
+    { name: 'Trauma', href: '/divisions/trauma' },
+    { name: 'Arthroplasty', href: '/divisions/arthroplasty' },
+    { name: 'Cardio', href: '/divisions/cardiovascular' },
     { name: 'Districts', href: '/districts' },
-    { name: 'About', href: '/about' },
   ];
 
   return (

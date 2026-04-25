@@ -162,24 +162,25 @@ export default async function DivisionPage({ params }: DivisionPageProps) {
                     {meta.emoji}
                   </span>
                 )}
-                {/* Category pill */}
-                <div className="absolute top-3 left-3 px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest"
-                  style={{ background: `${meta.color}20`, color: meta.color }}>
-                  {product.category?.split(' ').slice(0, 3).join(' ') || divisionName}
-                </div>
               </div>
 
               {/* Content */}
-              <div className="p-5 flex flex-col flex-1">
-                <h2 className="font-bold text-sm text-white leading-snug mb-2 line-clamp-2 group-hover:text-white transition-colors">
+              <div className="p-6 pt-10 flex flex-col flex-1 relative">
+                {/* Visual indicator of division */}
+                <div className="absolute -top-3 left-6 px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest shadow-lg"
+                  style={{ background: meta.color, color: '#000' }}>
+                  {product.category?.split(' ').slice(0, 3).join(' ') || divisionName}
+                </div>
+
+                <h2 className="font-black text-base text-white leading-tight mb-3 line-clamp-2 group-hover:text-white transition-colors uppercase italic tracking-tighter">
                   {product.product_name_display}
                 </h2>
-                <p className="text-[10px] text-white/30 uppercase tracking-widest mb-4">
+                <p className="text-[10px] text-white/30 uppercase tracking-[0.2em] mb-4 font-bold">
                   {product.brand || product.manufacturer || 'Meril Life Sciences'}
                 </p>
-                <div className="mt-auto pt-3 border-t border-white/5 flex items-center justify-between">
-                  <span className="text-[10px] font-mono text-white/20">{product.sku_code || 'MRL-' + division.substring(0,4).toUpperCase()}</span>
-                  <span className="text-[10px] font-black uppercase tracking-widest transition-all opacity-0 group-hover:opacity-100 flex items-center gap-1"
+                <div className="mt-auto pt-4 border-t border-white/5 flex items-center justify-between">
+                  <span className="text-[10px] font-mono text-white/10 uppercase">{product.sku_code || 'MRL-ORTO'}</span>
+                  <span className="text-[10px] font-black uppercase tracking-widest transition-all opacity-100 flex items-center gap-1"
                     style={{ color: meta.color }}>
                     View Specs →
                   </span>
