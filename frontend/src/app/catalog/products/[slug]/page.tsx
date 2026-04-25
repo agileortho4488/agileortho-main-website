@@ -260,7 +260,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
               productName={product.product_name_display}
               specs={product.technical_specifications || {}}
               materials={product.materials_canonical || product.material_canonical}
-              features={product.features_list || []}
+              features={(product.features_list && product.features_list.length > 0) ? product.features_list : (product.clinical_benefits || [])}
               indications={product.clinical_indications || []}
               visualStyle={visualStyle}
             />
