@@ -3,14 +3,13 @@ import { getAllProducts } from '@/lib/data';
 
 export async function GET(request: Request) {
   try {
-    const { searchParams } = new URL(request.url);
-    const isSlim = searchParams.get('slim') === 'true';
+    const url = new URL(request.url, 'https://agileortho.in');
+    const isSlim = url.searchParams.get('slim') === 'true';
     
     const data = await getAllProducts();
     
     if (isSlim) {
       // Return only what's needed for the Command Search
-      // This reduces payload from 7MB to ~300KB
       const slimData = data.map((p: any) => ({
         slug: p.slug,
         product_name_display: p.product_name_display,
