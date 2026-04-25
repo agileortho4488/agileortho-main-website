@@ -124,7 +124,7 @@ export default function AboutPage() {
 
       <footer className="py-12 border-t border-white/5 bg-black text-center text-sm text-muted-foreground">
         <div className="max-w-7xl mx-auto px-4">
-          <p>© 2026 Agile Healthcare Private Limited. <Link href="/contact" className="text-primary hover:underline">Contact Us</Link></p>
+          <p>© 2026 AGILE ORTHOPEDICS PRIVATE LIMITED. All rights reserved. <Link href="/contact" className="text-primary hover:underline ml-2">Contact Us</Link></p>
         </div>
       </footer>
     </main>

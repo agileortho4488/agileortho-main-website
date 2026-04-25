@@ -298,16 +298,19 @@ export default function Home() {
                 <div>
                   <h5 className="text-[10px] font-black uppercase tracking-[0.4em] text-primary mb-8">HQ Contact</h5>
                   <ul className="space-y-4 text-xs font-medium opacity-60 hover:opacity-100 transition-opacity">
-                    <li className="leading-relaxed">Agile Healthcare Command Center<br />Hyderabad, Telangana<br />India</li>
+                    <li className="leading-relaxed">1st Floor, Plot No 26, H.No 8-6-11/P20<br />Urmila Devi Complex, Engineers Colony<br />Hayathnagar, Hyderabad, Telangana - 500074</li>
                     <li className="pt-2"><a href="tel:+917416216262" className="hover:text-primary">Phone: +91 74162 16262</a></li>
-                    <li><a href="https://wa.me/917416521222" className="hover:text-primary">WhatsApp Sales</a></li>
+                    <li><a href="mailto:info@agileortho.in" className="hover:text-primary">info@agileortho.in</a></li>
                   </ul>
                 </div>
              </div>
           </div>
           
-          <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] font-black uppercase tracking-[0.3em] text-white/20">
-             <div>© 2026 Agile Healthcare Private Limited</div>
+          <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] font-black uppercase tracking-[0.3em] text-white/40">
+             <div className="flex flex-col gap-2">
+                <span>© 2026 AGILE ORTHOPEDICS PRIVATE LIMITED. All rights reserved.</span>
+                <span>GST: 36AATCA5653R1ZO | CIN Registered</span>
+             </div>
              <div className="flex gap-8">
                 <span>Privacy Strategy</span>
                 <span>Clinical Governance</span>

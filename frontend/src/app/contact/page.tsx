@@ -121,12 +121,18 @@ export default function ContactPage() {
               >
                 <MapPin className="w-8 h-8 text-primary mb-6" />
                 <h3 className="text-xl font-black uppercase tracking-widest mb-4">Headquarters</h3>
-                <p className="text-muted-foreground mb-2">Agile Healthcare Command Center</p>
-                <p className="text-muted-foreground mb-2">Hyderabad, Telangana</p>
-                <p className="text-muted-foreground mb-8">India</p>
-                <div className="flex items-center gap-3 text-sm text-white/60">
-                  <Clock className="w-4 h-4" />
-                  <span>Mon - Sat: 9:00 AM - 7:00 PM</span>
+                <p className="text-muted-foreground mb-1 text-sm">1st Floor, Plot No 26, H.No 8-6-11/P20</p>
+                <p className="text-muted-foreground mb-1 text-sm">Urmila Devi Complex, Engineers Colony</p>
+                <p className="text-muted-foreground mb-6 text-sm">Hayathnagar, Hyderabad, Telangana - 500074</p>
+                <div className="flex flex-col gap-2 text-sm text-white/60">
+                  <div className="flex items-center gap-3">
+                    <Clock className="w-4 h-4 flex-shrink-0" />
+                    <span>Mon – Sat · 10:00 AM – 7:00 PM</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <MessageCircle className="w-4 h-4 flex-shrink-0 text-primary" />
+                    <span>Sundays: Closed · WhatsApp monitored 24/7</span>
+                  </div>
                 </div>
               </motion.div>
 
@@ -173,7 +179,7 @@ export default function ContactPage() {
       
       <footer className="py-12 border-t border-white/5 bg-black text-center text-sm text-muted-foreground">
         <div className="max-w-7xl mx-auto px-4">
-          <p>© 2026 Agile Healthcare Private Limited. <Link href="/" className="text-primary hover:underline">Return to Home</Link></p>
+          <p>© 2026 AGILE ORTHOPEDICS PRIVATE LIMITED. All rights reserved. <Link href="/" className="text-primary hover:underline ml-2">Return to Home</Link></p>
         </div>
       </footer>
     </main>
