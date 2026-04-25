@@ -26,12 +26,13 @@ import {
   Target
 } from 'lucide-react';
 import PremiumHeader from '../../components/PremiumHeader';
+import HumanAnatomySelector from '@/components/HumanAnatomySelector';
 
 const divisions = [
   { name: 'Trauma & Reconstruction', slug: 'trauma', icon: Activity, count: 218, color: 'text-primary' },
   { name: 'Joint Replacement', slug: 'arthroplasty', icon: Stethoscope, count: 112, color: 'text-teal-500' },
   { name: 'Cardiovascular', slug: 'cardiovascular', icon: Heart, count: 160, color: 'text-red-500' },
-  { name: 'Endo-Surgical', slug: 'endo-surgical', icon: Dna, count: 168, color: 'text-purple-500' },
+  { name: 'Endo-Surgical', slug: 'endo-surgery', icon: Dna, count: 168, color: 'text-purple-500' },
   { name: 'Neurosciences', slug: 'neuro', icon: Zap, count: 45, color: 'text-blue-400' },
   { name: 'Diagnostics', slug: 'diagnostics', icon: Microscope, count: 105, color: 'text-blue-500' },
   { name: 'Infection Prevention', slug: 'infection-prevention', icon: Package, count: 85, color: 'text-green-500' },
@@ -74,27 +75,10 @@ export default function CatalogIndexPage() {
           </motion.div>
         </header>
 
-        {/* Anatomical Quick Filters */}
-        <div className="mb-24">
-           <div className="text-[10px] font-black uppercase tracking-[0.5em] text-white/20 mb-8 text-center">Search by Anatomical Focus</div>
-           <div className="flex flex-wrap justify-center gap-4">
-              {[
-                { name: 'Brain & Spine', icon: Zap, slug: 'neuro' },
-                { name: 'Heart & Vascular', icon: Heart, slug: 'cardiovascular' },
-                { name: 'Shoulder & Arm', icon: Activity, slug: 'trauma' },
-                { name: 'Hip & Knee', icon: Stethoscope, slug: 'arthroplasty' },
-                { name: 'Gastro / Urology', icon: Droplets, slug: 'urology' }
-              ].map((anatomy) => (
-                <Link 
-                  key={anatomy.name}
-                  href={`/catalog/${anatomy.slug}`}
-                  className="px-8 py-6 rounded-3xl bg-white/5 border border-white/10 hover:border-primary/40 hover:bg-primary/5 transition-all group text-center min-w-[180px]"
-                >
-                   <anatomy.icon className="w-6 h-6 mx-auto mb-3 text-white/40 group-hover:text-primary transition-colors" />
-                   <span className="text-xs font-black uppercase tracking-widest">{anatomy.name}</span>
-                </Link>
-              ))}
-           </div>
+        {/* Anatomical Discovery Hub (New Visual Component) */}
+        <div className="mb-32">
+           <div className="text-[10px] font-black uppercase tracking-[0.5em] text-white/20 mb-12 text-center">Visual Clinical Navigator</div>
+           <HumanAnatomySelector />
         </div>
 
         {/* Categories Grid */}
