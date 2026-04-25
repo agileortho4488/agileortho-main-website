@@ -11,6 +11,7 @@ import RelatedProducts from '@/components/RelatedProducts';
 import ProductFAQ from '@/components/ProductFAQ';
 
 import PremiumHeader from '@/components/PremiumHeader';
+import TrustStrip from '@/components/TrustStrip';
 
 interface ProductPageProps {
   params: Promise<{ slug: string }>;
@@ -125,6 +126,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
   return (
     <div className="min-h-screen bg-[#0A0A0A] text-white">
       <PremiumHeader />
+      <TrustStrip />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

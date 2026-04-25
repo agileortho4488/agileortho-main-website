@@ -1,5 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
+import PremiumHeader from '@/components/PremiumHeader';
+import TrustStrip from '@/components/TrustStrip';
 import { getAllProducts } from '@/lib/data';
 import { notFound } from 'next/navigation';
 import { DIVISION_SEO_CONTENT } from '@/lib/seoContent';
@@ -68,6 +70,8 @@ export default async function DivisionPage({ params }: DivisionPageProps) {
 
   return (
     <div className="min-h-screen bg-[#0A0A0A] text-white">
+      <PremiumHeader />
+      <TrustStrip />
       {/* BreadcrumbList JSON-LD */}
       <script
         type="application/ld+json"
