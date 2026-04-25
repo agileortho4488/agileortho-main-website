@@ -124,22 +124,22 @@ export default function PremiumHeader() {
                 <AnimatePresence>
                   {divisionsOpen && (
                     <motion.div
-                      initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                      className="absolute top-full left-1/2 -translate-x-1/2 mt-4 w-[95vw] max-w-[1200px] bg-[#0A0A0A]/95 backdrop-blur-3xl border border-white/10 rounded-[40px] p-10 shadow-[0_32px_64px_rgba(0,0,0,0.8)] overflow-x-auto"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 10 }}
+                      className="absolute top-full left-[50%] -translate-x-1/2 mt-4 w-[calc(100vw-40px)] max-w-7xl bg-[#0A0A0A]/95 backdrop-blur-3xl border border-white/10 rounded-[40px] p-12 shadow-[0_32px_64px_rgba(0,0,0,0.8)]"
                     >
                       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-50" />
-                      <div className="relative z-10 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 min-w-[1000px]">
+                      <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-10">
                         {divisionCategories.map((cat) => (
-                          <div key={cat.title}>
-                            <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-primary mb-6">{cat.title}</h4>
+                          <div key={cat.title} className="flex flex-col">
+                            <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-primary mb-6 border-b border-white/5 pb-2">{cat.title}</h4>
                             <div className="flex flex-col gap-4">
                               {cat.links.map((link) => (
                                 <Link 
                                   key={link.name} 
                                   href={link.href}
-                                  className="text-sm font-bold text-muted-foreground hover:text-white transition-colors"
+                                  className="text-sm font-bold text-muted-foreground hover:text-white transition-colors hover:translate-x-1 duration-200"
                                   onClick={() => setDivisionsOpen(false)}
                                 >
                                   {link.name}
@@ -150,7 +150,7 @@ export default function PremiumHeader() {
                         ))}
 
                         {/* Clinical Spotlight Column */}
-                        <div className="col-span-1 border-l border-white/5 pl-8">
+                        <div className="lg:col-span-1 border-l border-white/5 pl-8 hidden xl:block">
                            <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-white/20 mb-6">Clinical Spotlight</h4>
                            <div className="p-5 rounded-2xl bg-white/5 border border-white/10 group/spotlight hover:border-primary/40 transition-all">
                               <div className="text-[10px] font-black uppercase tracking-widest text-primary mb-2 italic">Landmark Trial</div>
@@ -166,16 +166,11 @@ export default function PremiumHeader() {
                                 View Data <ChevronRight className="w-3 h-3" />
                               </Link>
                            </div>
-                           
-                           <div className="mt-6 p-5 rounded-2xl bg-primary/5 border border-primary/20">
-                              <div className="text-[9px] font-black uppercase tracking-[0.2em] text-primary/60 mb-2">OT Command Desk</div>
-                              <p className="text-[10px] font-bold text-white leading-tight">Live surgical support active in 33 districts.</p>
-                           </div>
                         </div>
                       </div>
                       
-                      <div className="relative z-10 mt-10 pt-6 border-t border-white/5 flex items-center justify-between">
-                         <div className="text-[10px] font-black uppercase tracking-widest text-white/20 italic">Total Clinical Ecosystem: 50+ Verticals Supported</div>
+                      <div className="relative z-10 mt-12 pt-8 border-t border-white/5 flex items-center justify-between">
+                         <div className="text-[10px] font-black uppercase tracking-widest text-white/20 italic tracking-[0.2em]">Total Clinical Ecosystem: 50+ Verticals Supported</div>
                          <Link 
                            href="/catalog" 
                            className="text-[10px] font-black uppercase tracking-[0.3em] text-primary hover:text-white transition-colors flex items-center gap-2"
