@@ -128,7 +128,7 @@ export default function PremiumHeader() {
                       initial={{ opacity: 0, y: 10, scale: 0.95 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                      className="absolute top-full left-0 mt-4 w-[1000px] bg-[#0A0A0A]/95 backdrop-blur-2xl border border-white/10 rounded-[32px] p-8 shadow-[0_32px_64px_rgba(0,0,0,0.8)] overflow-hidden"
+                      className="absolute top-full left-1/2 -translate-x-1/2 mt-4 w-[1100px] bg-[#0A0A0A]/95 backdrop-blur-3xl border border-white/10 rounded-[40px] p-10 shadow-[0_32px_64px_rgba(0,0,0,0.8)]"
                     >
                       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-50" />
                       <div className="relative z-10 grid grid-cols-6 gap-8">
