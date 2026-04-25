@@ -270,7 +270,7 @@ export default function Home() {
                 </div>
              </div>
              
-             <div className="grid grid-cols-2 lg:grid-cols-3 gap-16">
+             <div className="grid grid-cols-2 lg:grid-cols-4 gap-16 w-full max-w-4xl">
                 <div>
                   <h5 className="text-[10px] font-black uppercase tracking-[0.4em] text-primary mb-8">Surgical Desk</h5>
                   <ul className="space-y-4 text-sm font-bold opacity-60 hover:opacity-100 transition-opacity">
@@ -285,6 +285,22 @@ export default function Home() {
                     <li><Link href="/districts/hyderabad">Hyderabad</Link></li>
                     <li><Link href="/districts/warangal">Warangal</Link></li>
                     <li><Link href="/districts/nizamabad">Nizamabad</Link></li>
+                  </ul>
+                </div>
+                <div>
+                  <h5 className="text-[10px] font-black uppercase tracking-[0.4em] text-primary mb-8">Company</h5>
+                  <ul className="space-y-4 text-sm font-bold opacity-60 hover:opacity-100 transition-opacity">
+                    <li><Link href="/about">About Us</Link></li>
+                    <li><Link href="/contact">Contact & Ordering</Link></li>
+                    <li><Link href="/evidence">Evidence Hub</Link></li>
+                  </ul>
+                </div>
+                <div>
+                  <h5 className="text-[10px] font-black uppercase tracking-[0.4em] text-primary mb-8">HQ Contact</h5>
+                  <ul className="space-y-4 text-xs font-medium opacity-60 hover:opacity-100 transition-opacity">
+                    <li className="leading-relaxed">Agile Healthcare Command Center<br />Hyderabad, Telangana<br />India</li>
+                    <li className="pt-2"><a href="tel:+917416216262" className="hover:text-primary">Phone: +91 74162 16262</a></li>
+                    <li><a href="https://wa.me/917416521222" className="hover:text-primary">WhatsApp Sales</a></li>
                   </ul>
                 </div>
              </div>
