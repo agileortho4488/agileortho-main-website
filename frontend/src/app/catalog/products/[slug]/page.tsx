@@ -20,9 +20,11 @@ interface ProductPageProps {
 // SSG: Pre-generate all product paths at build time
 export async function generateStaticParams() {
   const products = await getAllProducts();
-  return products.map((product: any) => ({
-    slug: product.slug,
-  }));
+  return products
+    .filter((product: any) => product.slug)
+    .map((product: any) => ({
+      slug: String(product.slug),
+    }));
 }
 
 // SEO: Dynamic Metadata generation
