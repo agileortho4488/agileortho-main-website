@@ -126,7 +126,7 @@ export default function ContactPage() {
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, amount: 0.1 }}
               className="lg:col-span-3"
             >
               <h2 className="text-2xl font-black uppercase tracking-tighter mb-2">Send us a message</h2>
@@ -249,7 +249,7 @@ export default function ContactPage() {
               <motion.div
                 initial={{ opacity: 0, x: 20 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: true, amount: 0.1 }}
                 className="p-8 bg-gradient-to-br from-primary/20 to-[#111] border border-primary/30 rounded-3xl"
               >
                 <MapPin className="w-8 h-8 text-primary mb-6" />
@@ -273,7 +273,7 @@ export default function ContactPage() {
               <motion.div
                 initial={{ opacity: 0, x: 20 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: true, amount: 0.1 }}
                 transition={{ delay: 0.1 }}
                 className="p-8 bg-[#111] border border-white/10 rounded-3xl space-y-6"
               >
