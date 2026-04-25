@@ -31,13 +31,18 @@ export async function generateMetadata(
   const product = await getProductBySlug(slug);
   if (!product) return { title: 'Product Not Found' };
 
+  const title = `${product.product_name_display} - Meril Authorized Distributor Telangana`;
+  const description = `Clinical data and technical matrix for ${product.product_name_display}. Authorized Meril master franchise in Telangana for ${product.division_canonical}. Explore ${product.category} solutions.`;
+
   return {
-    title: product.seo_meta_title || `${product.product_name_display} | Agile Healthcare`,
-    description: product.seo_meta_description || product.description_live,
+    title,
+    description,
     openGraph: {
-      title: product.seo_meta_title,
-      description: product.seo_meta_description,
+      title,
+      description,
       type: 'website',
+      url: `https://agileortho.in/catalog/products/${slug}`,
+      siteName: 'Agile Healthcare',
     },
     alternates: {
       canonical: `https://agileortho.in/catalog/products/${slug}`,
@@ -68,15 +73,18 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
   if (!product) notFound();
 
-  // JSON-LD for Rich Search Results
+  // Enhanced MedicalDevice JSON-LD for Clinical Authority
   const jsonLd = {
     '@context': 'https://schema.org/',
-    '@type': 'Product',
+    '@type': ['Product', 'MedicalDevice'],
     name: product.product_name_display,
     description: product.description_live || product.description_shadow,
     brand: { '@type': 'Brand', name: product.parent_brand || 'Meril' },
     category: product.category,
-    manufacturer: { '@type': 'Organization', name: product.manufacturer || 'Meril Life Sciences' },
+    manufacturer: { '@type': 'Organization', name: 'Meril Life Sciences' },
+    material: product.materials_canonical || product.material_canonical,
+    clinicalCondition: product.clinical_indications?.join(', '),
+    isProprietary: true,
     offers: {
       '@type': 'AggregateOffer',
       offerCount: '1',
@@ -90,10 +98,9 @@ export default async function ProductPage({ params }: ProductPageProps) {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://agileortho.in' },
-      { '@type': 'ListItem', position: 2, name: 'Catalog', item: 'https://agileortho.in/catalog' },
-      { '@type': 'ListItem', position: 3, name: product.division_canonical, item: `https://agileortho.in/catalog/${product.division_canonical?.toLowerCase().replace(/\s+/g, '-')}` },
-      { '@type': 'ListItem', position: 4, name: product.product_name_display, item: `https://agileortho.in/catalog/products/${slug}` },
+      { '@type': 'ListItem', position: 1, name: 'Medical Catalog', item: 'https://agileortho.in/catalog' },
+      { '@type': 'ListItem', position: 2, name: product.division_canonical, item: `https://agileortho.in/catalog/${product.division_canonical?.toLowerCase().replace(/\s+/g, '-')}` },
+      { '@type': 'ListItem', position: 3, name: product.product_name_display, item: `https://agileortho.in/catalog/products/${slug}` },
     ],
   };
 

@@ -22,7 +22,8 @@ import {
   Box,
   Sparkles,
   Eye,
-  Scissors
+  Scissors,
+  Target
 } from 'lucide-react';
 import PremiumHeader from '../../components/PremiumHeader';
 
