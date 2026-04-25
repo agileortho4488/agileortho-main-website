@@ -27,6 +27,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }));
 
+  // 4. District Pages (Local SEO Growth)
+  const districts = ['hyderabad', 'warangal', 'nizamabad', 'karimnagar', 'khammam', 'mahbubnagar', 'adilabad', 'bhadradri-kothagudem', 'hanumakonda', 'jagtial', 'jangaon', 'jayashankar-bhupalpally', 'jogulamba-gadwal', 'kamareddy', 'kumuram-bheem-asifabad', 'mahabubabad', 'mancherial', 'medak', 'medchal-malkajgiri', 'mulugu', 'nagarkurnool', 'nalgonda', 'narayanpet', 'nirmal', 'peddapalli', 'rajanna-sircilla', 'rangareddy', 'sangareddy', 'siddipet', 'suryapet', 'vikarabad', 'wanaparthy', 'yadadri-bhuvanagiri'];
+  const districtPages = districts.map((district) => ({
+    url: `${baseUrl}/districts/${district}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly' as const,
+    priority: 0.5,
+  }));
+
   // 3. Product Pages (1,200+ Programmatic SEO targets)
   const products = await getAllProducts();
   const productPages = products.map((product: any) => ({
@@ -36,5 +45,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.6,
   }));
 
-  return [...staticPages, ...divisionPages, ...productPages];
+  return [...staticPages, ...divisionPages, ...productPages, ...districtPages];
 }

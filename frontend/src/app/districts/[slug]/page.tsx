@@ -14,20 +14,50 @@ const DISTRICT_DATA: Record<string, any> = {
   'nizamabad': { name: 'Nizamabad', hub: 'North Gateway Center', clinics: 85 },
   'karimnagar': { name: 'Karimnagar', hub: 'Industrial Care Unit', clinics: 95 },
   'khammam': { name: 'Khammam', hub: 'East Boundary Logistics', clinics: 70 },
+  'mahbubnagar': { name: 'Mahabubnagar', hub: 'South Regional Center', clinics: 65 },
+  'adilabad': { name: 'Adilabad', hub: 'North Frontier Point', clinics: 45 },
+  'bhadradri-kothagudem': { name: 'Bhadradri Kothagudem', hub: 'Coal Belt Supply Point', clinics: 55 },
+  'hanumakonda': { name: 'Hanumakonda', hub: 'Academic Care Hub', clinics: 110 },
+  'jagtial': { name: 'Jagtial', hub: 'Rural Health Link', clinics: 40 },
+  'jangaon': { name: 'Jangaon', hub: 'Highway Medical Node', clinics: 35 },
+  'jayashankar-bhupalpally': { name: 'Jayashankar Bhupalpally', hub: 'Forest Region Support', clinics: 30 },
+  'jogulamba-gadwal': { name: 'Jogulamba Gadwal', hub: 'River Basin Logistics', clinics: 38 },
+  'kamareddy': { name: 'Kamareddy', hub: 'Interstate Care Center', clinics: 48 },
+  'kumuram-bheem-asifabad': { name: 'Kumuram Bheem Asifabad', hub: 'Tribal Area Logistics', clinics: 25 },
+  'mahabubabad': { name: 'Mahabubabad', hub: 'Central East Hub', clinics: 42 },
+  'mancherial': { name: 'Mancherial', hub: 'Mining Region Link', clinics: 50 },
+  'medak': { name: 'Medak', hub: 'Heritage Care Point', clinics: 45 },
+  'medchal-malkajgiri': { name: 'Medchal–Malkajgiri', hub: 'Suburban Logistics Hub', clinics: 180 },
+  'mulugu': { name: 'Mulugu', hub: 'Pilgrim Support Node', clinics: 20 },
+  'nagarkurnool': { name: 'Nagarkurnool', hub: 'Wildlife Region Hub', clinics: 35 },
+  'nalgonda': { name: 'Nalgonda', hub: 'Irrigation Belt Support', clinics: 90 },
+  'narayanpet': { name: 'Narayanpet', hub: 'Western Border Point', clinics: 28 },
+  'nirmal': { name: 'Nirmal', hub: 'Craft Region Center', clinics: 40 },
+  'peddapalli': { name: 'Peddapalli', hub: 'Power Belt Logistics', clinics: 55 },
+  'rajanna-sircilla': { name: 'Rajanna Sircilla', hub: 'Textile Region Hub', clinics: 38 },
+  'rangareddy': { name: 'Rangareddy', hub: 'IT Corridor Support', clinics: 250 },
+  'sangareddy': { name: 'Sangareddy', hub: 'Industrial Growth Node', clinics: 110 },
+  'siddipet': { name: 'Siddipet', hub: 'Model Care Center', clinics: 75 },
+  'suryapet': { name: 'Suryapet', hub: 'Transport Gateway Hub', clinics: 60 },
+  'vikarabad': { name: 'Vikarabad', hub: 'Highland Care Hub', clinics: 42 },
+  'wanaparthy': { name: 'Wanaparthy', hub: 'Palace Region Support', clinics: 35 },
+  'yadadri-bhuvanagiri': { name: 'Yadadri Bhuvanagiri', hub: 'Temple Town Node', clinics: 45 },
 };
 
 export async function generateStaticParams() {
-  const districts = ['hyderabad', 'warangal', 'nizamabad', 'karimnagar', 'khammam'];
-  return districts.map((slug) => ({ slug }));
+  return Object.keys(DISTRICT_DATA).map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: DistrictPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const district = DISTRICT_DATA[slug] || { name: slug.charAt(0).toUpperCase() + slug.slice(1) };
+  const district = DISTRICT_DATA[slug] || { name: slug.charAt(0).toUpperCase() + slug.slice(1).replace(/-/g, ' ') };
   
   return {
     title: `Meril Life Sciences Authorized Distributor in ${district.name} | Agile Healthcare`,
-    description: `Authorized Meril master franchise distributor for ${district.name}, Telangana. Supplying 967+ medical devices for Trauma, Cardio, and Arthroplasty to hospitals in ${district.name}.`,
+    description: `Authorized Meril master franchise distributor for ${district.name}, Telangana. Supplying 1,200+ medical devices for Trauma, Cardio, and Arthroplasty to hospitals in ${district.name}.`,
+    alternates: {
+      canonical: `https://agileortho.in/districts/${slug}`,
+    },
   };
 }
 
