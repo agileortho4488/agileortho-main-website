@@ -19,23 +19,30 @@ import {
   Droplets,
   Container,
   Strikethrough,
-  Box
+  Box,
+  Sparkles,
+  Eye,
+  Scissors
 } from 'lucide-react';
 import PremiumHeader from '../../components/PremiumHeader';
 
 const divisions = [
-  { name: 'Trauma', slug: 'trauma', icon: Activity, count: 218, color: 'text-primary' },
+  { name: 'Trauma & Reconstruction', slug: 'trauma', icon: Activity, count: 218, color: 'text-primary' },
+  { name: 'Joint Replacement', slug: 'arthroplasty', icon: Stethoscope, count: 112, color: 'text-teal-500' },
+  { name: 'Cardiovascular', slug: 'cardiovascular', icon: Heart, count: 160, color: 'text-red-500' },
   { name: 'Endo-Surgical', slug: 'endo-surgical', icon: Dna, count: 168, color: 'text-purple-500' },
-  { name: 'Joint Replacement', slug: 'joint-replacement', icon: Stethoscope, count: 112, color: 'text-teal-500' },
+  { name: 'Neurosciences', slug: 'neuro', icon: Zap, count: 45, color: 'text-blue-400' },
   { name: 'Diagnostics', slug: 'diagnostics', icon: Microscope, count: 105, color: 'text-blue-500' },
   { name: 'Infection Prevention', slug: 'infection-prevention', icon: Package, count: 85, color: 'text-green-500' },
-  { name: 'Cardiovascular', slug: 'cardiovascular', icon: Heart, count: 60, color: 'text-red-500' },
   { name: 'Surgical Instruments', slug: 'instruments', icon: Hammer, count: 53, color: 'text-orange-500' },
-  { name: 'Sports Medicine', slug: 'sports-medicine', icon: Zap, count: 53, color: 'text-yellow-500' },
-  { name: 'ENT', slug: 'ent', icon: Ear, count: 45, color: 'text-pink-500' },
-  { name: 'Urology', slug: 'urology', icon: Droplets, count: 28, color: 'text-blue-400' },
+  { name: 'Urology', slug: 'urology', icon: Droplets, count: 28, color: 'text-sky-500' },
+  { name: 'Gastrointestinal', slug: 'gastro', icon: Box, count: 32, color: 'text-amber-500' },
+  { name: 'Aesthetics', slug: 'aesthetics', icon: Sparkles, count: 42, color: 'text-pink-500' },
+  { name: 'Oncology', slug: 'oncology', icon: Target, count: 15, color: 'text-indigo-500' },
   { name: 'Critical Care', slug: 'critical-care', icon: Container, count: 23, color: 'text-cyan-500' },
-  { name: 'Peripheral Intervention', slug: 'peripheral-intervention', icon: Box, count: 13, color: 'text-indigo-500' },
+  { name: 'ENT', slug: 'ent', icon: Ear, count: 45, color: 'text-fuchsia-500' },
+  { name: 'Ophthalmology', slug: 'ophthalmology', icon: Eye, count: 18, color: 'text-emerald-500' },
+  { name: 'Dental', slug: 'dental', icon: Scissors, count: 12, color: 'text-slate-400' },
 ];
 
 export default function CatalogIndexPage() {
@@ -56,15 +63,38 @@ export default function CatalogIndexPage() {
               <div className="h-[1px] w-20 bg-primary/20"></div>
             </div>
             <h1 className="text-5xl md:text-8xl font-black tracking-tighter mb-8 uppercase italic leading-none">
-              Clinical <br />
-              <span className="text-gradient-gold">Solutions.</span>
+              Discovery <br />
+              <span className="text-gradient-gold">Hub.</span>
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl leading-relaxed">
-              Explore 967+ world-class medical devices by Meril Life Sciences. 
-              Organized by clinical specialty and surgical outcome.
+              Precision surgical solutions for 50+ clinical verticals. 
+              Search by clinical specialty, procedure, or anatomical location.
             </p>
           </motion.div>
         </header>
+
+        {/* Anatomical Quick Filters */}
+        <div className="mb-24">
+           <div className="text-[10px] font-black uppercase tracking-[0.5em] text-white/20 mb-8 text-center">Search by Anatomical Focus</div>
+           <div className="flex flex-wrap justify-center gap-4">
+              {[
+                { name: 'Brain & Spine', icon: Zap, slug: 'neuro' },
+                { name: 'Heart & Vascular', icon: Heart, slug: 'cardiovascular' },
+                { name: 'Shoulder & Arm', icon: Activity, slug: 'trauma' },
+                { name: 'Hip & Knee', icon: Stethoscope, slug: 'arthroplasty' },
+                { name: 'Gastro / Urology', icon: Droplets, slug: 'urology' }
+              ].map((anatomy) => (
+                <Link 
+                  key={anatomy.name}
+                  href={`/catalog/${anatomy.slug}`}
+                  className="px-8 py-6 rounded-3xl bg-white/5 border border-white/10 hover:border-primary/40 hover:bg-primary/5 transition-all group text-center min-w-[180px]"
+                >
+                   <anatomy.icon className="w-6 h-6 mx-auto mb-3 text-white/40 group-hover:text-primary transition-colors" />
+                   <span className="text-xs font-black uppercase tracking-widest">{anatomy.name}</span>
+                </Link>
+              ))}
+           </div>
+        </div>
 
         {/* Categories Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">

@@ -23,35 +23,38 @@ const DIVISIONS = {
   'trauma': {
     name: 'Trauma & Reconstruction',
     subtitle: 'High-Impact Fracture Management',
-    description: 'Advanced anatomical plating systems and intramedullary solutions engineered for complex trauma cases.',
+    description: 'Advanced anatomical plating systems and intramedullary solutions engineered for complex trauma cases. Featuring the KET series for long-bone fixation.',
     theme: 'blue',
     procedures: [
       { id: 'distal-radius', name: 'Distal Radius Fixation', icon: Target },
       { id: 'pfn', name: 'Proximal Femoral Nailing', icon: Activity },
       { id: 'trauma', name: 'Complex Humerus Fixation', icon: Layers }
     ],
-    authorityText: 'Authorized Meril Trauma Master Distributor for Telangana.'
+    authorityText: 'Authorized Meril Trauma Master Distributor for Telangana.',
+    clinicalEvidence: 'Fixation range optimized for rapid union in high-energy trauma.'
   },
   'arthroplasty': {
     name: 'Arthroplasty & Joints',
     subtitle: 'The Art of Mobility',
-    description: 'World-class knee and hip replacement systems designed for natural kinematics and long-term survivorship.',
+    description: 'World-class knee and hip replacement systems. Highlighting the Opulent Gold Knee with Bionik surface for hypoallergenic outcomes.',
     theme: 'gold',
     procedures: [
       { id: 'tkr', name: 'Total Knee Replacement', icon: FlaskConical },
       { id: 'thr', name: 'Total Hip Replacement', icon: Stethoscope }
     ],
-    authorityText: 'Precision Arthroplasty Ecosystem | Meril Master Partnership.'
+    authorityText: 'Precision Arthroplasty Ecosystem | Meril Master Partnership.',
+    clinicalEvidence: 'Opulent Bionik surface reduces wear by up to 60% vs standard CrCo.'
   },
   'cardiovascular': {
     name: 'Cardiovascular Science',
     subtitle: 'Life-Saving Precision',
-    description: 'State-of-the-art sirolimus-eluting stents and interventional accessories for superior clinical outcomes.',
+    description: 'State-of-the-art sirolimus-eluting stents like BioMime and the Myval TAVR system for superior clinical outcomes.',
     theme: 'red',
     procedures: [
       { id: 'ptca', name: 'Interventional Cardiology', icon: Microscope }
     ],
-    authorityText: 'The Golden Standard in Regional Cardiac Supply.'
+    authorityText: 'The Golden Standard in Regional Cardiac Supply.',
+    clinicalEvidence: 'Landmark Trial verified: Myval TAVR system shows zero safety issues at 1-year.'
   }
 };
 
@@ -174,6 +177,26 @@ export default function DivisionPage() {
                 Browse Division Catalog
              </Link>
           </div>
+        </div>
+      </section>
+
+      {/* Clinical Trust Section */}
+      <section className="py-24 border-t border-white/5">
+        <div className="max-w-7xl mx-auto px-4">
+           <div className={`p-12 rounded-[40px] border ${theme.border} bg-gradient-to-br from-white/[0.03] to-transparent relative overflow-hidden`}>
+              <div className="relative z-10 flex flex-col md:flex-row items-center gap-12">
+                 <div className={`w-24 h-24 rounded-full ${theme.accent}/10 border ${theme.border} flex items-center justify-center shrink-0`}>
+                    <ShieldCheck className={`w-12 h-12 ${theme.text}`} />
+                 </div>
+                 <div>
+                    <h3 className="text-sm font-black uppercase tracking-[0.4em] text-white/30 mb-4">Evidence Based Performance</h3>
+                    <p className="text-3xl md:text-5xl font-black tracking-tighter leading-tight italic uppercase">
+                       {data.clinicalEvidence}
+                    </p>
+                 </div>
+              </div>
+              <Award className={`absolute -right-10 -bottom-10 w-64 h-64 opacity-5 ${theme.text}`} />
+           </div>
         </div>
       </section>
 

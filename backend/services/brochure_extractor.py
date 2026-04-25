@@ -24,8 +24,8 @@ class TechSpec(BaseModel):
     value: str = Field(description="The value of the tech spec, e.g., 'Stainless Steel' or '150mm'")
 
 class SizingOption(BaseModel):
-    min: float
-    max: float
+    min: Optional[float] = None
+    max: Optional[float] = None
     size: str
 
 class SizingLogic(BaseModel):
