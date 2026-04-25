@@ -35,36 +35,36 @@ export default function PremiumHeader() {
       title: 'Cardiovascular',
       links: [
         { name: 'Interventional Cardiology', href: '/divisions/cardiovascular' },
-        { name: 'CRM & Lead Management', href: '/catalog/cardiovascular' },
-        { name: 'Peripheral Intervention', href: '/catalog/peripheral' },
-        { name: 'Venous & Thrombus', href: '/catalog/vascular' },
+        { name: 'Peripheral Intervention', href: '/catalog/peripheral-intervention' },
+        { name: 'CRM & Electrophysiology', href: '/catalog/cardiovascular' },
+        { name: 'Structural Heart (TAVR)', href: '/divisions/cardiovascular' },
       ]
     },
     {
       title: 'Neurosciences',
       links: [
-        { name: 'Neuro Interventional', href: '/catalog/neuro' },
-        { name: 'Neurosurgical Systems', href: '/catalog/neuro' },
-        { name: 'Pain Management', href: '/catalog/pain' },
+        { name: 'Neuro Interventional', href: '/catalog' },
+        { name: 'Neurosurgical Systems', href: '/catalog' },
+        { name: 'Pain Management', href: '/catalog' },
         { name: 'EEG & Physiology', href: '/catalog/diagnostics' },
       ]
     },
     {
       title: 'Specialized Surgery',
       links: [
-        { name: 'Endo-Surgery', href: '/catalog/endo-surgical' },
+        { name: 'Endo-Surgery', href: '/catalog/endo-surgery' },
         { name: 'Urology & Gynecology', href: '/catalog/urology' },
-        { name: 'Oncology & GI', href: '/catalog/oncology' },
+        { name: 'Critical Care', href: '/catalog/critical-care' },
         { name: 'Ophthalmology & ENT', href: '/catalog/ent' },
       ]
     },
     {
       title: 'Aesthetics & Wellness',
       links: [
-        { name: 'Breast Implants', href: '/catalog/aesthetics' },
-        { name: 'Liposuction & Fat Grafting', href: '/catalog/aesthetics' },
-        { name: 'Fat Freezing', href: '/catalog/aesthetics' },
-        { name: 'Meditation Devices', href: '/catalog/meditation' },
+        { name: 'Breast Implants', href: '/catalog' },
+        { name: 'Liposuction & Grafting', href: '/catalog' },
+        { name: 'Infection Prevention', href: '/catalog/infection-prevention' },
+        { name: 'Meditation Devices', href: '/catalog' },
       ]
     }
   ];
@@ -83,7 +83,7 @@ export default function PremiumHeader() {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div 
-          className={`relative overflow-hidden transition-all duration-500 rounded-full border border-white/10 ${
+          className={`relative transition-all duration-500 rounded-full border border-white/10 ${
             isScrolled 
               ? 'bg-black/60 backdrop-blur-xl px-4 py-2 shadow-[0_8px_32px_rgba(0,0,0,0.4)]' 
               : 'bg-transparent px-0 py-0 border-transparent'
