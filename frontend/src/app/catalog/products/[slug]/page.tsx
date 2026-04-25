@@ -6,6 +6,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import ProductActions from '@/components/ProductActions';
 import TechnicalMatrix from '@/components/TechnicalMatrix';
+import SizingWizard from '@/components/SizingWizard';
 
 interface ProductPageProps {
   params: Promise<{ slug: string }>;
@@ -230,6 +231,24 @@ export default async function ProductPage({ params }: ProductPageProps) {
               materials={product.materials_canonical || product.material_canonical}
               features={product.features_list || []}
               indications={product.clinical_indications || []}
+              visualStyle={visualStyle}
+            />
+          </div>
+        )}
+        
+        {/* ANATOMICAL SIZING WIZARD — Interactive Clinical Tool */}
+        {product.sizing_logic && (
+          <div className="mb-16 max-w-4xl mx-auto">
+            <div className="flex items-center gap-4 mb-8">
+              <div className={`h-[2px] flex-1 ${visualStyle === 'cool_surgical_blue' ? 'bg-blue-500/20' : 'bg-primary/20'}`} />
+              <span className={`text-[10px] font-black uppercase tracking-[0.4em] ${
+                visualStyle === 'cool_surgical_blue' ? 'text-blue-400' : 'text-primary'
+              }`}>Anatomical Sizing Wizard</span>
+              <div className={`h-[2px] flex-1 ${visualStyle === 'cool_surgical_blue' ? 'bg-blue-500/20' : 'bg-primary/20'}`} />
+            </div>
+            <SizingWizard
+              productName={product.product_name_display}
+              sizingData={product.sizing_logic}
               visualStyle={visualStyle}
             />
           </div>

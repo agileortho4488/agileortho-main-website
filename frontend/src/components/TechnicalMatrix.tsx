@@ -29,6 +29,7 @@ export default function TechnicalMatrix({
 }: TechnicalMatrixProps) {
   const [activeTab, setActiveTab] = useState<'matrix' | 'features' | 'indications'>('matrix');
   const [expanded, setExpanded] = useState(true);
+  const [blueprintMode, setBlueprintMode] = useState(false);
 
   // Normalize specs to array format
   const specRows: TechSpec[] = Array.isArray(specs)
@@ -59,24 +60,37 @@ export default function TechnicalMatrix({
   return (
     <div className={`rounded-[32px] border border-white/10 bg-[#0D0D0D] overflow-hidden shadow-2xl ${blueGlow}`}>
       {/* Header */}
-      <div className={`px-8 py-6 border-b border-white/5 flex items-center justify-between bg-white/[0.02]`}>
+      <div className={`px-4 sm:px-8 py-4 sm:py-6 border-b border-white/5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-white/[0.02]`}>
         <div className="flex items-center gap-4">
-          <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${blueAccent} border`}>
+          <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${blueAccent} border shrink-0`}>
             <Table2 className="w-5 h-5" />
           </div>
-          <div>
-            <span className={`text-[10px] font-black uppercase tracking-[0.3em] ${visualStyle === 'cool_surgical_blue' ? 'text-blue-400' : 'text-primary'}`}>
+          <div className="min-w-0">
+            <span className={`text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] sm:tracking-[0.3em] ${visualStyle === 'cool_surgical_blue' ? 'text-blue-400' : 'text-primary'}`}>
               Full Technical Matrix
             </span>
-            <p className="text-sm font-bold text-white/60 mt-0.5">{productName}</p>
+            <p className="text-sm font-bold text-white/60 mt-0.5 truncate">{productName}</p>
           </div>
         </div>
-        <button
-          onClick={() => setExpanded(!expanded)}
-          className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition-all"
-        >
-          {expanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-        </button>
+        <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto">
+          <button
+            onClick={() => setBlueprintMode(!blueprintMode)}
+            className={`flex-1 sm:flex-none flex items-center justify-center gap-2 px-3 py-1.5 rounded-full border text-[9px] font-black uppercase tracking-widest transition-all ${
+              blueprintMode 
+                ? 'bg-blue-500/20 border-blue-400 text-blue-400 shadow-[0_0_15px_rgba(59,130,246,0.3)]' 
+                : 'bg-white/5 border-white/10 text-white/40 hover:text-white/60'
+            }`}
+          >
+            <Microscope className="w-3 h-3" />
+            <span className="whitespace-nowrap">Blueprint View</span>
+          </button>
+          <button
+            onClick={() => setExpanded(!expanded)}
+            className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition-all shrink-0"
+          >
+            {expanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+          </button>
+        </div>
       </div>
 
       <AnimatePresence>
@@ -88,12 +102,12 @@ export default function TechnicalMatrix({
             transition={{ duration: 0.3 }}
           >
             {/* Tab Bar */}
-            <div className="flex border-b border-white/5">
+            <div className="flex border-b border-white/5 overflow-x-auto no-scrollbar">
               {tabs.map(tab => (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex-1 flex items-center justify-center gap-2 py-4 text-[11px] font-black uppercase tracking-widest transition-all ${
+                  className={`flex-1 min-w-[100px] flex items-center justify-center gap-2 py-4 text-[10px] sm:text-[11px] font-black uppercase tracking-widest transition-all whitespace-nowrap ${
                     activeTab === tab.id
                       ? visualStyle === 'cool_surgical_blue'
                         ? 'text-blue-400 border-b-2 border-blue-400 bg-blue-500/5'
@@ -102,9 +116,10 @@ export default function TechnicalMatrix({
                   }`}
                 >
                   <tab.icon className="w-3.5 h-3.5" />
-                  {tab.label}
+                  <span className="hidden sm:inline">{tab.label}</span>
+                  <span className="sm:hidden">{tab.label.split(' ')[0]}</span>
                   {tab.count > 0 && (
-                    <span className={`px-1.5 py-0.5 rounded text-[9px] font-black ${
+                    <span className={`px-1.5 py-0.5 rounded text-[8px] sm:text-[9px] font-black ${
                       activeTab === tab.id
                         ? visualStyle === 'cool_surgical_blue' ? 'bg-blue-500/20 text-blue-400' : 'bg-primary/20 text-primary'
                         : 'bg-white/10 text-white/40'
@@ -122,14 +137,24 @@ export default function TechnicalMatrix({
                 {activeTab === 'matrix' && (
                   <motion.div key="matrix" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
                     {sizingRows.length > 0 ? (
-                      <div className="overflow-x-auto relative">
-                        {visualStyle === 'cool_surgical_blue' && (
-                          <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
-                            style={{ 
-                              backgroundImage: 'linear-gradient(#3b82f6 1px, transparent 1px), linear-gradient(90deg, #3b82f6 1px, transparent 1px)',
-                              backgroundSize: '20px 20px'
-                            }} 
-                          />
+                      <div className={`overflow-x-auto relative transition-all duration-500 ${blueprintMode ? 'p-4' : ''}`}>
+                        {(visualStyle === 'cool_surgical_blue' || blueprintMode) && (
+                          <>
+                            <div className={`absolute inset-0 pointer-events-none transition-opacity duration-500 ${blueprintMode ? 'opacity-[0.08]' : 'opacity-[0.03]'}`} 
+                              style={{ 
+                                backgroundImage: 'linear-gradient(#3b82f6 1px, transparent 1px), linear-gradient(90deg, #3b82f6 1px, transparent 1px)',
+                                backgroundSize: blueprintMode ? '10px 10px' : '20px 20px'
+                              }} 
+                            />
+                            {blueprintMode && (
+                              <motion.div 
+                                initial={{ top: 0 }}
+                                animate={{ top: '100%' }}
+                                transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+                                className="absolute left-0 right-0 h-px bg-blue-400/50 shadow-[0_0_15px_rgba(59,130,246,0.5)] z-20 pointer-events-none"
+                              />
+                            )}
+                          </>
                         )}
                         <table className="w-full text-sm relative z-10">
                           <thead>
@@ -147,21 +172,33 @@ export default function TechnicalMatrix({
                               <tr
                                 key={i}
                                 className={`border-b ${
-                                  visualStyle === 'cool_surgical_blue' ? 'border-blue-500/10' : 'border-white/5'
-                                } hover:bg-white/[0.02] transition-colors ${
+                                  (visualStyle === 'cool_surgical_blue' || blueprintMode) ? 'border-blue-500/10' : 'border-white/5'
+                                } hover:bg-white/[0.04] transition-all group/row ${
                                   i % 2 === 0 ? 'bg-transparent' : 'bg-white/[0.01]'
                                 }`}
                               >
-                                <td className="py-3 px-4 text-white/60 font-medium">
-                                  {visualStyle === 'cool_surgical_blue' && (
-                                    <span className="inline-block w-1 h-1 rounded-full bg-blue-500/40 mr-2" />
+                                <td className="py-3 px-4 text-white/60 font-medium relative">
+                                  <div className="flex items-center gap-2">
+                                    {(visualStyle === 'cool_surgical_blue' || blueprintMode) && (
+                                      <span className={`inline-block w-1 h-1 rounded-full ${blueprintMode ? 'bg-blue-400' : 'bg-blue-500/40'} mr-2`} />
+                                    )}
+                                    <span className={blueprintMode ? 'font-mono text-[11px] text-blue-100 group-hover/row:text-blue-400 transition-colors' : ''}>
+                                      {row.label}
+                                    </span>
+                                  </div>
+                                  {blueprintMode && (
+                                    <div className="absolute left-4 right-4 bottom-3 h-px border-b border-dotted border-blue-500/20 opacity-0 group-hover/row:opacity-100 transition-opacity" />
                                   )}
-                                  {row.label}
                                 </td>
                                 <td className="py-3 px-4 text-right">
-                                  <span className={`font-black tabular-nums ${visualStyle === 'cool_surgical_blue' ? 'text-blue-300' : 'text-primary'}`}>
+                                  <span className={`font-black tabular-nums transition-all ${
+                                    blueprintMode 
+                                      ? 'text-blue-400 font-mono text-base tracking-tighter' 
+                                      : (visualStyle === 'cool_surgical_blue' ? 'text-blue-300' : 'text-primary')
+                                  }`}>
                                     {row.value}
                                   </span>
+                                  {blueprintMode && <span className="ml-2 text-[8px] text-blue-500/50 font-black uppercase">±0.01</span>}
                                 </td>
                               </tr>
                             ))}

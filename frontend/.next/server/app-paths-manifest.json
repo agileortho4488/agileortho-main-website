@@ -1,11 +1,3 @@
 {
-  "/robots.txt/route": "app/robots.txt/route.js",
-  "/sitemap.xml/route": "app/sitemap.xml/route.js",
-  "/_not-found/page": "app/_not-found/page.js",
-  "/catalog/[division]/page": "app/catalog/[division]/page.js",
-  "/districts/[slug]/page": "app/districts/[slug]/page.js",
-  "/catalog/products/[slug]/page": "app/catalog/products/[slug]/page.js",
-  "/districts/page": "app/districts/page.js",
-  "/page": "app/page.js",
-  "/catalog/page": "app/catalog/page.js"
+  "/catalog/products/[slug]/page": "app/catalog/products/[slug]/page.js"
 }

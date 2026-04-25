@@ -23,6 +23,7 @@ import PremiumHeader from '../components/PremiumHeader';
 import StatsCounter from '../components/StatsCounter';
 import SizingWizard from '../components/SizingWizard';
 import TrustStrip from '../components/TrustStrip';
+import ClinicalShowcase from '../components/ClinicalShowcase';
 
 const SOLUTIONS = [
   { 
@@ -201,8 +202,8 @@ export default function Home() {
              </div>
           </div>
         </div>
-      </section>
-
+      </section>      {/* CLINICAL EXCELLENCE INITIATIVE — The Content Enrichment Hub */}
+      <ClinicalShowcase />
 
 
       {/* SOLUTIONS SECTION: BEYOND PRODUCTS */}
