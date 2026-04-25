@@ -23,7 +23,7 @@ export default function PremiumHeader() {
     { name: 'Products', href: '/catalog' },
     { name: 'Divisions', href: '/catalog#divisions' },
     { name: 'Districts', href: '/districts' },
-    { name: 'About', href: '#' },
+    { name: 'About', href: '/about' },
   ];
 
   return (
@@ -78,10 +78,13 @@ export default function PremiumHeader() {
               >
                 <Search className="w-5 h-5" />
               </button>
-              <button className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-muted-foreground hover:text-white transition-colors px-4">
+              <Link
+                href="/contact"
+                className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-muted-foreground hover:text-white transition-colors px-4"
+              >
                 <Phone className="w-4 h-4 text-primary" />
                 Contact
-              </button>
+              </Link>
               <Link 
                 href="/catalog" 
                 className="bg-primary text-black px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-widest shadow-lg shadow-primary/20 hover:scale-105 active:scale-95 transition-all"
