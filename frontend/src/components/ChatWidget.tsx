@@ -26,13 +26,38 @@ export default function ChatWidget() {
     setMessages(prev => [...prev, userMsg]);
     setInput('');
 
-    // Mock API response for Phase 3 prototype
-    setTimeout(() => {
+    try {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8001';
+      const response = await fetch(`${apiUrl}/api/chat`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 
+          message: input,
+          session_id: typeof window !== 'undefined' ? localStorage.getItem('chat_session') : null
+        })
+      });
+
+      if (!response.ok) throw new Error('Network response was not ok');
+      
+      const data = await response.json();
+      
+      if (data.session_id && typeof window !== 'undefined') {
+        localStorage.setItem('chat_session', data.session_id);
+      }
+
       setMessages(prev => [...prev, { 
         role: 'assistant', 
-        content: "I'm currently in 'Intelligence Mode' while we finish indexing the full brochure catalog. I can soon answer detailed questions about sizes, materials, and clinical applications for all 967 products." 
+        content: data.response || "I didn't receive a valid response. Please try again."
       }]);
-    }, 1000);
+    } catch (error) {
+      console.error("Chat Error:", error);
+      setMessages(prev => [...prev, { 
+        role: 'assistant', 
+        content: "I'm having trouble connecting to the server. Please try again later."
+      }]);
+    }
   };
 
   const suggestions = [

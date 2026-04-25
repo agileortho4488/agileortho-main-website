@@ -148,7 +148,8 @@ def format_product_context(products: list) -> str:
 
 @router.post("/api/chat")
 async def chat_endpoint(msg: ChatMessage):
-    from emergentintegrations.llm.chat import LlmChat, UserMessage
+    import litellm
+    import os
 
     session_id = msg.session_id or uuid.uuid4().hex
     user_text = msg.message.strip()
@@ -166,16 +167,20 @@ async def chat_endpoint(msg: ChatMessage):
     for h in history[-10:]:
         initial_msgs.append({"role": h["role"], "content": h["content"]})
 
-    chat = LlmChat(
-        api_key=EMERGENT_LLM_KEY,
-        session_id=f"chat-{session_id}",
-        system_message=system_prompt,
-        initial_messages=initial_msgs,
-    ).with_model("anthropic", "claude-sonnet-4-20250514")
+    initial_msgs.append({"role": "user", "content": user_text})
 
     try:
-        response = await chat.send_message(UserMessage(text=user_text))
-    except Exception:
+        if EMERGENT_LLM_KEY:
+            os.environ["GEMINI_API_KEY"] = EMERGENT_LLM_KEY
+        
+        completion = await litellm.acompletion(
+            model="gemini/gemini-2.0-flash",
+            messages=initial_msgs,
+            temperature=0.2
+        )
+        response = completion.choices[0].message.content
+    except Exception as e:
+        print(f"Chat error: {e}")
         response = "I'm having trouble connecting right now. Please try again in a moment, or reach our team directly on WhatsApp: https://wa.me/917416521222"
 
     new_messages = history + [
