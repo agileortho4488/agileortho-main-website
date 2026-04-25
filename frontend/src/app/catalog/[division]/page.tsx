@@ -45,6 +45,18 @@ export default async function DivisionPage({ params }: DivisionPageProps) {
 
   return (
     <div className="min-h-screen bg-[#0A0A0A] text-white py-16 px-4 sm:px-6 lg:px-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://agileortho.in' },
+            { '@type': 'ListItem', position: 2, name: 'Catalog', item: 'https://agileortho.in/catalog' },
+            { '@type': 'ListItem', position: 3, name: divisionName, item: `https://agileortho.in/catalog/${division}` },
+          ]
+        })}}
+      />
       <div className="max-w-7xl mx-auto">
         <nav className="flex mb-8 text-sm text-muted-foreground">
           <Link href="/catalog" className="hover:text-primary transition-colors">Catalog</Link>

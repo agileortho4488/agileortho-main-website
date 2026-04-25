@@ -86,6 +86,17 @@ export default async function ProductPage({ params }: ProductPageProps) {
     },
   };
 
+  const breadcrumbLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://agileortho.in' },
+      { '@type': 'ListItem', position: 2, name: 'Catalog', item: 'https://agileortho.in/catalog' },
+      { '@type': 'ListItem', position: 3, name: product.division_canonical, item: `https://agileortho.in/catalog/${product.division_canonical?.toLowerCase().replace(/\s+/g, '-')}` },
+      { '@type': 'ListItem', position: 4, name: product.product_name_display, item: `https://agileortho.in/catalog/products/${slug}` },
+    ],
+  };
+
   // Determine visual style based on division
   const isTrauma = product.division_canonical === 'Trauma';
   const visualStyle = (product.visual_style as 'cool_surgical_blue' | 'default') || 
@@ -106,6 +117,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-24">
