@@ -15,6 +15,10 @@ interface TechnicalMatrixProps {
   materials?: string;
   features?: string[];
   indications?: string[];
+  surgicalSteps?: string[];
+  contraindications?: string[];
+  warnings?: string[];
+  fullTranscript?: string;
   brochureFile?: string;
   visualStyle?: 'cool_surgical_blue' | 'default';
 }
@@ -25,9 +29,13 @@ export default function TechnicalMatrix({
   materials,
   features = [],
   indications = [],
+  surgicalSteps = [],
+  contraindications = [],
+  warnings = [],
+  fullTranscript,
   visualStyle = 'cool_surgical_blue',
 }: TechnicalMatrixProps) {
-  const [activeTab, setActiveTab] = useState<'matrix' | 'features' | 'indications'>('matrix');
+  const [activeTab, setActiveTab] = useState<string>('matrix');
   const [expanded, setExpanded] = useState(true);
   const [blueprintMode, setBlueprintMode] = useState(false);
 
@@ -68,10 +76,13 @@ export default function TechnicalMatrix({
     : 'shadow-primary/10';
 
   const tabs = [
-    { id: 'matrix', label: 'Size Matrix', icon: Table2, count: sizingRows.length + generalRows.length },
+    { id: 'matrix', label: 'Technical Matrix', icon: Table2, count: sizingRows.length + generalRows.length },
     { id: 'features', label: 'Key Features', icon: ShieldCheck, count: features.length },
     { id: 'indications', label: 'Indications', icon: Microscope, count: indications.length },
-  ] as const;
+    { id: 'surgical', label: 'Surgical Steps', icon: Microscope, count: surgicalSteps.length },
+    { id: 'safety', label: 'Safety & Warnings', icon: ShieldCheck, count: contraindications.length + warnings.length },
+    { id: 'transcript', label: 'Brochure Text', icon: Table2, count: fullTranscript ? 1 : 0 },
+  ].filter(t => t.id === 'matrix' || t.count > 0);
 
   return (
     <div className={`rounded-[32px] border border-white/10 bg-[#0D0D0D] overflow-hidden shadow-2xl ${blueGlow}`}>
@@ -280,6 +291,53 @@ export default function TechnicalMatrix({
                         <p className="text-sm text-white/70 leading-relaxed">{ind}</p>
                       </div>
                     )) : <p className="text-center text-white/30 py-8 text-sm">No indications extracted yet.</p>}
+                  </motion.div>
+                )}
+
+                {activeTab === 'surgical' && (
+                  <motion.div key="surgical" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-3">
+                    {surgicalSteps.length > 0 ? surgicalSteps.map((step, i) => (
+                      <div key={i} className="flex items-start gap-3 p-4 rounded-xl bg-white/[0.03] border border-white/5">
+                        <span className="text-[10px] font-black uppercase text-white/40 mt-1">STEP {i+1}</span>
+                        <p className="text-sm text-white/70 leading-relaxed">{step}</p>
+                      </div>
+                    )) : <p className="text-center text-white/30 py-8 text-sm">No surgical steps extracted.</p>}
+                  </motion.div>
+                )}
+
+                {activeTab === 'safety' && (
+                  <motion.div key="safety" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-6">
+                    {contraindications.length > 0 && (
+                      <div>
+                        <h4 className="text-red-400 text-xs font-black uppercase tracking-widest mb-3">Contraindications</h4>
+                        <div className="space-y-2">
+                          {contraindications.map((c, i) => (
+                            <div key={i} className="p-3 rounded-lg bg-red-500/5 border border-red-500/10 text-sm text-white/70">{c}</div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    {warnings.length > 0 && (
+                      <div>
+                        <h4 className="text-yellow-400 text-xs font-black uppercase tracking-widest mb-3">Warnings & Precautions</h4>
+                        <div className="space-y-2">
+                          {warnings.map((w, i) => (
+                            <div key={i} className="p-3 rounded-lg bg-yellow-500/5 border border-yellow-500/10 text-sm text-white/70">{w}</div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </motion.div>
+                )}
+
+                {activeTab === 'transcript' && fullTranscript && (
+                  <motion.div key="transcript" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                    <div className="p-6 rounded-xl bg-white/[0.02] border border-white/5 max-h-[500px] overflow-y-auto">
+                      <p className="text-xs font-black uppercase tracking-widest text-white/20 mb-4">RAW VERBATIM BROCHURE TEXT</p>
+                      <pre className="text-xs text-white/50 whitespace-pre-wrap font-mono leading-relaxed">
+                        {fullTranscript}
+                      </pre>
+                    </div>
                   </motion.div>
                 )}
               </AnimatePresence>

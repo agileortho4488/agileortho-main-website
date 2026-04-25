@@ -262,6 +262,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
               materials={product.materials_canonical || product.material_canonical}
               features={(product.features_list && product.features_list.length > 0) ? product.features_list : (product.clinical_benefits || [])}
               indications={product.clinical_indications || []}
+              surgicalSteps={product.surgical_steps || []}
+              contraindications={product.contraindications || []}
+              warnings={product.warnings_and_precautions || []}
+              fullTranscript={product.full_raw_transcription || ''}
               visualStyle={visualStyle}
             />
           </div>
