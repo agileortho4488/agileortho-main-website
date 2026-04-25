@@ -1,126 +1,116 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Zap, X, MapPin, Calendar, Clock, MessageSquare, ShieldCheck, ChevronRight } from 'lucide-react';
-import { COMPANY } from '@/lib/constants';
+import { Shield, Zap, Phone, ChevronRight, Activity, MapPin } from 'lucide-react';
+import Link from 'next/link';
+
+const DISTRICTS = [
+  'Hyderabad', 'Warangal', 'Nizamabad', 'Karimnagar', 'Khammam', 'Mahabubnagar'
+];
 
 export default function OTCommandDesk() {
   const [isOpen, setIsOpen] = useState(false);
-  const [step, setStep] = useState(1);
-  const [form, setForm] = useState({
-    surgeryType: '',
-    hospital: '',
-    district: '',
-    urgency: 'Emergency'
-  });
+  const [currentDistrict, setCurrentDistrict] = useState(DISTRICTS[0]);
 
-  const getZoneTag = (district: string) => {
-    const d = district.toLowerCase().trim();
-    if (['hyderabad', 'rangareddy', 'medchal', 'secunderabad'].some(h => d.includes(h))) return 'HYD_METRO';
-    if (['warangal', 'karimnagar', 'nizamabad', 'adilabad'].some(h => d.includes(h))) return 'NORTH_TS';
-    if (['khammam', 'nalgonda', 'mahbubnagar'].some(h => d.includes(h))) return 'SOUTH_TS';
-    return 'GEN_TS';
-  };
-
-  const handleRequest = () => {
-    const zone = getZoneTag(form.district);
-    const message = `🚨 EMERGENCY OT SUPPORT [${zone}]\n\nSolution: ${form.surgeryType}\nHospital: ${form.hospital}\nDistrict: ${form.district}\nUrgency: ${form.urgency}\n\nPlease confirm personnel and instrumentation availability immediately.`;
-    const waUrl = `https://wa.me/${COMPANY.whatsapp.replace("+", "")}?text=${encodeURIComponent(message)}`;
-    window.open(waUrl, "_blank");
-    setIsOpen(false);
-  };
+  // Rotate through districts to show active presence across Telangana
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentDistrict(prev => {
+        const nextIdx = (DISTRICTS.indexOf(prev) + 1) % DISTRICTS.length;
+        return DISTRICTS[nextIdx];
+      });
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
-    <div className="fixed bottom-6 left-6 z-[60]">
+    <div className="fixed bottom-8 left-8 z-[100] hidden md:block">
       <AnimatePresence>
-        {!isOpen && (
-          <motion.button
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            whileHover={{ scale: 1.05 }}
-            onClick={() => setIsOpen(true)}
-            className="flex items-center gap-3 bg-[#CC2020] text-white px-6 py-4 rounded-full shadow-[0_20px_40px_rgba(204,32,32,0.4)] border border-white/20 group"
-          >
-            <Zap className="w-5 h-5 fill-white animate-pulse" />
-            <span className="text-xs font-black uppercase tracking-[0.2em] whitespace-nowrap">OT Command Desk</span>
-          </motion.button>
-        )}
-
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 50, scale: 0.9 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 50, scale: 0.9 }}
-            className="absolute bottom-0 left-0 w-[380px] bg-[#0A0A0A] border border-white/10 rounded-[40px] shadow-2xl overflow-hidden"
+            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+            className="mb-4 w-80 bg-[#0A0A0A]/95 backdrop-blur-2xl border border-primary/20 rounded-[32px] p-6 shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden"
           >
-            {/* Header */}
-            <div className="bg-[#CC2020] p-8 text-white">
-                <div className="flex justify-between items-center mb-6">
-                    <Zap className="w-8 h-8 fill-white" />
-                    <button onClick={() => setIsOpen(false)} className="w-10 h-10 rounded-full bg-black/20 flex items-center justify-center hover:bg-black/40 transition-all">
-                        <X className="w-5 h-5" />
-                    </button>
+            {/* Background Glow */}
+            <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-[40px] -translate-y-1/2 translate-x-1/2" />
+            
+            <div className="relative z-10">
+              <div className="flex items-center gap-2 mb-6">
+                <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+                <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">Live Surgical Support</span>
+              </div>
+
+              <h3 className="text-xl font-black text-white uppercase italic tracking-tighter mb-4 leading-tight">
+                OT Command <br />Desk Active
+              </h3>
+
+              <div className="space-y-4 mb-6">
+                <div className="flex items-start gap-3 p-3 rounded-2xl bg-white/5 border border-white/10">
+                  <MapPin className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                  <div>
+                    <p className="text-[10px] font-bold text-white/40 uppercase tracking-widest mb-1">Current Node</p>
+                    <p className="text-sm font-black text-white">{currentDistrict}, TS</p>
+                  </div>
                 </div>
-                <h3 className="text-3xl font-black tracking-tighter uppercase leading-none mb-2 italic">Emergency<br />Dispatch.</h3>
-                <p className="text-white/60 text-xs font-bold uppercase tracking-widest">Master Partner Support Portal</p>
-            </div>
 
-            {/* Form */}
-            <div className="p-8 space-y-6">
-                {step === 1 && (
-                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                        <label className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40 block mb-4">Select Surgical Solution</label>
-                        <div className="grid grid-cols-1 gap-2">
-                            {['Fracture / Trauma', 'Arthroplasty', 'Cardiovascular', 'Spine', 'Endo-Surgical'].map(type => (
-                                <button 
-                                    key={type}
-                                    onClick={() => { setForm({...form, surgeryType: type}); setStep(2); }}
-                                    className="flex items-center justify-between p-4 bg-white/5 border border-white/5 rounded-2xl hover:border-primary/50 transition-all text-sm font-bold text-left hover:bg-primary/5 group"
-                                >
-                                    {type}
-                                    <ChevronRight className="w-4 h-4 text-white/20 group-hover:text-primary" />
-                                </button>
-                            ))}
-                        </div>
-                    </motion.div>
-                )}
-
-                {step === 2 && (
-                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-4">
-                        <input 
-                            placeholder="Hospital Name"
-                            className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-sm focus:outline-none focus:border-primary transition-all"
-                            value={form.hospital}
-                            onChange={(e) => setForm({...form, hospital: e.target.value})}
-                        />
-                        <input 
-                            placeholder="District (e.g. Warangal)"
-                            className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-sm focus:outline-none focus:border-primary transition-all"
-                            value={form.district}
-                            onChange={(e) => setForm({...form, district: e.target.value})}
-                        />
-                        
-                        <div className="pt-4 flex gap-4">
-                            <button onClick={() => setStep(1)} className="flex-1 py-4 border border-white/10 rounded-2xl text-xs font-black uppercase tracking-widest text-white/40">Back</button>
-                            <button 
-                                onClick={handleRequest}
-                                className="flex-[2] py-4 bg-primary text-black rounded-2xl text-xs font-black uppercase tracking-widest shadow-xl shadow-primary/20"
-                            >
-                                Dispatch Now
-                            </button>
-                        </div>
-                    </motion.div>
-                )}
-
-                <div className="pt-8 border-t border-white/5 flex items-center justify-center gap-4 text-[9px] font-black uppercase tracking-[0.3em] text-white/20">
-                    <ShieldCheck className="w-3 h-3 text-primary" />
-                    CDSCO Validated Dispatch
+                <div className="flex items-start gap-3 p-3 rounded-2xl bg-primary/5 border border-primary/20">
+                  <Activity className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                  <div>
+                    <p className="text-[10px] font-bold text-primary/60 uppercase tracking-widest mb-1">Status</p>
+                    <p className="text-sm font-black text-white leading-tight">Coordinators Standby <br />for 33 Districts</p>
+                  </div>
                 </div>
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <a 
+                  href="https://wa.me/917416521222?text=EMERGENCY: Need OT Support for surgery in Telangana."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 w-full bg-primary text-black py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
+                >
+                  <Phone className="w-3.5 h-3.5" />
+                  Request Emergency Support
+                </a>
+                <Link 
+                  href="/districts"
+                  className="flex items-center justify-center gap-1 text-[9px] font-black uppercase tracking-[0.2em] text-white/20 hover:text-primary transition-colors py-2"
+                >
+                  View Regional Hubs <ChevronRight className="w-3 h-3" />
+                </Link>
+              </div>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
+
+      <motion.button
+        onClick={() => setIsOpen(!isOpen)}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        className={`flex items-center gap-3 px-6 py-4 rounded-full border shadow-2xl transition-all duration-500 ${
+          isOpen 
+            ? 'bg-primary border-primary text-black' 
+            : 'bg-black/60 backdrop-blur-xl border-primary/40 text-white hover:border-primary'
+        }`}
+      >
+        <div className="relative">
+          <Zap className={`w-5 h-5 ${isOpen ? 'fill-black' : 'fill-primary text-primary animate-pulse'}`} />
+          {!isOpen && (
+            <motion.div 
+              animate={{ scale: [1, 1.8, 1], opacity: [0.5, 0, 0.5] }}
+              transition={{ duration: 2, repeat: Infinity }}
+              className="absolute inset-0 bg-primary/50 rounded-full blur-sm"
+            />
+          )}
+        </div>
+        <span className="text-[10px] font-black uppercase tracking-[0.3em]">
+          {isOpen ? 'Close Command Desk' : 'OT Command Desk'}
+        </span>
+      </motion.button>
     </div>
   );
 }
