@@ -86,7 +86,8 @@ class BrochureExtractor:
             else:
                 return await self._extract_litellm(pdf_path, target_products)
         except Exception as e:
-            logger.warning(f"Primary provider {self.provider} failed: {e}")
+            error_msg = str(e).encode('utf-8', 'ignore').decode('utf-8')
+            logger.warning(f"Primary provider {self.provider} failed: {error_msg}")
             if self.provider == "gemini" and (self.openai_key or self.anthropic_key):
                 logger.info("Falling back to LiteLLM (Claude/GPT)...")
                 return await self._extract_litellm(pdf_path, target_products)
@@ -155,7 +156,11 @@ class BrochureExtractor:
 
         try:
             # Attempt File API first
-            uploaded_file = self.gemini_client.files.upload(file=pdf_path)
+            safe_display_name = file_name.encode('ascii', 'ignore').decode('ascii')
+            uploaded_file = self.gemini_client.files.upload(
+                file=pdf_path,
+                config=types.UploadFileConfig(display_name=safe_display_name)
+            )
             response = self.gemini_client.models.generate_content(
                 model="gemini-2.0-flash",
                 contents=[uploaded_file, prompt],

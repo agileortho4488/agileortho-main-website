@@ -51,7 +51,7 @@ class SwarmOrchestrator:
             return
 
         async with self.semaphore:
-            logger.info(f"--- Processing: {file_name} ---")
+            logger.info(f"--- Processing: {str(file_name.encode('utf-8', 'ignore').decode('utf-8'))} ---")
             retries = 3
             backoff = 60 # Start with 60s backoff for 429s
 
