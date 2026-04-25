@@ -10,7 +10,7 @@ interface DivisionPageProps {
 // SSG: Pre-generate all 13 clinical division paths
 export async function generateStaticParams() {
   const products = await getAllProducts();
-  const divisions = new Set(products.map((p: any) => p.division_canonical?.toLowerCase()).filter(Boolean));
+  const divisions = new Set(products.map((p: any) => p.division_canonical?.toLowerCase().replace(/\s+/g, '-')).filter(Boolean));
   return Array.from(divisions).map((division) => ({
     division,
   }));
@@ -18,7 +18,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: DivisionPageProps) {
   const { division } = await params;
-  const divisionName = division.charAt(0).toUpperCase() + division.slice(1).replace(/-/g, ' ');
+  const divisionName = division.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
   return {
     title: `${divisionName} | Agile Healthcare Meril Products`,
     description: `Browse the full catalog of Meril Life Sciences ${divisionName} medical devices available in Telangana through Agile Healthcare.`,
@@ -29,7 +29,7 @@ export default async function DivisionPage({ params }: DivisionPageProps) {
   const { division } = await params;
   const products = await getAllProducts();
   const filteredProducts = products.filter(
-    (p: any) => p.division_canonical?.toLowerCase() === division.toLowerCase()
+    (p: any) => p.division_canonical?.toLowerCase().replace(/\s+/g, '-') === division.toLowerCase()
   );
 
   if (filteredProducts.length === 0) {
