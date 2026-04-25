@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next';
 import { getAllProducts } from '@/lib/data';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = 'https://agileortho.in';
+  const baseUrl = 'https://agilehealthcare.in';
 
   // 1. Static Pages
   const staticPages = [
@@ -33,7 +33,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     url: `${baseUrl}/districts/${district}`,
     lastModified: new Date(),
     changeFrequency: 'monthly' as const,
-    priority: 0.5,
+    priority: 0.7,
   }));
 
   // 3. Product Pages (1,200+ Programmatic SEO targets)

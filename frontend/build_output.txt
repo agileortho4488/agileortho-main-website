@@ -1,0 +1,25 @@
+
+> frontend@0.1.0 build
+> next build
+
+   ▲ Next.js 15.5.15
+   - Environments: .env.local
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 17.2s
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/1264) ...
+   Generating static pages (316/1264) 
+   Generating static pages (632/1264) 
+   Generating static pages (948/1264) 
+ ✓ Generating static pages (1264/1264)
+
+> Build error occurred
+[Error: ENOENT: no such file or directory, rename '/Users/harsha/.gemini/antigravity/scratch/agileortho-main-website/frontend/.next/export/500.html' -> '/Users/harsha/.gemini/antigravity/scratch/agileortho-main-website/frontend/.next/server/pages/500.html'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'rename',
+  path: '/Users/harsha/.gemini/antigravity/scratch/agileortho-main-website/frontend/.next/export/500.html',
+  dest: '/Users/harsha/.gemini/antigravity/scratch/agileortho-main-website/frontend/.next/server/pages/500.html'
+}

@@ -116,9 +116,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
   const hasClinicalImage = Boolean(primaryImage?.storage_path);
 
   // Has brochure-extracted specs?
+  // RELAXED REQUIREMENT: If we have specs, show them even if the verified flag is missing.
   const hasTechMatrix = Boolean(
-    product.brochure_intelligence_updated &&
-    (product.technical_specifications || product.features_list?.length)
+    (product.technical_specifications && Object.keys(product.technical_specifications).length > 0) || 
+    (product.features_list && product.features_list.length > 0)
   );
 
   return (

@@ -1,8 +1,7 @@
 import type { Metadata } from 'next';
 import Script from 'next/script';
 import '../index.css';
-import ChatWidget from '../components/ChatWidget';
-import OTCommandDesk from '../components/OTCommandDesk';
+import ClientSideWidgets from '../components/ClientSideWidgets';
 
 export const metadata: Metadata = {
   title: {
@@ -11,7 +10,7 @@ export const metadata: Metadata = {
   },
   description:
     'Authorized Meril Life Sciences master franchise distributor for Telangana. 967+ medical devices across Trauma, Joint Replacement, Cardiovascular, Diagnostics & 9 more clinical divisions.',
-  metadataBase: new URL('https://agileortho.in'),
+  metadataBase: new URL('https://agilehealthcare.in'),
   openGraph: {
     type: 'website',
     locale: 'en_IN',
@@ -101,8 +100,7 @@ export default function RootLayout({
       </head>
       <body>
         {children}
-        <ChatWidget />
-        <OTCommandDesk />
+        <ClientSideWidgets />
 
         {/* Google Analytics 4 */}
         <Script

@@ -31,35 +31,45 @@ const SOLUTIONS = [
     desc: 'Anatomical plating systems and intramedullary nails engineered for early weight-bearing and stability.', 
     icon: Activity, 
     division: 'Trauma',
-    slug: 'trauma'
+    slug: 'trauma',
+    color: 'text-blue-400',
+    border: 'hover:border-blue-500/50'
   },
   { 
     title: 'Arthroplasty & Joint Care', 
     desc: 'Primary and revision joint replacement solutions for hip and knee with proprietary wear-reduction technology.', 
     icon: Stethoscope, 
     division: 'Joint Replacement',
-    slug: 'joint-replacement'
+    slug: 'arthroplasty',
+    color: 'text-primary',
+    border: 'hover:border-primary/50'
   },
   { 
     title: 'Cardiovascular Life', 
     desc: 'Bio-mimetic coronary stents and biological heart valves representing the pinnacle of interventional logic.', 
     icon: Heart, 
     division: 'Cardiovascular',
-    slug: 'cardiovascular'
+    slug: 'cardiovascular',
+    color: 'text-red-500',
+    border: 'hover:border-red-500/50'
   },
   { 
     title: 'Precision Endo-Surgery', 
     desc: 'Smart-stapling systems and laparoscopic instrumentation for minimally invasive excellence.', 
     icon: Dna, 
     division: 'Endo-Surgery',
-    slug: 'endo-surgical'
+    slug: 'endo-surgery',
+    color: 'text-purple-500',
+    border: 'hover:border-purple-500/50'
   },
   { 
     title: 'Clinical Diagnostics', 
     desc: 'Advanced laboratory analyzers and rapid diagnostic test kits for hospital-wide accuracy.', 
     icon: Microscope, 
     division: 'Diagnostics',
-    slug: 'diagnostics'
+    slug: 'diagnostics',
+    color: 'text-blue-500',
+    border: 'hover:border-blue-500/50'
   },
 ];
 
@@ -111,13 +121,13 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-8">
               <Link 
                 href="https://wa.me/918500204488?text=I%20need%20OT%20support%20for%20a%20surgery."
-                className="group relative px-12 py-6 bg-[#CC2020] text-white font-black uppercase tracking-widest text-sm rounded-none border-b-4 border-black/30 hover:bg-[#E02020] transition-all hover:scale-105 active:scale-95 shadow-[0_20px_40px_rgba(204,32,32,0.3)] w-full sm:w-auto"
+                className="group relative px-12 py-6 bg-[#CC2020] text-white font-black uppercase tracking-widest text-sm rounded-none border-b-4 border-black/30 hover:bg-[#E02020] transition-all hover:scale-105 active:scale-95 shadow-[0_20px_40px_rgba(204,32,32,0.3)] w-full sm:w-auto text-center"
               >
                 Request OT Support
               </Link>
               <Link 
                 href="/catalog"
-                className="px-12 py-6 rounded-none bg-transparent border border-white/20 font-black text-sm uppercase tracking-widest hover:bg-white hover:text-black transition-all w-full sm:w-auto"
+                className="px-12 py-6 rounded-none bg-transparent border border-white/20 font-black text-sm uppercase tracking-widest hover:bg-white hover:text-black transition-all w-full sm:w-auto text-center"
               >
                 Clinical Solutions
               </Link>
@@ -184,12 +194,12 @@ export default function Home() {
                    
                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-12">
                       <div className="space-y-4">
-                        <Link href="/evidence" className="group flex items-center gap-4 text-sm font-black uppercase tracking-widest text-primary border border-primary/20 px-6 py-4 rounded-xl hover:bg-primary/5 transition-all">
+                        <Link href="/evidence" className="group flex items-center gap-4 text-sm font-black uppercase tracking-widest text-primary border border-primary/20 px-6 py-4 rounded-xl hover:bg-primary/5 transition-all text-center justify-center">
                            Evidence Hub
                         </Link>
                       </div>
                       <div className="space-y-4">
-                        <Link href="/catalog" className="group flex items-center gap-4 text-sm font-black uppercase tracking-widest text-white border border-white/20 px-6 py-4 rounded-xl hover:bg-white/5 transition-all">
+                        <Link href="/catalog" className="group flex items-center gap-4 text-sm font-black uppercase tracking-widest text-white border border-white/20 px-6 py-4 rounded-xl hover:bg-white/5 transition-all text-center justify-center">
                            Catalog Desk
                         </Link>
                       </div>
@@ -215,7 +225,9 @@ export default function Home() {
              </div>
           </div>
         </div>
-      </section>      {/* CLINICAL EXCELLENCE INITIATIVE — The Content Enrichment Hub */}
+      </section>
+
+      {/* CLINICAL EXCELLENCE INITIATIVE — The Content Enrichment Hub */}
       <ClinicalShowcase />
 
 
@@ -235,12 +247,12 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="group relative p-10 bg-[#111] border border-white/5 rounded-[40px] hover:border-primary/50 transition-all overflow-hidden"
+                className={`group relative p-10 bg-[#111] border border-white/5 rounded-[40px] ${sol.border} transition-all overflow-hidden`}
               >
                 <div className="absolute top-0 right-0 p-6 opacity-0 group-hover:opacity-100 transition-opacity">
                    <ChevronRight className="w-8 h-8 text-primary" />
                 </div>
-                <sol.icon className="w-12 h-12 text-primary mb-8" />
+                <sol.icon className={`w-12 h-12 ${sol.color} mb-8`} />
                 <h3 className="text-2xl font-black mb-4 uppercase tracking-tighter">{sol.title}</h3>
                 <p className="text-muted-foreground leading-relaxed mb-8">
                   {sol.desc}
@@ -275,7 +287,7 @@ export default function Home() {
                   <h5 className="text-[10px] font-black uppercase tracking-[0.4em] text-primary mb-8">Surgical Desk</h5>
                   <ul className="space-y-4 text-sm font-bold opacity-60 hover:opacity-100 transition-opacity">
                     <li><Link href="/catalog/trauma">Fracture Mgmt</Link></li>
-                    <li><Link href="/catalog/joint-replacement">Joint Care</Link></li>
+                    <li><Link href="/catalog/arthroplasty">Joint Care</Link></li>
                     <li><Link href="/catalog/cardiovascular">Heart Solutions</Link></li>
                   </ul>
                 </div>

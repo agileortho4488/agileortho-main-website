@@ -28,7 +28,8 @@ export default function CommandSearch({ isOpen, onClose }: { isOpen: boolean, on
 
   async function loadData() {
     try {
-      const res = await fetch('/api/products');
+      // Use the slim API to reduce initial search latency
+      const res = await fetch('/api/products?slim=true');
       const data = await res.json();
       setAllProducts(data);
     } catch (err) {
@@ -45,7 +46,7 @@ export default function CommandSearch({ isOpen, onClose }: { isOpen: boolean, on
     const searchLower = query.toLowerCase();
     const filtered: SearchResult[] = [];
 
-    // Search Products (Top 5)
+    // Search Products (Top 8)
     const productMatches = allProducts
       .filter(p => 
         p.product_name_display?.toLowerCase().includes(searchLower) ||

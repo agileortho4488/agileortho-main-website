@@ -31,15 +31,31 @@ export default function TechnicalMatrix({
   const [expanded, setExpanded] = useState(true);
   const [blueprintMode, setBlueprintMode] = useState(false);
 
-  // Normalize specs to array format
+  // Normalize specs to array format and handle nested objects/arrays
   const specRows: TechSpec[] = Array.isArray(specs)
-    ? specs
-    : Object.entries(specs || {}).map(([label, value]) => ({ label, value }));
+    ? (specs as any[]).map(s => ({ 
+        label: String(s.label || ''), 
+        value: typeof s.value === 'object' ? JSON.stringify(s.value).replace(/[\[\]"{}]/g, ' ') : String(s.value || '') 
+      }))
+    : Object.entries(specs || {}).map(([label, value]) => {
+        let formattedValue = '';
+        if (Array.isArray(value)) {
+          formattedValue = value.join(', ');
+        } else if (typeof value === 'object' && value !== null) {
+          formattedValue = Object.entries(value)
+            .map(([k, v]) => `${k.replace(/_/g, ' ')}: ${Array.isArray(v) ? v.join(', ') : v}`)
+            .join(' | ');
+        } else {
+          formattedValue = String(value);
+        }
+        return { label, value: formattedValue };
+      });
 
   // Split specs into sizing (has "mm" or numbers) vs general
   const sizingRows = specRows.filter(s =>
     /\d/.test(s.value) || s.label.toLowerCase().includes('hole') ||
-    s.label.toLowerCase().includes('length') || s.label.toLowerCase().includes('part')
+    s.label.toLowerCase().includes('length') || s.label.toLowerCase().includes('part') ||
+    s.label.toLowerCase().includes('size') || s.label.toLowerCase().includes('diameter')
   );
   const generalRows = specRows.filter(s => !sizingRows.includes(s));
 
@@ -52,7 +68,7 @@ export default function TechnicalMatrix({
     : 'shadow-primary/10';
 
   const tabs = [
-    { id: 'matrix', label: 'Size Matrix', icon: Table2, count: sizingRows.length },
+    { id: 'matrix', label: 'Size Matrix', icon: Table2, count: sizingRows.length + generalRows.length },
     { id: 'features', label: 'Key Features', icon: ShieldCheck, count: features.length },
     { id: 'indications', label: 'Indications', icon: Microscope, count: indications.length },
   ] as const;
@@ -136,7 +152,7 @@ export default function TechnicalMatrix({
               <AnimatePresence mode="wait">
                 {activeTab === 'matrix' && (
                   <motion.div key="matrix" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                    {sizingRows.length > 0 ? (
+                    {sizingRows.length > 0 || generalRows.length > 0 ? (
                       <div className={`overflow-x-auto relative transition-all duration-500 ${blueprintMode ? 'p-4' : ''}`}>
                         {(visualStyle === 'cool_surgical_blue' || blueprintMode) && (
                           <>
@@ -156,60 +172,63 @@ export default function TechnicalMatrix({
                             )}
                           </>
                         )}
-                        <table className="w-full text-sm relative z-10">
-                          <thead>
-                            <tr className={`border-b ${visualStyle === 'cool_surgical_blue' ? 'border-blue-500/20' : 'border-white/10'}`}>
-                              <th className={`text-left py-3 px-4 text-[10px] font-black uppercase tracking-widest ${visualStyle === 'cool_surgical_blue' ? 'text-blue-400' : 'text-primary/60'}`}>
-                                Technical Blueprint Specification
-                              </th>
-                              <th className={`text-right py-3 px-4 text-[10px] font-black uppercase tracking-widest ${visualStyle === 'cool_surgical_blue' ? 'text-blue-400' : 'text-primary/60'}`}>
-                                Clinical Value
-                              </th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {sizingRows.map((row, i) => (
-                              <tr
-                                key={i}
-                                className={`border-b ${
-                                  (visualStyle === 'cool_surgical_blue' || blueprintMode) ? 'border-blue-500/10' : 'border-white/5'
-                                } hover:bg-white/[0.04] transition-all group/row ${
-                                  i % 2 === 0 ? 'bg-transparent' : 'bg-white/[0.01]'
-                                }`}
-                              >
-                                <td className="py-3 px-4 text-white/60 font-medium relative">
-                                  <div className="flex items-center gap-2">
-                                    {(visualStyle === 'cool_surgical_blue' || blueprintMode) && (
-                                      <span className={`inline-block w-1 h-1 rounded-full ${blueprintMode ? 'bg-blue-400' : 'bg-blue-500/40'} mr-2`} />
-                                    )}
-                                    <span className={blueprintMode ? 'font-mono text-[11px] text-blue-100 group-hover/row:text-blue-400 transition-colors' : ''}>
-                                      {row.label}
-                                    </span>
-                                  </div>
-                                  {blueprintMode && (
-                                    <div className="absolute left-4 right-4 bottom-3 h-px border-b border-dotted border-blue-500/20 opacity-0 group-hover/row:opacity-100 transition-opacity" />
-                                  )}
-                                </td>
-                                <td className="py-3 px-4 text-right">
-                                  <span className={`font-black tabular-nums transition-all ${
-                                    blueprintMode 
-                                      ? 'text-blue-400 font-mono text-base tracking-tighter' 
-                                      : (visualStyle === 'cool_surgical_blue' ? 'text-blue-300' : 'text-primary')
-                                  }`}>
-                                    {row.value}
-                                  </span>
-                                  {blueprintMode && <span className="ml-2 text-[8px] text-blue-500/50 font-black uppercase">±0.01</span>}
-                                </td>
+                        
+                        {sizingRows.length > 0 && (
+                          <table className="w-full text-sm relative z-10">
+                            <thead>
+                              <tr className={`border-b ${visualStyle === 'cool_surgical_blue' ? 'border-blue-500/20' : 'border-white/10'}`}>
+                                <th className={`text-left py-3 px-4 text-[10px] font-black uppercase tracking-widest ${visualStyle === 'cool_surgical_blue' ? 'text-blue-400' : 'text-primary/60'}`}>
+                                  Technical Blueprint Specification
+                                </th>
+                                <th className={`text-right py-3 px-4 text-[10px] font-black uppercase tracking-widest ${visualStyle === 'cool_surgical_blue' ? 'text-blue-400' : 'text-primary/60'}`}>
+                                  Clinical Value
+                                </th>
                               </tr>
-                            ))}
-                          </tbody>
-                        </table>
+                            </thead>
+                            <tbody>
+                              {sizingRows.map((row, i) => (
+                                <tr
+                                  key={i}
+                                  className={`border-b ${
+                                    (visualStyle === 'cool_surgical_blue' || blueprintMode) ? 'border-blue-500/10' : 'border-white/5'
+                                  } hover:bg-white/[0.04] transition-all group/row ${
+                                    i % 2 === 0 ? 'bg-transparent' : 'bg-white/[0.01]'
+                                  }`}
+                                >
+                                  <td className="py-3 px-4 text-white/60 font-medium relative">
+                                    <div className="flex items-center gap-2">
+                                      {(visualStyle === 'cool_surgical_blue' || blueprintMode) && (
+                                        <span className={`inline-block w-1 h-1 rounded-full ${blueprintMode ? 'bg-blue-400' : 'bg-blue-500/40'} mr-2`} />
+                                      )}
+                                      <span className={blueprintMode ? 'font-mono text-[11px] text-blue-100 group-hover/row:text-blue-400 transition-colors' : ''}>
+                                        {row.label}
+                                      </span>
+                                    </div>
+                                    {blueprintMode && (
+                                      <div className="absolute left-4 right-4 bottom-3 h-px border-b border-dotted border-blue-500/20 opacity-0 group-hover/row:opacity-100 transition-opacity" />
+                                    )}
+                                  </td>
+                                  <td className="py-3 px-4 text-right">
+                                    <span className={`font-black tabular-nums transition-all ${
+                                      blueprintMode 
+                                        ? 'text-blue-400 font-mono text-base tracking-tighter' 
+                                        : (visualStyle === 'cool_surgical_blue' ? 'text-blue-300' : 'text-primary')
+                                    }`}>
+                                      {row.value}
+                                    </span>
+                                    {blueprintMode && <span className="ml-2 text-[8px] text-blue-500/50 font-black uppercase">±0.01</span>}
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        )}
 
                         {/* General Specs */}
                         {generalRows.length > 0 && (
-                          <div className="mt-6 grid grid-cols-2 gap-3">
+                          <div className={`grid grid-cols-1 sm:grid-cols-2 gap-3 ${sizingRows.length > 0 ? 'mt-8 border-t border-white/5 pt-8' : ''}`}>
                             {generalRows.map((row, i) => (
-                              <div key={i} className="p-3 rounded-xl bg-white/[0.03] border border-white/5">
+                              <div key={i} className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-white/10 transition-all">
                                 <p className="text-[10px] font-black uppercase tracking-widest text-white/30 mb-1">{row.label}</p>
                                 <p className={`text-sm font-bold ${visualStyle === 'cool_surgical_blue' ? 'text-blue-300' : 'text-white'}`}>{row.value}</p>
                               </div>
@@ -218,7 +237,7 @@ export default function TechnicalMatrix({
                         )}
 
                         {materials && (
-                          <div className={`mt-4 p-4 rounded-xl border flex items-center gap-3 ${blueAccent}`}>
+                          <div className={`mt-6 p-4 rounded-xl border flex items-center gap-3 ${blueAccent}`}>
                             <ShieldCheck className="w-4 h-4 shrink-0" />
                             <div>
                               <p className="text-[9px] font-black uppercase tracking-widest opacity-60 mb-0.5">Primary Material</p>
@@ -228,7 +247,10 @@ export default function TechnicalMatrix({
                         )}
                       </div>
                     ) : (
-                      <p className="text-center text-white/30 py-8 text-sm">No sizing data extracted yet.</p>
+                      <div className="py-20 text-center">
+                        <Microscope className="w-12 h-12 text-white/5 mx-auto mb-4" />
+                        <p className="text-white/30 font-bold italic tracking-tight uppercase text-xs">No Matrix Data Extracted</p>
+                      </div>
                     )}
                   </motion.div>
                 )}

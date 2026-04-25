@@ -10,18 +10,23 @@ interface DivisionPageProps {
 
 const DIVISION_META: Record<string, { emoji: string; color: string; tagline: string; bg: string }> = {
   'trauma':                { emoji: '🦴', color: '#3b82f6', bg: 'from-blue-950/40 to-[#0A0A0A]',     tagline: 'Fracture Management & Fixation Systems' },
+  'arthroplasty':          { emoji: '🦿', color: '#a78bfa', bg: 'from-violet-950/40 to-[#0A0A0A]',   tagline: 'Arthroplasty & Reconstruction Solutions' },
   'joint-replacement':     { emoji: '🦿', color: '#a78bfa', bg: 'from-violet-950/40 to-[#0A0A0A]',   tagline: 'Arthroplasty & Reconstruction Solutions' },
   'cardiovascular':        { emoji: '❤️', color: '#f43f5e', bg: 'from-rose-950/40 to-[#0A0A0A]',     tagline: 'Stents, THV & Cardiac Interventions' },
   'diagnostics':           { emoji: '🧪', color: '#10b981', bg: 'from-emerald-950/40 to-[#0A0A0A]',  tagline: 'IVD Tests, Analyzers & Lab Equipment' },
+  'endo-surgery':          { emoji: '🔬', color: '#f59e0b', bg: 'from-amber-950/40 to-[#0A0A0A]',    tagline: 'Staplers, Trocars & Laparoscopic Devices' },
   'endo-surgical':         { emoji: '🔬', color: '#f59e0b', bg: 'from-amber-950/40 to-[#0A0A0A]',    tagline: 'Staplers, Trocars & Laparoscopic Devices' },
   'endo surgery':          { emoji: '🔬', color: '#f59e0b', bg: 'from-amber-950/40 to-[#0A0A0A]',    tagline: 'Minimally Invasive Surgical Instruments' },
+  'infection-prevention':  { emoji: '🛡️', color: '#06b6d4', bg: 'from-cyan-950/40 to-[#0A0A0A]',    tagline: 'Antiseptics, Sterilization & Wound Care' },
   'infection prevention':  { emoji: '🛡️', color: '#06b6d4', bg: 'from-cyan-950/40 to-[#0A0A0A]',    tagline: 'Antiseptics, Sterilization & Wound Care' },
   'instruments':           { emoji: '✂️', color: '#94a3b8', bg: 'from-slate-800/40 to-[#0A0A0A]',    tagline: 'Precision OT Instruments & Accessories' },
+  'sports-medicine':       { emoji: '⚡', color: '#f97316', bg: 'from-orange-950/40 to-[#0A0A0A]',   tagline: 'Arthroscopy & Soft Tissue Fixation' },
   'sports medicine':       { emoji: '⚡', color: '#f97316', bg: 'from-orange-950/40 to-[#0A0A0A]',   tagline: 'Arthroscopy & Soft Tissue Fixation' },
   'ent':                   { emoji: '👂', color: '#8b5cf6', bg: 'from-purple-950/40 to-[#0A0A0A]',   tagline: 'Ear, Nose & Throat Surgical Systems' },
   'urology':               { emoji: '💧', color: '#0ea5e9', bg: 'from-sky-950/40 to-[#0A0A0A]',      tagline: 'Stents, Stone Management & Endoscopy' },
+  'critical-care':         { emoji: '🏥', color: '#ef4444', bg: 'from-red-950/40 to-[#0A0A0A]',      tagline: 'ICU Consumables & Life Support Supplies' },
   'critical care':         { emoji: '🏥', color: '#ef4444', bg: 'from-red-950/40 to-[#0A0A0A]',      tagline: 'ICU Consumables & Life Support Supplies' },
-  'peripheral intervention': { emoji: '💉', color: '#14b8a6', bg: 'from-teal-950/40 to-[#0A0A0A]',  tagline: 'Peripheral Stents & Vascular Access Devices' },
+  'peripheral-intervention': { emoji: '💉', color: '#14b8a6', bg: 'from-teal-950/40 to-[#0A0A0A]',  tagline: 'Peripheral Stents & Vascular Access Devices' },
   'robotics':              { emoji: '🤖', color: '#e879f9', bg: 'from-fuchsia-950/40 to-[#0A0A0A]',  tagline: 'Surgical Navigation & Robotic Systems' },
   'spine':                 { emoji: '🧬', color: '#84cc16', bg: 'from-lime-950/40 to-[#0A0A0A]',     tagline: 'Fusion Implants & Motion Preservation' },
 };
@@ -36,7 +41,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: DivisionPageProps) {
   const { division } = await params;
-  const meta = DIVISION_META[division.toLowerCase()];
+  const meta = DIVISION_META[division.toLowerCase().replace(/%20/g, ' ')];
   const divisionName = division.split('-').map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
   return {
     title: `${divisionName} Medical Devices in Telangana | Agile Healthcare`,
@@ -48,15 +53,18 @@ export async function generateMetadata({ params }: DivisionPageProps) {
 export default async function DivisionPage({ params }: DivisionPageProps) {
   const { division } = await params;
   const products = await getAllProducts();
+  const normalizedDivision = division.toLowerCase().replace(/%20/g, ' ');
+  
   const filteredProducts = products.filter(
-    (p: any) => p.division_canonical?.toLowerCase().replace(/\s+/g, '-') === division.toLowerCase()
+    (p: any) => p.division_canonical?.toLowerCase().replace(/\s+/g, '-') === normalizedDivision ||
+                p.division_canonical?.toLowerCase() === normalizedDivision
   );
 
   if (filteredProducts.length === 0) notFound();
 
   const divisionName = filteredProducts[0].division_canonical;
-  const seoData = DIVISION_SEO_CONTENT[division.toLowerCase()];
-  const meta = DIVISION_META[division.toLowerCase()] || { emoji: '📦', color: '#fff', bg: 'from-gray-900/40 to-[#0A0A0A]', tagline: 'Medical Devices' };
+  const seoData = DIVISION_SEO_CONTENT[normalizedDivision];
+  const meta = DIVISION_META[normalizedDivision] || { emoji: '📦', color: '#fff', bg: 'from-gray-900/40 to-[#0A0A0A]', tagline: 'Medical Devices' };
 
   return (
     <div className="min-h-screen bg-[#0A0A0A] text-white">
@@ -153,7 +161,7 @@ export default async function DivisionPage({ params }: DivisionPageProps) {
                 style={{ background: `${meta.color}08` }}>
                 {product.images?.[0]?.storage_path ? (
                   <img
-                    src={product.images[0].storage_path}
+                    src={product.images[0].storage_path.startsWith('http') ? product.images[0].storage_path : `https://cdn.agileortho.in/${product.images[0].storage_path}`}
                     alt={product.product_name_display}
                     className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-500"
                   />
@@ -206,7 +214,7 @@ export default async function DivisionPage({ params }: DivisionPageProps) {
               </div>
               <h2 className="text-3xl font-black tracking-tighter text-white mb-8">{seoData.title}</h2>
               <div className="space-y-5">
-                {seoData.content.map((paragraph, idx) => (
+                {seoData.content.map((paragraph: string, idx: number) => (
                   <p key={idx} className="text-muted-foreground leading-relaxed">{paragraph}</p>
                 ))}
               </div>

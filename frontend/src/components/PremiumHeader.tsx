@@ -25,8 +25,8 @@ export default function PremiumHeader() {
     {
       title: 'Musculoskeletal',
       links: [
-        { name: 'Trauma & Reconstruction', href: '/divisions/trauma' },
-        { name: 'Arthroplasty (Joints)', href: '/divisions/arthroplasty' },
+        { name: 'Trauma & Reconstruction', href: '/catalog/trauma' },
+        { name: 'Arthroplasty (Joints)', href: '/catalog/arthroplasty' },
         { name: 'Spine & Biologics', href: '/catalog/spine' },
         { name: 'Sports Medicine', href: '/catalog/sports-medicine' },
       ]
@@ -34,10 +34,10 @@ export default function PremiumHeader() {
     {
       title: 'Cardiovascular',
       links: [
-        { name: 'Interventional Cardiology', href: '/divisions/cardiovascular' },
+        { name: 'Interventional Cardiology', href: '/catalog/cardiovascular' },
         { name: 'Peripheral Intervention', href: '/catalog/peripheral-intervention' },
         { name: 'CRM & Electrophysiology', href: '/catalog/cardiovascular' },
-        { name: 'Structural Heart (TAVR)', href: '/divisions/cardiovascular' },
+        { name: 'Structural Heart (TAVR)', href: '/catalog/cardiovascular' },
       ]
     },
     {
@@ -128,7 +128,7 @@ export default function PremiumHeader() {
                       initial={{ opacity: 0, y: 10, scale: 0.95 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                      className="absolute top-full left-[-350px] mt-4 w-[1100px] bg-[#0A0A0A]/95 backdrop-blur-3xl border border-white/10 rounded-[40px] p-10 shadow-[0_32px_64px_rgba(0,0,0,0.8)]"
+                      className="absolute top-full left-0 mt-4 w-[1100px] bg-[#0A0A0A]/95 backdrop-blur-3xl border border-white/10 rounded-[40px] p-10 shadow-[0_32px_64px_rgba(0,0,0,0.8)]"
                     >
                       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-50" />
                       <div className="relative z-10 grid grid-cols-6 gap-8">
@@ -160,7 +160,7 @@ export default function PremiumHeader() {
                                 Zero safety issues at 1-year across 1,000+ patients. The global gold standard.
                               </p>
                               <Link 
-                                href="/divisions/cardiovascular" 
+                                href="/catalog/cardiovascular" 
                                 className="inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-widest text-primary group-hover/spotlight:translate-x-1 transition-transform"
                                 onClick={() => setDivisionsOpen(false)}
                               >

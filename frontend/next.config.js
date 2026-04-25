@@ -26,6 +26,10 @@ const nextConfig = {
       },
       {
         protocol: 'https',
+        hostname: 'agilehealthcare.in',
+      },
+      {
+        protocol: 'https',
         hostname: 'agileortho.in',
       },
       {
@@ -37,6 +41,19 @@ const nextConfig = {
 
   // Supress hydration warnings from browser extensions
   reactStrictMode: true,
+
+  // Webpack fallback for node modules in client
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        path: false,
+        os: false,
+      };
+    }
+    return config;
+  },
 };
 
 module.exports = nextConfig;
