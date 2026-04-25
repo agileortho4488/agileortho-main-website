@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { getAllProducts } from '@/lib/data';
 import { notFound } from 'next/navigation';
+import { DIVISION_SEO_CONTENT } from '@/lib/seoContent';
 
 interface DivisionPageProps {
   params: Promise<{ division: string }>;
@@ -22,6 +23,9 @@ export async function generateMetadata({ params }: DivisionPageProps) {
   return {
     title: `${divisionName} | Agile Healthcare Meril Products`,
     description: `Browse the full catalog of Meril Life Sciences ${divisionName} medical devices available in Telangana through Agile Healthcare.`,
+    alternates: {
+      canonical: `https://agileortho.in/catalog/${division}`,
+    },
   };
 }
 
@@ -37,6 +41,7 @@ export default async function DivisionPage({ params }: DivisionPageProps) {
   }
 
   const divisionName = filteredProducts[0].division_canonical;
+  const seoData = DIVISION_SEO_CONTENT[division.toLowerCase()];
 
   return (
     <div className="min-h-screen bg-[#0A0A0A] text-white py-16 px-4 sm:px-6 lg:px-8">
@@ -92,6 +97,20 @@ export default async function DivisionPage({ params }: DivisionPageProps) {
             </Link>
           ))}
         </div>
+
+        {/* CLINICAL SEO BLOCK */}
+        {seoData && (
+          <div className="mt-24 pt-12 border-t border-white/10 max-w-4xl mx-auto text-center">
+            <h2 className="text-2xl font-bold font-heading text-white mb-6">
+              {seoData.title}
+            </h2>
+            <div className="space-y-4 text-muted-foreground leading-relaxed text-sm">
+              {seoData.content.map((paragraph, idx) => (
+                <p key={idx}>{paragraph}</p>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

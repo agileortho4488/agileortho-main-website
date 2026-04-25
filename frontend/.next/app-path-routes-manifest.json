@@ -1,0 +1,17 @@
+{
+  "/_not-found/page": "/_not-found",
+  "/api/products/route": "/api/products",
+  "/sitemap.xml/route": "/sitemap.xml",
+  "/robots.txt/route": "/robots.txt",
+  "/catalog/page": "/catalog",
+  "/districts/%5Bslug%5D/page": "/districts/%5Bslug%5D",
+  "/contact/page": "/contact",
+  "/about/page": "/about",
+  "/evidence/page": "/evidence",
+  "/solutions/[procedure]/page": "/solutions/[procedure]",
+  "/page": "/",
+  "/districts/page": "/districts",
+  "/catalog/products/[slug]/page": "/catalog/products/[slug]",
+  "/catalog/[division]/page": "/catalog/[division]",
+  "/districts/[slug]/page": "/districts/[slug]"
+}

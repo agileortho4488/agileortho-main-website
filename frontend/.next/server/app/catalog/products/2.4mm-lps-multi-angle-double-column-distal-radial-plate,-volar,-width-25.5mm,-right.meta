@@ -1,0 +1,8 @@
+{
+  "status": 404,
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/catalog/layout,_N_T_/catalog/products/layout,_N_T_/catalog/products/[slug]/layout,_N_T_/catalog/products/[slug]/page,_N_T_/catalog/products/2.4mm-lps-multi-angle-double-column-distal-radial-plate%2C-volar%2C-width-25.5mm%2C-right"
+  }
+}

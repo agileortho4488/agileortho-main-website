@@ -7,6 +7,8 @@ import Image from 'next/image';
 import ProductActions from '@/components/ProductActions';
 import TechnicalMatrix from '@/components/TechnicalMatrix';
 import SizingWizard from '@/components/SizingWizard';
+import RelatedProducts from '@/components/RelatedProducts';
+import ProductFAQ from '@/components/ProductFAQ';
 
 interface ProductPageProps {
   params: Promise<{ slug: string }>;
@@ -36,6 +38,9 @@ export async function generateMetadata(
       title: product.seo_meta_title,
       description: product.seo_meta_description,
       type: 'website',
+    },
+    alternates: {
+      canonical: `https://agileortho.in/catalog/products/${slug}`,
     },
   };
 }
@@ -254,18 +259,16 @@ export default async function ProductPage({ params }: ProductPageProps) {
           </div>
         )}
 
-        {/* Related Products Placeholder */}
-        <div className="pt-16 border-t border-white/5 text-center">
-          <p className="text-[10px] font-black uppercase tracking-[0.4em] text-white/20 mb-6">
-            Agile Healthcare · Authorized Meril Distributor · Telangana & AP
-          </p>
-          <Link
-            href="/catalog"
-            className="inline-flex items-center gap-3 px-8 py-4 border border-white/10 rounded-full text-sm font-black uppercase tracking-widest hover:border-white/30 transition-all"
-          >
-            ← Back to Full Catalog
-          </Link>
-        </div>
+        {/* DYNAMIC FAQ PAGE (Featured Snippets SEO) */}
+        <ProductFAQ product={product} visualStyle={visualStyle} />
+
+        {/* DYNAMIC INTERNAL LINKING ENGINE (Spiderweb) */}
+        <RelatedProducts 
+          currentProductSlug={product.slug}
+          division={product.division_canonical}
+          category={product.category}
+          visualStyle={visualStyle}
+        />
       </div>
     </div>
   );

@@ -21,6 +21,9 @@ export async function generateMetadata({ params }: DistrictPageProps) {
   return {
     title: `Medical Devices in ${district.name}, Telangana | Agile Healthcare`,
     description: `Authorized Meril Life Sciences distributor in ${district.name}, Telangana. Bulk supply of orthopedic implants, cardiovascular stents, diagnostic analyzers, surgical instruments. ${district.tagline}`,
+    alternates: {
+      canonical: `https://agileortho.in/districts/${slug}`,
+    },
   };
 }
 

@@ -1,3 +1,17 @@
 {
-  "/catalog/products/[slug]/page": "app/catalog/products/[slug]/page.js"
+  "/_not-found/page": "app/_not-found/page.js",
+  "/api/products/route": "app/api/products/route.js",
+  "/sitemap.xml/route": "app/sitemap.xml/route.js",
+  "/robots.txt/route": "app/robots.txt/route.js",
+  "/catalog/page": "app/catalog/page.js",
+  "/districts/%5Bslug%5D/page": "app/districts/%5Bslug%5D/page.js",
+  "/contact/page": "app/contact/page.js",
+  "/about/page": "app/about/page.js",
+  "/evidence/page": "app/evidence/page.js",
+  "/solutions/[procedure]/page": "app/solutions/[procedure]/page.js",
+  "/page": "app/page.js",
+  "/districts/page": "app/districts/page.js",
+  "/catalog/products/[slug]/page": "app/catalog/products/[slug]/page.js",
+  "/catalog/[division]/page": "app/catalog/[division]/page.js",
+  "/districts/[slug]/page": "app/districts/[slug]/page.js"
 }

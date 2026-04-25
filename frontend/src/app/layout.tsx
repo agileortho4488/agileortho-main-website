@@ -46,6 +46,9 @@ export const metadata: Metadata = {
   verification: {
     google: 'MXXC41JFLG',
   },
+  alternates: {
+    canonical: 'https://agileortho.in',
+  },
 };
 
 // LocalBusiness JSON-LD — tells Google exactly who you are
