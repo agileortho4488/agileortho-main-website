@@ -38,21 +38,21 @@ const SOLUTIONS = [
     desc: 'Primary and revision joint replacement solutions for hip and knee with proprietary wear-reduction technology.', 
     icon: Stethoscope, 
     division: 'Joint Replacement',
-    slug: 'ortho'
+    slug: 'joint-replacement'
   },
   { 
     title: 'Cardiovascular Life', 
     desc: 'Bio-mimetic coronary stents and biological heart valves representing the pinnacle of interventional logic.', 
     icon: Heart, 
     division: 'Cardiovascular',
-    slug: 'cardio'
+    slug: 'cardiovascular'
   },
   { 
     title: 'Precision Endo-Surgery', 
     desc: 'Smart-stapling systems and laparoscopic instrumentation for minimally invasive excellence.', 
     icon: Dna, 
     division: 'Endo-Surgery',
-    slug: 'endo'
+    slug: 'endo-surgical'
   },
   { 
     title: 'Clinical Diagnostics', 
@@ -248,7 +248,7 @@ export default function Home() {
                 <div className="flex items-center gap-3">
                    <span className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40">Division: {sol.division}</span>
                 </div>
-                <Link href={`/catalog?division=${sol.slug}`} className="absolute inset-0 z-10" />
+                <Link href={`/catalog/${sol.slug}`} className="absolute inset-0 z-10" />
               </motion.div>
             ))}
           </div>
@@ -274,9 +274,9 @@ export default function Home() {
                 <div>
                   <h5 className="text-[10px] font-black uppercase tracking-[0.4em] text-primary mb-8">Surgical Desk</h5>
                   <ul className="space-y-4 text-sm font-bold opacity-60 hover:opacity-100 transition-opacity">
-                    <li><Link href="/catalog?division=trauma">Fracture Mgmt</Link></li>
-                    <li><Link href="/catalog?division=ortho">Joint Care</Link></li>
-                    <li><Link href="/catalog?division=cardio">Heart Solutions</Link></li>
+                    <li><Link href="/catalog/trauma">Fracture Mgmt</Link></li>
+                    <li><Link href="/catalog/joint-replacement">Joint Care</Link></li>
+                    <li><Link href="/catalog/cardiovascular">Heart Solutions</Link></li>
                   </ul>
                 </div>
                 <div>

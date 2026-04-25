@@ -108,7 +108,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
         <nav className="flex mb-10 text-sm text-muted-foreground" aria-label="Breadcrumb">
           <Link href="/catalog" className="hover:text-primary transition-colors">Catalog</Link>
           <span className="mx-2">/</span>
-          <Link href={`/catalog?division=${product.division_canonical}`} className="hover:text-primary transition-colors">
+          <Link href={`/catalog/${product.division_canonical.toLowerCase().replace(/\s+/g, '-')}`} className="hover:text-primary transition-colors">
             {product.division_canonical}
           </Link>
           <span className="mx-2">/</span>
