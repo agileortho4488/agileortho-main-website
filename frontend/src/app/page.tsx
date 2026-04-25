@@ -196,9 +196,22 @@ export default function Home() {
                    </div>
                 </motion.div>
              </div>
-             
              <div className="relative group">
-                <SizingWizard />
+                <SizingWizard 
+                   productName="Destiknee Total Knee System" 
+                   visualStyle="cool_surgical_blue"
+                   sizingData={{
+                     metric: "Femoral A-P (mm)",
+                     options: [
+                       { min: 0, max: 55, size: "Size 1" },
+                       { min: 55, max: 60, size: "Size 2" },
+                       { min: 60, max: 65, size: "Size 3" },
+                       { min: 65, max: 70, size: "Size 4" },
+                       { min: 70, max: 75, size: "Size 5" },
+                       { min: 75, max: 100, size: "Size 6" }
+                     ]
+                   }}
+                />
              </div>
           </div>
         </div>
