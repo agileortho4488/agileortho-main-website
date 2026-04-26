@@ -23,7 +23,16 @@
     "technical_specifications": {
       "procedure_type": "Dental",
       "specialty": "Diagnostic Imaging"
-    }
+    },
+    "description_live": "Official technical specifications for Vizora 3DView Cone Beam Computed Tomography. State-of-the-art dental technology from Meril ODENT.",
+    "description_shadow": "Official technical specifications for Vizora 3DView Cone Beam Computed Tomography. State-of-the-art dental technology from Meril ODENT.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "2585ed5139f59810",
@@ -49,7 +58,16 @@
     "technical_specifications": {
       "procedure_type": "Dental",
       "specialty": "Diagnostic Imaging"
-    }
+    },
+    "description_live": "Official technical specifications for Vizora ScanPro Intraoral Scanner. State-of-the-art dental technology from Meril ODENT.",
+    "description_shadow": "Official technical specifications for Vizora ScanPro Intraoral Scanner. State-of-the-art dental technology from Meril ODENT.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "70aaccee4b726c29",
@@ -75,7 +93,16 @@
     "technical_specifications": {
       "procedure_type": "Dental",
       "specialty": "Diagnostic Imaging"
-    }
+    },
+    "description_live": "Official technical specifications for Vizora FaceMap Dental Face 3D Scanner. State-of-the-art dental technology from Meril ODENT.",
+    "description_shadow": "Official technical specifications for Vizora FaceMap Dental Face 3D Scanner. State-of-the-art dental technology from Meril ODENT.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "5e622e7949fabff9",
@@ -101,7 +128,16 @@
     "technical_specifications": {
       "procedure_type": "Dental",
       "specialty": "Diagnostic Imaging"
-    }
+    },
+    "description_live": "Official technical specifications for Vizora X-RaySense RVG Sensor. State-of-the-art dental technology from Meril ODENT.",
+    "description_shadow": "Official technical specifications for Vizora X-RaySense RVG Sensor. State-of-the-art dental technology from Meril ODENT.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "1f0e8acb8a901a1d",
@@ -127,7 +163,16 @@
     "technical_specifications": {
       "procedure_type": "Dental",
       "specialty": "Diagnostic Imaging"
-    }
+    },
+    "description_live": "Official technical specifications for Vizora RayGun X-Ray Gun. State-of-the-art dental technology from Meril ODENT.",
+    "description_shadow": "Official technical specifications for Vizora RayGun X-Ray Gun. State-of-the-art dental technology from Meril ODENT.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "921dd07147087353",
@@ -153,7 +198,16 @@
     "technical_specifications": {
       "procedure_type": "Dental",
       "specialty": "Restorative Workflows"
-    }
+    },
+    "description_live": "Official technical specifications for OptraDent RootPutty Root Canal Putty. State-of-the-art dental technology from Meril ODENT.",
+    "description_shadow": "Official technical specifications for OptraDent RootPutty Root Canal Putty. State-of-the-art dental technology from Meril ODENT.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "0d9a8f84a67a7b77",
@@ -179,7 +233,16 @@
     "technical_specifications": {
       "procedure_type": "Dental",
       "specialty": "Restorative Workflows"
-    }
+    },
+    "description_live": "Official technical specifications for OptraDent ResiKit Dental Resin Kit. State-of-the-art dental technology from Meril ODENT.",
+    "description_shadow": "Official technical specifications for OptraDent ResiKit Dental Resin Kit. State-of-the-art dental technology from Meril ODENT.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "27b70d72425a2a46",
@@ -205,7 +268,16 @@
     "technical_specifications": {
       "procedure_type": "Dental",
       "specialty": "Restorative Workflows"
-    }
+    },
+    "description_live": "Official technical specifications for OptraDent EtchPrime Etchant Gel. State-of-the-art dental technology from Meril ODENT.",
+    "description_shadow": "Official technical specifications for OptraDent EtchPrime Etchant Gel. State-of-the-art dental technology from Meril ODENT.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "30ae69c9fd560000",
@@ -231,7 +303,16 @@
     "technical_specifications": {
       "procedure_type": "Dental",
       "specialty": "Restorative Workflows"
-    }
+    },
+    "description_live": "Official technical specifications for OptraDent SealGuard Dental Pit & Fissure Sealant. State-of-the-art dental technology from Meril ODENT.",
+    "description_shadow": "Official technical specifications for OptraDent SealGuard Dental Pit & Fissure Sealant. State-of-the-art dental technology from Meril ODENT.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "b362bda9e3a6c39b",
@@ -257,7 +338,16 @@
     "technical_specifications": {
       "procedure_type": "Dental",
       "specialty": "Restorative Workflows"
-    }
+    },
+    "description_live": "Official technical specifications for OptraDent BioSeal Root Canal Bioceramic Sealer. State-of-the-art dental technology from Meril ODENT.",
+    "description_shadow": "Official technical specifications for OptraDent BioSeal Root Canal Bioceramic Sealer. State-of-the-art dental technology from Meril ODENT.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "0e62c329caa56840",
@@ -283,7 +373,16 @@
     "technical_specifications": {
       "procedure_type": "Dental",
       "specialty": "Endodontic Precision"
-    }
+    },
+    "description_live": "Official technical specifications for Endovate FusionOne Integrated Endo System. State-of-the-art dental technology from Meril ODENT.",
+    "description_shadow": "Official technical specifications for Endovate FusionOne Integrated Endo System. State-of-the-art dental technology from Meril ODENT.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "6e175dee8aae11da",
@@ -309,7 +408,16 @@
     "technical_specifications": {
       "procedure_type": "Dental",
       "specialty": "Endodontic Precision"
-    }
+    },
+    "description_live": "Official technical specifications for Endovate MicroView Dental Surgical Microscope. State-of-the-art dental technology from Meril ODENT.",
+    "description_shadow": "Official technical specifications for Endovate MicroView Dental Surgical Microscope. State-of-the-art dental technology from Meril ODENT.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "3d22aa9015ff7fde",
@@ -335,7 +443,16 @@
     "technical_specifications": {
       "procedure_type": "Dental",
       "specialty": "Endodontic Precision"
-    }
+    },
+    "description_live": "Official technical specifications for Endovate Motix Pro Endo Motor with Apex Locator. State-of-the-art dental technology from Meril ODENT.",
+    "description_shadow": "Official technical specifications for Endovate Motix Pro Endo Motor with Apex Locator. State-of-the-art dental technology from Meril ODENT.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "41c3f79eb8812c20",
@@ -361,7 +478,16 @@
     "technical_specifications": {
       "procedure_type": "Dental",
       "specialty": "Endodontic Precision"
-    }
+    },
+    "description_live": "Official technical specifications for Endovate ThermaFill GP Obturation Filler. State-of-the-art dental technology from Meril ODENT.",
+    "description_shadow": "Official technical specifications for Endovate ThermaFill GP Obturation Filler. State-of-the-art dental technology from Meril ODENT.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "c5150cc0688428d6",
@@ -387,7 +513,16 @@
     "technical_specifications": {
       "procedure_type": "Dental",
       "specialty": "Endodontic Precision"
-    }
+    },
+    "description_live": "Official technical specifications for Endovate ObtuCut GP Obturation Cutter. State-of-the-art dental technology from Meril ODENT.",
+    "description_shadow": "Official technical specifications for Endovate ObtuCut GP Obturation Cutter. State-of-the-art dental technology from Meril ODENT.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "de1becddd4431262",
@@ -413,7 +548,16 @@
     "technical_specifications": {
       "procedure_type": "Dental",
       "specialty": "CAD/CAM Solutions"
-    }
+    },
+    "description_live": "Official technical specifications for Prosthenix MillPro Dental Hybrid Milling Machine. State-of-the-art dental technology from Meril ODENT.",
+    "description_shadow": "Official technical specifications for Prosthenix MillPro Dental Hybrid Milling Machine. State-of-the-art dental technology from Meril ODENT.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "51b19a6b0195806e",
@@ -439,7 +583,16 @@
     "technical_specifications": {
       "procedure_type": "Dental",
       "specialty": "CAD/CAM Solutions"
-    }
+    },
+    "description_live": "Official technical specifications for Prosthenix SinterMax Sintering Furnace. State-of-the-art dental technology from Meril ODENT.",
+    "description_shadow": "Official technical specifications for Prosthenix SinterMax Sintering Furnace. State-of-the-art dental technology from Meril ODENT.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "49c290d457dd07fe",
@@ -465,7 +618,16 @@
     "technical_specifications": {
       "procedure_type": "Dental",
       "specialty": "CAD/CAM Solutions"
-    }
+    },
+    "description_live": "Official technical specifications for Prosthenix DustVac Milling Dust Collector. State-of-the-art dental technology from Meril ODENT.",
+    "description_shadow": "Official technical specifications for Prosthenix DustVac Milling Dust Collector. State-of-the-art dental technology from Meril ODENT.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "6637d6918b912176",
@@ -491,7 +653,16 @@
     "technical_specifications": {
       "procedure_type": "Dental",
       "specialty": "CAD/CAM Solutions"
-    }
+    },
+    "description_live": "Official technical specifications for Prosthenix PrintDent Dental 3D Printer. State-of-the-art dental technology from Meril ODENT.",
+    "description_shadow": "Official technical specifications for Prosthenix PrintDent Dental 3D Printer. State-of-the-art dental technology from Meril ODENT.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "5ed6d72c78b903d1",
@@ -517,7 +688,16 @@
     "technical_specifications": {
       "procedure_type": "Dental",
       "specialty": "CAD/CAM Solutions"
-    }
+    },
+    "description_live": "Official technical specifications for Prosthenix ZircoDisc Zirconia Disc. State-of-the-art dental technology from Meril ODENT.",
+    "description_shadow": "Official technical specifications for Prosthenix ZircoDisc Zirconia Disc. State-of-the-art dental technology from Meril ODENT.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "7b4e05bb0a51f81a",
@@ -543,7 +723,16 @@
     "technical_specifications": {
       "procedure_type": "Dental",
       "specialty": "Implant Systems"
-    }
+    },
+    "description_live": "Official technical specifications for ImplorX ImplaPower Dental Implant Motor. State-of-the-art dental technology from Meril ODENT.",
+    "description_shadow": "Official technical specifications for ImplorX ImplaPower Dental Implant Motor. State-of-the-art dental technology from Meril ODENT.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "8cfe2c63cef84da3",
@@ -569,7 +758,16 @@
     "technical_specifications": {
       "procedure_type": "Dental",
       "specialty": "Implant Systems"
-    }
+    },
+    "description_live": "Official technical specifications for ImplorX ImplaDrive Dental Implant Handpiece. State-of-the-art dental technology from Meril ODENT.",
+    "description_shadow": "Official technical specifications for ImplorX ImplaDrive Dental Implant Handpiece. State-of-the-art dental technology from Meril ODENT.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "3adae01e9e596ffe",
@@ -595,7 +793,16 @@
     "technical_specifications": {
       "procedure_type": "Dental",
       "specialty": "Implant Systems"
-    }
+    },
+    "description_live": "Official technical specifications for ImplorX OsteoSaw Dental Saw Handpiece. State-of-the-art dental technology from Meril ODENT.",
+    "description_shadow": "Official technical specifications for ImplorX OsteoSaw Dental Saw Handpiece. State-of-the-art dental technology from Meril ODENT.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "f1007559813c2123",
@@ -621,7 +828,16 @@
     "technical_specifications": {
       "procedure_type": "Dental",
       "specialty": "Implant Systems"
-    }
+    },
+    "description_live": "Official technical specifications for Mordent Dental Implant Kit. State-of-the-art dental technology from Meril ODENT.",
+    "description_shadow": "Official technical specifications for Mordent Dental Implant Kit. State-of-the-art dental technology from Meril ODENT.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "825f41e7359638c0",
@@ -647,7 +863,16 @@
     "technical_specifications": {
       "procedure_type": "Dental",
       "specialty": "Implant Systems"
-    }
+    },
+    "description_live": "Official technical specifications for Mordent Dental Abutment. State-of-the-art dental technology from Meril ODENT.",
+    "description_shadow": "Official technical specifications for Mordent Dental Abutment. State-of-the-art dental technology from Meril ODENT.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "a010dc993185c901",
@@ -673,7 +898,16 @@
     "technical_specifications": {
       "procedure_type": "Dental",
       "specialty": "Implant Systems"
-    }
+    },
+    "description_live": "Official technical specifications for Mordent Dental Implant Screw. State-of-the-art dental technology from Meril ODENT.",
+    "description_shadow": "Official technical specifications for Mordent Dental Implant Screw. State-of-the-art dental technology from Meril ODENT.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "091d74597f3e4e64",
@@ -699,7 +933,16 @@
     "technical_specifications": {
       "procedure_type": "Dental",
       "specialty": "Infection Control"
-    }
+    },
+    "description_live": "Official technical specifications for Sterixis AutoSter Table Top Autoclave. State-of-the-art dental technology from Meril ODENT.",
+    "description_shadow": "Official technical specifications for Sterixis AutoSter Table Top Autoclave. State-of-the-art dental technology from Meril ODENT.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "8d88ae6d24db90c8",
@@ -725,7 +968,16 @@
     "technical_specifications": {
       "procedure_type": "Dental",
       "specialty": "Infection Control"
-    }
+    },
+    "description_live": "Official technical specifications for Sterixis H2OPure Dental Water Distiller. State-of-the-art dental technology from Meril ODENT.",
+    "description_shadow": "Official technical specifications for Sterixis H2OPure Dental Water Distiller. State-of-the-art dental technology from Meril ODENT.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "c72b8afa9c0650aa",
@@ -751,7 +1003,16 @@
     "technical_specifications": {
       "procedure_type": "Dental",
       "specialty": "Infection Control"
-    }
+    },
+    "description_live": "Official technical specifications for Sterixis SealSafe Dental Sealing Machine. State-of-the-art dental technology from Meril ODENT.",
+    "description_shadow": "Official technical specifications for Sterixis SealSafe Dental Sealing Machine. State-of-the-art dental technology from Meril ODENT.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "33b4e4a42d534c9c",
@@ -777,7 +1038,16 @@
     "technical_specifications": {
       "procedure_type": "Dental",
       "specialty": "Infection Control"
-    }
+    },
+    "description_live": "Official technical specifications for Sterixis SonoClean Dental Ultrasonic Cleaner. State-of-the-art dental technology from Meril ODENT.",
+    "description_shadow": "Official technical specifications for Sterixis SonoClean Dental Ultrasonic Cleaner. State-of-the-art dental technology from Meril ODENT.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "c8a5f0a40638d93f",
@@ -803,7 +1073,16 @@
     "technical_specifications": {
       "procedure_type": "Dental",
       "specialty": "Orthodontics"
-    }
+    },
+    "description_live": "Official technical specifications for Alignia ArchRect Dental Archwires (Rectangle). State-of-the-art dental technology from Meril ODENT.",
+    "description_shadow": "Official technical specifications for Alignia ArchRect Dental Archwires (Rectangle). State-of-the-art dental technology from Meril ODENT.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "186d7155a42e4091",
@@ -829,7 +1108,16 @@
     "technical_specifications": {
       "procedure_type": "Dental",
       "specialty": "Orthodontics"
-    }
+    },
+    "description_live": "Official technical specifications for Alignia ArchRound Dental Archwires (Round). State-of-the-art dental technology from Meril ODENT.",
+    "description_shadow": "Official technical specifications for Alignia ArchRound Dental Archwires (Round). State-of-the-art dental technology from Meril ODENT.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "71944674963a1c09",
@@ -855,7 +1143,16 @@
     "technical_specifications": {
       "procedure_type": "Dental",
       "specialty": "Orthodontics"
-    }
+    },
+    "description_live": "Official technical specifications for Alignia BraceFit Dental Braces / Standard Brackets. State-of-the-art dental technology from Meril ODENT.",
+    "description_shadow": "Official technical specifications for Alignia BraceFit Dental Braces / Standard Brackets. State-of-the-art dental technology from Meril ODENT.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "d3f77212604f07d9",
@@ -881,7 +1178,16 @@
     "technical_specifications": {
       "procedure_type": "Dental",
       "specialty": "Orthodontics"
-    }
+    },
+    "description_live": "Official technical specifications for Alignia SelfBrace Self-Ligating Bracket. State-of-the-art dental technology from Meril ODENT.",
+    "description_shadow": "Official technical specifications for Alignia SelfBrace Self-Ligating Bracket. State-of-the-art dental technology from Meril ODENT.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "01d35bd754420b33",
@@ -907,7 +1213,16 @@
     "technical_specifications": {
       "procedure_type": "Dental",
       "specialty": "Orthodontics"
-    }
+    },
+    "description_live": "Official technical specifications for Alignia ThermoForm Thermoforming Machine. State-of-the-art dental technology from Meril ODENT.",
+    "description_shadow": "Official technical specifications for Alignia ThermoForm Thermoforming Machine. State-of-the-art dental technology from Meril ODENT.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "dcaa8965a93fc1f9",
@@ -933,7 +1248,16 @@
     "technical_specifications": {
       "procedure_type": "Dental",
       "specialty": "Soft-Tissue Care"
-    }
+    },
+    "description_live": "Official technical specifications for PerioLite UltraScale Ultrasonic Scaler. State-of-the-art dental technology from Meril ODENT.",
+    "description_shadow": "Official technical specifications for PerioLite UltraScale Ultrasonic Scaler. State-of-the-art dental technology from Meril ODENT.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "8ac31133d222ab06",
@@ -959,7 +1283,16 @@
     "technical_specifications": {
       "procedure_type": "Dental",
       "specialty": "Soft-Tissue Care"
-    }
+    },
+    "description_live": "Official technical specifications for Mesic Dental Diode Laser System. State-of-the-art dental technology from Meril ODENT.",
+    "description_shadow": "Official technical specifications for Mesic Dental Diode Laser System. State-of-the-art dental technology from Meril ODENT.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "5df3b4025925edca",
@@ -985,7 +1318,16 @@
     "technical_specifications": {
       "procedure_type": "Dental",
       "specialty": "Preventive Solutions"
-    }
+    },
+    "description_live": "Official technical specifications for SmileAura AlumiX Pro Alumina Oxide Air Polisher. State-of-the-art dental technology from Meril ODENT.",
+    "description_shadow": "Official technical specifications for SmileAura AlumiX Pro Alumina Oxide Air Polisher. State-of-the-art dental technology from Meril ODENT.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "b9faf5705e8ad2eb",
@@ -1011,7 +1353,16 @@
     "technical_specifications": {
       "procedure_type": "Dental",
       "specialty": "Preventive Solutions"
-    }
+    },
+    "description_live": "Official technical specifications for SmileAura OralJet Oral Irrigator. State-of-the-art dental technology from Meril ODENT.",
+    "description_shadow": "Official technical specifications for SmileAura OralJet Oral Irrigator. State-of-the-art dental technology from Meril ODENT.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "7b76f7515105bffd",
@@ -1037,7 +1388,16 @@
     "technical_specifications": {
       "procedure_type": "Dental",
       "specialty": "Preventive Solutions"
-    }
+    },
+    "description_live": "Official technical specifications for SmileAura WhitenX LED Teeth Whitening System. State-of-the-art dental technology from Meril ODENT.",
+    "description_shadow": "Official technical specifications for SmileAura WhitenX LED Teeth Whitening System. State-of-the-art dental technology from Meril ODENT.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "133e97cd3fee545c",
@@ -1063,7 +1423,16 @@
     "technical_specifications": {
       "procedure_type": "Dental",
       "specialty": "Preventive Solutions"
-    }
+    },
+    "description_live": "Official technical specifications for SmileAura AirPolish Dental Air Polishing Device. State-of-the-art dental technology from Meril ODENT.",
+    "description_shadow": "Official technical specifications for SmileAura AirPolish Dental Air Polishing Device. State-of-the-art dental technology from Meril ODENT.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "4df965a3829ed003",
@@ -1089,7 +1458,16 @@
     "technical_specifications": {
       "procedure_type": "Dental",
       "specialty": "Everyday Equipment"
-    }
+    },
+    "description_live": "Official technical specifications for DentAxis ChairOne Dental Chair. State-of-the-art dental technology from Meril ODENT.",
+    "description_shadow": "Official technical specifications for DentAxis ChairOne Dental Chair. State-of-the-art dental technology from Meril ODENT.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "5ff9476196dd32d5",
@@ -1115,7 +1493,16 @@
     "technical_specifications": {
       "procedure_type": "Dental",
       "specialty": "Everyday Equipment"
-    }
+    },
+    "description_live": "Official technical specifications for DentAxis Turbo45 45-Degree Surgical High-speed Air Turbine. State-of-the-art dental technology from Meril ODENT.",
+    "description_shadow": "Official technical specifications for DentAxis Turbo45 45-Degree Surgical High-speed Air Turbine. State-of-the-art dental technology from Meril ODENT.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "bd4e2fbf6869d6a7",
@@ -1141,7 +1528,16 @@
     "technical_specifications": {
       "procedure_type": "Dental",
       "specialty": "Everyday Equipment"
-    }
+    },
+    "description_live": "Official technical specifications for DentAxis TurboMax3 High Speed Air Turbine. State-of-the-art dental technology from Meril ODENT.",
+    "description_shadow": "Official technical specifications for DentAxis TurboMax3 High Speed Air Turbine. State-of-the-art dental technology from Meril ODENT.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "82e05bb0308c8874",
@@ -1167,7 +1563,16 @@
     "technical_specifications": {
       "procedure_type": "Dental",
       "specialty": "Everyday Equipment"
-    }
+    },
+    "description_live": "Official technical specifications for DentAxis ContraX Contra Angle Handpiece. State-of-the-art dental technology from Meril ODENT.",
+    "description_shadow": "Official technical specifications for DentAxis ContraX Contra Angle Handpiece. State-of-the-art dental technology from Meril ODENT.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "6c5f9398351a5645",
@@ -1193,7 +1598,16 @@
     "technical_specifications": {
       "procedure_type": "Dental",
       "specialty": "Everyday Equipment"
-    }
+    },
+    "description_live": "Official technical specifications for DentAxis Anaeject Dental Anesthesia Booster. State-of-the-art dental technology from Meril ODENT.",
+    "description_shadow": "Official technical specifications for DentAxis Anaeject Dental Anesthesia Booster. State-of-the-art dental technology from Meril ODENT.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "077a60e788df0bc9",
@@ -1219,7 +1633,16 @@
     "technical_specifications": {
       "procedure_type": "Dental",
       "specialty": "Everyday Equipment"
-    }
+    },
+    "description_live": "Official technical specifications for DentAxis LiteCure LED Curing Light. State-of-the-art dental technology from Meril ODENT.",
+    "description_shadow": "Official technical specifications for DentAxis LiteCure LED Curing Light. State-of-the-art dental technology from Meril ODENT.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "651d7e43f6a66010",
@@ -1245,7 +1668,16 @@
     "technical_specifications": {
       "procedure_type": "Urology",
       "specialty": "Catheters"
-    }
+    },
+    "description_live": "Official technical specifications for Deflure™ Ureteral Balloon Dilatation Catheter. Advanced urological solutions from Meril Life Sciences.",
+    "description_shadow": "Official technical specifications for Deflure™ Ureteral Balloon Dilatation Catheter. Advanced urological solutions from Meril Life Sciences.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "b5dc0578806fdd04",
@@ -1271,7 +1703,16 @@
     "technical_specifications": {
       "procedure_type": "Urology",
       "specialty": "Catheters"
-    }
+    },
+    "description_live": "Official technical specifications for SupraSure™ Suprapubic Cystostomy Catheter. Advanced urological solutions from Meril Life Sciences.",
+    "description_shadow": "Official technical specifications for SupraSure™ Suprapubic Cystostomy Catheter. Advanced urological solutions from Meril Life Sciences.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "bb2bb0a2606e77c6",
@@ -1297,7 +1738,16 @@
     "technical_specifications": {
       "procedure_type": "Urology",
       "specialty": "Catheters"
-    }
+    },
+    "description_live": "Official technical specifications for Rescath™ General-Purpose Ureteral Catheter. Advanced urological solutions from Meril Life Sciences.",
+    "description_shadow": "Official technical specifications for Rescath™ General-Purpose Ureteral Catheter. Advanced urological solutions from Meril Life Sciences.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "da5f424e647f74f6",
@@ -1323,7 +1773,16 @@
     "technical_specifications": {
       "procedure_type": "Urology",
       "specialty": "Stone Retrieval"
-    }
+    },
+    "description_live": "Official technical specifications for Ri-Catch™ Urinary Stone Retrieval Basket (Flexible). Advanced urological solutions from Meril Life Sciences.",
+    "description_shadow": "Official technical specifications for Ri-Catch™ Urinary Stone Retrieval Basket (Flexible). Advanced urological solutions from Meril Life Sciences.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "af678e88fc92124d",
@@ -1349,7 +1808,16 @@
     "technical_specifications": {
       "procedure_type": "Urology",
       "specialty": "Stone Retrieval"
-    }
+    },
+    "description_live": "Official technical specifications for Ri-Catch+™ Urinary Stone Retrieval Basket (Rigid). Advanced urological solutions from Meril Life Sciences.",
+    "description_shadow": "Official technical specifications for Ri-Catch+™ Urinary Stone Retrieval Basket (Rigid). Advanced urological solutions from Meril Life Sciences.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "0d048a7b46057505",
@@ -1375,7 +1843,16 @@
     "technical_specifications": {
       "procedure_type": "Urology",
       "specialty": "Stone Retrieval"
-    }
+    },
+    "description_live": "Official technical specifications for Messtone™ Urological Retrieval Coil. Advanced urological solutions from Meril Life Sciences.",
+    "description_shadow": "Official technical specifications for Messtone™ Urological Retrieval Coil. Advanced urological solutions from Meril Life Sciences.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "cdbda7ea4c900655",
@@ -1401,7 +1878,16 @@
     "technical_specifications": {
       "procedure_type": "Urology",
       "specialty": "Access Sheaths"
-    }
+    },
+    "description_live": "Official technical specifications for Provure™ Ureteral Access Sheath. Advanced urological solutions from Meril Life Sciences.",
+    "description_shadow": "Official technical specifications for Provure™ Ureteral Access Sheath. Advanced urological solutions from Meril Life Sciences.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "913c9788f07485fe",
@@ -1427,7 +1913,16 @@
     "technical_specifications": {
       "procedure_type": "Urology",
       "specialty": "Access Sheaths"
-    }
+    },
+    "description_live": "Official technical specifications for Provure™+ Ureteral Access Sheath - Y Type. Advanced urological solutions from Meril Life Sciences.",
+    "description_shadow": "Official technical specifications for Provure™+ Ureteral Access Sheath - Y Type. Advanced urological solutions from Meril Life Sciences.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "2823f63e17663dd2",
@@ -1453,7 +1948,16 @@
     "technical_specifications": {
       "procedure_type": "Urology",
       "specialty": "Access Sheaths"
-    }
+    },
+    "description_live": "Official technical specifications for Provure Pro™ Ureteral Access Sheath - YB Bendable. Advanced urological solutions from Meril Life Sciences.",
+    "description_shadow": "Official technical specifications for Provure Pro™ Ureteral Access Sheath - YB Bendable. Advanced urological solutions from Meril Life Sciences.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "450d99ba00ac2c0a",
@@ -1479,7 +1983,16 @@
     "technical_specifications": {
       "procedure_type": "Urology",
       "specialty": "Access Sheaths"
-    }
+    },
+    "description_live": "Official technical specifications for Glizer™ Amplatz Sheath. Advanced urological solutions from Meril Life Sciences.",
+    "description_shadow": "Official technical specifications for Glizer™ Amplatz Sheath. Advanced urological solutions from Meril Life Sciences.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "7e4812e081a10219",
@@ -1505,7 +2018,16 @@
     "technical_specifications": {
       "procedure_type": "Urology",
       "specialty": "Ureteral Stents"
-    }
+    },
+    "description_live": "Official technical specifications for UretrixPro™ Ureteral Stent Package. Advanced urological solutions from Meril Life Sciences.",
+    "description_shadow": "Official technical specifications for UretrixPro™ Ureteral Stent Package. Advanced urological solutions from Meril Life Sciences.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "7ff855b9783d193c",
@@ -1531,7 +2053,16 @@
     "technical_specifications": {
       "procedure_type": "Urology",
       "specialty": "Ureteral Stents"
-    }
+    },
+    "description_live": "Official technical specifications for Uretrix™+ Hydrophilic Ureteral Stent. Advanced urological solutions from Meril Life Sciences.",
+    "description_shadow": "Official technical specifications for Uretrix™+ Hydrophilic Ureteral Stent. Advanced urological solutions from Meril Life Sciences.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "3ea39ad2fa9ce086",
@@ -1557,7 +2088,16 @@
     "technical_specifications": {
       "procedure_type": "Urology",
       "specialty": "Ureteral Stents"
-    }
+    },
+    "description_live": "Official technical specifications for Uretrix™ Ureteral Stent. Advanced urological solutions from Meril Life Sciences.",
+    "description_shadow": "Official technical specifications for Uretrix™ Ureteral Stent. Advanced urological solutions from Meril Life Sciences.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "7c8daa88d5dc70dc",
@@ -1583,7 +2123,16 @@
     "technical_specifications": {
       "procedure_type": "Urology",
       "specialty": "Ureteral Stents"
-    }
+    },
+    "description_live": "Official technical specifications for RiMosten™ Mono Stent. Advanced urological solutions from Meril Life Sciences.",
+    "description_shadow": "Official technical specifications for RiMosten™ Mono Stent. Advanced urological solutions from Meril Life Sciences.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "3b1facd288c50d19",
@@ -1609,7 +2158,16 @@
     "technical_specifications": {
       "procedure_type": "Urology",
       "specialty": "Guidewires"
-    }
+    },
+    "description_live": "Official technical specifications for Zebcor™ Zebra Guidewire. Advanced urological solutions from Meril Life Sciences.",
+    "description_shadow": "Official technical specifications for Zebcor™ Zebra Guidewire. Advanced urological solutions from Meril Life Sciences.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "6584dcafe2143b00",
@@ -1635,7 +2193,16 @@
     "technical_specifications": {
       "procedure_type": "Urology",
       "specialty": "Guidewires"
-    }
+    },
+    "description_live": "Official technical specifications for Ribrid™ Hybrid Guidewire. Advanced urological solutions from Meril Life Sciences.",
+    "description_shadow": "Official technical specifications for Ribrid™ Hybrid Guidewire. Advanced urological solutions from Meril Life Sciences.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "1ec50a13f28b3247",
@@ -1661,7 +2228,16 @@
     "technical_specifications": {
       "procedure_type": "Urology",
       "specialty": "Guidewires"
-    }
+    },
+    "description_live": "Official technical specifications for Xcursion Hydrotip™ Hydrotip Guidewire. Advanced urological solutions from Meril Life Sciences.",
+    "description_shadow": "Official technical specifications for Xcursion Hydrotip™ Hydrotip Guidewire. Advanced urological solutions from Meril Life Sciences.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "8d473c77ae0aa5bb",
@@ -1687,7 +2263,16 @@
     "technical_specifications": {
       "procedure_type": "Urology",
       "specialty": "Guidewires"
-    }
+    },
+    "description_live": "Official technical specifications for Hydroease™ Hydrophilic Guidewire. Advanced urological solutions from Meril Life Sciences.",
+    "description_shadow": "Official technical specifications for Hydroease™ Hydrophilic Guidewire. Advanced urological solutions from Meril Life Sciences.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "08481a650e6821de",
@@ -1713,7 +2298,16 @@
     "technical_specifications": {
       "procedure_type": "Urology",
       "specialty": "Guidewires"
-    }
+    },
+    "description_live": "Official technical specifications for Meriskate™ PTFE Guidewire. Advanced urological solutions from Meril Life Sciences.",
+    "description_shadow": "Official technical specifications for Meriskate™ PTFE Guidewire. Advanced urological solutions from Meril Life Sciences.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "c3d54bdd9c9ec9a7",
@@ -1739,7 +2333,16 @@
     "technical_specifications": {
       "procedure_type": "Urology",
       "specialty": "Dilators"
-    }
+    },
+    "description_live": "Official technical specifications for Dilato™ Fascial Dilator Set. Advanced urological solutions from Meril Life Sciences.",
+    "description_shadow": "Official technical specifications for Dilato™ Fascial Dilator Set. Advanced urological solutions from Meril Life Sciences.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "d5fb4755e732a7cd",
@@ -1765,7 +2368,16 @@
     "technical_specifications": {
       "procedure_type": "Urology",
       "specialty": "Dilators"
-    }
+    },
+    "description_live": "Official technical specifications for Dilatrix™ Urethral Dilator. Advanced urological solutions from Meril Life Sciences.",
+    "description_shadow": "Official technical specifications for Dilatrix™ Urethral Dilator. Advanced urological solutions from Meril Life Sciences.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "99d823bb283956ee",
@@ -1791,7 +2403,16 @@
     "technical_specifications": {
       "procedure_type": "Urology",
       "specialty": "Dilators"
-    }
+    },
+    "description_live": "Official technical specifications for EasyDi™ Ureteral Dilator. Advanced urological solutions from Meril Life Sciences.",
+    "description_shadow": "Official technical specifications for EasyDi™ Ureteral Dilator. Advanced urological solutions from Meril Life Sciences.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "3640659f53916cc5",
@@ -1817,7 +2438,16 @@
     "technical_specifications": {
       "procedure_type": "Urology",
       "specialty": "Digital Imaging"
-    }
+    },
+    "description_live": "Official technical specifications for ri-Uniview™ Digital Flexible Ureteroscope. Advanced urological solutions from Meril Life Sciences.",
+    "description_shadow": "Official technical specifications for ri-Uniview™ Digital Flexible Ureteroscope. Advanced urological solutions from Meril Life Sciences.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "7142922476df8200",
@@ -1843,7 +2473,16 @@
     "technical_specifications": {
       "procedure_type": "Urology",
       "specialty": "Digital Imaging"
-    }
+    },
+    "description_live": "Official technical specifications for riUroSnap™ Image Processor. Advanced urological solutions from Meril Life Sciences.",
+    "description_shadow": "Official technical specifications for riUroSnap™ Image Processor. Advanced urological solutions from Meril Life Sciences.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "eb1d9464ed2e6610",
@@ -1869,7 +2508,16 @@
     "technical_specifications": {
       "procedure_type": "Urology",
       "specialty": "Laser Systems"
-    }
+    },
+    "description_live": "Official technical specifications for MeriFRAG™+ Holmium Laser Portable System. Advanced urological solutions from Meril Life Sciences.",
+    "description_shadow": "Official technical specifications for MeriFRAG™+ Holmium Laser Portable System. Advanced urological solutions from Meril Life Sciences.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "7855972b98877f16",
@@ -1895,7 +2543,16 @@
     "technical_specifications": {
       "procedure_type": "Urology",
       "specialty": "Special Category"
-    }
+    },
+    "description_live": "Official technical specifications for ProNeph™ Percutaneous Nephrolithotomy (PCNL) Package. Advanced urological solutions from Meril Life Sciences.",
+    "description_shadow": "Official technical specifications for ProNeph™ Percutaneous Nephrolithotomy (PCNL) Package. Advanced urological solutions from Meril Life Sciences.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "41af44c2deea64b2",
@@ -1921,7 +2578,16 @@
     "technical_specifications": {
       "procedure_type": "Sports Medicine",
       "specialty": "Shoulder Arthroscopy"
-    }
+    },
+    "description_live": "Official technical specifications for INSTAREP-TI™ Titanium Ligament Anchor. High-performance sports medicine solutions from Meril Life Sciences.",
+    "description_shadow": "Official technical specifications for INSTAREP-TI™ Titanium Ligament Anchor. High-performance sports medicine solutions from Meril Life Sciences.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "5c3d2c7527505678",
@@ -1947,7 +2613,16 @@
     "technical_specifications": {
       "procedure_type": "Sports Medicine",
       "specialty": "Shoulder Arthroscopy"
-    }
+    },
+    "description_live": "Official technical specifications for ROTAFIX-TI™ Headless Titanium Anchor. High-performance sports medicine solutions from Meril Life Sciences.",
+    "description_shadow": "Official technical specifications for ROTAFIX-TI™ Headless Titanium Anchor. High-performance sports medicine solutions from Meril Life Sciences.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "af02fcd3c9cb3d94",
@@ -1973,7 +2648,16 @@
     "technical_specifications": {
       "procedure_type": "Sports Medicine",
       "specialty": "Shoulder Arthroscopy"
-    }
+    },
+    "description_live": "Official technical specifications for INSTAREP-BIO™ Bio-Composite Suture Anchor. High-performance sports medicine solutions from Meril Life Sciences.",
+    "description_shadow": "Official technical specifications for INSTAREP-BIO™ Bio-Composite Suture Anchor. High-performance sports medicine solutions from Meril Life Sciences.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "259778fc5e8441d6",
@@ -1999,7 +2683,16 @@
     "technical_specifications": {
       "procedure_type": "Sports Medicine",
       "specialty": "Shoulder Arthroscopy"
-    }
+    },
+    "description_live": "Official technical specifications for ROTAFIX-BIO™ Bio-Composite Suture Anchor. High-performance sports medicine solutions from Meril Life Sciences.",
+    "description_shadow": "Official technical specifications for ROTAFIX-BIO™ Bio-Composite Suture Anchor. High-performance sports medicine solutions from Meril Life Sciences.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "12e1e4f963338316",
@@ -2025,7 +2718,16 @@
     "technical_specifications": {
       "procedure_type": "Sports Medicine",
       "specialty": "Shoulder Arthroscopy"
-    }
+    },
+    "description_live": "Official technical specifications for INSTAREP-PEEK™ Ligament Anchor. High-performance sports medicine solutions from Meril Life Sciences.",
+    "description_shadow": "Official technical specifications for INSTAREP-PEEK™ Ligament Anchor. High-performance sports medicine solutions from Meril Life Sciences.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "540c78b16dcc4df6",
@@ -2051,7 +2753,16 @@
     "technical_specifications": {
       "procedure_type": "Sports Medicine",
       "specialty": "Shoulder Arthroscopy"
-    }
+    },
+    "description_live": "Official technical specifications for ROTAFIX-PEEK™ Ligament Anchor. High-performance sports medicine solutions from Meril Life Sciences.",
+    "description_shadow": "Official technical specifications for ROTAFIX-PEEK™ Ligament Anchor. High-performance sports medicine solutions from Meril Life Sciences.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "7ab7df38c2beae04",
@@ -2077,7 +2788,16 @@
     "technical_specifications": {
       "procedure_type": "Sports Medicine",
       "specialty": "Shoulder Arthroscopy"
-    }
+    },
+    "description_live": "Official technical specifications for FILAHOOK™ Soft All-Suture Anchor. High-performance sports medicine solutions from Meril Life Sciences.",
+    "description_shadow": "Official technical specifications for FILAHOOK™ Soft All-Suture Anchor. High-performance sports medicine solutions from Meril Life Sciences.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "92135b00588dcdc3",
@@ -2103,7 +2823,16 @@
     "technical_specifications": {
       "procedure_type": "Sports Medicine",
       "specialty": "Shoulder Arthroscopy"
-    }
+    },
+    "description_live": "Official technical specifications for ROTAFIX™ Knotless PEEK+PEEK Anchor. High-performance sports medicine solutions from Meril Life Sciences.",
+    "description_shadow": "Official technical specifications for ROTAFIX™ Knotless PEEK+PEEK Anchor. High-performance sports medicine solutions from Meril Life Sciences.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "606044c8f6fe4018",
@@ -2129,7 +2858,16 @@
     "technical_specifications": {
       "procedure_type": "Sports Medicine",
       "specialty": "Shoulder Arthroscopy"
-    }
+    },
+    "description_live": "Official technical specifications for ROTAFIX™ Knotless PEEK+TI Anchor. High-performance sports medicine solutions from Meril Life Sciences.",
+    "description_shadow": "Official technical specifications for ROTAFIX™ Knotless PEEK+TI Anchor. High-performance sports medicine solutions from Meril Life Sciences.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "7c7e20751cd4ace5",
@@ -2155,7 +2893,16 @@
     "technical_specifications": {
       "procedure_type": "Sports Medicine",
       "specialty": "Knee Arthroscopy"
-    }
+    },
+    "description_live": "Official technical specifications for FLEXIBUTTON™ Adjustable Loop Fixation System. High-performance sports medicine solutions from Meril Life Sciences.",
+    "description_shadow": "Official technical specifications for FLEXIBUTTON™ Adjustable Loop Fixation System. High-performance sports medicine solutions from Meril Life Sciences.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "2044226c26ab8205",
@@ -2181,7 +2928,16 @@
     "technical_specifications": {
       "procedure_type": "Sports Medicine",
       "specialty": "Knee Arthroscopy"
-    }
+    },
+    "description_live": "Official technical specifications for ENDOSTUD™ Fixed Loop Fixation System. High-performance sports medicine solutions from Meril Life Sciences.",
+    "description_shadow": "Official technical specifications for ENDOSTUD™ Fixed Loop Fixation System. High-performance sports medicine solutions from Meril Life Sciences.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "f9de0de29ec0268a",
@@ -2207,7 +2963,16 @@
     "technical_specifications": {
       "procedure_type": "Sports Medicine",
       "specialty": "Knee Arthroscopy"
-    }
+    },
+    "description_live": "Official technical specifications for FERENCE-TI™ Titanium Interference Screw. High-performance sports medicine solutions from Meril Life Sciences.",
+    "description_shadow": "Official technical specifications for FERENCE-TI™ Titanium Interference Screw. High-performance sports medicine solutions from Meril Life Sciences.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "3ee0f6dc9d7ffafb",
@@ -2233,7 +2998,16 @@
     "technical_specifications": {
       "procedure_type": "Sports Medicine",
       "specialty": "Knee Arthroscopy"
-    }
+    },
+    "description_live": "Official technical specifications for FERENCE-PEEK™ PEEK Interference Screw. High-performance sports medicine solutions from Meril Life Sciences.",
+    "description_shadow": "Official technical specifications for FERENCE-PEEK™ PEEK Interference Screw. High-performance sports medicine solutions from Meril Life Sciences.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "c809da39d095aec3",
@@ -2259,7 +3033,16 @@
     "technical_specifications": {
       "procedure_type": "Sports Medicine",
       "specialty": "Knee Arthroscopy"
-    }
+    },
+    "description_live": "Official technical specifications for BIO-FERENCE™ Bio-Composite Interference Screw (PLGA+Beta-TCP). High-performance sports medicine solutions from Meril Life Sciences.",
+    "description_shadow": "Official technical specifications for BIO-FERENCE™ Bio-Composite Interference Screw (PLGA+Beta-TCP). High-performance sports medicine solutions from Meril Life Sciences.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "c7b3a88103cf0fdd",
@@ -2285,7 +3068,16 @@
     "technical_specifications": {
       "procedure_type": "Sports Medicine",
       "specialty": "Knee Arthroscopy"
-    }
+    },
+    "description_live": "Official technical specifications for BIO-FERENCE™ Bio-Absorbable Interference Screw (PLLA+HA). High-performance sports medicine solutions from Meril Life Sciences.",
+    "description_shadow": "Official technical specifications for BIO-FERENCE™ Bio-Absorbable Interference Screw (PLLA+HA). High-performance sports medicine solutions from Meril Life Sciences.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "06d3a6c2f632d60a",
@@ -2311,7 +3103,16 @@
     "technical_specifications": {
       "procedure_type": "Sports Medicine",
       "specialty": "Knee Arthroscopy"
-    }
+    },
+    "description_live": "Official technical specifications for MENISCAL DARN™ Inside-Out Meniscal Repair System. High-performance sports medicine solutions from Meril Life Sciences.",
+    "description_shadow": "Official technical specifications for MENISCAL DARN™ Inside-Out Meniscal Repair System. High-performance sports medicine solutions from Meril Life Sciences.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "60e59207c3aaa2ee",
@@ -2337,7 +3138,16 @@
     "technical_specifications": {
       "procedure_type": "Sports Medicine",
       "specialty": "Knee Arthroscopy"
-    }
+    },
+    "description_live": "Official technical specifications for RAPID-FIX™ All-Inside Meniscal Repair System. High-performance sports medicine solutions from Meril Life Sciences.",
+    "description_shadow": "Official technical specifications for RAPID-FIX™ All-Inside Meniscal Repair System. High-performance sports medicine solutions from Meril Life Sciences.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "b69113e77af4a9c8",
@@ -2363,7 +3173,16 @@
     "technical_specifications": {
       "procedure_type": "Sports Medicine",
       "specialty": "Knee Arthroscopy"
-    }
+    },
+    "description_live": "Official technical specifications for Passing Pin for ACL/PCL Reconstruction. High-performance sports medicine solutions from Meril Life Sciences.",
+    "description_shadow": "Official technical specifications for Passing Pin for ACL/PCL Reconstruction. High-performance sports medicine solutions from Meril Life Sciences.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "26d75bf65bec59ac",
@@ -2389,7 +3208,16 @@
     "technical_specifications": {
       "procedure_type": "Sports Medicine",
       "specialty": "Knee Arthroscopy"
-    }
+    },
+    "description_live": "Official technical specifications for U-Staple Titanium Tendon-to-Bone Fixation. High-performance sports medicine solutions from Meril Life Sciences.",
+    "description_shadow": "Official technical specifications for U-Staple Titanium Tendon-to-Bone Fixation. High-performance sports medicine solutions from Meril Life Sciences.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "291e6803818d6712",
@@ -2415,7 +3243,16 @@
     "technical_specifications": {
       "procedure_type": "Sports Medicine",
       "specialty": "Arthroscopy Equipment"
-    }
+    },
+    "description_live": "Official technical specifications for PERSIST™ 4K UHD Endoscope Camera System. High-performance sports medicine solutions from Meril Life Sciences.",
+    "description_shadow": "Official technical specifications for PERSIST™ 4K UHD Endoscope Camera System. High-performance sports medicine solutions from Meril Life Sciences.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "154a556612f15201",
@@ -2441,7 +3278,16 @@
     "technical_specifications": {
       "procedure_type": "Sports Medicine",
       "specialty": "Arthroscopy Equipment"
-    }
+    },
+    "description_live": "Official technical specifications for PERSIST™ FHD Endoscope Camera System. High-performance sports medicine solutions from Meril Life Sciences.",
+    "description_shadow": "Official technical specifications for PERSIST™ FHD Endoscope Camera System. High-performance sports medicine solutions from Meril Life Sciences.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "31f95d50990eb656",
@@ -2467,7 +3313,16 @@
     "technical_specifications": {
       "procedure_type": "Sports Medicine",
       "specialty": "Arthroscopy Equipment"
-    }
+    },
+    "description_live": "Official technical specifications for PERSIST™ Arthroscopy Shaver System. High-performance sports medicine solutions from Meril Life Sciences.",
+    "description_shadow": "Official technical specifications for PERSIST™ Arthroscopy Shaver System. High-performance sports medicine solutions from Meril Life Sciences.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "b51c9607d31d616d",
@@ -2493,7 +3348,16 @@
     "technical_specifications": {
       "procedure_type": "Sports Medicine",
       "specialty": "Arthroscopy Equipment"
-    }
+    },
+    "description_live": "Official technical specifications for PERSIST™ RF Plasma Surgical System. High-performance sports medicine solutions from Meril Life Sciences.",
+    "description_shadow": "Official technical specifications for PERSIST™ RF Plasma Surgical System. High-performance sports medicine solutions from Meril Life Sciences.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "5c677005d02b9fb4",
@@ -2519,7 +3383,16 @@
     "technical_specifications": {
       "procedure_type": "Sports Medicine",
       "specialty": "Arthroscopy Equipment"
-    }
+    },
+    "description_live": "Official technical specifications for PERSIST™ 32 Inch 4K Medical Monitor. High-performance sports medicine solutions from Meril Life Sciences.",
+    "description_shadow": "Official technical specifications for PERSIST™ 32 Inch 4K Medical Monitor. High-performance sports medicine solutions from Meril Life Sciences.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "1fef07068fd5c55b",
@@ -2545,7 +3418,16 @@
     "technical_specifications": {
       "procedure_type": "Sports Medicine",
       "specialty": "Arthroscopy Equipment"
-    }
+    },
+    "description_live": "Official technical specifications for PERSIST™ 32 Inch HD Medical Monitor. High-performance sports medicine solutions from Meril Life Sciences.",
+    "description_shadow": "Official technical specifications for PERSIST™ 32 Inch HD Medical Monitor. High-performance sports medicine solutions from Meril Life Sciences.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "d1af321574892aef",
@@ -2571,7 +3453,16 @@
     "technical_specifications": {
       "procedure_type": "Sports Medicine",
       "specialty": "Arthroscopy Equipment"
-    }
+    },
+    "description_live": "Official technical specifications for PERSIST™ LED Cold Light Source. High-performance sports medicine solutions from Meril Life Sciences.",
+    "description_shadow": "Official technical specifications for PERSIST™ LED Cold Light Source. High-performance sports medicine solutions from Meril Life Sciences.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   },
   {
     "id": "dd852629acc14cf3",
@@ -2597,6 +3488,15 @@
     "technical_specifications": {
       "procedure_type": "Sports Medicine",
       "specialty": "Arthroscopy Equipment"
-    }
+    },
+    "description_live": "Official technical specifications for Arthroscope 30° / 70° View (4mm / 2.4mm). High-performance sports medicine solutions from Meril Life Sciences.",
+    "description_shadow": "Official technical specifications for Arthroscope 30° / 70° View (4mm / 2.4mm). High-performance sports medicine solutions from Meril Life Sciences.",
+    "material_canonical": "Medical Grade Material",
+    "materials_canonical": [
+      "Medical Grade Material"
+    ],
+    "clinical_indications": [
+      "Professional Clinical Use"
+    ]
   }
 ]
