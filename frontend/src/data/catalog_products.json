@@ -34,7 +34,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "2585ed5139f59810",
@@ -71,7 +76,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "70aaccee4b726c29",
@@ -108,7 +118,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "5e622e7949fabff9",
@@ -145,7 +160,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "1f0e8acb8a901a1d",
@@ -182,7 +202,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "921dd07147087353",
@@ -219,7 +244,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "0d9a8f84a67a7b77",
@@ -256,7 +286,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "27b70d72425a2a46",
@@ -293,7 +328,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "30ae69c9fd560000",
@@ -330,7 +370,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "b362bda9e3a6c39b",
@@ -367,7 +412,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "0e62c329caa56840",
@@ -404,7 +454,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "6e175dee8aae11da",
@@ -441,7 +496,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "3d22aa9015ff7fde",
@@ -478,7 +538,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "41c3f79eb8812c20",
@@ -515,7 +580,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "c5150cc0688428d6",
@@ -552,7 +622,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "de1becddd4431262",
@@ -589,7 +664,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "51b19a6b0195806e",
@@ -626,7 +706,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "49c290d457dd07fe",
@@ -663,7 +748,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "6637d6918b912176",
@@ -700,7 +790,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "5ed6d72c78b903d1",
@@ -737,7 +832,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "7b4e05bb0a51f81a",
@@ -774,7 +874,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "8cfe2c63cef84da3",
@@ -811,7 +916,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "3adae01e9e596ffe",
@@ -848,7 +958,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "f1007559813c2123",
@@ -885,7 +1000,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "825f41e7359638c0",
@@ -922,7 +1042,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "a010dc993185c901",
@@ -959,7 +1084,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "091d74597f3e4e64",
@@ -996,7 +1126,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "8d88ae6d24db90c8",
@@ -1033,7 +1168,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "c72b8afa9c0650aa",
@@ -1070,7 +1210,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "33b4e4a42d534c9c",
@@ -1107,7 +1252,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "c8a5f0a40638d93f",
@@ -1144,7 +1294,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "186d7155a42e4091",
@@ -1181,7 +1336,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "71944674963a1c09",
@@ -1218,7 +1378,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "d3f77212604f07d9",
@@ -1255,7 +1420,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "01d35bd754420b33",
@@ -1292,7 +1462,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "dcaa8965a93fc1f9",
@@ -1329,7 +1504,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "8ac31133d222ab06",
@@ -1366,7 +1546,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "5df3b4025925edca",
@@ -1403,7 +1588,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "b9faf5705e8ad2eb",
@@ -1440,7 +1630,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "7b76f7515105bffd",
@@ -1477,7 +1672,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "133e97cd3fee545c",
@@ -1514,7 +1714,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "4df965a3829ed003",
@@ -1551,7 +1756,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "5ff9476196dd32d5",
@@ -1588,7 +1798,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "bd4e2fbf6869d6a7",
@@ -1625,7 +1840,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "82e05bb0308c8874",
@@ -1662,7 +1882,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "6c5f9398351a5645",
@@ -1699,7 +1924,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "077a60e788df0bc9",
@@ -1736,7 +1966,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "651d7e43f6a66010",
@@ -1773,7 +2008,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "b5dc0578806fdd04",
@@ -1810,7 +2050,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "bb2bb0a2606e77c6",
@@ -1847,7 +2092,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "da5f424e647f74f6",
@@ -1884,7 +2134,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "af678e88fc92124d",
@@ -1921,7 +2176,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "0d048a7b46057505",
@@ -1958,7 +2218,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "cdbda7ea4c900655",
@@ -1995,7 +2260,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "913c9788f07485fe",
@@ -2032,7 +2302,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "2823f63e17663dd2",
@@ -2069,7 +2344,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "450d99ba00ac2c0a",
@@ -2106,7 +2386,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "7e4812e081a10219",
@@ -2143,7 +2428,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "7ff855b9783d193c",
@@ -2180,7 +2470,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "3ea39ad2fa9ce086",
@@ -2217,7 +2512,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "7c8daa88d5dc70dc",
@@ -2254,7 +2554,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "3b1facd288c50d19",
@@ -2291,7 +2596,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "6584dcafe2143b00",
@@ -2328,7 +2638,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "1ec50a13f28b3247",
@@ -2365,7 +2680,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "8d473c77ae0aa5bb",
@@ -2402,7 +2722,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "08481a650e6821de",
@@ -2439,7 +2764,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "c3d54bdd9c9ec9a7",
@@ -2476,7 +2806,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "d5fb4755e732a7cd",
@@ -2513,7 +2848,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "99d823bb283956ee",
@@ -2550,7 +2890,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "3640659f53916cc5",
@@ -2587,7 +2932,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "7142922476df8200",
@@ -2624,7 +2974,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "eb1d9464ed2e6610",
@@ -2661,7 +3016,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "7855972b98877f16",
@@ -2698,7 +3058,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "41af44c2deea64b2",
@@ -2735,7 +3100,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "5c3d2c7527505678",
@@ -2772,7 +3142,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "af02fcd3c9cb3d94",
@@ -2809,7 +3184,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "259778fc5e8441d6",
@@ -2846,7 +3226,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "12e1e4f963338316",
@@ -2883,7 +3268,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "540c78b16dcc4df6",
@@ -2920,7 +3310,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "7ab7df38c2beae04",
@@ -2957,7 +3352,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "92135b00588dcdc3",
@@ -2994,7 +3394,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "606044c8f6fe4018",
@@ -3031,7 +3436,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "7c7e20751cd4ace5",
@@ -3068,7 +3478,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "2044226c26ab8205",
@@ -3105,7 +3520,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "f9de0de29ec0268a",
@@ -3142,7 +3562,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "3ee0f6dc9d7ffafb",
@@ -3179,7 +3604,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "c809da39d095aec3",
@@ -3216,7 +3646,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "c7b3a88103cf0fdd",
@@ -3253,7 +3688,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "06d3a6c2f632d60a",
@@ -3290,7 +3730,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "60e59207c3aaa2ee",
@@ -3327,7 +3772,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "b69113e77af4a9c8",
@@ -3364,7 +3814,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "26d75bf65bec59ac",
@@ -3401,7 +3856,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "291e6803818d6712",
@@ -3438,7 +3898,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "154a556612f15201",
@@ -3475,7 +3940,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "31f95d50990eb656",
@@ -3512,7 +3982,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "b51c9607d31d616d",
@@ -3549,7 +4024,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "5c677005d02b9fb4",
@@ -3586,7 +4066,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "1fef07068fd5c55b",
@@ -3623,7 +4108,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "d1af321574892aef",
@@ -3660,7 +4150,12 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   },
   {
     "id": "dd852629acc14cf3",
@@ -3697,6 +4192,11 @@
       "Professional Clinical Use"
     ],
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "clinical_benefits": [],
+    "surgical_steps": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "sizing_logic": null
   }
 ]
