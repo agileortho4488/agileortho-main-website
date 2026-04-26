@@ -58,8 +58,14 @@ export default async function DivisionPage({ params }: DivisionPageProps) {
   const normalizedDivision = division.toLowerCase().replace(/%20/g, ' ');
   
   const filteredProducts = products.filter(
-    (p: any) => p.division_canonical?.toLowerCase().replace(/\s+/g, '-') === normalizedDivision ||
-                p.division_canonical?.toLowerCase() === normalizedDivision
+    (p: any) => {
+      const canon = p.division_canonical?.toLowerCase().replace(/\s+/g, '-');
+      const rawCanon = p.division_canonical?.toLowerCase();
+      // Alias mapping
+      if (normalizedDivision === 'arthroplasty' && (canon === 'joint-replacement' || rawCanon === 'joint replacement')) return true;
+      
+      return canon === normalizedDivision || rawCanon === normalizedDivision;
+    }
   );
 
   if (filteredProducts.length === 0) notFound();

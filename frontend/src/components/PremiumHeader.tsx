@@ -26,9 +26,10 @@ export default function PremiumHeader() {
       title: 'Musculoskeletal',
       links: [
         { name: 'Trauma & Reconstruction', href: '/catalog/trauma' },
-        { name: 'Arthroplasty (Joints)', href: '/catalog/arthroplasty' },
+        { name: 'Arthroplasty (Joints)', href: '/catalog/joint-replacement' },
         { name: 'Spine & Biologics', href: '/catalog/spine' },
         { name: 'Sports Medicine', href: '/catalog/sports-medicine' },
+        { name: 'Robotics & Navigation', href: '/catalog/robotics' },
       ]
     },
     {
@@ -43,9 +44,9 @@ export default function PremiumHeader() {
     {
       title: 'Neurosciences',
       links: [
-        { name: 'Neuro Interventional', href: '/catalog' },
-        { name: 'Neurosurgical Systems', href: '/catalog' },
-        { name: 'Pain Management', href: '/catalog' },
+        { name: 'Neuro Interventional', href: '/catalog/cardiovascular' },
+        { name: 'Neurosurgical Systems', href: '/catalog/endo-surgery' },
+        { name: 'Pain Management', href: '/catalog/critical-care' },
         { name: 'EEG & Physiology', href: '/catalog/diagnostics' },
       ]
     },
@@ -54,16 +55,16 @@ export default function PremiumHeader() {
       links: [
         { name: 'Endo-Surgery', href: '/catalog/endo-surgery' },
         { name: 'Urology & Gynecology', href: '/catalog/urology' },
-        { name: 'Critical Care', href: '/catalog/critical-care' },
-        { name: 'Ophthalmology & ENT', href: '/catalog/ent' },
+        { name: 'Dental Solutions', href: '/catalog/dental' },
+        { name: 'Surgical Instruments', href: '/catalog/instruments' },
       ]
     },
     {
       title: 'Hygiene & Wellness',
       links: [
         { name: 'Infection Prevention', href: '/catalog/infection-prevention' },
-        { name: 'Aesthetics', href: '/catalog' },
-        { name: 'Meditation Devices', href: '/catalog' },
+        { name: 'Critical Care', href: '/catalog/critical-care' },
+        { name: 'Ophthalmology & ENT', href: '/catalog/ent' },
       ]
     }
   ];
