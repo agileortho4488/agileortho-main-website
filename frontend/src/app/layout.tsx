@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_IN',
-    url: 'https://agileortho.in',
+    url: 'https://agilehealthcare.in',
     siteName: 'Agile Healthcare',
     images: [
       {
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     google: 'MXXC41JFLG',
   },
   alternates: {
-    canonical: 'https://agileortho.in',
+    canonical: 'https://agilehealthcare.in',
   },
 };
 
@@ -55,10 +55,10 @@ const localBusinessSchema = {
   '@context': 'https://schema.org',
   '@type': 'MedicalBusiness',
   name: 'Agile Healthcare',
-  alternateName: 'AgileOrtho',
+  alternateName: 'AgileHealthcare',
   description:
     'Authorized Meril Life Sciences master franchise distributor for all 33 districts of Telangana, India. Specializing in Trauma, Joint Replacement, Cardiovascular, Endo-Surgical, and Diagnostic medical devices.',
-  url: 'https://agileortho.in',
+  url: 'https://agilehealthcare.in',
   telephone: '+918500204488',
   address: {
     '@type': 'PostalAddress',
@@ -76,7 +76,7 @@ const localBusinessSchema = {
   },
   sameAs: [
     'https://wa.me/917416521222',
-    'https://agileortho.in',
+    'https://agilehealthcare.in',
   ],
 };
 
