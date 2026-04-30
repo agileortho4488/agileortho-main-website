@@ -1,0 +1,13 @@
+fastapi
+uvicorn[standard]
+python-dotenv
+langchain
+langchain-core
+langchain-community
+langchain-google-genai
+chromadb
+pypdf
+beautifulsoup4
+lxml
+html2text
+pydantic

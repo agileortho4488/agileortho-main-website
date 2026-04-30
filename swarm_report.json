@@ -1,0 +1,55 @@
+{
+  "total": 198,
+  "success": 103,
+  "failed": [
+    {
+      "file": "Mason\u2122\ufe0f Pro p  lithotripsy Catheter c2c (1).pdf",
+      "error": "'ascii' codec can't encode characters in position 5-6: ordinal not in range(128)"
+    },
+    {
+      "file": "Mason\u2122\ufe0f P  lithotripsy Catheter c2c (1).pdf",
+      "error": "'ascii' codec can't encode characters in position 5-6: ordinal not in range(128)"
+    },
+    {
+      "file": "Latitud ST.pdf",
+      "error": "Unterminated string starting at: line 694 column 16 (char 18478)"
+    },
+    {
+      "file": "Freedom Knee TM.pdf",
+      "error": "Expecting ',' delimiter: line 728 column 1 (char 21907)"
+    },
+    {
+      "file": "PCK TM.pdf",
+      "error": "Unterminated string starting at: line 724 column 16 (char 18886)"
+    },
+    {
+      "file": "Humerus_Internal_Fixation_Bone_Plates_Screws_Meril_Orthopedics_c70362b931.pdf",
+      "error": "Expecting property name enclosed in double quotes: line 1046 column 7 (char 20740)"
+    },
+    {
+      "file": "Variabilis_Multi-angle_Plates.pdf",
+      "error": "Unterminated string starting at: line 577 column 16 (char 18095)"
+    },
+    {
+      "file": "Ti_Elbow & Clavicle & Calcaneal.pdf",
+      "error": "Unterminated string starting at: line 747 column 16 (char 17389)"
+    },
+    {
+      "file": "Variabilis_Multi-angle_Plates.pdf",
+      "error": "Unterminated string starting at: line 561 column 16 (char 17789)"
+    },
+    {
+      "file": "Auric Brochure.pdf",
+      "error": "Unterminated string starting at: line 275 column 16 (char 16330)"
+    },
+    {
+      "file": "AGFN Brochure.pdf",
+      "error": "Unterminated string starting at: line 929 column 16 (char 21267)"
+    },
+    {
+      "file": "PRICE_LIST.pdf",
+      "error": "Unterminated string starting at: line 1014 column 16 (char 21255)"
+    }
+  ],
+  "matched": 44
+}

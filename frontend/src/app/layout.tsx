@@ -98,9 +98,24 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
         />
       </head>
-      <body>
+      <body className="antialiased">
         {children}
         <ClientSideWidgets />
+
+        {/* Agile AI Support Widget */}
+        <div id="agile-ai-widget"></div>
+        <link rel="stylesheet" href="/widget.css" />
+        <Script src="/widget.js" strategy="afterInteractive" onLoad={() => {
+          // @ts-ignore
+          if (window.AgileWidget) {
+            // @ts-ignore
+            window.AgileWidget.init({
+              apiUrl: 'https://api.agilehealthcare.in/chat', // Updated for production
+              title: 'Agile AI Support',
+              themeColor: '#0052CC'
+            });
+          }
+        }} />
 
         {/* Google Analytics 4 */}
         <Script

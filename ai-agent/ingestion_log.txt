@@ -1,0 +1,174 @@
+/Users/harsha/Desktop/agilehealthcare/.venv/lib/python3.9/site-packages/google/api_core/_python_version_support.py:246: FutureWarning: You are using a non-supported Python version (3.9.6). Google will not post any further updates to google.api_core supporting this Python version. Please upgrade to the latest Python version, or at least Python 3.10, and then update google.api_core.
+  warnings.warn(message, FutureWarning)
+/Users/harsha/Desktop/agilehealthcare/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+/Users/harsha/Desktop/agilehealthcare/.venv/lib/python3.9/site-packages/google/auth/__init__.py:54: FutureWarning: You are using a Python version 3.9 past its end of life. Google will update google-auth with critical bug fixes on a best-effort basis, but not with any other fixes or features. Please upgrade your Python version, and then update google-auth.
+  warnings.warn(eol_message.format("3.9"), FutureWarning)
+/Users/harsha/Desktop/agilehealthcare/.venv/lib/python3.9/site-packages/google/oauth2/__init__.py:40: FutureWarning: You are using a Python version 3.9 past its end of life. Google will update google-auth with critical bug fixes on a best-effort basis, but not with any other fixes or features. Please upgrade your Python version, and then update google-auth.
+  warnings.warn(eol_message.format("3.9"), FutureWarning)
+/Users/harsha/Desktop/agilehealthcare/.venv/lib/python3.9/site-packages/google/api_core/_python_version_support.py:246: FutureWarning: You are using a non-supported Python version (3.9.6). Google will not post any further updates to google.ai.generativelanguage_v1beta supporting this Python version. Please upgrade to the latest Python version, or at least Python 3.10, and then update google.ai.generativelanguage_v1beta.
+  warnings.warn(message, FutureWarning)
+
+A module that was compiled using NumPy 1.x cannot be run in
+NumPy 2.0.2 as it may crash. To support both 1.x and 2.x
+versions of NumPy, modules must be compiled with NumPy 2.0.
+Some module may need to rebuild instead e.g. with 'pybind11>=2.12'.
+
+If you are a user of the module, the easiest solution will be to
+downgrade to 'numpy<2' or try to upgrade the affected module.
+We expect that some modules will need time to support NumPy 2.
+
+Traceback (most recent call last):  File "/Users/harsha/Desktop/agilehealthcare/scripts/bulk_ingest.py", line 4, in <module>
+    from app.services.rag_service import rag_service
+  File "/Users/harsha/Desktop/agilehealthcare/app/services/rag_service.py", line 2, in <module>
+    from langchain_google_genai import ChatGoogleGenerativeAI
+  File "/Users/harsha/Desktop/agilehealthcare/.venv/lib/python3.9/site-packages/langchain_google_genai/__init__.py", line 61, in <module>
+    from langchain_google_genai.chat_models import ChatGoogleGenerativeAI
+  File "/Users/harsha/Desktop/agilehealthcare/.venv/lib/python3.9/site-packages/langchain_google_genai/chat_models.py", line 65, in <module>
+    from langchain_core.language_models import LangSmithParams, LanguageModelInput
+  File "/Users/harsha/Desktop/agilehealthcare/.venv/lib/python3.9/site-packages/langchain_core/language_models/__init__.py", line 112, in __getattr__
+    result = import_attr(attr_name, module_name, __spec__.parent)
+  File "/Users/harsha/Desktop/agilehealthcare/.venv/lib/python3.9/site-packages/langchain_core/_import_utils.py", line 36, in import_attr
+    module = import_module(f".{module_name}", package=package)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "/Users/harsha/Desktop/agilehealthcare/.venv/lib/python3.9/site-packages/langchain_core/language_models/base.py", line 44, in <module>
+    from transformers import GPT2TokenizerFast  # type: ignore[import-not-found]
+  File "/Users/harsha/Desktop/agilehealthcare/.venv/lib/python3.9/site-packages/transformers/__init__.py", line 27, in <module>
+    from . import dependency_versions_check
+  File "/Users/harsha/Desktop/agilehealthcare/.venv/lib/python3.9/site-packages/transformers/dependency_versions_check.py", line 16, in <module>
+    from .utils.versions import require_version, require_version_core
+  File "/Users/harsha/Desktop/agilehealthcare/.venv/lib/python3.9/site-packages/transformers/utils/__init__.py", line 24, in <module>
+    from .auto_docstring import (
+  File "/Users/harsha/Desktop/agilehealthcare/.venv/lib/python3.9/site-packages/transformers/utils/auto_docstring.py", line 30, in <module>
+    from .generic import ModelOutput
+  File "/Users/harsha/Desktop/agilehealthcare/.venv/lib/python3.9/site-packages/transformers/utils/generic.py", line 51, in <module>
+    import torch
+  File "/Users/harsha/Desktop/agilehealthcare/.venv/lib/python3.9/site-packages/torch/__init__.py", line 1477, in <module>
+    from .functional import *  # noqa: F403
+  File "/Users/harsha/Desktop/agilehealthcare/.venv/lib/python3.9/site-packages/torch/functional.py", line 9, in <module>
+    import torch.nn.functional as F
+  File "/Users/harsha/Desktop/agilehealthcare/.venv/lib/python3.9/site-packages/torch/nn/__init__.py", line 1, in <module>
+    from .modules import *  # noqa: F403
+  File "/Users/harsha/Desktop/agilehealthcare/.venv/lib/python3.9/site-packages/torch/nn/modules/__init__.py", line 35, in <module>
+    from .transformer import TransformerEncoder, TransformerDecoder, \
+  File "/Users/harsha/Desktop/agilehealthcare/.venv/lib/python3.9/site-packages/torch/nn/modules/transformer.py", line 20, in <module>
+    device: torch.device = torch.device(torch._C._get_default_device()),  # torch.device('cpu'),
+/Users/harsha/Desktop/agilehealthcare/.venv/lib/python3.9/site-packages/torch/nn/modules/transformer.py:20: UserWarning: Failed to initialize NumPy: _ARRAY_API not found (Triggered internally at /Users/runner/work/pytorch/pytorch/pytorch/torch/csrc/utils/tensor_numpy.cpp:84.)
+  device: torch.device = torch.device(torch._C._get_default_device()),  # torch.device('cpu'),
+USER_AGENT environment variable not set, consider setting it to identify your requests.
+/Users/harsha/Desktop/agilehealthcare/app/services/rag_service.py:34: LangChainDeprecationWarning: The class `Chroma` was deprecated in LangChain 0.2.9 and will be removed in 1.0. An updated version of the class exists in the :class:`~langchain-chroma package and should be used instead. To use it run `pip install -U :class:`~langchain-chroma` and import as `from :class:`~langchain_chroma import Chroma``.
+  self.vector_store = Chroma(
+Starting bulk ingestion from: /Users/harsha/Desktop/untitled folder 2
+Initializing RAG Service...
+RAG Service Initialized.
+Found 184 PDF files to process.
+[1/184] Ingesting fiona_94f3556639.pdf...
+Indexing PDF: /Users/harsha/Desktop/untitled folder 2/fiona_94f3556639.pdf
+Error indexing PDF /Users/harsha/Desktop/untitled folder 2/fiona_94f3556639.pdf: Expected Embeddings to be non-empty list or numpy array, got [] in upsert.
+[2/184] Ingesting NOSZEL Brochure.pdf...
+Indexing PDF: /Users/harsha/Desktop/untitled folder 2/NOSZEL Brochure.pdf
+Error indexing PDF /Users/harsha/Desktop/untitled folder 2/NOSZEL Brochure.pdf: Numpy is not available
+[3/184] Ingesting Mozec_Rx_PTCA_Brochure_2e2f52a62f.pdf...
+Indexing PDF: /Users/harsha/Desktop/untitled folder 2/Mozec_Rx_PTCA_Brochure_2e2f52a62f.pdf
+Error indexing PDF /Users/harsha/Desktop/untitled folder 2/Mozec_Rx_PTCA_Brochure_2e2f52a62f.pdf: Expected Embeddings to be non-empty list or numpy array, got [] in upsert.
+[4/184] Ingesting A4_My_Clip_Brochure_10_6_2025_2d100e3571.pdf...
+Indexing PDF: /Users/harsha/Desktop/untitled folder 2/A4_My_Clip_Brochure_10_6_2025_2d100e3571.pdf
+Error indexing PDF /Users/harsha/Desktop/untitled folder 2/A4_My_Clip_Brochure_10_6_2025_2d100e3571.pdf: Numpy is not available
+[5/184] Ingesting Blood_transfusion_Flyer.pdf...
+Indexing PDF: /Users/harsha/Desktop/untitled folder 2/Blood_transfusion_Flyer.pdf
+Error indexing PDF /Users/harsha/Desktop/untitled folder 2/Blood_transfusion_Flyer.pdf: Numpy is not available
+[6/184] Ingesting Libartas Hip_1.pdf...
+Indexing PDF: /Users/harsha/Desktop/untitled folder 2/Libartas Hip_1.pdf
+Error indexing PDF /Users/harsha/Desktop/untitled folder 2/Libartas Hip_1.pdf: Numpy is not available
+[7/184] Ingesting Credence_Bt_K_Brochure_24_10_2024_cc_cf7623d40d.pdf...
+Indexing PDF: /Users/harsha/Desktop/untitled folder 2/Credence_Bt_K_Brochure_24_10_2024_cc_cf7623d40d.pdf
+Error indexing PDF /Users/harsha/Desktop/untitled folder 2/Credence_Bt_K_Brochure_24_10_2024_cc_cf7623d40d.pdf: Numpy is not available
+[8/184] Ingesting Antisera_Brochure_eded32dfa7.pdf...
+Indexing PDF: /Users/harsha/Desktop/untitled folder 2/Antisera_Brochure_eded32dfa7.pdf
+Error indexing PDF /Users/harsha/Desktop/untitled folder 2/Antisera_Brochure_eded32dfa7.pdf: Numpy is not available
+[9/184] Ingesting Disinfection - Sterilization Brochure.pdf...
+Indexing PDF: /Users/harsha/Desktop/untitled folder 2/Disinfection - Sterilization Brochure.pdf
+Error indexing PDF /Users/harsha/Desktop/untitled folder 2/Disinfection - Sterilization Brochure.pdf: Numpy is not available
+[10/184] Ingesting Freedom Knee - Congruent Tibial Insert.pdf...
+Indexing PDF: /Users/harsha/Desktop/untitled folder 2/Freedom Knee - Congruent Tibial Insert.pdf
+Error indexing PDF /Users/harsha/Desktop/untitled folder 2/Freedom Knee - Congruent Tibial Insert.pdf: Numpy is not available
+[11/184] Ingesting promesa-bms-1702273909pdf.pdf...
+Indexing PDF: /Users/harsha/Desktop/untitled folder 2/promesa-bms-1702273909pdf.pdf
+Error indexing PDF /Users/harsha/Desktop/untitled folder 2/promesa-bms-1702273909pdf.pdf: Numpy is not available
+[12/184] Ingesting CelQuant_3i_Brochure.pdf...
+Indexing PDF: /Users/harsha/Desktop/untitled folder 2/CelQuant_3i_Brochure.pdf
+Error indexing PDF /Users/harsha/Desktop/untitled folder 2/CelQuant_3i_Brochure.pdf: Numpy is not available
+[13/184] Ingesting AQ_200_Excelus_Brochure_45_positions.pdf...
+Indexing PDF: /Users/harsha/Desktop/untitled folder 2/AQ_200_Excelus_Brochure_45_positions.pdf
+Error indexing PDF /Users/harsha/Desktop/untitled folder 2/AQ_200_Excelus_Brochure_45_positions.pdf: Numpy is not available
+[14/184] Ingesting Final_Trauma_Organogram.pdf...
+Indexing PDF: /Users/harsha/Desktop/untitled folder 2/Final_Trauma_Organogram.pdf
+Error indexing PDF /Users/harsha/Desktop/untitled folder 2/Final_Trauma_Organogram.pdf: Numpy is not available
+[15/184] Ingesting absomesh_1652267872pdf_11f2544096.pdf...
+Indexing PDF: /Users/harsha/Desktop/untitled folder 2/absomesh_1652267872pdf_11f2544096.pdf
+Error indexing PDF /Users/harsha/Desktop/untitled folder 2/absomesh_1652267872pdf_11f2544096.pdf: Numpy is not available
+[16/184] Ingesting myra-bms-1702272483pdf.pdf...
+Indexing PDF: /Users/harsha/Desktop/untitled folder 2/myra-bms-1702272483pdf.pdf
+Error indexing PDF /Users/harsha/Desktop/untitled folder 2/myra-bms-1702272483pdf.pdf: Numpy is not available
+[17/184] Ingesting DOA_Rapids_Brochure.pdf...
+Indexing PDF: /Users/harsha/Desktop/untitled folder 2/DOA_Rapids_Brochure.pdf
+Error indexing PDF /Users/harsha/Desktop/untitled folder 2/DOA_Rapids_Brochure.pdf: Numpy is not available
+[18/184] Ingesting OPULENT Gold ST.pdf...
+Indexing PDF: /Users/harsha/Desktop/untitled folder 2/OPULENT Gold ST.pdf
+Error indexing PDF /Users/harsha/Desktop/untitled folder 2/OPULENT Gold ST.pdf: Numpy is not available
+[19/184] Ingesting filaprop_mesh_soft_1652267962pdf_f8ccf64be7.pdf...
+Indexing PDF: /Users/harsha/Desktop/untitled folder 2/filaprop_mesh_soft_1652267962pdf_f8ccf64be7.pdf
+Error indexing PDF /Users/harsha/Desktop/untitled folder 2/filaprop_mesh_soft_1652267962pdf_f8ccf64be7.pdf: Numpy is not available
+[20/184] Ingesting CliniQuant_Brochure.pdf...
+Indexing PDF: /Users/harsha/Desktop/untitled folder 2/CliniQuant_Brochure.pdf
+Error indexing PDF /Users/harsha/Desktop/untitled folder 2/CliniQuant_Brochure.pdf: Numpy is not available
+[21/184] Ingesting filaprop_mesh_1652268075pdf_79e0300f10.pdf...
+Indexing PDF: /Users/harsha/Desktop/untitled folder 2/filaprop_mesh_1652268075pdf_79e0300f10.pdf
+Error indexing PDF /Users/harsha/Desktop/untitled folder 2/filaprop_mesh_1652268075pdf_79e0300f10.pdf: Numpy is not available
+[22/184] Ingesting Freedom.pdf...
+Indexing PDF: /Users/harsha/Desktop/untitled folder 2/Freedom.pdf
+Error indexing PDF /Users/harsha/Desktop/untitled folder 2/Freedom.pdf: Expected Embeddings to be non-empty list or numpy array, got [] in upsert.
+[23/184] Ingesting Meriglue_Brochure_b14ab9ba9e.pdf...
+Indexing PDF: /Users/harsha/Desktop/untitled folder 2/Meriglue_Brochure_b14ab9ba9e.pdf
+Error indexing PDF /Users/harsha/Desktop/untitled folder 2/Meriglue_Brochure_b14ab9ba9e.pdf: Numpy is not available
+[24/184] Ingesting Hand hygiene - skin prepping updated.pdf...
+Indexing PDF: /Users/harsha/Desktop/untitled folder 2/Hand hygiene - skin prepping updated.pdf
+Error indexing PDF /Users/harsha/Desktop/untitled folder 2/Hand hygiene - skin prepping updated.pdf: Numpy is not available
+[25/184] Ingesting mizzo_flex_sa_1726203904pdf_2054eb2cbf.pdf...
+Indexing PDF: /Users/harsha/Desktop/untitled folder 2/mizzo_flex_sa_1726203904pdf_2054eb2cbf.pdf
+Error indexing PDF /Users/harsha/Desktop/untitled folder 2/mizzo_flex_sa_1726203904pdf_2054eb2cbf.pdf: Numpy is not available
+[26/184] Ingesting mozec-pta-14-1702273553pdf.pdf...
+Indexing PDF: /Users/harsha/Desktop/untitled folder 2/mozec-pta-14-1702273553pdf.pdf
+Error indexing PDF /Users/harsha/Desktop/untitled folder 2/mozec-pta-14-1702273553pdf.pdf: Numpy is not available
+[27/184] Ingesting Trocar_brochure_f024566e25.pdf...
+Indexing PDF: /Users/harsha/Desktop/untitled folder 2/Trocar_brochure_f024566e25.pdf
+Error indexing PDF /Users/harsha/Desktop/untitled folder 2/Trocar_brochure_f024566e25.pdf: Numpy is not available
+[28/184] Ingesting Embox Brochure.pdf...
+Indexing PDF: /Users/harsha/Desktop/untitled folder 2/Embox Brochure.pdf
+Error indexing PDF /Users/harsha/Desktop/untitled folder 2/Embox Brochure.pdf: Numpy is not available
+[29/184] Ingesting Monomod ST.pdf...
+Indexing PDF: /Users/harsha/Desktop/untitled folder 2/Monomod ST.pdf
+Error indexing PDF /Users/harsha/Desktop/untitled folder 2/Monomod ST.pdf: Numpy is not available
+[30/184] Ingesting Nautica brochure.pdf...
+Indexing PDF: /Users/harsha/Desktop/untitled folder 2/Nautica brochure.pdf
+Error indexing PDF /Users/harsha/Desktop/untitled folder 2/Nautica brochure.pdf: Expected Embeddings to be non-empty list or numpy array, got [] in upsert.
+[31/184] Ingesting MOZEC_SEB_Brochure_8c5dbe083b.pdf...
+Indexing PDF: /Users/harsha/Desktop/untitled folder 2/MOZEC_SEB_Brochure_8c5dbe083b.pdf
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/multiprocessing/resource_tracker.py:216: UserWarning: resource_tracker: There appear to be 1 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '
+e latest Python version, or at least Python 3.10, and then update google.api_core.
+  warnings.warn(message, FutureWarning)
+/Users/harsha/Desktop/agilehealthcare/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+/Users/harsha/Desktop/agilehealthcare/.venv/lib/python3.9/site-packages/google/auth/__init__.py:54: FutureWarning: You are using a Python version 3.9 past its end of life. Google will update google-auth with critical bug fixes on a best-effort basis, but not with any other fixes or features. Please upgrade your Python version, and then update google-auth.
+  warnings.warn(eol_message.format("3.9"), FutureWarning)
+/Users/harsha/Desktop/agilehealthcare/.venv/lib/python3.9/site-packages/google/oauth2/__init__.py:40: FutureWarning: You are using a Python version 3.9 past its end of life. Google will update google-auth with critical bug fixes on a best-effort basis, but not with any other fixes or features. Please upgrade your Python version, and then update google-auth.
+  warnings.warn(eol_message.format("3.9"), FutureWarning)
+/Users/harsha/Desktop/agilehealthcare/.venv/lib/python3.9/site-packages/google/api_core/_python_version_support.py:246: FutureWarning: You are using a non-supported Python version (3.9.6). Google will not post any further updates to google.ai.generativelanguage_v1beta supporting this Python version. Please upgrade to the latest Python version, or at least Python 3.10, and then update google.ai.generativelanguage_v1beta.
+  warnings.warn(message, FutureWarning)
+USER_AGENT environment variable not set, consider setting it to identify your requests.
+/Users/harsha/Desktop/agilehealthcare/app/services/rag_service.py:34: LangChainDeprecationWarning: The class `Chroma` was deprecated in LangChain 0.2.9 and will be removed in 1.0. An updated version of the class exists in the :class:`~langchain-chroma package and should be used instead. To use it run `pip install -U :class:`~langchain-chroma` and import as `from :class:`~langchain_chroma import Chroma``.
+  self.vector_store = Chroma(
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/multiprocessing/resource_tracker.py:216: UserWarning: resource_tracker: There appear to be 1 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '

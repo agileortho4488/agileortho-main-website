@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agile AI Admin - Upload Knowledge</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            margin: 0;
+            padding: 40px;
+            color: #1e293b;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        h1 { margin-top: 0; font-size: 24px; color: #0f172a; }
+        .form-group { margin-bottom: 24px; }
+        label { display: block; margin-bottom: 8px; font-weight: 500; }
+        input[type="text"], input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+        button {
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            font-family: 'Inter', sans-serif;
+            transition: background 0.2s;
+        }
+        button:hover { background-color: #1d4ed8; }
+        .status {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 6px;
+            display: none;
+            font-size: 14px;
+        }
+        .status.success { background: #dcfce7; color: #166534; display: block; }
+        .status.error { background: #fee2e2; color: #991b1b; display: block; }
+        hr { border: 0; border-top: 1px solid #e2e8f0; margin: 30px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Train Your AI Agent 🧠</h1>
+        <p style="color: #64748b; margin-bottom: 30px;">
+            Upload brochures (PDF) or website links here. The AI will read and memorize them automatically.
+        </p>
+
+        <!-- Upload PDF Section -->
+        <div class="form-group">
+            <label>1. Upload a Brochure (PDF)</label>
+            <input type="file" id="pdfFile" accept=".pdf">
+            <button onclick="uploadPDF()" style="margin-top: 10px;">Upload & Train</button>
+            <div id="pdfStatus" class="status"></div>
+        </div>
+
+        <hr>
+
+        <!-- Submit URL Section -->
+        <div class="form-group">
+            <label>2. Train on a Website URL</label>
+            <input type="text" id="urlInput" placeholder="e.g., https://www.agileortho.in/about">
+            <button onclick="uploadURL()" style="margin-top: 10px;">Scrape & Train</button>
+            <div id="urlStatus" class="status"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8000';
+
+        async function uploadPDF() {
+            const fileInput = document.getElementById('pdfFile');
+            const statusDiv = document.getElementById('pdfStatus');
+            
+            if (!fileInput.files[0]) {
+                showStatus(statusDiv, 'Please select a PDF first.', 'error');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('file', fileInput.files[0]);
+
+            showStatus(statusDiv, 'Uploading and reading...', 'success');
+
+            try {
+                const response = await fetch(`${API_BASE}/index/pdf`, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                if (response.ok) {
+                    showStatus(statusDiv, `✅ Success! The AI is memorizing ${fileInput.files[0].name} in the background.`, 'success');
+                    fileInput.value = ''; // clear input
+                } else {
+                    showStatus(statusDiv, `❌ Error: ${data.detail || 'Upload failed'}`, 'error');
+                }
+            } catch (err) {
+                showStatus(statusDiv, `❌ Connection error. Is the server running?`, 'error');
+            }
+        }
+
+        async function uploadURL() {
+            const urlInput = document.getElementById('urlInput');
+            const statusDiv = document.getElementById('urlStatus');
+            const url = urlInput.value.trim();
+            
+            if (!url) {
+                showStatus(statusDiv, 'Please enter a URL.', 'error');
+                return;
+            }
+
+            showStatus(statusDiv, 'Scraping website...', 'success');
+
+            try {
+                const response = await fetch(`${API_BASE}/index/url`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ url: url })
+                });
+                
+                const data = await response.json();
+                if (response.ok) {
+                    showStatus(statusDiv, `✅ Success! The AI is reading the website.`, 'success');
+                    urlInput.value = '';
+                } else {
+                    showStatus(statusDiv, `❌ Error: ${data.detail || 'Upload failed'}`, 'error');
+                }
+            } catch (err) {
+                showStatus(statusDiv, `❌ Connection error. Is the server running?`, 'error');
+            }
+        }
+
+        function showStatus(element, message, type) {
+            element.textContent = message;
+            element.className = `status ${type}`;
+        }
+    </script>
+</body>
+</html>

@@ -33,8 +33,9 @@ class SizingLogic(BaseModel):
     options: Optional[List[SizingOption]] = None
 
 class ProductSpecs(BaseModel):
-    model_config = ConfigDict(extra='forbid')
+    model_config = ConfigDict(extra='ignore')
     
+    full_raw_transcription: str = Field(description="A 100% complete, word-for-word verbatim transcription of every single word, table, and data point in the brochure.")
     product_name: str = Field(description="The primary name of the medical product/system (e.g. ARMAR Plating System)")
     brand_name: Optional[str] = Field(description="The brand under which the product is marketed (e.g. BioMime, Destiknee)")
     division: str = Field(description="Medical division (e.g. Cardiovascular, Orthopedics, Endosurgery)")
@@ -43,6 +44,10 @@ class ProductSpecs(BaseModel):
     description: str = Field(description="A 2-3 sentence clinical summary of the product's purpose and benefits")
     technical_specifications: List[TechSpec] = Field(description="Key technical data points as a list of label/value pairs")
     clinical_indications: List[str] = Field(description="Medical conditions this device is used to treat")
+    contraindications: List[str] = Field(default=[], description="Conditions where this device should NOT be used")
+    warnings_and_precautions: List[str] = Field(default=[], description="Important clinical warnings or side effects")
+    surgical_steps: List[str] = Field(default=[], description="High-level surgical or procedural steps")
+    sterilization_packaging: Optional[str] = Field(default=None, description="How the product is sterilized and packaged")
     materials: List[str] = Field(description="Primary materials used in the device (e.g. Cobalt Chromium, PLLA, Stainless Steel)")
     key_features: List[str] = Field(description="Bullet points of high-value product features")
     sizing_logic: Optional[SizingLogic] = Field(default=None, description="Structured sizing rules for the anatomical wizard")
@@ -104,9 +109,13 @@ class BrochureExtractor:
         ACT AS A TOP-TIER SURGICAL CLINICAL ENGINEER. 
         Analyze this medical brochure and perform a DEEP SCAN extraction of the FULL TECHNICAL MATRIX.{target_context}
         
+        MANDATORY FIRST STEP: Generate a 100% verbatim, word-for-word transcription of the ENTIRE brochure in the 'full_raw_transcription' field. DO NOT TAKE SHORTCUTS. Every single word, table cell, and footnote must be transcribed.
+        THEN, use that complete transcription to populate the rest of the fields.
+        
         1. EXTRACT FULL SIZE TABLES: Capture EVERY variant including Part Numbers, Lengths (mm), Widths (mm), and Hole Counts.
         2. BLUEPRINT FIDELITY: If the brochure has a sizing table, replicate its structure exactly. Do not summarize.
         3. MATERIAL CODES: Identify exact alloys (e.g., ASTM F138 Stainless Steel, Ti6Al4V ELI Titanium).
+        4. SURGICAL & SAFETY DATA: Extract ALL Contraindications, Warnings, Precautions, Sterilization Methods, and Surgical Steps.
         
         Return the technical specifications as a list of label/value pairs. Join related values into a single string for 'value'.
         """
@@ -114,6 +123,7 @@ class BrochureExtractor:
         response_schema = {
             "type": "OBJECT",
             "properties": {
+                "full_raw_transcription": {"type": "STRING"},
                 "product_name": {"type": "STRING"},
                 "brand_name": {"type": "STRING"},
                 "division": {"type": "STRING"},
@@ -131,6 +141,10 @@ class BrochureExtractor:
                     }
                 },
                 "clinical_indications": {"type": "ARRAY", "items": {"type": "STRING"}},
+                "contraindications": {"type": "ARRAY", "items": {"type": "STRING"}},
+                "warnings_and_precautions": {"type": "ARRAY", "items": {"type": "STRING"}},
+                "surgical_steps": {"type": "ARRAY", "items": {"type": "STRING"}},
+                "sterilization_packaging": {"type": "STRING"},
                 "materials": {"type": "ARRAY", "items": {"type": "STRING"}},
                 "key_features": {"type": "ARRAY", "items": {"type": "STRING"}},
                 "sizing_logic": {
@@ -151,7 +165,7 @@ class BrochureExtractor:
                     }
                 }
             },
-            "required": ["product_name", "division", "category", "catalog_matches", "description", "technical_specifications", "clinical_indications", "materials", "key_features"]
+            "required": ["full_raw_transcription", "product_name", "division", "category", "catalog_matches", "description", "technical_specifications", "clinical_indications", "materials", "key_features"]
         }
 
         try:
@@ -250,8 +264,22 @@ class BrochureExtractor:
                 p["technical_specifications"] = tech_dict
                 p["description_shadow"] = extracted_data.description
                 p["clinical_indications"] = extracted_data.clinical_indications
+                p["contraindications"] = extracted_data.contraindications
+                p["warnings_and_precautions"] = extracted_data.warnings_and_precautions
+                p["surgical_steps"] = extracted_data.surgical_steps
+                p["sterilization_packaging"] = extracted_data.sterilization_packaging
                 p["materials_canonical"] = extracted_data.materials[0] if extracted_data.materials else None
                 p["features_list"] = extracted_data.key_features
+                
+                # Save the raw transcription to a file for the user to audit
+                import os
+                transcript_dir = '/Users/harsha/.gemini/antigravity/scratch/agileortho-main-website/backend/brochure_intelligence/transcriptions'
+                os.makedirs(transcript_dir, exist_ok=True)
+                with open(os.path.join(transcript_dir, p.get('slug', 'unknown') + '_transcript.txt'), 'w') as tf:
+                    tf.write(extracted_data.full_raw_transcription)
+                
+                # Also save to the frontend JSON so it renders on the website
+                p['full_raw_transcription'] = extracted_data.full_raw_transcription
                 p["brochure_intelligence_updated"] = True
                 if extracted_data.sizing_logic:
                     p["sizing_logic"] = extracted_data.sizing_logic.model_dump()
