@@ -127,7 +127,7 @@ export default function RootLayout({
           if (window.AgileWidget) {
             // @ts-ignore
             window.AgileWidget.init({
-              apiUrl: 'https://api.agilehealthcare.in/chat', // Updated for production
+              apiUrl: '/api/chat', // Pointing to local route for testing
               title: 'Agile AI Support',
               themeColor: '#0052CC'
             });

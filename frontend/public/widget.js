@@ -143,5 +143,18 @@ const AgileWidget = (function() {
         body.scrollTop = body.scrollHeight;
     }
 
-    return { init };
+    function open(initialMessage) {
+        const chatWindow = document.getElementById('agile-chat-window');
+        const toggleBtn = document.getElementById('agile-widget-btn');
+        chatWindow.classList.add('open');
+        toggleBtn.style.transform = 'scale(0)';
+        
+        if (initialMessage) {
+            const input = document.getElementById('agile-chat-input');
+            input.value = initialMessage;
+            sendMessage();
+        }
+    }
+
+    return { init, open };
 })();

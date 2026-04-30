@@ -31,6 +31,21 @@ export default function ProductActions({ product }: ProductActionsProps) {
         WhatsApp Quote
       </a>
 
+      {/* Tertiary: Clinical AI Assistant (The differentiator) */}
+      <button
+        onClick={() => {
+          // @ts-ignore
+          if (window.AgileWidget) {
+            // @ts-ignore
+            window.AgileWidget.open(`Tell me about the ${product.product_name_display}. What are its primary clinical benefits and technical specs?`);
+          }
+        }}
+        className="flex-1 bg-primary/10 hover:bg-primary/20 border border-primary/30 py-4 px-8 rounded-full flex items-center justify-center gap-2 font-black text-sm tracking-wider uppercase transition-all text-primary"
+      >
+        <ShieldCheck className="w-4 h-4" />
+        Clinical AI
+      </button>
+
       {/* Secondary: Sales Modal / Brochure */}
       <button
         onClick={() => setIsModalOpen(true)}
