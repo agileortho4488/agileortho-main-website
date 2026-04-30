@@ -62,17 +62,34 @@ const localBusinessSchema = {
   telephone: '+918500204488',
   address: {
     '@type': 'PostalAddress',
-    addressRegion: 'Telangana',
+    streetAddress: 'Meril Park, Survey No. 135/2/B',
+    addressLocality: 'Vapi',
+    addressRegion: 'Gujarat',
+    postalCode: '396191',
     addressCountry: 'IN',
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: '20.3717',
+    longitude: '72.9106'
   },
   areaServed: {
     '@type': 'State',
     name: 'Telangana',
   },
+  knowsAbout: [
+    'Orthopedic Trauma',
+    'Arthroplasty',
+    'Interventional Cardiology',
+    'Clinical Diagnostics',
+    'Endo-Surgery',
+    'Dental Implantology',
+    'Sleep Apnea Therapy'
+  ],
   hasOfferCatalog: {
     '@type': 'OfferCatalog',
     name: 'Meril Life Sciences Medical Devices',
-    numberOfItems: 967,
+    numberOfItems: 1224,
   },
   sameAs: [
     'https://wa.me/917416521222',

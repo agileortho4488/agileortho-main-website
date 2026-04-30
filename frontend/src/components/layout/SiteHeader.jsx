@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, MessageCircle, ChevronDown, Bone, HeartPulse, Activity, Microscope, ShieldCheck, Scissors, Wrench, Dumbbell, EarOff, Droplets, Heart, GitBranch, Cpu, Phone } from "lucide-react";
+import { Menu, X, MessageCircle, ChevronDown, Bone, HeartPulse, Activity, Microscope, ShieldCheck, Scissors, Wrench, Dumbbell, EarOff, Droplets, Heart, GitBranch, Cpu, Phone, Sparkles, Wind } from "lucide-react";
 import { COMPANY } from "@/lib/constants";
 import { dropdownVariants } from "@/lib/motion";
 import LeadCaptureModal from "@/components/LeadCaptureModal";
@@ -13,14 +13,16 @@ const DIVISIONS = [
   { name: "Diagnostics", slug: "diagnostics", icon: Microscope },
   { name: "Spine", slug: "spine", icon: Bone },
   { name: "Sports Medicine", slug: "sports-medicine", icon: Dumbbell },
-  { name: "Endo Surgery", slug: "endo-surgery", icon: Scissors },
+  { name: "Endo-Surgery", slug: "endo-surgery", icon: Scissors },
   { name: "ENT", slug: "ent", icon: EarOff },
   { name: "Infection Prevention", slug: "infection-prevention", icon: ShieldCheck },
   { name: "Instruments", slug: "instruments", icon: Wrench },
   { name: "Urology", slug: "urology", icon: Droplets },
   { name: "Critical Care", slug: "critical-care", icon: Heart },
   { name: "Peripheral Intervention", slug: "peripheral-intervention", icon: GitBranch },
-  { name: "Robotics", slug: "robotics", icon: Cpu },
+  { name: "Surgical Robotics", slug: "robotics", icon: Cpu },
+  { name: "Dental", slug: "dental", icon: Sparkles },
+  { name: "Respiratory", slug: "respiratory", icon: Wind },
 ];
 
 const SOLUTIONS = [

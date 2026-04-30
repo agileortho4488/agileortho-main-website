@@ -52,6 +52,7 @@ export default function CommandSearch({ isOpen, onClose }: { isOpen: boolean, on
         p.product_name_display?.toLowerCase().includes(searchLower) ||
         p.brand?.toLowerCase().includes(searchLower) ||
         p.category?.toLowerCase().includes(searchLower) ||
+        (p.salient_features || []).some(f => String(f).toLowerCase().includes(searchLower)) ||
         Object.values(p.technical_specifications || {}).some(v => String(v).toLowerCase().includes(searchLower))
       )
       .slice(0, 8);
@@ -67,7 +68,23 @@ export default function CommandSearch({ isOpen, onClose }: { isOpen: boolean, on
     });
 
     // Search Divisions
-    const divisions = ['Trauma', 'Cardiovascular', 'Joint Replacement', 'Endo-Surgery', 'Diagnostics'];
+    const divisions = [
+      'Trauma', 
+      'Cardiovascular', 
+      'Joint Replacement', 
+      'Endo-Surgery', 
+      'Diagnostics',
+      'Urology',
+      'Critical Care',
+      'ENT',
+      'Peripheral Intervention',
+      'Infection Prevention',
+      'Surgical Robotics',
+      'Spine',
+      'Sports Medicine',
+      'Dental',
+      'Respiratory'
+    ];
     divisions.forEach(d => {
       if (d.toLowerCase().includes(searchLower)) {
         filtered.push({

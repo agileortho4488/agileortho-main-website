@@ -35,8 +35,8 @@ export async function POST(request: NextRequest) {
     
     if (RESEND_API_KEY) {
       const emailPayload = {
-        from: 'Agile Healthcare Website <noreply@agileortho.in>',
-        to: ['info@agileortho.in'],
+        from: 'Agile Healthcare Website <noreply@agilehealthcare.in>',
+        to: ['info@agilehealthcare.in'],
         reply_to: email,
         subject: `[New Enquiry] ${enquiryType || 'General'} from ${name} — ${organization || phone}`,
         html: `

@@ -127,3 +127,11 @@ credentials.json
 *.pem
 *.key
 .credentials
+
+# Local Python environments
+venv_local/
+ai-agent/venv_local/
+ai-agent/venv_39/
+
+# Databases (Local)
+ai-agent/chroma_db/

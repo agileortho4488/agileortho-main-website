@@ -103,14 +103,14 @@ export default function ContactPage() {
                 <p className="font-black text-lg">+917416216262</p>
               </div>
             </a>
-            <a href="mailto:info@agileortho.in"
+            <a href="mailto:info@agilehealthcare.in"
               className="group flex items-center gap-6 p-6 bg-[#111] border border-white/10 rounded-2xl hover:border-primary/40 transition-all">
               <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 group-hover:bg-primary group-hover:scale-110 transition-all">
                 <Mail className="w-6 h-6 text-primary group-hover:text-black transition-colors" />
               </div>
               <div>
                 <p className="text-[10px] font-black uppercase tracking-widest text-primary mb-1">Email</p>
-                <p className="font-black text-base">info@agileortho.in</p>
+                <p className="font-black text-base">info@agilehealthcare.in</p>
               </div>
             </a>
           </div>
@@ -144,7 +144,7 @@ export default function ContactPage() {
                     <h3 className="text-2xl font-black uppercase tracking-tighter mb-3">Enquiry Received!</h3>
                     <p className="text-muted-foreground mb-8 max-w-sm">Our specialist will call you back within 24 hours. For faster response, message us on WhatsApp.</p>
                     <a
-                      href={`https://wa.me/917416521222?text=Hi, I just submitted an enquiry on agileortho.in. My name is ${encodeURIComponent(form.name)}.`}
+                      href={`https://wa.me/917416521222?text=Hi, I just submitted an enquiry on agilehealthcare.in. My name is ${encodeURIComponent(form.name)}.`}
                       target="_blank" rel="noopener noreferrer"
                       className="inline-flex items-center gap-2 bg-[#25D366] text-black px-8 py-4 rounded-full font-black uppercase tracking-widest text-xs hover:scale-105 transition-transform"
                     >

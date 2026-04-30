@@ -3,7 +3,7 @@ import { getAllProducts } from '@/lib/data';
 
 export async function GET(request: Request) {
   try {
-    const url = new URL(request.url, 'https://agileortho.in');
+    const url = new URL(request.url, 'https://agilehealthcare.in');
     const isSlim = url.searchParams.get('slim') === 'true';
     
     const data = await getAllProducts();
@@ -16,6 +16,7 @@ export async function GET(request: Request) {
         division_canonical: p.division_canonical,
         brand: p.brand,
         category: p.category,
+        salient_features: p.salient_features || [],
         technical_specifications: p.technical_specifications ? {
           'Material': p.technical_specifications['Material'] || p.technical_specifications['Grade']
         } : {}

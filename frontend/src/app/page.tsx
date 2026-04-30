@@ -312,7 +312,7 @@ export default function Home() {
                   <ul className="space-y-4 text-xs font-medium opacity-60 hover:opacity-100 transition-opacity">
                     <li className="leading-relaxed">1st Floor, Plot No 26, H.No 8-6-11/P20<br />Urmila Devi Complex, Engineers Colony<br />Hayathnagar, Hyderabad, Telangana - 500074</li>
                     <li className="pt-2"><a href="tel:+917416216262" className="hover:text-primary">Phone: +91 74162 16262</a></li>
-                    <li><a href="mailto:info@agileortho.in" className="hover:text-primary">info@agileortho.in</a></li>
+                    <li><a href="mailto:info@agilehealthcare.in" className="hover:text-primary">info@agilehealthcare.in</a></li>
                   </ul>
                 </div>
              </div>

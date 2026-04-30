@@ -31,6 +31,8 @@ const DIVISION_META: Record<string, { emoji: string; color: string; tagline: str
   'peripheral-intervention': { emoji: '💉', color: '#14b8a6', bg: 'from-teal-950/40 to-[#0A0A0A]',  tagline: 'Peripheral Stents & Vascular Access Devices' },
   'robotics':              { emoji: '🤖', color: '#e879f9', bg: 'from-fuchsia-950/40 to-[#0A0A0A]',  tagline: 'Surgical Navigation & Robotic Systems' },
   'spine':                 { emoji: '🧬', color: '#84cc16', bg: 'from-lime-950/40 to-[#0A0A0A]',     tagline: 'Fusion Implants & Motion Preservation' },
+  'dental':                { emoji: '🦷', color: '#2dd4bf', bg: 'from-teal-950/40 to-[#0A0A0A]',     tagline: 'Innovative Dental Solutions & Oral Healthcare' },
+  'respiratory':           { emoji: '🫁', color: '#38bdf8', bg: 'from-sky-950/40 to-[#0A0A0A]',      tagline: 'Sleep Apnea Therapy & Respiratory Solutions' },
 };
 
 export async function generateStaticParams() {
@@ -48,7 +50,7 @@ export async function generateMetadata({ params }: DivisionPageProps) {
   return {
     title: `${divisionName} Medical Devices in Telangana | Agile Healthcare`,
     description: `Browse ${divisionName} products from Meril Life Sciences — ${meta?.tagline || 'premium medical devices'}. Authorized distributor across all 33 districts of Telangana.`,
-    alternates: { canonical: `https://agileortho.in/catalog/${division}` },
+    alternates: { canonical: `https://agilehealthcare.in/catalog/${division}` },
   };
 }
 
@@ -63,6 +65,7 @@ export default async function DivisionPage({ params }: DivisionPageProps) {
       const rawCanon = p.division_canonical?.toLowerCase();
       // Alias mapping
       if (normalizedDivision === 'arthroplasty' && (canon === 'joint-replacement' || rawCanon === 'joint replacement')) return true;
+      if (normalizedDivision === 'robotics' && (canon === 'surgical-robotics' || rawCanon === 'surgical robotics')) return true;
       
       return canon === normalizedDivision || rawCanon === normalizedDivision;
     }
@@ -85,9 +88,9 @@ export default async function DivisionPage({ params }: DivisionPageProps) {
           '@context': 'https://schema.org',
           '@type': 'BreadcrumbList',
           itemListElement: [
-            { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://agileortho.in' },
-            { '@type': 'ListItem', position: 2, name: 'Catalog', item: 'https://agileortho.in/catalog' },
-            { '@type': 'ListItem', position: 3, name: divisionName, item: `https://agileortho.in/catalog/${division}` },
+            { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://agilehealthcare.in' },
+            { '@type': 'ListItem', position: 2, name: 'Catalog', item: 'https://agilehealthcare.in/catalog' },
+            { '@type': 'ListItem', position: 3, name: divisionName, item: `https://agilehealthcare.in/catalog/${division}` },
           ],
         })}}
       />
@@ -171,7 +174,7 @@ export default async function DivisionPage({ params }: DivisionPageProps) {
                 style={{ background: `${meta.color}08` }}>
                 {product.images?.[0]?.storage_path ? (
                   <img
-                    src={product.images[0].storage_path.startsWith('http') ? product.images[0].storage_path : `https://cdn.agileortho.in/${product.images[0].storage_path}`}
+                    src={product.images[0].storage_path.startsWith('http') ? product.images[0].storage_path : `https://cdn.agilehealthcare.in/${product.images[0].storage_path}`}
                     alt={product.product_name_display}
                     className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-500"
                   />

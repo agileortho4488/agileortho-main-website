@@ -46,11 +46,11 @@ export async function generateMetadata(
       title,
       description,
       type: 'website',
-      url: `https://agileortho.in/catalog/products/${slug}`,
+      url: `https://agilehealthcare.in/catalog/products/${slug}`,
       siteName: 'Agile Healthcare',
     },
     alternates: {
-      canonical: `https://agileortho.in/catalog/products/${slug}`,
+      canonical: `https://agilehealthcare.in/catalog/products/${slug}`,
     },
   };
 }
@@ -62,6 +62,13 @@ const DIVISION_FALLBACK_IMAGES: Record<string, string> = {
   'Peripheral Intervention': '/assets/renders/vascular_blue.jpg',
   'Cardiovascular': '/assets/renders/cardiac_blue.jpg',
   'ENT': '/assets/renders/ent_blue.jpg',
+  'Diagnostics': '/assets/renders/diagnostics_gold.jpg',
+  'Endo-Surgery': '/assets/renders/surgical_gold.jpg',
+  'Urology': '/assets/renders/urology_blue.jpg',
+  'Critical Care': '/assets/renders/critical_care_red.jpg',
+  'Surgical Robotics': '/assets/renders/robotics_gold.jpg',
+  'Dental': '/assets/renders/dental_mint.jpg',
+  'Respiratory': '/assets/renders/respiratory_sky.jpg',
 };
 
 const DIVISION_LABELS: Record<string, string> = {
@@ -70,6 +77,14 @@ const DIVISION_LABELS: Record<string, string> = {
   'Cardiovascular': '❤️ Cardiovascular',
   'ENT': '👂 ENT Solutions',
   'Peripheral Intervention': '🫀 Peripheral Intervention',
+  'Diagnostics': '🧪 Diagnostics',
+  'Endo-Surgery': '✂️ Endo-Surgery',
+  'Urology': '💧 Urology',
+  'Critical Care': '🏥 Critical Care',
+  'Surgical Robotics': '🤖 Surgical Robotics',
+  'Infection Prevention': '🛡️ Infection Prevention',
+  'Dental': '🦷 Oral Healthcare',
+  'Respiratory': '🫁 Respiratory Care',
 };
 
 export default async function ProductPage({ params }: ProductPageProps) {
@@ -106,9 +121,9 @@ export default async function ProductPage({ params }: ProductPageProps) {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Medical Catalog', item: 'https://agileortho.in/catalog' },
-      { '@type': 'ListItem', position: 2, name: product.division_canonical, item: `https://agileortho.in/catalog/${product.division_canonical?.toLowerCase().replace(/\s+/g, '-')}` },
-      { '@type': 'ListItem', position: 3, name: product.product_name_display, item: `https://agileortho.in/catalog/products/${slug}` },
+      { '@type': 'ListItem', position: 1, name: 'Medical Catalog', item: 'https://agilehealthcare.in/catalog' },
+      { '@type': 'ListItem', position: 2, name: product.division_canonical, item: `https://agilehealthcare.in/catalog/${product.division_canonical?.toLowerCase().replace(/\s+/g, '-')}` },
+      { '@type': 'ListItem', position: 3, name: product.product_name_display, item: `https://agilehealthcare.in/catalog/products/${slug}` },
     ],
   };
 
@@ -125,7 +140,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
   // RELAXED REQUIREMENT: If we have specs, show them even if the verified flag is missing.
   const hasTechMatrix = Boolean(
     (product.technical_specifications && Object.keys(product.technical_specifications).length > 0) || 
-    (product.features_list && product.features_list.length > 0)
+    (product.features_list && product.features_list.length > 0) ||
+    (product.salient_features && product.salient_features.length > 0)
   );
 
   return (
@@ -166,7 +182,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 <Image
                   src={primaryImage.storage_path.startsWith('/') 
                     ? primaryImage.storage_path 
-                    : `https://cdn.agileortho.in/${primaryImage.storage_path}`}
+                    : `https://cdn.agilehealthcare.in/${primaryImage.storage_path}`}
                   alt={product.product_name_display}
                   fill
                   className="object-contain p-8 group-hover:scale-105 transition-transform duration-700"
@@ -267,7 +283,13 @@ export default async function ProductPage({ params }: ProductPageProps) {
               productName={product.product_name_display}
               specs={product.technical_specifications || {}}
               materials={product.materials_canonical || product.material_canonical}
-              features={(product.features_list && product.features_list.length > 0) ? product.features_list : (product.clinical_benefits || [])}
+              features={
+                (product.salient_features && product.salient_features.length > 0) 
+                  ? product.salient_features 
+                  : (product.features_list && product.features_list.length > 0) 
+                    ? product.features_list 
+                    : (product.clinical_benefits || [])
+              }
               indications={product.clinical_indications || []}
               surgicalSteps={product.surgical_steps || []}
               contraindications={product.contraindications || []}

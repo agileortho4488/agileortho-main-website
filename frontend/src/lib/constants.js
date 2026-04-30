@@ -5,8 +5,8 @@ export const COMPANY = {
   gst: "36AATCA5653R1ZO",
   phone: "+917416216262",
   whatsapp: "+917416521222",
-  email: "info@agileortho.in",
-  website: "www.agileortho.in",
+  email: "info@agilehealthcare.in",
+  website: "www.agilehealthcare.in",
   address: "1st Floor, Plot No 26, H.No 8-6-11/P20, Urmila Devi Complex, Engineers Colony, Hayathnagar, Hyderabad, Telangana - 500074",
   founded: "2021",
 };
