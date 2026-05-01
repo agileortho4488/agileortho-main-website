@@ -1,6 +1,7 @@
 import json
 import os
 
+# Mapping of product names to their migrated image filenames
 MAPPING = {
     "Variabilis 2.4mm Multi-Angle Distal Radial Plate (2 holes, 42mm, Width 19.5mm, Right)": "variabilis_radial_plate_render_1777099570935.png",
     "Variabilis 2.4mm Multi-Angle Locking Screw - 6mm": "variabilis_screw_render_1777123479226.png",
@@ -9,8 +10,14 @@ MAPPING = {
 }
 
 def update_catalog():
+    # Path to the catalog JSON within the frontend source
     PATH = 'frontend/src/data/catalog_products.json'
-    BRAIN_DIR = '/Users/harsha/.gemini/antigravity/brain/48f15911-6aad-4245-99d1-c633137d1fc0/'
+    # Relative web path for the public images folder
+    WEB_PATH_PREFIX = '/images/catalog/'
+    
+    if not os.path.exists(PATH):
+        print(f"Error: Could not find catalog at {PATH}")
+        return
     
     with open(PATH, 'r') as f:
         products = json.load(f)
@@ -23,7 +30,7 @@ def update_catalog():
             p['images'] = [
                 {
                     "id": img_filename.split('_')[0],
-                    "storage_path": BRAIN_DIR + img_filename,
+                    "storage_path": WEB_PATH_PREFIX + img_filename,
                     "content_type": "image/png",
                     "source": "ai_generation",
                     "width": 1024,
@@ -31,12 +38,12 @@ def update_catalog():
                 }
             ]
             updated_count += 1
-            print(f"Updated image for: {name}")
+            print(f"Updated image path for: {name}")
             
     with open(PATH, 'w') as f:
         json.dump(products, f, indent=2)
         
-    print(f"\nSuccessfully linked {updated_count} generated images to the catalog.")
+    print(f"\nSuccessfully linked {updated_count} images using relative web paths.")
 
 if __name__ == "__main__":
     update_catalog()
