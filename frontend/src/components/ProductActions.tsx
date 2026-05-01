@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Download, MessageCircle, Phone } from 'lucide-react';
+import { Download, MessageCircle, Phone, ShieldCheck } from 'lucide-react';
 import LeadCaptureModal from './LeadCaptureModal';
 
 interface ProductActionsProps {
