@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Script from 'next/script';
 import '../index.css';
 import ClientSideWidgets from '../components/ClientSideWidgets';
+import AgileAIWidget from '../components/AgileAIWidget';
 
 export const metadata: Metadata = {
   title: {
@@ -118,21 +119,7 @@ export default function RootLayout({
       <body className="antialiased">
         {children}
         <ClientSideWidgets />
-
-        {/* Agile AI Support Widget */}
-        <div id="agile-ai-widget"></div>
-        <link rel="stylesheet" href="/widget.css" />
-        <Script src="/widget.js" strategy="afterInteractive" onLoad={() => {
-          // @ts-ignore
-          if (window.AgileWidget) {
-            // @ts-ignore
-            window.AgileWidget.init({
-              apiUrl: '/api/chat', // Pointing to local route for testing
-              title: 'Agile AI Support',
-              themeColor: '#0052CC'
-            });
-          }
-        }} />
+        <AgileAIWidget />
 
         {/* Google Analytics 4 */}
         <Script
