@@ -292,11 +292,16 @@ export default function Home() {
                   </ul>
                 </div>
                 <div>
-                  <h5 className="text-[10px] font-black uppercase tracking-[0.4em] text-primary mb-8">Regional Hubs</h5>
-                  <ul className="space-y-4 text-sm font-bold opacity-60 hover:opacity-100 transition-opacity">
+                  <h5 className="text-[10px] font-black uppercase tracking-[0.4em] text-primary mb-8">Regional Network</h5>
+                  <ul className="grid grid-cols-2 gap-x-8 gap-y-4 text-[10px] font-bold opacity-60 hover:opacity-100 transition-opacity">
                     <li><Link href="/districts/hyderabad">Hyderabad</Link></li>
                     <li><Link href="/districts/warangal">Warangal</Link></li>
                     <li><Link href="/districts/nizamabad">Nizamabad</Link></li>
+                    <li><Link href="/districts/karimnagar">Karimnagar</Link></li>
+                    <li><Link href="/districts/khammam">Khammam</Link></li>
+                    <li><Link href="/districts/mahbubnagar">Mahabubnagar</Link></li>
+                    <li><Link href="/districts/nalgonda">Nalgonda</Link></li>
+                    <li><Link href="/districts" className="text-primary">All 33 Districts</Link></li>
                   </ul>
                 </div>
                 <div>

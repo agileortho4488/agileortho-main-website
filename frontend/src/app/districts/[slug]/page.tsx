@@ -34,9 +34,33 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
 
   if (!district) return <div>District not found</div>;
 
+  // Generate LocalBusiness JSON-LD for local SEO
+  const localSchema = {
+    "@context": "https://schema.org",
+    "@type": "MedicalOrganization",
+    "name": `Agile Healthcare - ${district.name} Regional Hub`,
+    "description": `Authorized Meril master franchise distributor in ${district.name}, Telangana. Specializing in ${district.medicalFocus.join(', ')}.`,
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": district.name,
+      "addressRegion": "Telangana",
+      "addressCountry": "IN"
+    },
+    "telephone": "+918500204488",
+    "areaServed": district.name,
+    "brand": {
+      "@type": "Brand",
+      "name": "Meril Life Sciences"
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#0A0A0A] text-white selection:bg-primary/30 selection:text-white">
       <PremiumHeader />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(localSchema) }}
+      />
       
       <main className="pt-32 pb-24 relative overflow-hidden">
         {/* Background Accents */}
@@ -130,30 +154,38 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
               </div>
            </div>
 
-           {/* Medical Focus & Catalog */}
-           <div className="border-t border-white/5 pt-24">
-              <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
-                <div>
-                  <h2 className="text-4xl font-black uppercase italic mb-4">Clinical Portfolios</h2>
-                  <p className="text-white/30 font-medium">Specialized medical device supply for {district.name} healthcare providers.</p>
-                </div>
-                <Link href="/catalog" className="text-[10px] font-black uppercase tracking-[0.3em] text-primary flex items-center gap-2 group">
-                  View Full Catalog <ChevronRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
-                </Link>
-              </div>
+            {/* Local Advantage & Catalog */}
+            <div className="border-t border-white/5 pt-24">
+               <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
+                 <div>
+                   <h2 className="text-4xl font-black uppercase italic mb-4">Local Advantage</h2>
+                   <p className="text-white/30 font-medium max-w-2xl">
+                     Agile Healthcare maintains specialized inventory for {district.name} surgeons, 
+                     ensuring that every hospital from {district.hospitals.slice(0, 2).join(' to ')} 
+                     receives life-saving implants within 2-4 hours.
+                   </p>
+                 </div>
+                 <Link href="/catalog" className="text-[10px] font-black uppercase tracking-[0.3em] text-primary flex items-center gap-2 group">
+                   Clinical Catalog <ChevronRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+                 </Link>
+               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                 {district.medicalFocus.map((focus: string, idx: number) => (
-                   <div key={focus} className="group p-8 rounded-3xl bg-white/[0.02] border border-white/5 hover:border-teal-500/30 transition-all hover:-translate-y-1">
-                      <div className="w-12 h-12 rounded-2xl bg-teal-500/5 flex items-center justify-center mb-6 group-hover:bg-teal-500/10 transition-colors">
-                        {idx % 3 === 0 ? <Box className="w-5 h-5 text-teal-400" /> : idx % 3 === 1 ? <Zap className="w-5 h-5 text-teal-400" /> : <Activity className="w-5 h-5 text-teal-400" />}
-                      </div>
-                      <h4 className="font-black uppercase tracking-widest text-sm text-white group-hover:text-teal-400 transition-colors">{focus}</h4>
-                      <p className="text-[10px] text-white/30 mt-3 leading-relaxed">Full Meril range available for local procurement and same-day dispatch.</p>
-                   </div>
-                 ))}
-              </div>
-           </div>
+               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                  {district.medicalFocus.map((focus: string, idx: number) => (
+                    <Link 
+                      href={`/catalog/${focus.toLowerCase().replace(/\s+/g, '-')}`}
+                      key={focus} 
+                      className="group p-8 rounded-3xl bg-white/[0.02] border border-white/5 hover:border-primary/30 transition-all hover:-translate-y-1"
+                    >
+                       <div className="w-12 h-12 rounded-2xl bg-primary/5 flex items-center justify-center mb-6 group-hover:bg-primary/10 transition-colors">
+                         {idx % 3 === 0 ? <Box className="w-5 h-5 text-primary" /> : idx % 3 === 1 ? <Zap className="w-5 h-5 text-primary" /> : <Activity className="w-5 h-5 text-primary" />}
+                       </div>
+                       <h4 className="font-black uppercase tracking-widest text-sm text-white group-hover:text-primary transition-colors">{focus}</h4>
+                       <p className="text-[10px] text-white/30 mt-3 leading-relaxed">Authorized supply for {district.name} hospitals. Guaranteed sterility and clinical precision.</p>
+                    </Link>
+                  ))}
+               </div>
+            </div>
         </div>
       </main>
     </div>
