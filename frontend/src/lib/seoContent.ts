@@ -39,23 +39,7 @@ export const DIVISION_SEO_CONTENT: Record<string, { title: string, content: stri
       "Whether it is bariatric surgery, thoracoscopy, or advanced laparoscopic colorectal procedures, Agile Healthcare ensures that every surgical center in Telangana has access to world-class endo-surgical instruments on demand."
     ]
   },
-  'endo surgery': {
-    title: "Endo-Surgery & Minimally Invasive Instruments",
-    content: [
-      "Our Endo Surgery division empowers surgeons across Telangana with the latest in minimally invasive technology. From laparoscopic trocars and staplers to energy-based dissection devices, our range covers general surgery, gynecology, urology, and bariatric applications.",
-      "Meril's endo-surgical products are designed for precision, reliability, and ergonomic control. Clinical engineers at Agile Healthcare provide hands-on training and in-service support to maximize the value of each instrument.",
-      "We stock the full breadth of Meril's endo-surgical catalog, ensuring same-day dispatch from our Hayathnagar, Hyderabad warehouse to hospitals across all 33 districts of Telangana and Andhra Pradesh."
-    ]
-  },
   'infection-prevention': {
-    title: "Infection Prevention & Hospital Hygiene Solutions",
-    content: [
-      "Hospital-Acquired Infections (HAIs) are a critical patient safety issue. Agile Healthcare's Infection Prevention division provides Meril Life Sciences' comprehensive portfolio of antiseptics, sterilization consumables, wound care products, and surgical drapes.",
-      "From pre-operative skin preparation kits and sterile surgical packs to advanced chlorhexidine-based antiseptic solutions, our infection prevention range helps hospitals maintain a zero-tolerance environment for microbial contamination.",
-      "With increasing regulatory scrutiny on NABL and NABH compliance, Agile Healthcare helps hospitals across Telangana procure certified infection prevention consumables that meet the highest Indian and international standards."
-    ]
-  },
-  'infection prevention': {
     title: "Infection Prevention & Hospital Hygiene Solutions",
     content: [
       "Hospital-Acquired Infections (HAIs) are a critical patient safety issue. Agile Healthcare's Infection Prevention division provides Meril Life Sciences' comprehensive portfolio of antiseptics, sterilization consumables, wound care products, and surgical drapes.",
@@ -72,19 +56,11 @@ export const DIVISION_SEO_CONTENT: Record<string, { title: string, content: stri
     ]
   },
   'sports-medicine': {
-    title: "Sports Medicine & Arthroscopy Implants",
+    title: "Sports Medicine & Arthroscopy Implants in Telangana",
     content: [
-      "Sports injuries demand specialized solutions. Agile Healthcare's Sports Medicine division distributes Meril's advanced arthroscopic systems, soft tissue fixation devices, interference screws, and meniscal repair implants for ACL reconstruction and shoulder stabilization.",
-      "With the rise of sports participation and active lifestyles across Hyderabad and Telangana, demand for minimally invasive sports medicine procedures is growing rapidly. Our portfolio supports orthopaedic surgeons in delivering faster recovery outcomes for athletes at every level.",
-      "We provide complete arthroscopy tower setups, shaver systems, and implant kits for knee, shoulder, hip, and ankle procedures — all with dedicated clinical application support from our Agile Healthcare team."
-    ]
-  },
-  'sports medicine': {
-    title: "Sports Medicine & Arthroscopy Implants",
-    content: [
-      "Sports injuries demand specialized solutions. Agile Healthcare's Sports Medicine division distributes Meril's advanced arthroscopic systems, soft tissue fixation devices, interference screws, and meniscal repair implants for ACL reconstruction and shoulder stabilization.",
-      "With the rise of sports participation and active lifestyles across Hyderabad and Telangana, demand for minimally invasive sports medicine procedures is growing rapidly. Our portfolio supports orthopaedic surgeons in delivering faster recovery outcomes for athletes at every level.",
-      "We provide complete arthroscopy tower setups, shaver systems, and implant kits for knee, shoulder, hip, and ankle procedures — all with dedicated clinical application support from our Agile Healthcare team."
+      "Agile Healthcare's Sports Medicine division distributes Meril's advanced arthroscopic systems, soft tissue fixation devices, and meniscal repair implants. We provide surgeons in Telangana with the tools for stable, biological healing of shoulder and knee injuries.",
+      "Our portfolio features high-strength titanium anchors, bio-composite systems, and all-suture solutions like Instarep™, Rotafix™, and Filahook™, supporting faster recovery outcomes for athletes at every level.",
+      "We provide complete arthroscopy tower setups, shaver systems, and implant kits for knee, shoulder, hip, and ankle procedures — all with dedicated clinical application support across all 33 districts of Telangana."
     ]
   },
   'ent': {
@@ -111,23 +87,7 @@ export const DIVISION_SEO_CONTENT: Record<string, { title: string, content: stri
       "We work closely with hospital procurement heads to establish par-level agreements, ensuring that critical care wards across Hyderabad, Secunderabad, and all district hospitals never face stockouts of essential life-support consumables."
     ]
   },
-  'critical care': {
-    title: "Critical Care Consumables & Life Support Supplies",
-    content: [
-      "Intensive care units demand zero-compromise supply chains. Agile Healthcare's Critical Care division supplies Meril's range of ICU and HDU consumables, including central venous catheters, arterial lines, closed suction systems, and vital monitoring accessories.",
-      "Our critical care portfolio supports hospitals and nursing homes across Telangana in maintaining ICU readiness at all times. Agile Healthcare's logistics team ensures emergency restocking within hours, reducing the risk of supply-related clinical incidents.",
-      "We work closely with hospital procurement heads to establish par-level agreements, ensuring that critical care wards across Hyderabad, Secunderabad, and all district hospitals never face stockouts of essential life-support consumables."
-    ]
-  },
   'peripheral-intervention': {
-    title: "Peripheral Vascular Intervention Devices",
-    content: [
-      "Agile Healthcare's Peripheral Intervention division supplies Meril Life Sciences' range of vascular access devices, peripheral stents, angioplasty balloons, and thrombectomy systems for interventional radiology and vascular surgery.",
-      "As peripheral arterial disease (PAD) and dialysis access procedures rise in prevalence across Telangana, our team works with interventional cardiologists and vascular surgeons to provide the right devices for complex peripheral cases.",
-      "Our portfolio supports AV fistula maintenance, peripheral angioplasty, and iliofemoral interventions, with on-call clinical support from our experienced team for complex procedural guidance."
-    ]
-  },
-  'peripheral intervention': {
     title: "Peripheral Vascular Intervention Devices",
     content: [
       "Agile Healthcare's Peripheral Intervention division supplies Meril Life Sciences' range of vascular access devices, peripheral stents, angioplasty balloons, and thrombectomy systems for interventional radiology and vascular surgery.",
@@ -173,14 +133,6 @@ export const DIVISION_SEO_CONTENT: Record<string, { title: string, content: stri
       "Agile Healthcare introduces the BreathFlex™ Sleep Apnea portfolio to Telangana. Our APAP and BPAP devices offer intelligent pressure adaptation for patients in Hyderabad and beyond.",
       "With 4G cloud connectivity and real-time monitoring via the riDream™ app, we empower hospitals across Telangana to manage respiratory conditions with clinical precision.",
       "We provide full patient support and clinical training for sleep therapy across all districts of Telangana, bringing world-class respiratory care to homecare and hospital settings."
-    ]
-  },
-  'sports-medicine': {
-    title: "Arthroscopy & Sports Medicine Soft Tissue Fixation",
-    content: [
-      "Our Sports Medicine division provides Meril's advanced arthroscopy solutions for shoulder and knee repairs. From high-strength titanium anchors to bio-composite and all-suture systems, we offer surgeons the tools for stable, biological healing.",
-      "Agile Healthcare supports sports medicine specialists in Telangana with a complete portfolio of Instarep™, Rotafix™, and Filahook™ anchors, alongside specialized instrumentation for ACL, PCL, and Rotator Cuff procedures.",
-      "Whether it is an elite athlete returning to the field or a patient regaining mobility, our world-class implants ensure the highest standards of soft tissue fixation and long-term functional recovery."
     ]
   },
 };
