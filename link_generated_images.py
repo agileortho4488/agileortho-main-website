@@ -6,7 +6,9 @@ MAPPING = {
     "Variabilis 2.4mm Multi-Angle Distal Radial Plate (2 holes, 42mm, Width 19.5mm, Right)": "variabilis_radial_plate_render_1777099570935.png",
     "Variabilis 2.4mm Multi-Angle Locking Screw - 6mm": "variabilis_screw_render_1777123479226.png",
     "4.0mm Cancellous Screw, Short Thread": "trauma_cancellous_screw_render_1777123494804.png",
-    "Variabilis 2.4mm Multi-Angle Distal Radial Plate (2 holes, 42mm, Width 19.5mm, Left)": "variabilis_radial_plate_left_render_1777123512531.png"
+    "Variabilis 2.4mm Multi-Angle Distal Radial Plate (2 holes, 42mm, Width 19.5mm, Left)": "variabilis_radial_plate_left_render_1777123512531.png",
+    "Variabilis 2.4mm Locking Screw - 6mm": "variabilis_locking_screw_render_1777914476299.png",
+    "Variabilis 2.4mm Multi-Angle Distal Radial Plate (2 holes, 45mm, Width 22mm, Right)": "variabilis_distal_radial_plate_render_1777914520128.png"
 }
 
 def update_catalog():
