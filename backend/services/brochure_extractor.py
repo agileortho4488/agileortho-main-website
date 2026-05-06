@@ -16,7 +16,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # Constants
-JSON_PATH = "/Users/harsha/.gemini/antigravity/scratch/agileortho-main-website/frontend/src/data/catalog_products.json"
+JSON_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "frontend/src/data/catalog_products.json")
 
 # Pydantic models for structured output
 class TechSpec(BaseModel):
@@ -184,7 +184,21 @@ class BrochureExtractor:
                 ),
             )
             self.gemini_client.files.delete(name=uploaded_file.name)
-            return ProductSpecs(**json.loads(response.text))
+            
+            # Clean response text in case of markdown wrapping or truncation
+            text = response.text.strip()
+            if text.startswith("```json"):
+                text = text[7:]
+            if text.endswith("```"):
+                text = text[:-3]
+            text = text.strip()
+            
+            try:
+                return ProductSpecs(**json.loads(text))
+            except json.JSONDecodeError as je:
+                logger.error(f"JSON Decode Error for {file_name}: {je}. Raw text head: {text[:200]}")
+                # Try to fix common truncation issues if possible, or re-raise
+                raise je
             
         except Exception as e:
             if "INVALID_ARGUMENT" in str(e) or "too large" in str(e).lower():
@@ -203,7 +217,15 @@ class BrochureExtractor:
                         response_schema=response_schema,
                     ),
                 )
-                return ProductSpecs(**json.loads(response.text))
+                
+                text = response.text.strip()
+                if text.startswith("```json"):
+                    text = text[7:]
+                if text.endswith("```"):
+                    text = text[:-3]
+                text = text.strip()
+                
+                return ProductSpecs(**json.loads(text))
             raise e
 
     async def _extract_litellm(self, pdf_path: str, target_products: Optional[List[str]] = None) -> Optional[ProductSpecs]:
@@ -273,7 +295,8 @@ class BrochureExtractor:
                 
                 # Save the raw transcription to a file for the user to audit
                 import os
-                transcript_dir = '/Users/harsha/.gemini/antigravity/scratch/agileortho-main-website/backend/brochure_intelligence/transcriptions'
+                root_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+                transcript_dir = os.path.join(root_dir, 'backend/brochure_intelligence/transcriptions')
                 os.makedirs(transcript_dir, exist_ok=True)
                 with open(os.path.join(transcript_dir, p.get('slug', 'unknown') + '_transcript.txt'), 'w') as tf:
                     tf.write(extracted_data.full_raw_transcription)

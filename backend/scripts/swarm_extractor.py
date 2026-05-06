@@ -25,8 +25,9 @@ logging.basicConfig(
 )
 logger = logging.getLogger("SwarmOrchestrator")
 
-SOURCE_DIR = "/Users/harsha/.gemini/antigravity/scratch/agileortho-main-website/backend/brochure_intelligence/source_brochures"
-CATALOG_PATH = "/Users/harsha/.gemini/antigravity/scratch/agileortho-main-website/frontend/src/data/catalog_products.json"
+BACKEND_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SOURCE_DIR = os.path.join(BACKEND_DIR, "brochure_intelligence/source_brochures")
+CATALOG_PATH = os.path.join(os.path.dirname(BACKEND_DIR), "frontend/src/data/catalog_products.json")
 
 class SwarmOrchestrator:
     def __init__(self, concurrency: int = 2):

@@ -32,11 +32,81 @@ SERIES_PATTERNS = [
         "keywords": ["Variabilis", "Cortex Screw"],
         "image": "variabilis_screw_render_1777123479226.png",
         "label": "Variabilis Cortex Screw Series"
+    },
+    {
+        "keywords": ["Myval"],
+        "image": "cv_myval_valve_v2_render_1778086892427.png",
+        "label": "Myval Valve Series"
+    },
+    {
+        "keywords": ["Evermine50"],
+        "image": "cv_evermine50_stent_render_1778086915767.png",
+        "label": "Evermine50 Stent Series"
+    },
+    {
+        "keywords": ["BioMime"],
+        "image": "cv_biomime_stent_render_1778086929790.png",
+        "label": "BioMime Stent Series"
+    },
+    {
+        "keywords": ["NexGen"],
+        "image": "cv_nexgen_stent_render_1778086944214.png",
+        "label": "NexGen Stent Series"
+    },
+    {
+        "keywords": ["Mozec"],
+        "image": "cv_mozec_balloon_render_1778086958125.png",
+        "label": "Mozec Balloon Series"
+    },
+    {
+        "keywords": ["Freedom"],
+        "image": "jr_freedom_knee_render_1778086972179.png",
+        "label": "Freedom Knee Series"
+    },
+    {
+        "keywords": ["Latitud"],
+        "image": "jr_latitud_hip_render_1778086999277.png",
+        "label": "Latitud Hip Series"
+    },
+    {
+        "keywords": ["PCK"],
+        "image": "jr_pck_revision_knee_render_1778087012920.png",
+        "label": "PCK Revision Knee Series"
+    },
+    {
+        "keywords": ["Stapler"],
+        "image": "endo_stapler_render_1778087029061.png",
+        "label": "Laparoscopic Stapler Series"
+    },
+    {
+        "keywords": ["Endo-Clip"],
+        "image": "endo_clips_render_1778087045518.png",
+        "label": "Endo-Clip Series"
+    },
+    {
+        "keywords": ["Trent"],
+        "image": "jr_trent_stem_render_1778087392596.png",
+        "label": "Trent Stem Series"
+    },
+    {
+        "keywords": ["Trocar"],
+        "image": "endo_trocar_render_1778087406623.png",
+        "label": "Trocar Series"
+    },
+    {
+        "keywords": ["MIRAY"],
+        "image": "endo_miray_suction_render_1778087422262.png",
+        "label": "MIRAY Suction Series"
+    },
+    {
+        "keywords": ["Hernia Mesh"],
+        "image": "endo_hernia_mesh_render_1778087436695.png",
+        "label": "Hernia Mesh Series"
     }
 ]
 
 def update_catalog():
-    PATH = 'frontend/src/data/catalog_products.json'
+    PATH = 'repo/frontend/src/data/catalog_products.json'
     WEB_PATH_PREFIX = '/images/catalog/'
     
     if not os.path.exists(PATH):
@@ -59,10 +129,13 @@ def update_catalog():
         if name in EXACT_MAPPING:
             target_image = EXACT_MAPPING[name]
         
-        # 2. Try Pattern Match (if no exact match and no current image)
-        if not target_image and not p.get('images'):
+        # 2. Try Pattern Match (overwrites if no current image or if current image is a screenshot)
+        current_images = p.get('images', [])
+        is_legacy = not current_images or any(img.get('source') == 'brochure_extraction' for img in current_images)
+        
+        if not target_image and is_legacy:
             for pattern in SERIES_PATTERNS:
-                if all(kw in name for kw in pattern['keywords']):
+                if all(kw.lower() in name.lower() for kw in pattern['keywords']):
                     target_image = pattern['image']
                     source_type = "series"
                     break
