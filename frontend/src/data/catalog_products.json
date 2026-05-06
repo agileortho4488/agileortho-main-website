@@ -32528,12 +32528,16 @@
     "manufacturer": "Meril Life Sciences",
     "description_live": "Comprehensive Infection Prevention Solutions Catalog featuring zero-compromise medical-grade technologies for healthcare facilities. Our October 2025 catalog showcases advanced antimicrobial devices, sterile processing equipment, and surgical site infection prevention systems designed to meet stringent hospital safety protocols. Evidence-based solutions engineered with premium medical-grade materials to reduce healthcare-associated infections (HAIs) and improve patient outcomes across critical care environments.",
     "technical_specifications": {
-      "catalog_date": "October 2025",
-      "approach": "Zero compromise infection prevention"
+      "Surgical Gowns": "MAIRA\u2122 Surgical Gowns AAMI-1, AAMI-2, AAMI-3, AAMI-4, Premium Surgical Gown, Supreme Surgical Gown. Sizes: L, XL, XXL, XXXL",
+      "Surgical Drapes": "MEVEL\u2122 Angiography Drape (300 cm x 230 cm), Hip U Drape (310 cm x 230 cm), Knee O Drape (300 cm x 230 cm), Extremity Drape (360 cm x 240 cm), Utility Drape (100 cm x 100 cm), Medium Drape (160 cm x 100 cm), Large Drape (190 cm x 160 cm), Side Drape (50 cm x 80 cm), Half Drape (160 cm x 110 cm), Top Drape (100 cm x 160 cm), Bottom Drape (190 cm x 160 cm), Eye Drape (80 cm x 90 cm), Dental Drape (50 cm x 80 cm), Fenestrated Drape (190 cm x 100 cm)",
+      "Hand Rub": "MIREX\u2122 Alcohol Rub (100 ml with Dispenser, 100 ml Flip Top, 500 ml with Dispenser, 5 L), BAKTIO\u2122 Blue (100 ml with Dispenser, 100 ml Flip Top, 500 ml with Dispenser, 5 L)",
+      "Hand Scrub": "MIREX\u2122 4% CHG Hand Scrub (100 ml with Dispenser, 100 ml Flip Top, 500 ml with Dispenser, 5 L)",
+      "Skin Prep": "MIREX\u2122 2% CHG Skin Prep (500 ml), MIDOR\u2122 5% Skin Prep (100 ml, 500 ml, 2 L), MIDOR \u21227.5% Surgical Scrub (100 ml, 500 ml, 2 L), MIDOR \u2122 10% Skin Prep (100 ml, 500 ml, 2 L)",
+      "Surface & Equipment Disinfectant": "MIREY\u2122 70% IPA (250 ml)"
     },
     "brand": "360 IPS",
     "parent_brand": "",
-    "description_shadow": "Comprehensive Infection Prevention Solutions Catalog featuring zero-compromise medical-grade technologies for healthcare facilities. Our October 2025 catalog showcases advanced antimicrobial devices, sterile processing equipment, and surgical site infection prevention systems designed to meet stringent hospital safety protocols. Evidence-based solutions engineered with premium medical-grade materials to reduce healthcare-associated infections (HAIs) and improve patient outcomes across critical care environments.",
+    "description_shadow": "Available Product Range as of Oct - 2025. Includes surgical gowns, surgical drapes, hand hygiene, skin prepping solutions, and surface & equipment disinfectants.",
     "division_shadow_original": "",
     "shadow_product_id": "",
     "shadow_source_files": [],
@@ -32624,11 +32628,7 @@
     "semantic_system_type": "Multi-category infection prevention portfolio",
     "seo_title": "Infection Prevention Solutions Catalog | Meril Medical Device | Agile Ortho Telangana",
     "seo_description": "Authorized Meril Medical Device distributor in Telangana. High-performance Infection Prevention Solutions Catalog engineered for clinical excellence. Available for 2-hour emergency dispatch in Hyderabad.",
-    "clinical_indications": [
-      "Maintenance of sterile field during surgical interventions",
-      "Prevention of Surgical Site Infections (SSIs)",
-      "Protection of healthcare personnel from bloodborne pathogens"
-    ],
+    "clinical_indications": [],
     "clinical_benefits": [
       "High resistance to fluid penetration (AAMI compliant)",
       "Low linting properties to prevent airborne contamination",
@@ -32636,7 +32636,17 @@
     ],
     "brochure_intelligence_updated": true,
     "visual_style": "default",
-    "features_list": []
+    "features_list": [],
+    "contraindications": [],
+    "warnings_and_precautions": [],
+    "surgical_steps": [],
+    "sterilization_packaging": "",
+    "materials_canonical": null,
+    "full_raw_transcription": "350\nINFECTION PREVENTION SOLUTIONS\nAvailable Product Range as of\nOct - 2025\nMeril\nZERO COMPROMISE\nAVAILABLE PRODUCTS\nSURGICAL GOWNS PRODUCT RANGE\nBrand Name\nProduct\nSize\nProduct Image\nMAIRATM\nSurgical Gowns AAMI-1\nL, XL, XXL, XXXL\nMeril\nMAIRATM\nSurgical Gowns AAMI-2\nL, XL, XXL, XXXL\nMAIRATM\nSurgical Gowns AAMI-3\nL, XL, XXL, XXXL\nMAIRATM\nSurgical Gowns AAMI-4\nL, XL, XXL, XXXL\nMAIRATM\nPremium Surgical Gown\nL, XL, XXL, XXXL\nMAIRATM\nSupreme Surgical Gown\nL, XL, XXL, XXXL\nSURGICAL DRAPES PRODUCT RANGE\nBrand Name\nProduct\nSize\nProduct Image\nMEVELTM\nAngiography Drape\n300 cm x 230 cm\nMEVELTM\nHip U Drape\n310 cm x 230 cm\nMEVELTM\nKnee O Drape\n300 cm x 230 cm\nMEVELTM\nExtremity Drape\n360 cm x 240 cm\nMEVELTM\nUtility Drape\n100 cm x 100 cm\nMEVELTM\nMedium Drape\n160 cm x 100 cm\nMEVELTM\nLarge Drape\n190 cm x 160 cm\nEye Drape\nMEVELTM\nSide Drape\n50 cm x 80 cm\nMEVELTM\nHalf Drape\n160 cm x 110 cm\nMEVELTM\nTop Drape\n100 cm x 160 cm\nMEVELTM\nBottom Drape\n190 cm x 160 cm\nMEVELTM\nEye Drape\n80 cm x 90 cm\nMEVELTM\nDental Drape\n50 cm x 80 cm\nMEVELTM\nFenestrated Drape\n190 cm x 100 cm\nKnee O Drape\nHAND HYGIENE & SKIN PREPPING PRODUCT RANGE\nCategory\nBrand Name\nHand Rub\nPack Size\nProduct Image\n100 ml (with Dispenser)\nMeril\nMIREX\u2122\u2122 Alcohol Rub\n100 ml (Flip Top)\n500 ml (with Dispenser)\n2-Propanst, 1-Prepand 6\nMecchunium Tiny Sulprate Solution\nMirex\nALCOHOL RUB\nAntimicrobial Handrub\n5 L\n100 ml (with Dispenser)\n360\u00b0\nNet Content-100 ml\nBAKTIOT\u2122 Blue\n100 ml (Flip Top)\n500 ml (with Dispenser)\nMeril\n2-Propanol. 1-Propanol &\nBAKTIO BLUE\nALCOHOL RUB\nAntimicrobial Handrub\nCategory\nBrand Name\n5 L\n360\nHand Scrub\nPack Size\nProduct Image\n100 ml (with Dispenser)\nMIREXTM 4% CHG\nHand Scrub\n100 ml (Flip Top)\n500 ml (with Dispenser)\n5 L\nMeril\nChlorhexidine Gluconate\nSolution 4% W/V\nMirex\n360\nCategory\nBrand Name\nMIREXTM 2% CHG\nSkin Prep\nSkin Prepping Solutions\nProduct Image\nPack Size\nMeril\n500 ml\nMirex\n360\nMIDORTM 5%\nSkin Prep\n100 ml\n500 ml\n2 L\n100 ml\nMIDOR TM7.5%\nSurgical Scrub\n500 ml\n2 L\nMeril\nMeril\nMeril\nSolutio\n100 ml\nMidor\nMidor\nMidor\nSkin Prepping\nMIDOR TM 10%\nSkin Prep\n500 ml\n360 60\n360\n2 L\nDISINFECTION & STERILIZATION PRODUCT RANGE\nCategory\nBrand Name\nSurface & Equipment Disinfectant\nPack Size\nProduct Image\nMIREYTM 70% IPA\nMeril\n250 ml\nIsopropyl Rubbing Alcohol F\nMIREY\u2122\n70% IPA\nSurface & Equipment\nDisinfectant\nManufactured by:\nMeril Medical Innovation Pvt. Ltd.\nGround & First Floor, Survey No. 173/4 &\nFirst Floor, H1-H3, Meril Park,\nSurvey No. 135/2/B & 174/2, Muktanand Marg,\nChala, Vapi - 396 191, Gujarat, India\nCustomer Care Contact:\nEmail: askinfo@merillife.com\nMarketed By:\nMeril Life Sciences India Pvt. Ltd.\n6th Floor, B wing, Bonanza Building,\nSahar Plaza, Chakala JB Nagar,\nNr Kohinoor Hotel, Nr Chakala Metro Station,\nAndheri East. 400059",
+    "sizing_logic": {
+      "metric": null,
+      "options": null
+    }
   },
   {
     "product_name": "Mirex CHG Skin Prep Solution",
