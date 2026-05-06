@@ -5,7 +5,8 @@ from google import genai
 from google.genai import types
 
 # Constants
-CATALOG_PATH = 'repo/frontend/src/data/catalog_products.json'
+ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+CATALOG_PATH = os.path.join(ROOT_DIR, 'repo/frontend/src/data/catalog_products.json')
 GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY")
 
 client = genai.Client(api_key=GOOGLE_API_KEY)

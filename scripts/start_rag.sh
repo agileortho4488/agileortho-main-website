@@ -2,7 +2,10 @@
 # start_rag.sh - Persistently starts the Agile Healthcare RAG Service
 # Usage: ./start_rag.sh
 
-PROJECT_DIR="/Users/harsha/Desktop/agilehealthcare"
+# Determine the absolute path of the script directory
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+PROJECT_DIR="$( cd "$SCRIPT_DIR/../.." && pwd )"
+
 VENV_PATH="$PROJECT_DIR/.venv_stable"
 LOG_FILE="$PROJECT_DIR/rag_server.log"
 

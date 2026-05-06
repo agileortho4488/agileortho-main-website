@@ -3,15 +3,17 @@
 @tailwind utilities;
 
 :root {
-  --primary: 45 60% 53%; /* Agile Gold */
-  --primary-foreground: 0 0% 100%;
-  --background: 0 0% 4%;
+  --primary: 43 72% 52%; /* Agile Gold */
+  --primary-foreground: 0 0% 0%;
+  --secondary: 199 89% 48%; /* Surgical Blue */
+  --secondary-foreground: 0 0% 100%;
+  --background: 0 0% 4%; /* Deep Obsidian */
   --foreground: 0 0% 98%;
   --card: 0 0% 6%;
   --card-foreground: 0 0% 98%;
   --muted: 0 0% 15%;
   --muted-foreground: 0 0% 63%;
-  --border: 0 0% 12%;
+  --border: 0 0% 100% / 0.1;
 }
 
 @layer base {
