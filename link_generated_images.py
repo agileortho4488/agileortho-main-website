@@ -102,11 +102,232 @@ SERIES_PATTERNS = [
         "keywords": ["Hernia Mesh"],
         "image": "endo_hernia_mesh_render_1778087436695.png",
         "label": "Hernia Mesh Series"
+    },
+    {
+        "keywords": ["ARMAR", "Plate"],
+        "image": "trauma_armar_plate_render_1778519779454.png",
+        "label": "ARMAR Plating Series"
+    },
+    {
+        "keywords": ["KET", "Nail"],
+        "image": "trauma_ket_nail_render_1778519794880.png",
+        "label": "KET Nailing Series"
+    },
+    {
+        "keywords": ["PFIN"],
+        "image": "trauma_pfin_nail_render_1778519812521.png",
+        "label": "PFIN Nailing Series"
+    },
+    {
+        "keywords": ["MBOSS"],
+        "image": "trauma_mboss_screw_render_1778519826922.png",
+        "label": "MBOSS Screw Series"
+    },
+    {
+        "keywords": ["LPS", "Clavicle"],
+        "image": "trauma_lps_clavicle_render_1778519846266.png",
+        "label": "LPS Clavicle Plate Series"
+    },
+    {
+        "keywords": ["LPS", "Proximal Humerus"],
+        "image": "trauma_lps_humerus_render_1778519861641.png",
+        "label": "LPS Proximal Humerus Series"
+    },
+    {
+        "keywords": ["LPS", "Distal Femur"],
+        "image": "trauma_lps_femur_render_1778519876434.png",
+        "label": "LPS Distal Femur Series"
+    },
+    {
+        "keywords": ["AURIC"],
+        "image": "trauma_auric_gold_plate_render_1778519892510.png",
+        "label": "AURIC Gold Plate Series"
+    },
+    {
+        "keywords": ["MAIRA", "Gown"],
+        "image": "ip_maira_gown_render_1778520033426.png",
+        "label": "MAIRA Gown Series"
+    },
+    {
+        "keywords": ["MEVEL", "Drape"],
+        "image": "ip_mevel_drape_render_1778519923186.png",
+        "label": "MEVEL Drape Series"
+    },
+    {
+        "keywords": ["MYSCAN", "OPA"],
+        "image": "ip_myscan_opa_render_1778519939496.png",
+        "label": "MYSCAN OPA Series"
+    },
+    {
+        "keywords": ["BAKTIO", "Pump"],
+        "image": "ip_baktio_pump_render_1778519955588.png",
+        "label": "BAKTIO Pump Series"
+    },
+    {
+        "keywords": ["MIREX"],
+        "image": "ip_mirex_chg_render_1778519970346.png",
+        "label": "MIREX Skin Prep Series"
+    },
+    {
+        "keywords": ["CUTWELL"],
+        "image": "ip_cutwell_drape_render_1778519984831.png",
+        "label": "CUTWELL Drape Series"
+    },
+    {
+        "keywords": ["NEOVA"],
+        "image": "ip_neova_clipper_render_1778520000730.png",
+        "label": "NEOVA Clipper Series"
+    },
+    {
+        "keywords": ["MITSU"],
+        "image": "endo_mitsu_suture_render_1778520792363.png",
+        "label": "MITSU Suture Series"
+    },
+    {
+        "keywords": ["MeRes100"],
+        "image": "cv_meres100_scaffold_render.png",
+        "label": "MeRes100 Scaffold Series"
+    },
+    {
+        "keywords": ["CLAVO", "Nail"],
+        "image": "trauma_clavo_nails_render.png",
+        "label": "CLAVO Elastic Nail Series"
+    },
+    {
+        "keywords": ["PINION"],
+        "image": "ip_pinion_suture_render.png",
+        "label": "PINION Suture Series"
+    },
+    {
+        "keywords": ["Proficient"],
+        "image": "cv_proficient_stent_render.png",
+        "label": "Proficient Stent Series"
+    },
+    {
+        "keywords": ["SPM", "Screw"],
+        "image": "spine_spm_screws_render.png",
+        "label": "SPM Spine Series"
+    },
+    {
+        "keywords": ["AutoQuant"],
+        "image": "diag_autoquant_analyzer_render.png",
+        "label": "AutoQuant Analyzer Series"
+    },
+    {
+        "keywords": ["Dafodil", "Mitral"],
+        "image": "cv_dafodil_mitral_render.png",
+        "label": "Dafodil Mitral Valve Series"
+    },
+    {
+        "keywords": ["Cogent"],
+        "image": "cv_peripheral_stent_render.png",
+        "label": "Cogent Peripheral Stent Series"
+    },
+    {
+        "keywords": ["Promesa"],
+        "image": "cv_peripheral_stent_render.png",
+        "label": "Promesa Peripheral Stent Series"
+    },
+    {
+        "keywords": ["Libertas"],
+        "image": "jr_libertas_hip_render.png",
+        "label": "Libertas Hip Series"
+    },
+    {
+        "keywords": ["MAYYA"],
+        "image": "ip_maira_kit_render.png",
+        "label": "Surgery-Specific Kit Series"
+    },
+    {
+        "keywords": ["Procedure Kit"],
+        "image": "ip_maira_kit_render.png",
+        "label": "Surgery-Specific Kit Series"
+    },
+    {
+        "keywords": ["HandX"],
+        "image": "robotics_handx_render.png",
+        "label": "HandX Robotics Series"
+    },
+    {
+        "keywords": ["MISSO"],
+        "image": "robotics_handx_render.png",
+        "label": "MISSO Robotics Series"
+    },
+    {
+        "keywords": ["MYRAC"],
+        "image": "ent_myrac_generator_render.png",
+        "label": "MYRAC ENT Series"
+    },
+    {
+        "keywords": ["VENOZA"],
+        "image": "cc_venoza_dialyzer_render.png",
+        "label": "VENOZA Dialysis Series"
+    },
+    {
+        "keywords": ["RI-PRICK"],
+        "image": "anes_needle_kit_render.png",
+        "label": "Spinal Anesthesia Series"
+    },
+    {
+        "keywords": ["DURALIEF"],
+        "image": "anes_needle_kit_render.png",
+        "label": "Epidural Anesthesia Series"
+    },
+    {
+        "keywords": ["OXYVIA"],
+        "image": "anes_breathing_circuit_render.png",
+        "label": "Anesthesia Breathing Series"
+    },
+    {
+        "keywords": ["Obtura"],
+        "image": "cv_obtura_closure_render.png",
+        "label": "Obtura Vascular Closure Series"
+    },
+    {
+        "keywords": ["CelQuant"],
+        "image": "diag_celquant_analyzer_render.png",
+        "label": "CelQuant Analyzer Series"
+    },
+    {
+        "keywords": ["LPS", "Plate"],
+        "image": "trauma_lps_plate_render.png",
+        "label": "LPS Plating Series"
+    },
+    {
+        "keywords": ["Mirus", "Stapler"],
+        "image": "endo_mirus_stapler_render.png",
+        "label": "Mirus Stapler Series"
+    },
+    {
+        "keywords": ["Mirus", "Cutter"],
+        "image": "endo_mirus_stapler_render.png",
+        "label": "Mirus Cutter Series"
+    },
+    {
+        "keywords": ["Dafodil"],
+        "image": "cv_dafodil_valve_render.png",
+        "label": "Dafodil Heart Valve Series"
+    },
+    {
+        "keywords": ["Mesire"],
+        "image": "ent_mesire_balloon_render.png",
+        "label": "Mesire Sinus Balloon Series"
+    },
+    {
+        "keywords": ["Opulent"],
+        "image": "jr_opulent_gold_knee_render.png",
+        "label": "Opulent Gold Knee Series"
+    },
+    {
+        "keywords": ["Destiknee"],
+        "image": "jr_destiknee_hinge_render.png",
+        "label": "Destiknee Hinge Knee Series"
     }
 ]
 
 def update_catalog():
-    PATH = 'repo/frontend/src/data/catalog_products.json'
+    # PATH adjusted to work from repo/ directory
+    PATH = 'frontend/src/data/catalog_products.json'
     WEB_PATH_PREFIX = '/images/catalog/'
     
     if not os.path.exists(PATH):
@@ -129,9 +350,10 @@ def update_catalog():
         if name in EXACT_MAPPING:
             target_image = EXACT_MAPPING[name]
         
-        # 2. Try Pattern Match (overwrites if no current image or if current image is a screenshot)
+        # 2. Try Pattern Match (overwrites if no current image or if current image is a screenshot/legacy)
         current_images = p.get('images', [])
-        is_legacy = not current_images or any(img.get('source') == 'brochure_extraction' for img in current_images)
+        LEGACY_SOURCES = ['brochure_extraction', 'family_propagation', 'manual_upload', 'default', 'manual_render']
+        is_legacy = not current_images or any(img.get('source') in LEGACY_SOURCES for img in current_images)
         
         if not target_image and is_legacy:
             for pattern in SERIES_PATTERNS:

@@ -174,7 +174,13 @@ export default async function DivisionPage({ params }: DivisionPageProps) {
                 style={{ background: `${meta.color}08` }}>
                 {product.images?.[0]?.storage_path ? (
                   <img
-                    src={product.images[0].storage_path.startsWith('http') ? product.images[0].storage_path : `https://cdn.agilehealthcare.in/${product.images[0].storage_path}`}
+                    src={
+                      product.images[0].storage_path.startsWith('http') 
+                        ? product.images[0].storage_path 
+                        : product.images[0].storage_path.startsWith('/')
+                          ? product.images[0].storage_path
+                          : `https://cdn.agilehealthcare.in/${product.images[0].storage_path}`
+                    }
                     alt={product.product_name_display}
                     className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-500"
                   />

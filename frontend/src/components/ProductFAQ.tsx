@@ -16,6 +16,7 @@ export default function ProductFAQ({ product, visualStyle = 'default' }: Product
       question: `What is the ${product.product_name_display}?`,
       answer: product.description_live || product.description_shadow || `The ${product.product_name_display} is a premium medical device manufactured by ${product.manufacturer || 'Meril Life Sciences'} for the ${product.category} category.`
     },
+    ...(product.clinical_faqs || []),
     {
       question: `Who manufactures the ${product.product_name_display}?`,
       answer: `This product is manufactured by ${product.manufacturer || 'Meril Life Sciences'} and is distributed by Agile Healthcare across all districts of Telangana.`

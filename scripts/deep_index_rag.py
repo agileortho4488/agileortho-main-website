@@ -1,12 +1,15 @@
 import json
 import os
 import sys
-from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_community.vectorstores import Chroma
 from langchain_core.documents import Document
+from dotenv import load_dotenv
 
 # Determine paths
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+load_dotenv(os.path.join(os.path.dirname(ROOT_DIR), '.env'))
+
 CATALOG_PATH = os.path.join(ROOT_DIR, 'frontend/src/data/catalog_products.json')
 DB_DIR = os.path.join(os.path.dirname(ROOT_DIR), 'chroma_db')
 
@@ -15,24 +18,38 @@ def deep_index():
     with open(CATALOG_PATH, 'r') as f:
         products = json.load(f)
 
-    print("Initializing embeddings...")
-    embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+    print("Initializing Google embeddings...")
+    api_key = os.getenv("GOOGLE_API_KEY")
+    if not api_key:
+        print("ERROR: GOOGLE_API_KEY not set.")
+        return
+
+    embeddings = GoogleGenerativeAIEmbeddings(model="models/gemini-embedding-001")
 
     documents = []
     for p in products:
         # Create a rich text blob for indexing
-        content = f"Product Name: {p.get('product_name')}\n"
-        content += f"Division: {p.get('division')}\n"
-        content += f"Category: {p.get('category')}\n"
-        content += f"Description: {p.get('description_shadow', '')}\n"
-        content += f"Clinical Data: {p.get('full_raw_transcription', '')}\n"
+        content = f"PRODUCT NAME: {p.get('product_name')}\n"
+        content += f"DIVISION: {p.get('division')}\n"
+        content += f"CATEGORY: {p.get('category')}\n"
+        content += f"DESCRIPTION: {p.get('description_live') or p.get('description_shadow', '')}\n"
         
-        # Add tech specs
+        # Include technical specs
         specs = p.get('technical_specifications', {})
-        if isinstance(specs, dict):
-            content += "Technical Specifications:\n"
+        if isinstance(specs, dict) and specs:
+            content += "TECHNICAL SPECIFICATIONS:\n"
             for k, v in specs.items():
                 content += f"- {k}: {v}\n"
+        
+        # Include clinical data from verbatim transcription
+        verbatim = p.get('full_raw_transcription', '')
+        if verbatim:
+            content += f"CLINICAL DATA (VERBATIM):\n{verbatim}\n"
+        
+        # Features
+        features = p.get('features_list', [])
+        if features:
+            content += "KEY FEATURES:\n" + "\n".join([f"- {f}" for f in features]) + "\n"
         
         doc = Document(
             page_content=content,
