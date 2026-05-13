@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next';
 import { getAllProducts } from '@/lib/data';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = 'https://agilehealthcare.in';
+  const baseUrl = 'https://www.agilehealthcare.in';
   const products = await getAllProducts();
 
   // 1. Static Core Pages

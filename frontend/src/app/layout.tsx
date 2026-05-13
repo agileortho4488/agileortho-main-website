@@ -32,11 +32,11 @@ export const metadata: Metadata = {
   },
   description:
     'Authorized Meril Life Sciences master franchise distributor for Telangana. 1,202 medical devices across Trauma, Joint Replacement, Cardiovascular, Diagnostics & 9 more clinical divisions.',
-  metadataBase: new URL('https://agilehealthcare.in'),
+  metadataBase: new URL('https://www.agilehealthcare.in'),
   openGraph: {
     type: 'website',
     locale: 'en_IN',
-    url: 'https://agilehealthcare.in',
+    url: 'https://www.agilehealthcare.in',
     siteName: 'Agile Healthcare',
     images: [
       {
