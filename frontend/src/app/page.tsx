@@ -84,8 +84,8 @@ export default function Home() {
         {/* Immersive Background */}
         <div className="absolute inset-0 z-0">
           <div 
-            className="absolute inset-0 bg-cover bg-center grayscale opacity-40 mix-blend-overlay"
-            style={{ background: "radial-gradient(circle at 50% 50%, #1e293b 0%, #0f172a 100%)" }}
+            className="absolute inset-0 bg-cover bg-center grayscale opacity-30 mix-blend-overlay"
+            style={{ backgroundImage: "url('/images/hero-bg.png')" }}
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black" />
           <motion.div 
