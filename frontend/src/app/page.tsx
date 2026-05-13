@@ -74,10 +74,46 @@ const SOLUTIONS = [
 ];
 
 export default function Home() {
+  // FAQ Schema for Search Snippets
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    'mainEntity': [
+      {
+        '@type': 'Question',
+        'name': 'Who is the authorized Meril Life Sciences distributor in Telangana?',
+        'acceptedAnswer': {
+          '@type': 'Answer',
+          'text': 'Agile Healthcare is the authorized Master Franchise distributor for Meril Life Sciences in all 33 districts of Telangana, providing high-fidelity medical devices across 13 clinical divisions including Trauma, Cardiac, and Diagnostics.'
+        }
+      },
+      {
+        '@type': 'Question',
+        'name': 'What is the price of a Medtronic coronary stent alternative in India?',
+        'acceptedAnswer': {
+          '@type': 'Answer',
+          'text': 'Meril provides high-performance alternatives to Medtronic coronary stents, such as the BioMime™ Sirolimus Eluting Coronary Stent System. For specific procurement pricing and hospital supply in Telangana, contact Agile Healthcare.'
+        }
+      },
+      {
+        '@type': 'Question',
+        'name': 'Does Agile Healthcare provide 24/7 OT support for surgeries?',
+        'acceptedAnswer': {
+          '@type': 'Answer',
+          'text': 'Yes, Agile Healthcare provides 24/7 surgical technical support and emergency OT assistance across Telangana, ensuring that Meril implants and instrumentation are handled with clinical precision during procedures.'
+        }
+      }
+    ]
+  };
+
   return (
     <main className="min-h-screen bg-[#0A0A0A] text-white selection:bg-primary/30">
       <PremiumHeader />
       <TrustStrip />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
 
       {/* 10-SECOND HERO: AUTHORITY & TRUST */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
