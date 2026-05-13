@@ -34,11 +34,23 @@ export default function LeadCaptureModal({
     setIsSubmitting(true);
 
     try {
-      // Mock API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      // 1. Log Lead to Technical Infrastructure (Backend)
+      await fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...formState,
+          interest: productInterest,
+          source: source,
+          inquiryType: inquiryType
+        }),
+      });
+
+      // 2. Mock processing delay
+      await new Promise(resolve => setTimeout(resolve, 800));
       setIsSuccess(true);
       
-      // WhatsApp Redirection
+      // 3. WhatsApp Redirection for immediate clinical engagement
       const waNumber = "918500204488";
       const text = encodeURIComponent(`${whatsappMessage}\n\nName: ${formState.name}\nHospital: ${formState.hospital}\nPhone: ${formState.phone}`);
       window.open(`https://wa.me/${waNumber}?text=${text}`, '_blank');

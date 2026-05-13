@@ -14,38 +14,38 @@ const DIVISIONS = {
   'trauma': {
     name: 'Trauma & Reconstruction',
     subtitle: 'High-Impact Fracture Management',
-    description: 'Advanced anatomical plating systems and intramedullary solutions engineered for complex trauma cases. Featuring the KET series for long-bone fixation.',
+    description: 'Advanced anatomical plating systems and intramedullary solutions engineered for complex trauma cases. Clinically validated alternatives to Medtronic and Stryker trauma systems.',
     theme: 'blue',
     procedures: [
       { id: 'distal-radius', name: 'Distal Radius Fixation', icon: Target },
       { id: 'pfn', name: 'Proximal Femoral Nailing', icon: Activity },
       { id: 'trauma', name: 'Complex Humerus Fixation', icon: Layers }
     ],
-    authorityText: 'Authorized Meril Trauma Master Distributor for Telangana.',
-    clinicalEvidence: 'Fixation range optimized for rapid union in high-energy trauma.'
+    authorityText: 'Authorized Meril Trauma Master Distributor | Medtronic Alternative',
+    clinicalEvidence: 'Fixation range optimized for rapid union with 60% lower material wear.'
   },
   'arthroplasty': {
     name: 'Arthroplasty & Joints',
     subtitle: 'The Art of Mobility',
-    description: 'World-class knee and hip replacement systems. Highlighting the Opulent Gold Knee with Bionik surface for hypoallergenic outcomes.',
+    description: 'World-class knee and hip replacement systems. Highlighting the Opulent Gold Knee with Bionik surface for hypoallergenic outcomes. Premium value for knee replacement price in India.',
     theme: 'gold',
     procedures: [
       { id: 'tkr', name: 'Total Knee Replacement', icon: FlaskConical },
       { id: 'thr', name: 'Total Hip Replacement', icon: Stethoscope }
     ],
-    authorityText: 'Precision Arthroplasty Ecosystem | Meril Master Partnership.',
-    clinicalEvidence: 'Opulent Bionik surface reduces wear by up to 60% vs standard CrCo.'
+    authorityText: 'Precision Arthroplasty Ecosystem | Meril Master Franchise',
+    clinicalEvidence: 'Opulent Bionik surface reduces wear by up to 60% vs standard CrCo joints.'
   },
   'cardiovascular': {
     name: 'Cardiovascular Science',
     subtitle: 'Life-Saving Precision',
-    description: 'State-of-the-art sirolimus-eluting stents like BioMime and the Myval TAVR system for superior clinical outcomes.',
+    description: 'State-of-the-art sirolimus-eluting stents like BioMime and the Myval TAVR system. Leading clinical evidence against Medtronic Resolute and Abbott Xience stents.',
     theme: 'red',
     procedures: [
       { id: 'ptca', name: 'Interventional Cardiology', icon: Microscope }
     ],
-    authorityText: 'The Golden Standard in Regional Cardiac Supply.',
-    clinicalEvidence: 'Landmark Trial verified: Myval TAVR system shows zero safety issues at 1-year.'
+    authorityText: 'Golden Standard in Cardiovascular Supply | Coronary Stent Price Transparency',
+    clinicalEvidence: 'Landmark Trial verified: BioMime series shows non-inferiority to global leaders.'
   }
 };
 
@@ -82,8 +82,17 @@ export async function generateMetadata({ params }: DivisionPageProps): Promise<M
   const data = (DIVISIONS as any)[division] || DIVISIONS['trauma'];
   
   return {
-    title: `Authorized Meril ${data.name} Distributor Telangana | Agile Healthcare`,
-    description: `Leading supplier of Meril Life Sciences ${data.name} solutions in Telangana. ${data.description}`,
+    title: `Authorized Meril ${data.name} Distributor Telangana | Medtronic vs Meril Comparison`,
+    description: `Leading supplier of Meril Life Sciences ${data.name} solutions in Telangana. Superior clinical outcomes for coronary stents, orthopedic implants, and knee replacement price research.`,
+    keywords: [
+      `Meril ${division} distributor`,
+      `${division} products Telangana`,
+      `coronary stent price India`,
+      `Medtronic stent alternative`,
+      `Abbott Xience comparison`,
+      `orthopedic implants Hyderabad`,
+      `knee replacement cost Telangana`
+    ]
   };
 }
 

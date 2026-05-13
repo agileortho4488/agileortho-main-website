@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server';
 import { getAllProducts } from '@/lib/data';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 3600; // Cache for 1 hour
+
 export async function GET(request: Request) {
   try {
     const url = new URL(request.url, 'https://agilehealthcare.in');

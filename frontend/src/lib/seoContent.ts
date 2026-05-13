@@ -1,137 +1,97 @@
 export const DIVISION_SEO_CONTENT: Record<string, { title: string, content: string[] }> = {
   'trauma': {
-    title: "Orthopedic Trauma Implants & Fixation Systems in Telangana",
+    title: "Orthopedic Trauma Implants & Fixation Systems in Telangana | Meril vs Medtronic Comparison",
     content: [
-      "Agile Healthcare is the authorized Meril distributor for advanced orthopedic trauma solutions across Hyderabad and all 33 districts of Telangana. Our portfolio features the ARMAR™ titanium plating system, KET™ stainless steel implants, and AURIC™ gold-coated solutions for superior biocompatibility.",
-      "We provide specialized trauma fixation for long bone fractures, distal radius, and complex pelvic injuries. Each system is designed for anatomical precision and ease of surgical delivery, supported by 2-hour emergency dispatch in Hyderabad.",
-      "As the regional partner for Meril Life Sciences, we ensure that hospitals in Telangana have immediate access to world-class trauma implants, backed by dedicated clinical training and technical support."
+      "Agile Healthcare is the authorized Meril distributor for advanced orthopedic trauma solutions across Hyderabad and all 33 districts of Telangana. Our portfolio features the ARMAR™ titanium plating system, KET™ stainless steel implants, and AURIC™ gold-coated solutions that offer superior biocompatibility compared to traditional stainless steel options like those from Medtronic or Stryker.",
+      "We provide specialized trauma fixation for long bone fractures, distal radius, and complex pelvic injuries. For surgeons researching 'orthopedic trauma implants' or 'bone plate prices in India', our clinical engineers provide detailed technical dossiers and material comparisons for hospital procurement boards.",
+      "As the regional partner for Meril Life Sciences, we ensure that hospitals in Telangana have immediate access to world-class trauma implants, backed by dedicated clinical training and technical support, with 2-hour emergency dispatch in Hyderabad."
     ]
   },
   'joint-replacement': {
-    title: "Primary & Revision Joint Replacement Solutions in Hyderabad",
+    title: "Primary & Revision Joint Replacement Solutions in Hyderabad | Knee Replacement Price Telangana",
     content: [
-      "Agile Healthcare is the authorized Meril distributor for the world-class arthroplasty portfolio in Telangana. We provide the Freedom™ Knee, Opulent™ gold-coated knee, and Latitude™ hip systems to leading hospitals in Hyderabad.",
-      "Our joint replacement solutions focus on high-flexion motion, long-term survivorship, and bone preservation. The Opulent™ Bionitrited system offers the lowest wear characteristics for patients across Telangana.",
-      "We support orthopedic surgeons in Hyderabad and all 33 districts with a comprehensive sizing matrix and intraoperative instrumentation for both primary and complex revision surgeries."
+      "Agile Healthcare is the authorized Meril distributor for the world-class arthroplasty portfolio in Telangana. We provide the Freedom™ Knee, Opulent™ gold-coated knee, and Latitude™ hip systems, often cited as high-value alternatives for surgeons looking for 'knee replacement price in India' without compromising on clinical quality.",
+      "Our joint replacement solutions focus on high-flexion motion, long-term survivorship, and bone preservation. The Opulent™ Bionitrited system offers the lowest wear characteristics, comparable to premium global brands like Zimmer Biomet or Smith & Nephew, for patients across Telangana.",
+      "We support orthopedic surgeons in Hyderabad and all 33 districts with a comprehensive sizing matrix and intraoperative instrumentation for both primary and complex revision surgeries, ensuring regional availability in Warangal, Nizamabad, and Karimnagar."
     ]
   },
   'cardiovascular': {
-    title: "Cardiovascular Interventions & Stent Systems in Telangana",
+    title: "Cardiovascular Interventions & Stent Systems in Telangana | Medtronic Coronary Stent Alternatives",
     content: [
-      "Agile Healthcare's cardiovascular division supplies life-saving structural heart devices to hospitals across Hyderabad and Telangana, including the Myval Transcatheter Heart Valve (THV) and advanced drug-eluting stents (DES).",
-      "As the authorized Meril distributor in Telangana, we ensure that cath labs and cardiac centers in Hyderabad are equipped with the latest innovations in interventional cardiology and peripheral vascular treatments.",
-      "Our logistics framework ensures that every cardiovascular product is delivered maintaining strict temperature and environmental controls across all 33 districts of Telangana, fully certified for clinical use."
+      "Agile Healthcare's cardiovascular division supplies life-saving structural heart devices to hospitals across Hyderabad and Telangana, including the Myval Transcatheter Heart Valve (THV) and the BioMime™ Drug-Eluting Stent (DES). For procurement officers researching 'coronary stent price in India' or 'Medtronic coronary stent comparisons', our clinical hub provides peer-reviewed evidence for the BioMime™ series.",
+      "As the authorized Meril distributor in Telangana, we ensure that cath labs and cardiac centers in Hyderabad are equipped with the latest innovations in interventional cardiology, including bio-resorbable scaffolds (Meres100) and peripheral vascular treatments.",
+      "Our logistics framework ensures that every cardiovascular product is delivered maintaining strict temperature controls across all 33 districts of Telangana. We specialize in providing 'stent price transparency' and detailed clinical outcome data for hospital board presentations."
     ]
   },
   'diagnostics': {
-    title: "Clinical Diagnostics & Laboratory Equipment",
+    title: "Clinical Diagnostics & Laboratory Equipment | Meril Life Sciences Diagnostics Distributor",
     content: [
-      "Accurate diagnostics are the foundation of effective treatment. Our diagnostics division offers Meril's advanced in-vitro diagnostic (IVD) rapid tests, biochemistry analyzers, hematology solutions, and immunology reagents.",
-      "We partner with leading diagnostic chains and hospital laboratories in Telangana to provide reliable, high-throughput testing equipment. Our technical service team ensures zero downtime through regular maintenance and immediate reagent resupply.",
-      "From point-of-care rapid antigen tests to fully automated analyzers for high-volume labs in Hyderabad, Warangal, and Karimnagar, Agile Healthcare ensures consistent supply and application support across all 33 districts."
+      "Accurate diagnostics are the foundation of effective treatment. Our diagnostics division offers Meril's advanced in-vitro diagnostic (IVD) rapid tests, biochemistry analyzers, hematology solutions, and immunology reagents for labs across Telangana.",
+      "We partner with leading diagnostic chains and hospital laboratories to provide reliable, high-throughput testing equipment. Our technical service team ensures zero downtime through regular maintenance, supporting those searching for 'Meril diagnostics products' or 'fully automatic analyzer price in Hyderabad'.",
+      "From point-of-care rapid tests to fully automated analyzers for high-volume labs in Hyderabad and Warangal, Agile Healthcare ensures consistent supply and application support across all 33 districts."
     ]
   },
   'endo-surgery': {
-    title: "Endo-Surgery & Minimally Invasive Instruments",
+    title: "Endo-Surgery & Minimally Invasive Instruments | Surgical Stapler Price India",
     content: [
-      "Agile Healthcare is the leading provider of Meril Life Sciences' endo-surgery portfolio in Telangana. Our range includes high-performance surgical staplers, trocars, energy devices, and laparoscopic hand instruments designed for precision and reliability.",
-      "Supporting the shift towards minimally invasive procedures, these tools enable surgeons to perform complex procedures with reduced tissue trauma, faster recovery times, and superior clinical outcomes. We maintain extensive inventories to support high-volume surgical centers across Hyderabad.",
-      "Whether it is bariatric surgery, thoracoscopy, or advanced laparoscopic colorectal procedures, Agile Healthcare ensures that every surgical center in Telangana has access to world-class endo-surgical instruments on demand."
-    ]
-  },
-  'infection-prevention': {
-    title: "Infection Prevention & Hospital Hygiene Solutions",
-    content: [
-      "Hospital-Acquired Infections (HAIs) are a critical patient safety issue. Agile Healthcare's Infection Prevention division provides Meril Life Sciences' comprehensive portfolio of antiseptics, sterilization consumables, wound care products, and surgical drapes.",
-      "From pre-operative skin preparation kits and sterile surgical packs to advanced chlorhexidine-based antiseptic solutions, our infection prevention range helps hospitals maintain a zero-tolerance environment for microbial contamination.",
-      "With increasing regulatory scrutiny on NABL and NABH compliance, Agile Healthcare helps hospitals across Telangana procure certified infection prevention consumables that meet the highest Indian and international standards."
-    ]
-  },
-  'instruments': {
-    title: "Premium Surgical Instruments & OT Equipment",
-    content: [
-      "A surgeon is only as effective as the instruments in their hands. Agile Healthcare supplies a comprehensive range of Meril's precision surgical instruments, including forceps, retractors, needle holders, scissors, and electrosurgical accessories.",
-      "All surgical instruments in our catalog are manufactured from premium-grade surgical steel and titanium alloys, designed for repeated sterilization cycles without degradation. We supply single-use and reusable instrument sets tailored to each surgical specialty.",
-      "Our team assists hospitals with complete OT equipment procurement planning, ensuring that trauma theaters, cardiac cath labs, and general surgery suites across Telangana are outfitted with the right tools for every procedure."
-    ]
-  },
-  'sports-medicine': {
-    title: "Sports Medicine & Arthroscopy Implants in Telangana",
-    content: [
-      "Agile Healthcare's Sports Medicine division distributes Meril's advanced arthroscopic systems, soft tissue fixation devices, and meniscal repair implants. We provide surgeons in Telangana with the tools for stable, biological healing of shoulder and knee injuries.",
-      "Our portfolio features high-strength titanium anchors, bio-composite systems, and all-suture solutions like Instarep™, Rotafix™, and Filahook™, supporting faster recovery outcomes for athletes at every level.",
-      "We provide complete arthroscopy tower setups, shaver systems, and implant kits for knee, shoulder, hip, and ankle procedures — all with dedicated clinical application support across all 33 districts of Telangana."
-    ]
-  },
-  'ent': {
-    title: "ENT Surgical Solutions & Instruments",
-    content: [
-      "Agile Healthcare's ENT division provides the complete spectrum of ear, nose, and throat surgical instruments and implants from Meril Life Sciences, including tympanostomy tubes, nasal implants, powered ENT systems, and endoscopic sinus surgery instruments.",
-      "As ENT procedures become increasingly common in both tertiary hospitals and specialist ENT clinics across Telangana, our team ensures that otolaryngologists have immediate access to the right consumables and implants.",
-      "We serve ENT departments in Hyderabad, Warangal, Nizamabad, Karimnagar, and all 33 districts, maintaining the supply chain reliability that surgeons depend on for scheduled OT lists."
+      "Agile Healthcare is the leading provider of Meril Life Sciences' endo-surgery portfolio in Telangana. Our range includes high-performance surgical staplers, trocars, and energy devices that are clinically validated alternatives to Ethicon or Medtronic stapler systems.",
+      "Supporting the shift towards minimally invasive procedures, these tools enable surgeons to perform complex procedures with reduced tissue trauma and faster recovery. We help hospitals optimize their 'surgical stapler cost' while maintaining world-class clinical outcomes for bariatric and general surgery.",
+      "Whether it is bariatric surgery or advanced laparoscopic procedures, Agile Healthcare ensures that every surgical center in Telangana has access to world-class endo-surgical instruments with immediate delivery."
     ]
   },
   'urology': {
-    title: "Urology Devices & Endoscopic Instruments",
+    title: "Urology Devices & Stent Systems | DJ Stent Price & Urology Consumables",
     content: [
-      "Our Urology division covers a comprehensive range of urological devices including ureteral stents, nephrostomy catheters, stone management devices, and PCNL access systems from Meril Life Sciences.",
-      "With the growing burden of urolithiasis and urological malignancies in Telangana, Agile Healthcare supports urologists with a reliable supply of minimally invasive endoscopic instruments and single-use devices.",
-      "From basic ureteral access sheaths to complete stone management kits for high-volume urology centers in Hyderabad and beyond, we maintain the inventory depth to support emergency and elective urological procedures alike."
+      "Our Urology division covers a comprehensive range of urological devices including ureteral stents, DJ stents, and stone management devices. We are the primary resource for clinicians researching 'urology products' and 'ureteral stent price in India' within the Telangana territory.",
+      "With the growing burden of urolithiasis in Telangana, Agile Healthcare supports urologists with a reliable supply of minimally invasive endoscopic instruments and single-use devices, often preferred for their cost-effectiveness and clinical reliability.",
+      "From basic access sheaths to complete stone management kits for high-volume centers in Hyderabad, we maintain the inventory depth to support emergency and elective procedures across the state."
     ]
   },
   'critical-care': {
-    title: "Critical Care Consumables & Life Support Supplies",
+    title: "Critical Care Consumables & Dialysis Supplies | Dialyzer Price India",
     content: [
-      "Intensive care units demand zero-compromise supply chains. Agile Healthcare's Critical Care division supplies Meril's range of ICU and HDU consumables, including central venous catheters, arterial lines, closed suction systems, and vital monitoring accessories.",
-      "Our critical care portfolio supports hospitals and nursing homes across Telangana in maintaining ICU readiness at all times. Agile Healthcare's logistics team ensures emergency restocking within hours, reducing the risk of supply-related clinical incidents.",
-      "We work closely with hospital procurement heads to establish par-level agreements, ensuring that critical care wards across Hyderabad, Secunderabad, and all district hospitals never face stockouts of essential life-support consumables."
+      "Agile Healthcare's Critical Care division supplies Meril's range of ICU consumables, including the Venoza™ dialyzer series. For dialysis centers checking 'dialyzer price in India' or 'dialysis consumables supplier in Hyderabad', we provide premium clinical-grade solutions with consistent regional availability.",
+      "Our critical care portfolio supports hospitals and nursing homes across Telangana in maintaining ICU readiness. Our logistics team ensures emergency restocking within hours for central venous catheters, arterial lines, and monitoring accessories.",
+      "We work closely with hospital procurement heads to establish par-level agreements, ensuring that critical care wards across Hyderabad, Secunderabad, and all district hospitals never face stockouts."
     ]
   },
   'peripheral-intervention': {
-    title: "Peripheral Vascular Intervention Devices",
+    title: "Peripheral Vascular Intervention Devices | Peripheral Stent Comparison",
     content: [
-      "Agile Healthcare's Peripheral Intervention division supplies Meril Life Sciences' range of vascular access devices, peripheral stents, angioplasty balloons, and thrombectomy systems for interventional radiology and vascular surgery.",
-      "As peripheral arterial disease (PAD) and dialysis access procedures rise in prevalence across Telangana, our team works with interventional cardiologists and vascular surgeons to provide the right devices for complex peripheral cases.",
-      "Our portfolio supports AV fistula maintenance, peripheral angioplasty, and iliofemoral interventions, with on-call clinical support from our experienced team for complex procedural guidance."
+      "Agile Healthcare's Peripheral Intervention division supplies Meril's range of vascular access devices, peripheral stents, and angioplasty balloons. We provide detailed clinical data for those comparing 'peripheral stent' options from Medtronic, Boston Scientific, and Meril.",
+      "As peripheral arterial disease procedures rise in prevalence across Telangana, our team works with interventional cardiologists to provide the right devices for complex peripheral cases, including AV fistula maintenance and iliofemoral interventions.",
+      "Our portfolio supports the full spectrum of vascular surgery, with on-call clinical support from our experienced team for procedural guidance across all 33 districts."
     ]
   },
   'surgical-robotics': {
-    title: "Surgical Robotics & Advanced Navigation Systems",
+    title: "Surgical Robotics & MIS-Robot Navigation | Meril Robotics Telangana",
     content: [
-      "Agile Healthcare is at the forefront of bringing robotic-assisted surgical technology to Telangana. Our Robotics division represents Meril's advanced surgical navigation and robotic systems for joint replacement and spine surgery.",
-      "Robotic-assisted arthroplasty delivers sub-millimetre implant placement accuracy, reducing complication rates and improving long-term patient outcomes. As the authorized distributor, Agile Healthcare provides complete installation, training, and service support.",
-      "We partner with leading tertiary hospitals in Hyderabad to introduce robotic platforms that elevate the standard of orthopedic and spinal care in the region, bringing international-level precision to Indian surgical theaters."
-    ]
-  },
-  'robotics': {
-    title: "Surgical Robotics & Advanced Navigation Systems",
-    content: [
-      "Agile Healthcare is at the forefront of bringing robotic-assisted surgical technology to Telangana. Our Robotics division represents Meril's advanced surgical navigation and robotic systems for joint replacement and spine surgery.",
-      "Robotic-assisted arthroplasty delivers sub-millimetre implant placement accuracy, reducing complication rates and improving long-term patient outcomes. As the authorized distributor, Agile Healthcare provides complete installation, training, and service support.",
-      "We partner with leading tertiary hospitals in Hyderabad to introduce robotic platforms that elevate the standard of orthopedic and spinal care in the region, bringing international-level precision to Indian surgical theaters."
+      "Agile Healthcare is at the forefront of bringing robotic-assisted surgical technology to Telangana. Our Robotics division represents Meril's Mis-Robot and advanced navigation systems, providing an alternative to international platforms like Mako or DaVinci for specific orthopedic indications.",
+      "Robotic-assisted arthroplasty delivers sub-millimetre implant placement accuracy, reducing complication rates. As the authorized distributor, we provide complete installation, surgeon training, and 24/7 service support for hospitals in Hyderabad.",
+      "We partner with leading tertiary hospitals to introduce robotic platforms that elevate the standard of care, bringing international-level precision to Indian surgical theaters with optimized total cost of ownership."
     ]
   },
   'spine': {
-    title: "Spine Implants & Fusion Systems",
+    title: "Spine Implants & Fusion Systems | Pedicle Screw Price India",
     content: [
-      "Our Spine division provides Meril's complete portfolio of spinal fusion implants, including pedicle screw systems, TLIF cages, cervical plates, and motion preservation devices.",
-      "Spinal procedures require the highest precision in implant design and surgical planning. Agile Healthcare supports spine surgeons across Telangana with pre-operative planning tools, complete instrument sets, and on-call clinical specialist support for complex fusion cases.",
-      "From standard lumbar PLIF procedures to complex revision spine surgery, our catalog covers primary and revision indications, ensuring surgeons in Hyderabad, Warangal, and across all 33 districts have access to world-class spinal solutions."
+      "Our Spine division provides Meril's complete portfolio of spinal fusion implants, including pedicle screw systems and TLIF cages. We are a key resource for procurement officers researching 'spine surgery cost' and 'pedicle screw price in India'.",
+      "Spinal procedures require the highest precision in implant design. Agile Healthcare supports spine surgeons across Telangana with pre-operative planning tools and on-call clinical specialist support for complex fusion cases.",
+      "From standard lumbar PLIF procedures to complex revision spine surgery, our catalog covers all primary and revision indications for surgeons in Hyderabad, Warangal, and across all districts."
     ]
   },
   'dental': {
-    title: "Digital Dental Solutions & Oral Healthcare in Telangana",
+    title: "Digital Dental Solutions | Dental Implant Price Hyderabad",
     content: [
-      "Agile Healthcare is the authorized ODENT distributor for Telangana, bringing a connected dental ecosystem to clinics in Hyderabad. Our portfolio features Vizora™ imaging, Mordent™ implants, and Alignia™ orthodontics.",
-      "We provide intraoperative training and technical support for digital dental workflows, ensuring that dentists across Hyderabad and Telangana can deliver world-class oral care with precision.",
-      "Whether you are setting up a new clinic or upgrading an existing one, Agile Healthcare provides the equipment and expertise needed for modern dentistry across all 33 districts of Telangana."
+      "Agile Healthcare is the authorized ODENT distributor for Telangana, bringing a connected dental ecosystem to clinics. Our portfolio features Vizora™ imaging and Mordent™ implants, frequently compared by clinics researching 'dental implant price in Hyderabad'.",
+      "We provide intraoperative training and technical support for digital dental workflows, ensuring that dentists across Telangana can deliver world-class oral care with digital precision.",
+      "Whether you are setting up a new clinic or upgrading an existing one, Agile Healthcare provides the equipment and expertise needed for modern dentistry across all 33 districts."
     ]
   },
   'respiratory': {
-    title: "Sleep Apnea Therapy & Respiratory Care in Hyderabad",
+    title: "Sleep Apnea Therapy | CPAP & BiPAP Price Hyderabad",
     content: [
-      "Agile Healthcare introduces the BreathFlex™ Sleep Apnea portfolio to Telangana. Our APAP and BPAP devices offer intelligent pressure adaptation for patients in Hyderabad and beyond.",
-      "With 4G cloud connectivity and real-time monitoring via the riDream™ app, we empower hospitals across Telangana to manage respiratory conditions with clinical precision.",
+      "Agile Healthcare introduces the BreathFlex™ Sleep Apnea portfolio to Telangana. Our APAP and BPAP devices are top-tier choices for patients checking 'CPAP machine price' or 'BiPAP machine price in Hyderabad'.",
+      "With 4G cloud connectivity and real-time monitoring via the riDream™ app, we empower hospitals and homecare providers to manage respiratory conditions with clinical precision.",
       "We provide full patient support and clinical training for sleep therapy across all districts of Telangana, bringing world-class respiratory care to homecare and hospital settings."
     ]
   },

@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import PremiumHeader from '@/components/PremiumHeader';
 import TrustStrip from '@/components/TrustStrip';
 import { getAllProducts } from '@/lib/data';
@@ -162,28 +163,33 @@ export default async function DivisionPage({ params }: DivisionPageProps) {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-          {filteredProducts.map((product: any) => (
+          {filteredProducts.map((product: any, index: number) => (
             <Link
               key={product.slug}
               href={`/catalog/products/${product.slug}`}
               className="group relative bg-[#111] border border-white/5 rounded-2xl overflow-hidden flex flex-col hover:border-white/20 transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
               style={{ ['--hover-color' as any]: meta.color }}
             >
-              {/* Image / Icon area */}
               <div className="relative aspect-[4/3] flex items-center justify-center overflow-hidden"
                 style={{ background: `${meta.color}08` }}>
+
                 {product.images?.[0]?.storage_path ? (
-                  <img
-                    src={
-                      product.images[0].storage_path.startsWith('http') 
-                        ? product.images[0].storage_path 
-                        : product.images[0].storage_path.startsWith('/')
-                          ? product.images[0].storage_path
-                          : `https://cdn.agilehealthcare.in/${product.images[0].storage_path}`
-                    }
-                    alt={product.product_name_display}
-                    className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-500"
-                  />
+                  <div className="relative w-full h-full p-4">
+                    <Image
+                      src={
+                        product.images[0].storage_path.startsWith('http') 
+                          ? product.images[0].storage_path 
+                          : product.images[0].storage_path.startsWith('/')
+                            ? product.images[0].storage_path
+                            : `https://cdn.agilehealthcare.in/${product.images[0].storage_path}`
+                      }
+                      alt={product.product_name_display}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                      className="object-contain p-4 group-hover:scale-105 transition-transform duration-500"
+                      priority={index < 8}
+                    />
+                  </div>
                 ) : (
                   <span className="text-5xl group-hover:scale-110 transition-transform duration-500">
                     {meta.emoji}

@@ -20,13 +20,14 @@ export async function generateMetadata({ params }: DistrictPageProps): Promise<M
   if (!district) return { title: 'District Not Found' };
 
   return {
-    title: `Authorized Meril Distributor in ${district.name} | Hospital Procurement & Surgical OT Support`,
-    description: `Agile Healthcare is the authorized Meril Life Sciences distributor for ${district.name}, Telangana. Supplying premium ${district.medicalFocus.join(', ')} implants to ${district.hospitals.slice(0, 3).join(', ')}. 2-hour emergency dispatch available.`,
+    title: `Authorized Meril Distributor in ${district.name} | Medtronic vs Meril Comparison`,
+    description: `Agile Healthcare is the authorized Meril Life Sciences distributor for ${district.name}, Telangana. Specialized in coronary stents, orthopedic implants, and endo-surgery. Hospital procurement and OT support for ${district.hospitals.slice(0, 3).join(', ')}.`,
     keywords: [
       `Meril distributor ${district.name}`,
       `hospital supply ${district.name}`,
       `orthopedic implants ${district.name}`,
-      `medical devices Telangana`,
+      `coronary stent price Telangana`,
+      `Medtronic stent alternative`,
       `surgical equipment ${district.name}`,
       ...district.medicalFocus.map(f => `${f} supplier ${district.name}`)
     ],

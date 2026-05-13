@@ -1,4 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
+import fs from 'fs';
+import path from 'path';
+
+const LEADS_FILE = path.join(process.cwd(), 'src/data/leads.json');
+
+// Ensure the leads file exists
+function ensureLeadsFile() {
+  if (!fs.existsSync(LEADS_FILE)) {
+    fs.mkdirSync(path.dirname(LEADS_FILE), { recursive: true });
+    fs.writeFileSync(LEADS_FILE, JSON.stringify([], null, 2));
+  }
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -20,12 +32,18 @@ export async function POST(request: NextRequest) {
       name,
       email,
       phone,
-      organization: organization || 'Not specified',
+      hospital: organization || 'Not specified',
       enquiryType: enquiryType || 'General Enquiry',
-      message,
+      interest: message,
       source: 'website_contact_form',
       status: 'new',
     };
+
+    // Log to Unified Lead Vault
+    ensureLeadsFile();
+    const leads = JSON.parse(fs.readFileSync(LEADS_FILE, 'utf8'));
+    leads.push(leadData);
+    fs.writeFileSync(LEADS_FILE, JSON.stringify(leads, null, 2));
 
     // Log to console (visible in Vercel logs)
     console.log('NEW LEAD CAPTURED:', JSON.stringify(leadData, null, 2));

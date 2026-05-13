@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ShieldCheck, Award, Zap, UserCheck, CheckCircle2, History, Target, Globe, Microscope } from 'lucide-react';
+import { ShieldCheck, Award, Zap, UserCheck, CheckCircle2, History, Target, Globe, Microscope, MapPin } from 'lucide-react';
 import PremiumHeader from '../../components/PremiumHeader';
 
 export default function AboutPage() {
@@ -195,14 +195,27 @@ export default function AboutPage() {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-            {["Hyderabad", "Warangal", "Nizamabad", "Khammam", "Karimnagar", "Nalgonda", "Mahabubnagar", "Siddipet", "Medchal", "Rangareddy", "Sangareddy", "Adilabad"].map((city) => (
+            {[
+              { name: "Hyderabad", slug: "hyderabad" },
+              { name: "Warangal", slug: "warangal" },
+              { name: "Nizamabad", slug: "nizamabad" },
+              { name: "Khammam", slug: "khammam" },
+              { name: "Karimnagar", slug: "karimnagar" },
+              { name: "Nalgonda", slug: "nalgonda" },
+              { name: "Mahabubnagar", slug: "mahabubnagar" },
+              { name: "Siddipet", slug: "siddipet" },
+              { name: "Medchal", slug: "medchal-malkajgiri" },
+              { name: "Rangareddy", slug: "rangareddy" },
+              { name: "Sangareddy", slug: "sangareddy" },
+              { name: "Adilabad", slug: "adilabad" }
+            ].map((city) => (
               <Link 
-                key={city}
-                href={`/districts/${city.toLowerCase().replace(/\s+/g, '-')}`}
+                key={city.slug}
+                href={`/districts/${city.slug}`}
                 className="p-6 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-primary/40 hover:bg-white/[0.05] transition-all text-center group"
               >
                 <MapPin className="w-5 h-5 text-white/20 group-hover:text-primary mx-auto mb-3 transition-colors" />
-                <span className="text-[10px] font-black uppercase tracking-widest text-white/60 group-hover:text-white transition-colors">{city}</span>
+                <span className="text-[10px] font-black uppercase tracking-widest text-white/60 group-hover:text-white transition-colors">{city.name}</span>
               </Link>
             ))}
           </div>

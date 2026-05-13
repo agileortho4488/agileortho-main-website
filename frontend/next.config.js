@@ -36,6 +36,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'cdn.agileortho.in',
       },
+      {
+        protocol: 'https',
+        hostname: 'cdn.agilehealthcare.in',
+      },
     ],
   },
 

@@ -1,8 +1,28 @@
 import type { Metadata } from 'next';
+import { Outfit, Manrope, IBM_Plex_Mono } from 'next/font/google';
+import dynamic from 'next/dynamic';
 import Script from 'next/script';
-import '../index.css';
-import ClientSideWidgets from '../components/ClientSideWidgets';
-import AgileAIWidget from '../components/AgileAIWidget';
+
+const outfit = Outfit({
+  subsets: ['latin'],
+  variable: '--font-outfit',
+  display: 'swap',
+});
+
+const manrope = Manrope({
+  subsets: ['latin'],
+  variable: '--font-manrope',
+  display: 'swap',
+});
+
+const mono = IBM_Plex_Mono({
+  weight: ['400', '500'],
+  subsets: ['latin'],
+  variable: '--font-mono',
+  display: 'swap',
+});
+
+import ClientWidgetWrapper from '../components/ClientWidgetWrapper';
 
 export const metadata: Metadata = {
   title: {
@@ -104,12 +124,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${outfit.variable} ${manrope.variable} ${mono.variable}`}>
       <head>
-        {/* Preconnect for Google Fonts (already in CSS, but speeds up first paint) */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-
         {/* JSON-LD LocalBusiness schema */}
         <script
           type="application/ld+json"
@@ -118,15 +134,14 @@ export default function RootLayout({
       </head>
       <body className="antialiased">
         {children}
-        <ClientSideWidgets />
-        <AgileAIWidget />
+        <ClientWidgetWrapper />
 
         {/* Google Analytics 4 */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-2ET2JES71R"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
-        <Script id="google-analytics" strategy="afterInteractive">
+        <Script id="google-analytics" strategy="lazyOnload">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
