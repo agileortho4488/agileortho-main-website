@@ -18,19 +18,20 @@ client = genai.Client(api_key=GOOGLE_API_KEY)
 async def extract_structured_data(product_name, verbatim_text):
     prompt = f"""
     ACT AS A CLINICAL DATA ENGINEER. 
-    Below is a VERBATIM transcription from a medical brochure. 
-    EXTRACT the structured technical data for the product: {product_name}.
+    Below is a VERBATIM transcription from a medical brochure for: {product_name}.
     
-    RETURN ONLY A JSON OBJECT with these fields:
-    - technical_specifications: (object with label:value pairs)
-    - clinical_indications: (list of strings)
-    - clinical_benefits: (list of strings)
-    - sizing_logic: (object with 'metric' and 'options' list with 'min', 'max', 'size')
-    - materials_canonical: (string)
-    - features_list: (list of strings)
+    TASK: EXTRACT all technical and clinical details.
+    
+    RETURN A JSON OBJECT WITH:
+    - technical_specifications: (Key-Value pairs of ALL technical data found. Look for Materials, Sizes, Accuracy, Sensitivity, Compatibility, Operating Specs, etc.)
+    - clinical_indications: (List of diseases or conditions this product is used for)
+    - clinical_benefits: (List of advantages for the patient or surgeon)
+    - sizing_logic: (Any mention of S/M/L, 9F-12F, diameters, etc.)
+    - materials_canonical: (Primary material, e.g., 'Titanium', 'PVC', 'Stainless Steel')
+    - features_list: (Bullet points of key features)
 
-    If data for a field is not found, return null for that field.
-    BE PRECISE. Keep technical values exactly as they appear in the transcription.
+    IMPORTANT: Even if there isn't a "Specifications" section, look at the description and features to find technical parameters. 
+    DO NOT return null if there is ANY technical information available.
     
     TRANSCRIPTION:
     {verbatim_text}

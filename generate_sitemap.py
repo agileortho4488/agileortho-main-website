@@ -58,7 +58,7 @@ def generate_sitemap():
     ]
     
     for slug in DISTRICT_SLUGS:
-        sitemap.append(f"  <url><loc>{BASE_URL}/districts/{slug}</loc><lastmod>{today}</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>")
+        sitemap.append(f"  <url><loc>{BASE_URL}/districts/{slug}</loc><lastmod>{today}</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>")
     
     # Product Pages
     for p in products:

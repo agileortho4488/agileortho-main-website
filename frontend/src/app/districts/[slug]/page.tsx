@@ -20,8 +20,16 @@ export async function generateMetadata({ params }: DistrictPageProps): Promise<M
   if (!district) return { title: 'District Not Found' };
 
   return {
-    title: `Meril Life Sciences Authorized Distributor in ${district.name} | Agile Healthcare`,
-    description: `Authorized Meril master franchise distributor for ${district.name}, Telangana. Supplying ${district.medicalFocus.join(', ')} medical devices to hospitals like ${district.hospitals.slice(0, 3).join(', ')}.`,
+    title: `Authorized Meril Distributor in ${district.name} | Hospital Procurement & Surgical OT Support`,
+    description: `Agile Healthcare is the authorized Meril Life Sciences distributor for ${district.name}, Telangana. Supplying premium ${district.medicalFocus.join(', ')} implants to ${district.hospitals.slice(0, 3).join(', ')}. 2-hour emergency dispatch available.`,
+    keywords: [
+      `Meril distributor ${district.name}`,
+      `hospital supply ${district.name}`,
+      `orthopedic implants ${district.name}`,
+      `medical devices Telangana`,
+      `surgical equipment ${district.name}`,
+      ...district.medicalFocus.map(f => `${f} supplier ${district.name}`)
+    ],
     alternates: {
       canonical: `https://agilehealthcare.in/districts/${slug}`,
     },
@@ -154,8 +162,8 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
               </div>
            </div>
 
-            {/* Local Advantage & Catalog */}
-            <div className="border-t border-white/5 pt-24">
+            {/* Local Advantage & Clinical Showcase */}
+            <div className="border-t border-white/5 pt-24 mb-24">
                <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
                  <div>
                    <h2 className="text-4xl font-black uppercase italic mb-4">Local Advantage</h2>
@@ -166,24 +174,50 @@ export default async function DistrictPage({ params }: DistrictPageProps) {
                    </p>
                  </div>
                  <Link href="/catalog" className="text-[10px] font-black uppercase tracking-[0.3em] text-primary flex items-center gap-2 group">
-                   Clinical Catalog <ChevronRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+                   Full Clinical Catalog <ChevronRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
                  </Link>
                </div>
 
-               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                   {district.medicalFocus.map((focus: string, idx: number) => (
-                    <Link 
-                      href={`/catalog/${focus.toLowerCase().replace(/\s+/g, '-')}`}
+                    <div 
                       key={focus} 
-                      className="group p-8 rounded-3xl bg-white/[0.02] border border-white/5 hover:border-primary/30 transition-all hover:-translate-y-1"
+                      className="group p-10 rounded-[40px] bg-white/[0.02] border border-white/5 hover:border-primary/30 transition-all hover:-translate-y-2 relative overflow-hidden"
                     >
-                       <div className="w-12 h-12 rounded-2xl bg-primary/5 flex items-center justify-center mb-6 group-hover:bg-primary/10 transition-colors">
+                       <div className="absolute -top-12 -right-12 w-48 h-48 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/10 transition-colors" />
+                       <div className="w-12 h-12 rounded-2xl bg-primary/5 flex items-center justify-center mb-8 group-hover:bg-primary/10 transition-colors">
                          {idx % 3 === 0 ? <Box className="w-5 h-5 text-primary" /> : idx % 3 === 1 ? <Zap className="w-5 h-5 text-primary" /> : <Activity className="w-5 h-5 text-primary" />}
                        </div>
-                       <h4 className="font-black uppercase tracking-widest text-sm text-white group-hover:text-primary transition-colors">{focus}</h4>
-                       <p className="text-[10px] text-white/30 mt-3 leading-relaxed">Authorized supply for {district.name} hospitals. Guaranteed sterility and clinical precision.</p>
-                    </Link>
+                       <h4 className="text-xl font-black uppercase italic text-white group-hover:text-primary transition-colors mb-4">{focus}</h4>
+                       <p className="text-sm text-white/30 mb-8 leading-relaxed">
+                         Authorized {focus} supply for {district.name} healthcare network. Guaranteed sterility and 24/7 technical backup for complex cases.
+                       </p>
+                       <Link 
+                         href={`/catalog/${focus.toLowerCase().replace(/\s+/g, '-')}`}
+                         className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-primary/60 group-hover:text-primary transition-colors"
+                       >
+                         View Clinical Range <ChevronRight className="w-3 h-3" />
+                       </Link>
+                    </div>
                   ))}
+               </div>
+            </div>
+
+            {/* Emergency Support Banner */}
+            <div className="p-12 rounded-[50px] bg-gradient-to-br from-[#111] to-[#050505] border border-white/5 relative overflow-hidden text-center">
+               <div className="relative z-10">
+                 <h2 className="text-3xl md:text-5xl font-black uppercase italic mb-6">Need Emergency OT Support in <span className="text-primary">{district.name}?</span></h2>
+                 <p className="text-white/40 max-w-2xl mx-auto mb-10 text-lg">
+                   Our clinical specialists are on standby for all hospitals in the {district.name} region. Get immediate assistance for trauma instrumentation and sizing.
+                 </p>
+                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                   <a href="tel:+917416216262" className="w-full sm:w-auto px-10 py-5 rounded-2xl bg-primary text-black font-black uppercase tracking-widest text-xs hover:scale-105 transition-transform">
+                     Call Support (+91 7416216262)
+                   </a>
+                   <a href="https://wa.me/917416521222" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto px-10 py-5 rounded-2xl bg-white/5 border border-white/10 text-white font-black uppercase tracking-widest text-xs hover:bg-white/10 transition-colors">
+                     WhatsApp Specialist
+                   </a>
+                 </div>
                </div>
             </div>
         </div>

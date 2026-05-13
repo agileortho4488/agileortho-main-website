@@ -177,8 +177,40 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* Regional Hubs Section */}
+      <section className="py-24 border-t border-white/5">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
+            <div>
+              <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter italic mb-4">
+                State-Wide <span className="text-primary">Dominance.</span>
+              </h2>
+              <p className="text-muted-foreground max-w-2xl">
+                We operate through a decentralized hub-and-spoke model, ensuring every district in Telangana has a local clinical presence.
+              </p>
+            </div>
+            <Link href="/districts" className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest text-primary hover:gap-4 transition-all">
+              View All Districts <CheckCircle2 className="w-4 h-4" />
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            {["Hyderabad", "Warangal", "Nizamabad", "Khammam", "Karimnagar", "Nalgonda", "Mahabubnagar", "Siddipet", "Medchal", "Rangareddy", "Sangareddy", "Adilabad"].map((city) => (
+              <Link 
+                key={city}
+                href={`/districts/${city.toLowerCase().replace(/\s+/g, '-')}`}
+                className="p-6 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-primary/40 hover:bg-white/[0.05] transition-all text-center group"
+              >
+                <MapPin className="w-5 h-5 text-white/20 group-hover:text-primary mx-auto mb-3 transition-colors" />
+                <span className="text-[10px] font-black uppercase tracking-widest text-white/60 group-hover:text-white transition-colors">{city}</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Footer Stats Strip */}
-      <section className="py-20 border-t border-white/5">
+      <section className="py-20 border-t border-white/5 bg-white/[0.01]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-12 text-center">
             <div>

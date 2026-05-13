@@ -4028,7 +4028,16 @@
     "product_family": "MUKICT Shaver Blades",
     "product_family_display": "MUKICT Shaver Blades",
     "slug": "mukict-shaver-blades",
-    "images": [],
+    "images": [
+      {
+        "id": "ent",
+        "storage_path": "/images/catalog/ent_mukic_shaver_render.png",
+        "content_type": "image/png",
+        "source": "ai_generation_series",
+        "width": 1024,
+        "height": 1024
+      }
+    ],
     "status": "published",
     "live_visible": true,
     "brochure_url": "",
@@ -5691,7 +5700,16 @@
     "product_family": "Baktio Hand Hygiene Solution",
     "product_family_display": "Baktio Hand Hygiene Solution",
     "slug": "baktio-hand-hygiene-solution",
-    "images": [],
+    "images": [
+      {
+        "id": "ip",
+        "storage_path": "/images/catalog/ip_baktio_dispenser_render.png",
+        "content_type": "image/png",
+        "source": "ai_generation_series",
+        "width": 1024,
+        "height": 1024
+      }
+    ],
     "status": "published",
     "live_visible": true,
     "brochure_url": "",
@@ -14510,10 +14528,10 @@
     "slug": "venoza-fistula-needles",
     "images": [
       {
-        "id": "cc",
-        "storage_path": "/images/catalog/cc_venoza_dialyzer_render.png",
+        "id": "/images/catalog/cc",
+        "storage_path": "/images/catalog//images/catalog/cc_venoza_needle_render.png",
         "content_type": "image/png",
-        "source": "ai_generation_series",
+        "source": "ai_generation_exact",
         "width": 1024,
         "height": 1024
       }
@@ -16181,7 +16199,16 @@
     "product_family": "AIROVA Comprehensive Mask Range",
     "product_family_display": "AIROVA Comprehensive Mask Range",
     "slug": "airova-comprehensive-mask-range",
-    "images": [],
+    "images": [
+      {
+        "id": "anes",
+        "storage_path": "/images/catalog/anes_airova_mask_render.png",
+        "content_type": "image/png",
+        "source": "ai_generation_series",
+        "width": 1024,
+        "height": 1024
+      }
+    ],
     "status": "published",
     "live_visible": true,
     "brochure_url": "",
@@ -18854,7 +18881,16 @@
     "product_family": "BAKTIO BLUE Alcohol Rub",
     "product_family_display": "BAKTIO BLUE Alcohol Rub",
     "slug": "baktio-blue-alcohol-rub",
-    "images": [],
+    "images": [
+      {
+        "id": "ip",
+        "storage_path": "/images/catalog/ip_baktio_dispenser_render.png",
+        "content_type": "image/png",
+        "source": "ai_generation_series",
+        "width": 1024,
+        "height": 1024
+      }
+    ],
     "status": "published",
     "live_visible": true,
     "brochure_url": "",
@@ -24569,7 +24605,16 @@
     "product_family": "Mukic Shaver Blade",
     "product_family_display": "Mukic Shaver Blade",
     "slug": "mukic-shaver-blade",
-    "images": [],
+    "images": [
+      {
+        "id": "ent",
+        "storage_path": "/images/catalog/ent_mukic_shaver_render.png",
+        "content_type": "image/png",
+        "source": "ai_generation_series",
+        "width": 1024,
+        "height": 1024
+      }
+    ],
     "status": "published",
     "live_visible": true,
     "brochure_url": "",
@@ -28393,7 +28438,16 @@
     "product_family": "Baktio Blue Hand Hygiene",
     "product_family_display": "Baktio Blue Hand Hygiene",
     "slug": "baktio-blue-hand-sanitizer",
-    "images": [],
+    "images": [
+      {
+        "id": "ip",
+        "storage_path": "/images/catalog/ip_baktio_dispenser_render.png",
+        "content_type": "image/png",
+        "source": "ai_generation_series",
+        "width": 1024,
+        "height": 1024
+      }
+    ],
     "status": "published",
     "live_visible": true,
     "brochure_url": "",
@@ -29900,7 +29954,16 @@
     "product_family": "Baktio Blue Hand Hygiene",
     "product_family_display": "Baktio Blue Hand Hygiene",
     "slug": "baktio-blue-hand-rub",
-    "images": [],
+    "images": [
+      {
+        "id": "ip",
+        "storage_path": "/images/catalog/ip_baktio_dispenser_render.png",
+        "content_type": "image/png",
+        "source": "ai_generation_series",
+        "width": 1024,
+        "height": 1024
+      }
+    ],
     "status": "published",
     "live_visible": true,
     "brochure_url": "",
@@ -30201,7 +30264,16 @@
     "product_family": "Baktio Pink Hand Hygiene",
     "product_family_display": "Baktio Pink Hand Hygiene",
     "slug": "baktio-pink-hand-rub",
-    "images": [],
+    "images": [
+      {
+        "id": "ip",
+        "storage_path": "/images/catalog/ip_baktio_dispenser_render.png",
+        "content_type": "image/png",
+        "source": "ai_generation_series",
+        "width": 1024,
+        "height": 1024
+      }
+    ],
     "status": "published",
     "live_visible": true,
     "brochure_url": "",
@@ -33257,7 +33329,16 @@
     "product_family": "Baktio Pink Hand Hygiene",
     "product_family_display": "Baktio Pink Hand Hygiene",
     "slug": "baktio-pink-hand-sanitizer",
-    "images": [],
+    "images": [
+      {
+        "id": "ip",
+        "storage_path": "/images/catalog/ip_baktio_dispenser_render.png",
+        "content_type": "image/png",
+        "source": "ai_generation_series",
+        "width": 1024,
+        "height": 1024
+      }
+    ],
     "status": "published",
     "live_visible": true,
     "brochure_url": "",
@@ -65398,7 +65479,16 @@
     "product_family": "MUKIC Shaver Blades",
     "product_family_display": "MUKIC Shaver Blades",
     "slug": "mukic-shaver-blades",
-    "images": [],
+    "images": [
+      {
+        "id": "ent",
+        "storage_path": "/images/catalog/ent_mukic_shaver_render.png",
+        "content_type": "image/png",
+        "source": "ai_generation_series",
+        "width": 1024,
+        "height": 1024
+      }
+    ],
     "status": "published",
     "live_visible": true,
     "brochure_url": "",
@@ -126045,7 +126135,16 @@
     "product_family": "BAKTIO Blue 100ml Flip Top",
     "product_family_display": "BAKTIO Blue 100ml Flip Top",
     "slug": "baktio-blue-100ml-flip-top",
-    "images": [],
+    "images": [
+      {
+        "id": "ip",
+        "storage_path": "/images/catalog/ip_baktio_dispenser_render.png",
+        "content_type": "image/png",
+        "source": "ai_generation_series",
+        "width": 1024,
+        "height": 1024
+      }
+    ],
     "status": "draft",
     "live_visible": false,
     "brochure_url": "",
@@ -126169,7 +126268,16 @@
     "product_family": "BAKTIO Blue 500ml",
     "product_family_display": "BAKTIO Blue 500ml",
     "slug": "baktio-blue-500ml",
-    "images": [],
+    "images": [
+      {
+        "id": "ip",
+        "storage_path": "/images/catalog/ip_baktio_dispenser_render.png",
+        "content_type": "image/png",
+        "source": "ai_generation_series",
+        "width": 1024,
+        "height": 1024
+      }
+    ],
     "status": "draft",
     "live_visible": false,
     "brochure_url": "",
@@ -126293,7 +126401,16 @@
     "product_family": "BAKTIO Blue 5000ml",
     "product_family_display": "BAKTIO Blue 5000ml",
     "slug": "baktio-blue-5000ml",
-    "images": [],
+    "images": [
+      {
+        "id": "ip",
+        "storage_path": "/images/catalog/ip_baktio_dispenser_render.png",
+        "content_type": "image/png",
+        "source": "ai_generation_series",
+        "width": 1024,
+        "height": 1024
+      }
+    ],
     "status": "draft",
     "live_visible": false,
     "brochure_url": "",
@@ -126417,7 +126534,16 @@
     "product_family": "BAKTIO Pink 100ml Dispenser",
     "product_family_display": "BAKTIO Pink 100ml Dispenser",
     "slug": "baktio-pink-100ml-dispenser",
-    "images": [],
+    "images": [
+      {
+        "id": "ip",
+        "storage_path": "/images/catalog/ip_baktio_dispenser_render.png",
+        "content_type": "image/png",
+        "source": "ai_generation_series",
+        "width": 1024,
+        "height": 1024
+      }
+    ],
     "status": "draft",
     "live_visible": false,
     "brochure_url": "",
@@ -126541,7 +126667,16 @@
     "product_family": "BAKTIO Pink 5000ml",
     "product_family_display": "BAKTIO Pink 5000ml",
     "slug": "baktio-pink-5000ml",
-    "images": [],
+    "images": [
+      {
+        "id": "ip",
+        "storage_path": "/images/catalog/ip_baktio_dispenser_render.png",
+        "content_type": "image/png",
+        "source": "ai_generation_series",
+        "width": 1024,
+        "height": 1024
+      }
+    ],
     "status": "draft",
     "live_visible": false,
     "brochure_url": "",
@@ -145652,35 +145787,29 @@
     ],
     "clinical_benefits": [
       "Anatomical Design for the best fit in the Femur bone.",
-      "M/L angle of 5 degree allows easy insertion.",
-      "Bendable tip reduces Stress on the bone.",
+      "Easy insertion due to 5 degree M/L angle.",
+      "Reduced stress on the bone due to bendable tip.",
       "Proximal design for rotational stability."
     ],
-    "sizing_logic": {
-      "metric": "length",
-      "options": [
-        {
-          "min": null,
-          "max": null,
-          "size": "170mm"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "200mm"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "240mm"
-        },
-        {
-          "min": "260mm",
-          "max": "440mm",
-          "size": "20mm increments"
-        }
-      ]
-    }
+    "sizing_logic": "Extra small: 170mm, Small: 200mm, Standard: 240mm, Long: 260mm to 440mm (available in 20mm increments), Diameters: 9.0, 10.0, 11.0, 12.0 mm",
+    "technical_specifications": {
+      "M/L angle": "5 degree",
+      "Locking Bolt Material": "TAN (Ti-6Al-7Nb)",
+      "Locking Bolt Head Diameter": "8.00mm",
+      "Locking Bolt Outer Diameter": "4.9mm",
+      "Locking Bolt Core Diameter": "4.256mm",
+      "Locking Bolt Pitch": "2.75mm",
+      "Locking Bolt Color": "Light Green",
+      "Nail Diameters": "9.0, 10.0, 11.0, 12.0 mm",
+      "Angulation": "130\u00b0"
+    },
+    "materials_canonical": "TAN Ti-6Al-7Nb",
+    "features_list": [
+      "Anatomical Design",
+      "5 degree M/L angle for easy insertion",
+      "Bendable tip reduces stress on the bone",
+      "Proximal design for rotational stability"
+    ]
   },
   {
     "id": "5d30f895-c723-4b99-971e-72c5bc492a0f",
@@ -145707,6 +145836,35 @@
       "Ipsilateral trochanteric fractures (Long Nail)",
       "Combination fractures in the proximal femur (Long Nail)",
       "Pathological fractures (Long Nail)"
+    ],
+    "technical_specifications": {
+      "Locking Bolt Material": "TAN (Ti-6Al-7Nb)",
+      "Locking Bolt Head Diameter": "8.00mm",
+      "Locking Bolt Outer Diameter": "4.9mm",
+      "Locking Bolt Core Diameter": "4.256mm",
+      "Locking Bolt Pitch": "2.75mm",
+      "Locking Bolt Color": "Light Green",
+      "Nail Diameters": "9.0, 10.0, 11.0, 12.0 mm",
+      "Nail Angulation": "130\u00b0"
+    },
+    "clinical_benefits": [
+      "Anatomical Design for the best fit in the Femur bone.",
+      "Easy insertion due to M/L angle of 5 degree.",
+      "Reduced Stress on the bone due to Bendable tip.",
+      "Proximal design for rotational stability."
+    ],
+    "sizing_logic": [
+      "Extra small: 170mm",
+      "Small: 200mm",
+      "Standard: 240mm",
+      "Long: 260mm to 440mm (available in 20mm increments)",
+      "Diameters: 9.0, 10.0, 11.0, 12.0 mm"
+    ],
+    "materials_canonical": "TAN Ti-6Al-7Nb",
+    "features_list": [
+      "M/L angle of 5 degree allows easy insertion.",
+      "Bendable tip reduces Stress on the bone.",
+      "Proximal design for rotational stability."
     ]
   },
   {
@@ -145737,35 +145895,39 @@
     ],
     "clinical_benefits": [
       "Anatomical Design for the best fit in the Femur bone.",
+      "Easy Insertion due to M/L angle",
+      "Reduced Stress on the bone due to Bendable tip",
+      "Proximal design for rotational stability"
+    ],
+    "sizing_logic": [
+      "Extra small: 170mm",
+      "Small: 200mm",
+      "Standard: 240mm",
+      "Long: 260mm to 440mm (available in 20mm increments)",
+      "Diameters: 9.0, 10.0, 11.0, 12.0 mm"
+    ],
+    "technical_specifications": {
+      "M/L angle": "5 degree",
+      "Nail Diameters": "9.0, 10.0, 11.0, 12.0 mm",
+      "Angulation": "130\u00b0",
+      "Locking Bolt Material": "TAN Ti-6Al-7Nb",
+      "Locking Bolt Head Diameter": "8.00mm",
+      "Locking Bolt Outer Diameter": "4.9mm",
+      "Locking Bolt Core Diameter": "4.256mm",
+      "Locking Bolt Pitch": "2.75mm",
+      "Locking Bolt Color": "Light Green",
+      "Guide Pin Sleeve": "3.2 mm drill size",
+      "Niddle Sleeve": "\u00d84.3, \u00d83.2",
+      "Bone Drill": "\u00d84.3x300, \u00d83.2x300",
+      "Limit Device": "\u00d84.3/SW3.0, \u00d83.2/sw3.0"
+    },
+    "materials_canonical": "Ti-6Al-7Nb",
+    "features_list": [
+      "Anatomical Design for the best fit in the Femur bone.",
       "M/L angle of 5 degree allows easy insertion.",
       "Bendable tip reduces Stress on the bone.",
       "Proximal design for rotational stability."
-    ],
-    "sizing_logic": {
-      "metric": "Nail Length (mm)",
-      "options": [
-        {
-          "size": "Extra small",
-          "min": null,
-          "max": "170"
-        },
-        {
-          "size": "Small",
-          "min": null,
-          "max": "200"
-        },
-        {
-          "size": "Standard",
-          "min": null,
-          "max": "240"
-        },
-        {
-          "size": "Long",
-          "min": "260",
-          "max": "440"
-        }
-      ]
-    }
+    ]
   },
   {
     "id": "5fd738ef-198b-458a-b762-f4587ccdd709",
@@ -145794,36 +145956,37 @@
       "Pathological fractures (Long Nail)"
     ],
     "clinical_benefits": [
-      "Anatomical Design for the best fit in the Femur bone.",
-      "M/L angle of 5 degree allows easy insertion.",
-      "Bendable tip reduces Stress on the bone.",
-      "Proximal design for rotational stability."
+      "Anatomical Design for the best fit in the Femur bone",
+      "Easy insertion",
+      "Reduced stress on the bone",
+      "Proximal design for rotational stability"
     ],
-    "sizing_logic": {
-      "metric": "Nail Length",
-      "options": [
-        {
-          "min": null,
-          "max": null,
-          "size": "Extra small: 170mm"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "Small: 200mm"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "Standard: 240mm"
-        },
-        {
-          "min": "260mm",
-          "max": "440mm",
-          "size": "Long: 260mm to 440mm (available in 20mm increments)"
-        }
-      ]
-    }
+    "sizing_logic": [
+      "Extra small: 170mm",
+      "Small: 200mm",
+      "Standard: 240mm",
+      "Long: 260mm to 440mm (available in 20mm increments)",
+      "Diameters: 9.0, 10.0, 11.0, 12.0 mm"
+    ],
+    "technical_specifications": {
+      "M/L angle": "5 degree",
+      "Nail Diameters": "9.0, 10.0, 11.0, 12.0 mm",
+      "Angulation": "130\u00b0",
+      "Locking Bolt Material (4.9mm)": "TAN Ti-6Al-7Nb",
+      "Locking Bolt Head Diameter (4.9mm)": "8.00mm",
+      "Locking Bolt Outer Diameter (4.9mm)": "4.9mm",
+      "Locking Bolt Core Diameter (4.9mm)": "4.256mm",
+      "Locking Bolt Pitch (4.9mm)": "2.75mm",
+      "Locking Bolt Color (4.9mm)": "Light Green",
+      "Locking Bolt Size": "4.9 mm"
+    },
+    "materials_canonical": "TAN Ti-6Al-7Nb",
+    "features_list": [
+      "Anatomical Design",
+      "M/L angle of 5 degree",
+      "Bendable tip",
+      "Proximal design for rotational stability"
+    ]
   },
   {
     "id": "bd14ad2c-52f5-40b6-9316-6e3088e7d4fb",
@@ -145852,36 +146015,40 @@
       "Pathological fractures (Long Nail)"
     ],
     "clinical_benefits": [
-      "Anatomical Design for the best fit in the Femur bone."
+      "Anatomical Design for the best fit in the Femur bone",
+      "Easy insertion",
+      "Reduced Stress on the bone",
+      "Proximal design for rotational stability"
     ],
     "sizing_logic": {
-      "metric": "length",
-      "options": [
-        {
-          "size": "Extra small",
-          "min": null,
-          "max": "170mm"
-        },
-        {
-          "size": "Small",
-          "min": null,
-          "max": "200mm"
-        },
-        {
-          "size": "Standard",
-          "min": null,
-          "max": "240mm"
-        },
-        {
-          "size": "Long",
-          "min": "260mm",
-          "max": "440mm"
-        }
+      "Nail Lengths": [
+        "Extra small: 170mm",
+        "Small: 200mm",
+        "Standard: 240mm",
+        "Long: 260mm to 440mm (available in 20mm increments)"
+      ],
+      "Nail Diameters": [
+        "9.0 mm",
+        "10.0 mm",
+        "11.0 mm",
+        "12.0 mm"
       ]
     },
     "features_list": [
       "Quick-change Handle"
-    ]
+    ],
+    "technical_specifications": {
+      "M/L angle": "5 degree",
+      "Locking Bolt Material": "TAN Ti-6Al-7Nb",
+      "Locking Bolt Head Diameter": "8.00mm",
+      "Locking Bolt Outer Diameter": "4.9mm",
+      "Locking Bolt Core Diameter": "4.256mm",
+      "Locking Bolt Pitch": "2.75mm",
+      "Locking Bolt Color": "Light Green",
+      "Nail Diameters": "9.0, 10.0, 11.0, 12.0 mm",
+      "Angulation": "130\u00b0"
+    },
+    "materials_canonical": "TAN Ti-6Al-7Nb (Locking Bolt, Anti-Rotation Screw)"
   },
   {
     "id": "9e4be403-3601-4ee9-8031-34f29c67f769",
@@ -145910,36 +146077,41 @@
       "Pathological fractures (Long Nail)"
     ],
     "clinical_benefits": [
+      "Best fit in the Femur bone due to Anatomical Design",
+      "Easy insertion due to M/L angle of 5 degree",
+      "Reduced stress on the bone due to Bendable tip",
+      "Proximal design for rotational stability"
+    ],
+    "sizing_logic": {
+      "Nail Lengths": [
+        "Extra small: 170mm",
+        "Small: 200mm",
+        "Standard: 240mm",
+        "Long: 260mm to 440mm (available in 20mm increments)"
+      ],
+      "Nail Diameters": [
+        "9.0mm",
+        "10.0mm",
+        "11.0mm",
+        "12.0mm"
+      ],
+      "Angulation": "130\u00b0"
+    },
+    "technical_specifications": {
+      "4.9mm Locking Bolt Material": "TAN (Ti-6Al-7Nb)",
+      "4.9mm Locking Bolt Head Diameter": "8.00mm",
+      "4.9mm Locking Bolt Outer Diameter": "4.9mm",
+      "4.9mm Locking Bolt Core Diameter": "4.256mm",
+      "4.9mm Locking Bolt Pitch": "2.75mm",
+      "4.9mm Locking Bolt Color": "Light Green"
+    },
+    "materials_canonical": "TAN Ti-6Al-7Nb",
+    "features_list": [
       "Anatomical Design for the best fit in the Femur bone.",
       "M/L angle of 5 degree allows easy insertion.",
       "Bendable tip reduces Stress on the bone.",
       "Proximal design for rotational stability."
-    ],
-    "sizing_logic": {
-      "metric": "length (mm)",
-      "options": [
-        {
-          "min": null,
-          "max": null,
-          "size": "170"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "200"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "240"
-        },
-        {
-          "min": "260",
-          "max": "440",
-          "size": "available in 20mm increments"
-        }
-      ]
-    }
+    ]
   },
   {
     "id": "443df63a-acde-4353-ab86-11b9cd5cd6b1",
@@ -146045,30 +146217,38 @@
       "Pathological fractures (Long Nail)"
     ],
     "sizing_logic": {
-      "metric": "length",
-      "options": [
-        {
-          "min": null,
-          "max": null,
-          "size": "Extra small: 170mm"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "Small: 200mm"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "Standard: 240mm"
-        },
-        {
-          "min": "260mm",
-          "max": "440mm",
-          "size": "Long: 260mm to 440mm (available in 20mm increments)"
-        }
-      ]
-    }
+      "Nail Lengths": [
+        "Extra small: 170mm",
+        "Small: 200mm",
+        "Standard: 240mm",
+        "Long: 260mm to 440mm (available in 20mm increments)"
+      ],
+      "Diameters": "9.0, 10.0, 11.0, 12.0 mm",
+      "Angulation": "130\u00b0"
+    },
+    "technical_specifications": {
+      "Locking Bolt Material": "TAN (Ti-6Al-7Nb)",
+      "Locking Bolt Head Diameter": "8.00mm",
+      "Locking Bolt Outer Diameter": "4.9mm",
+      "Locking Bolt Core Diameter": "4.256mm",
+      "Locking Bolt Pitch": "2.75mm",
+      "Locking Bolt Color": "Light Green",
+      "Nail Diameters": "9.0, 10.0, 11.0, 12.0 mm",
+      "Angulation": "130\u00b0"
+    },
+    "clinical_benefits": [
+      "Anatomical Design for the best fit in the Femur bone.",
+      "M/L angle of 5 degree allows easy insertion.",
+      "Bendable tip reduces Stress on the bone.",
+      "Proximal design for rotational stability."
+    ],
+    "materials_canonical": "TAN Ti-6Al-7Nb",
+    "features_list": [
+      "Anatomical Design for the best fit in the Femur bone.",
+      "M/L angle of 5 degree allows easy insertion.",
+      "Bendable tip reduces Stress on the bone.",
+      "Proximal design for rotational stability."
+    ]
   },
   {
     "id": "fd3fe140-c11c-41ec-918a-ecd5484be8a4",
@@ -146168,36 +146348,33 @@
       "Pathological fractures (Long Nail)"
     ],
     "clinical_benefits": [
+      "Anatomical Design for best fit in the Femur bone.",
+      "Easy insertion due to 5 degree M/L angle.",
+      "Reduced stress on the bone due to bendable tip.",
+      "Proximal design for rotational stability."
+    ],
+    "sizing_logic": "Extra small: 170mm, Small: 200mm, Standard: 240mm, Long: 260mm to 440mm (available in 20mm increments), Diameters: 9.0, 10.0, 11.0, 12.0 mm",
+    "technical_specifications": {
+      "M/L angle": "5 degree",
+      "Nail Lengths": "Extra small: 170mm, Small: 200mm, Standard: 240mm, Long: 260mm to 440mm (available in 20mm increments)",
+      "Nail Diameters": "9.0, 10.0, 11.0, 12.0 mm",
+      "Nail Angulation": "130\u00b0",
+      "4.9 mm Locking Bolt Material": "TAN Ti-6Al-7Nb",
+      "4.9 mm Locking Bolt Head Diameter": "8.00mm",
+      "4.9 mm Locking Bolt Outer Diameter": "4.9mm",
+      "4.9 mm Locking Bolt Core Diameter": "4.256mm",
+      "4.9 mm Locking Bolt Pitch": "2.75mm",
+      "4.9 mm Locking Bolt Color": "Light Green",
+      "Anti-Rotation Screw Material": "TAN Ti-6Al-7Nb",
+      "Drill Sizes": "\u00d84.3x300, \u00d83.2x300"
+    },
+    "materials_canonical": "TAN Ti-6Al-7Nb",
+    "features_list": [
       "Anatomical Design for the best fit in the Femur bone.",
       "M/L angle of 5 degree allows easy insertion.",
       "Bendable tip reduces Stress on the bone.",
       "Proximal design for rotational stability."
-    ],
-    "sizing_logic": {
-      "metric": "length",
-      "options": [
-        {
-          "min": null,
-          "max": null,
-          "size": "170mm"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "200mm"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "240mm"
-        },
-        {
-          "min": "260mm",
-          "max": "440mm",
-          "size": "available in 20mm increments"
-        }
-      ]
-    }
+    ]
   },
   {
     "id": "156034ef-7d54-4768-93dd-c06ae4a18945",
@@ -146543,39 +146720,35 @@
     ],
     "clinical_benefits": [
       "Anatomical Design for the best fit in the Femur bone.",
+      "Easy insertion due to M/L angle of 5 degree.",
+      "Reduced stress on the bone due to bendable tip.",
+      "Proximal design for rotational stability."
+    ],
+    "sizing_logic": [
+      "Extra small: 170mm",
+      "Small: 200mm",
+      "Standard: 240mm",
+      "Long: 260mm to 440mm (available in 20mm increments)",
+      "Diameters: 9.0, 10.0, 11.0, 12.0 mm"
+    ],
+    "technical_specifications": {
+      "Locking Bolt Material": "TAN (Ti-6Al-7Nb)",
+      "Locking Bolt Head Diameter": "8.00mm",
+      "Locking Bolt Outer Diameter": "4.9mm",
+      "Locking Bolt Core Diameter": "4.256mm",
+      "Locking Bolt Pitch": "2.75mm",
+      "Locking Bolt Color": "Light Green",
+      "Nail Lengths": "Extra small: 170mm, Small: 200mm, Standard: 240mm, Long: 260mm to 440mm (available in 20mm increments)",
+      "Nail Diameters": "9.0, 10.0, 11.0, 12.0 mm",
+      "Nail Angulation": "130\u00b0"
+    },
+    "materials_canonical": "Ti-6Al-7Nb",
+    "features_list": [
+      "Anatomical Design for the best fit in the Femur bone.",
       "M/L angle of 5 degree allows easy insertion.",
       "Bendable tip reduces Stress on the bone.",
       "Proximal design for rotational stability."
-    ],
-    "sizing_logic": {
-      "metric": "length",
-      "options": [
-        {
-          "min": null,
-          "max": null,
-          "size": "170mm",
-          "label": "Extra small"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "200mm",
-          "label": "Small"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "240mm",
-          "label": "Standard"
-        },
-        {
-          "min": "260mm",
-          "max": "440mm",
-          "size": "20mm increments",
-          "label": "Long"
-        }
-      ]
-    }
+    ]
   },
   {
     "id": "ce74db1a-65f5-413f-8ea5-b56ec539f98f",
@@ -146678,36 +146851,42 @@
       "Pathological fractures (Long Nail)"
     ],
     "clinical_benefits": [
+      "Anatomical Design for the best fit in the Femur bone",
+      "Easy insertion",
+      "Reduced stress on the bone",
+      "Proximal design for rotational stability"
+    ],
+    "sizing_logic": {
+      "Nail Lengths": [
+        "Extra small: 170mm",
+        "Small: 200mm",
+        "Standard: 240mm",
+        "Long: 260mm to 440mm (available in 20mm increments)"
+      ],
+      "Nail Diameters": [
+        "9.0 mm",
+        "10.0 mm",
+        "11.0 mm",
+        "12.0 mm"
+      ],
+      "Angulation": "130\u00b0"
+    },
+    "technical_specifications": {
+      "Locking Bolt Material": "TAN (Ti-6Al-7Nb)",
+      "Locking Bolt Head Diameter": "8.00mm",
+      "Locking Bolt Outer Diameter": "4.9mm",
+      "Locking Bolt Core Diameter": "4.256mm",
+      "Locking Bolt Pitch": "2.75mm",
+      "Locking Bolt Color": "Light Green",
+      "M/L Angle": "5 degree"
+    },
+    "materials_canonical": "Ti-6Al-7Nb",
+    "features_list": [
       "Anatomical Design for the best fit in the Femur bone.",
       "M/L angle of 5 degree allows easy insertion.",
       "Bendable tip reduces Stress on the bone.",
       "Proximal design for rotational stability."
-    ],
-    "sizing_logic": {
-      "metric": "length",
-      "options": [
-        {
-          "min": null,
-          "max": null,
-          "size": "Extra small: 170mm"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "Small: 200mm"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "Standard: 240mm"
-        },
-        {
-          "min": "260mm",
-          "max": "440mm",
-          "size": "Long (available in 20mm increments)"
-        }
-      ]
-    }
+    ]
   },
   {
     "id": "df158f8f-ce5d-4603-a2e7-b20407d64aef",
@@ -146737,35 +146916,28 @@
     ],
     "clinical_benefits": [
       "Anatomical Design for the best fit in the Femur bone.",
-      "M/L angle of 5 degree allows easy insertion.",
-      "Bendable tip reduces Stress on the bone.",
-      "Proximal design for rotational stability."
+      "Easy Insertion",
+      "Reduced Stress on the bone",
+      "Proximal design for rotational stability"
     ],
-    "sizing_logic": {
-      "metric": "length",
-      "options": [
-        {
-          "size": "Extra small",
-          "min": null,
-          "max": "170mm"
-        },
-        {
-          "size": "Small",
-          "min": null,
-          "max": "200mm"
-        },
-        {
-          "size": "Standard",
-          "min": null,
-          "max": "240mm"
-        },
-        {
-          "size": "Long",
-          "min": "260mm",
-          "max": "440mm"
-        }
-      ]
-    }
+    "sizing_logic": "Extra small: 170mm, Small: 200mm, Standard: 240mm, Long: 260mm to 440mm (available in 20mm increments), Diameters: 9.0, 10.0, 11.0, 12.0 mm",
+    "technical_specifications": {
+      "Locking Bolt Material": "TAN (Ti-6Al-7Nb)",
+      "Locking Bolt Head Diameter": "8.00mm",
+      "Locking Bolt Outer Diameter": "4.9mm",
+      "Locking Bolt Core Diameter": "4.256mm",
+      "Locking Bolt Pitch": "2.75mm",
+      "Locking Bolt Color": "Light Green",
+      "Nail Diameters": "9.0, 10.0, 11.0, 12.0 mm",
+      "Angulation": "130\u00b0"
+    },
+    "materials_canonical": "Ti-6Al-7Nb",
+    "features_list": [
+      "Anatomical Design for best fit",
+      "M/L angle of 5 degrees for easy insertion",
+      "Bendable tip reduces stress on the bone",
+      "Proximal design for rotational stability"
+    ]
   },
   {
     "id": "dc264dec-513c-4aa6-a438-1e61cec67d6f",
@@ -146794,36 +146966,42 @@
       "Pathological fractures (Long Nail)"
     ],
     "clinical_benefits": [
+      "Anatomical Design for the best fit in the Femur bone",
+      "Easy insertion due to M/L angle of 5 degree",
+      "Reduced stress on the bone due to bendable tip",
+      "Proximal design for rotational stability"
+    ],
+    "sizing_logic": {
+      "Nail Lengths": [
+        "Extra small: 170mm",
+        "Small: 200mm",
+        "Standard: 240mm",
+        "Long: 260mm to 440mm (available in 20mm increments)"
+      ],
+      "Nail Diameters": [
+        "9.0mm",
+        "10.0mm",
+        "11.0mm",
+        "12.0mm"
+      ]
+    },
+    "technical_specifications": {
+      "Locking Bolt Material": "TAN (Ti-6Al-7Nb)",
+      "Locking Bolt Head Diameter": "8.00mm",
+      "Locking Bolt Outer Diameter": "4.9mm",
+      "Locking Bolt Core Diameter": "4.256mm",
+      "Locking Bolt Pitch": "2.75mm",
+      "Locking Bolt Color": "Light Green",
+      "Nail Diameters": "9.0, 10.0, 11.0, 12.0 mm",
+      "Nail Angulation": "130\u00b0"
+    },
+    "materials_canonical": "Ti-6Al-7Nb",
+    "features_list": [
       "Anatomical Design for the best fit in the Femur bone.",
       "M/L angle of 5 degree allows easy insertion.",
       "Bendable tip reduces Stress on the bone.",
       "Proximal design for rotational stability."
-    ],
-    "sizing_logic": {
-      "metric": "Nail Length",
-      "options": [
-        {
-          "size": "Extra small",
-          "min": null,
-          "max": "170mm"
-        },
-        {
-          "size": "Small",
-          "min": null,
-          "max": "200mm"
-        },
-        {
-          "size": "Standard",
-          "min": null,
-          "max": "240mm"
-        },
-        {
-          "size": "Long",
-          "min": "260mm",
-          "max": "440mm"
-        }
-      ]
-    }
+    ]
   },
   {
     "id": "4783c74e-0988-4d86-9132-706185b57743",
@@ -146852,36 +147030,42 @@
       "Pathological fractures (Long Nail)"
     ],
     "clinical_benefits": [
+      "Anatomical design for best fit in the femur bone.",
+      "Easy insertion due to 5 degree M/L angle.",
+      "Reduced stress on the bone due to bendable tip.",
+      "Proximal design for rotational stability."
+    ],
+    "sizing_logic": {
+      "Nail Lengths": [
+        "Extra small: 170mm",
+        "Small: 200mm",
+        "Standard: 240mm",
+        "Long: 260mm to 440mm (available in 20mm increments)"
+      ],
+      "Nail Diameters": [
+        "9.0 mm",
+        "10.0 mm",
+        "11.0 mm",
+        "12.0 mm"
+      ]
+    },
+    "technical_specifications": {
+      "Locking Bolt Material": "TAN (Ti-6Al-7Nb)",
+      "Locking Bolt Head Diameter": "8.00mm",
+      "Locking Bolt Outer Diameter": "4.9mm",
+      "Locking Bolt Core Diameter": "4.256mm",
+      "Locking Bolt Pitch": "2.75mm",
+      "Locking Bolt Color": "Light Green",
+      "Nail Diameters": "9.0, 10.0, 11.0, 12.0 mm",
+      "Angulation": "130\u00b0"
+    },
+    "materials_canonical": "Ti-6Al-7Nb",
+    "features_list": [
       "Anatomical Design for the best fit in the Femur bone.",
       "M/L angle of 5 degree allows easy insertion.",
       "Bendable tip reduces Stress on the bone.",
       "Proximal design for rotational stability."
-    ],
-    "sizing_logic": {
-      "metric": "length",
-      "options": [
-        {
-          "min": null,
-          "max": null,
-          "size": "170mm"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "200mm"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "240mm"
-        },
-        {
-          "min": "260mm",
-          "max": "440mm",
-          "size": "available in 20mm increments"
-        }
-      ]
-    }
+    ]
   },
   {
     "id": "183dc9b6-7bcd-4e70-9319-927f50a44f01",
@@ -146978,42 +147162,28 @@
     ],
     "clinical_benefits": [
       "Anatomical Design for the best fit in the Femur bone.",
-      "M/L angle of 5 degree allows easy insertion.",
-      "Bendable tip reduces Stress on the bone.",
+      "Easy insertion",
+      "Reduced Stress on the bone.",
       "Proximal design for rotational stability."
     ],
-    "sizing_logic": {
-      "metric": "Nail Length",
-      "options": [
-        {
-          "size": "Extra small",
-          "min": null,
-          "max": null,
-          "length": "170mm"
-        },
-        {
-          "size": "Small",
-          "min": null,
-          "max": null,
-          "length": "200mm"
-        },
-        {
-          "size": "Standard",
-          "min": null,
-          "max": null,
-          "length": "240mm"
-        },
-        {
-          "size": "Long",
-          "min": "260mm",
-          "max": "440mm",
-          "increment": "20mm"
-        }
-      ]
-    },
+    "sizing_logic": "Extra small: 170mm, Small: 200mm, Standard: 240mm, Long: 260mm to 440mm (available in 20mm increments), Diameters: 9.0, 10.0, 11.0, 12.0 mm",
     "features_list": [
       "Proximal Guide Rod"
-    ]
+    ],
+    "technical_specifications": {
+      "4.9mm Locking Bolt Material": "TAN (Ti-6Al-7Nb)",
+      "4.9mm Locking Bolt Head Diameter": "8.00mm",
+      "4.9mm Locking Bolt Outer Diameter": "4.9mm",
+      "4.9mm Locking Bolt Core Diameter": "4.256mm",
+      "4.9mm Locking Bolt Pitch": "2.75mm",
+      "4.9mm Locking Bolt Color": "Light Green",
+      "Nail Lengths": "Extra small: 170mm, Small: 200mm, Standard: 240mm, Long: 260mm to 440mm (available in 20mm increments)",
+      "Nail Diameters": "9.0, 10.0, 11.0, 12.0 mm",
+      "Nail Angulation": "130\u00b0",
+      "Locking Bolt Material": "TAN Ti-6Al-7Nb",
+      "Anti-Rotation Screw Material": "TAN Ti-6Al-7Nb"
+    },
+    "materials_canonical": "Titanium Alloy (Ti-6Al-7Nb)"
   },
   {
     "id": "5779367c-9371-4110-9879-a891a7c2d425",
@@ -147043,39 +147213,42 @@
     ],
     "clinical_benefits": [
       "Anatomical Design for the best fit in the Femur bone.",
-      "M/L angle of 5 degree allows easy insertion.",
-      "Bendable tip reduces Stress on the bone.",
+      "Easy insertion due to 5 degree M/L angle.",
+      "Reduced stress on the bone due to bendable tip.",
       "Proximal design for rotational stability."
     ],
     "sizing_logic": {
-      "metric": "Nail Length",
-      "options": [
-        {
-          "size": "Extra small",
-          "min": null,
-          "max": null,
-          "length_mm": "170mm"
-        },
-        {
-          "size": "Small",
-          "min": null,
-          "max": null,
-          "length_mm": "200mm"
-        },
-        {
-          "size": "Standard",
-          "min": null,
-          "max": null,
-          "length_mm": "240mm"
-        },
-        {
-          "size": "Long",
-          "min": "260mm",
-          "max": "440mm",
-          "increment_mm": "20mm"
-        }
+      "Nail Lengths": [
+        "Extra small: 170mm",
+        "Small: 200mm",
+        "Standard: 240mm",
+        "Long: 260mm to 440mm (available in 20mm increments)"
+      ],
+      "Nail Diameters": [
+        "9.0mm",
+        "10.0mm",
+        "11.0mm",
+        "12.0 mm"
       ]
-    }
+    },
+    "technical_specifications": {
+      "4.9mm Locking Bolt Material": "TAN (Ti-6Al-7Nb)",
+      "4.9mm Locking Bolt Head Diameter": "8.00mm",
+      "4.9mm Locking Bolt Outer Diameter": "4.9mm",
+      "4.9mm Locking Bolt Core Diameter": "4.256mm",
+      "4.9mm Locking Bolt Pitch": "2.75mm",
+      "4.9mm Locking Bolt Color": "Light Green",
+      "Nail Diameters": "9.0, 10.0, 11.0, 12.0 mm",
+      "Nail Angulation": "130\u00b0"
+    },
+    "materials_canonical": "Titanium Alloy",
+    "features_list": [
+      "Anatomical Design",
+      "5 degree M/L angle",
+      "Bendable tip",
+      "Proximal design for rotational stability",
+      "Self-tapping locking bolt"
+    ]
   },
   {
     "id": "0c80aac0-5a12-4073-a84e-f8e77ab892cf",
@@ -147106,35 +147279,41 @@
     ],
     "clinical_benefits": [
       "Anatomical Design for the best fit in the Femur bone.",
+      "Easy insertion due to 5 degree M/L angle",
+      "Reduced stress on the bone due to bendable tip",
+      "Proximal design for rotational stability"
+    ],
+    "sizing_logic": {
+      "Nail Lengths": [
+        "Extra small: 170mm",
+        "Small: 200mm",
+        "Standard: 240mm",
+        "Long: 260mm to 440mm (available in 20mm increments)"
+      ],
+      "Nail Diameters": [
+        "9.0 mm",
+        "10.0 mm",
+        "11.0 mm",
+        "12.0 mm"
+      ],
+      "Angulation": "130\u00b0"
+    },
+    "technical_specifications": {
+      "M/L angle": "5 degree",
+      "Locking Bolt Material": "TAN (Ti-6Al-7Nb)",
+      "Locking Bolt Head Diameter": "8.00mm",
+      "Locking Bolt Outer Diameter": "4.9mm",
+      "Locking Bolt Core Diameter": "4.256mm",
+      "Locking Bolt Pitch": "2.75mm",
+      "Locking Bolt Color": "Light Green"
+    },
+    "materials_canonical": "Titanium Alloy (Ti-6Al-7Nb)",
+    "features_list": [
+      "Anatomical Design for the best fit in the Femur bone.",
       "M/L angle of 5 degree allows easy insertion.",
       "Bendable tip reduces Stress on the bone.",
       "Proximal design for rotational stability."
-    ],
-    "sizing_logic": {
-      "metric": "Nail Length",
-      "options": [
-        {
-          "min": null,
-          "max": null,
-          "size": "Extra small: 170mm"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "Small: 200mm"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "Standard: 240mm"
-        },
-        {
-          "min": "260mm",
-          "max": "440mm",
-          "size": "Long: (available in 20mm increments)"
-        }
-      ]
-    }
+    ]
   },
   {
     "id": "b9aaadae-e5fd-481e-98b6-1bc0d9fdd893",
@@ -147163,34 +147342,43 @@
       "Pathological fractures (Long Nail)"
     ],
     "sizing_logic": {
-      "metric": "length",
-      "options": [
-        {
-          "size": "Extra small",
-          "min": null,
-          "max": null,
-          "length": "170mm"
-        },
-        {
-          "size": "Small",
-          "min": null,
-          "max": null,
-          "length": "200mm"
-        },
-        {
-          "size": "Standard",
-          "min": null,
-          "max": null,
-          "length": "240mm"
-        },
-        {
-          "size": "Long",
-          "min": "260mm",
-          "max": "440mm",
-          "length": "available in 20mm increments"
-        }
+      "Nail Lengths": [
+        "Extra small: 170mm",
+        "Small: 200mm",
+        "Standard: 240mm",
+        "Long: 260mm to 440mm (available in 20mm increments)"
+      ],
+      "Nail Diameters": [
+        "9.0 mm",
+        "10.0 mm",
+        "11.0 mm",
+        "12.0 mm"
       ]
-    }
+    },
+    "technical_specifications": {
+      "4.9 mm Locking Bolt Material": "TAN (Ti-6Al-7Nb)",
+      "4.9 mm Locking Bolt Head Diameter": "8.00mm",
+      "4.9 mm Locking Bolt Outer Diameter": "4.9mm",
+      "4.9 mm Locking Bolt Core Diameter": "4.256mm",
+      "4.9 mm Locking Bolt Pitch": "2.75mm",
+      "4.9 mm Locking Bolt Color": "Light Green",
+      "M/L angle": "5 degree",
+      "Nail Diameters": "9.0, 10.0, 11.0, 12.0 mm",
+      "Angulation": "130\u00b0"
+    },
+    "clinical_benefits": [
+      "Anatomical Design for the best fit in the Femur bone",
+      "Easy insertion",
+      "Reduced stress on the bone",
+      "Proximal design for rotational stability"
+    ],
+    "materials_canonical": "TAN Ti-6Al-7Nb",
+    "features_list": [
+      "Anatomical design for best fit",
+      "5 degree M/L angle for easy insertion",
+      "Bendable tip reduces bone stress",
+      "Proximal design enhances rotational stability"
+    ]
   },
   {
     "id": "3e4b1ee3-979d-4f9c-b90d-7b54dd81f746",
@@ -147219,36 +147407,41 @@
       "Pathological fractures (Long Nail)"
     ],
     "clinical_benefits": [
+      "Anatomical Design for the best fit in the Femur bone",
+      "Easy insertion due to M/L angle of 5 degrees",
+      "Reduced Stress on the bone due to bendable tip",
+      "Proximal design for rotational stability"
+    ],
+    "sizing_logic": {
+      "Nail Length": [
+        "Extra small: 170mm",
+        "Small: 200mm",
+        "Standard: 240mm",
+        "Long: 260mm to 440mm (available in 20mm increments)"
+      ],
+      "Nail Diameters": [
+        "9.0 mm",
+        "10.0 mm",
+        "11.0 mm",
+        "12.0 mm"
+      ],
+      "Angulation": "130\u00b0"
+    },
+    "technical_specifications": {
+      "4.9mm Locking Bolt Material": "TAN (Ti-6Al-7Nb)",
+      "4.9mm Locking Bolt Head Diameter": "8.00mm",
+      "4.9mm Locking Bolt Outer Diameter": "4.9mm",
+      "4.9mm Locking Bolt Core Diameter": "4.256mm",
+      "4.9mm Locking Bolt Pitch": "2.75mm",
+      "4.9mm Locking Bolt Color": "Light Green"
+    },
+    "materials_canonical": "Titanium Alloy (Ti-6Al-7Nb)",
+    "features_list": [
       "Anatomical Design for the best fit in the Femur bone.",
       "M/L angle of 5 degree allows easy insertion.",
       "Bendable tip reduces Stress on the bone.",
       "Proximal design for rotational stability."
-    ],
-    "sizing_logic": {
-      "metric": "length (nail)",
-      "options": [
-        {
-          "min": null,
-          "max": null,
-          "size": "170mm (Extra small)"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "200mm (Small)"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "240mm (Standard)"
-        },
-        {
-          "min": "260mm",
-          "max": "440mm",
-          "size": "20mm increments (Long)"
-        }
-      ]
-    }
+    ]
   },
   {
     "id": "1ed23eb3-93ce-4b20-8fd0-23381548658a",
@@ -147277,36 +147470,43 @@
       "Pathological fractures (Long Nail)"
     ],
     "clinical_benefits": [
-      "Anatomical Design for the best fit in the Femur bone.",
-      "M/L angle of 5 degree allows easy insertion.",
-      "Bendable tip reduces Stress on the bone.",
-      "Proximal design for rotational stability."
+      "Anatomical Design for the best fit in the Femur bone",
+      "Easy insertion due to 5 degree M/L angle",
+      "Reduced stress on the bone due to bendable tip",
+      "Proximal design for rotational stability"
     ],
     "sizing_logic": {
-      "metric": "Nail Length",
-      "options": [
-        {
-          "min": null,
-          "max": null,
-          "size": "170mm (Extra small)"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "200mm (Small)"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "240mm (Standard)"
-        },
-        {
-          "min": "260mm",
-          "max": "440mm",
-          "size": "Long (available in 20mm increments)"
-        }
-      ]
-    }
+      "Nail Lengths": [
+        "Extra small: 170mm",
+        "Small: 200mm",
+        "Standard: 240mm",
+        "Long: 260mm to 440mm (available in 20mm increments)"
+      ],
+      "Nail Diameters": [
+        "9.0mm",
+        "10.0mm",
+        "11.0mm",
+        "12.0mm"
+      ],
+      "Angulation": "130\u00b0"
+    },
+    "technical_specifications": {
+      "4.9mm Locking Bolt Material": "TAN (Ti-6Al-7Nb)",
+      "4.9mm Locking Bolt Head Diameter": "8.00mm",
+      "4.9mm Locking Bolt Outer Diameter": "4.9mm",
+      "4.9mm Locking Bolt Core Diameter": "4.256mm",
+      "4.9mm Locking Bolt Pitch": "2.75mm",
+      "4.9mm Locking Bolt Color": "Light Green",
+      "M/L angle": "5 degree"
+    },
+    "materials_canonical": "TAN Ti-6Al-7Nb",
+    "features_list": [
+      "Anatomical Design",
+      "5 degree M/L angle",
+      "Bendable tip",
+      "Proximal design for rotational stability",
+      "Self-Tapping Locking Bolt"
+    ]
   },
   {
     "id": "8dfc8fa0-6f15-41ff-af16-b4f7699360c2",
@@ -147336,35 +147536,44 @@
     ],
     "clinical_benefits": [
       "Anatomical Design for the best fit in the Femur bone.",
-      "M/L angle of 5 degree allows easy insertion.",
-      "Bendable tip reduces Stress on the bone.",
+      "Easy insertion due to M/L angle.",
+      "Reduced stress on the bone due to bendable tip.",
       "Proximal design for rotational stability."
     ],
     "sizing_logic": {
-      "metric": "nail length",
-      "options": [
-        {
-          "min": null,
-          "max": null,
-          "size": "170mm"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "200mm"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "240mm"
-        },
-        {
-          "min": "260mm",
-          "max": "440mm",
-          "size": "available in 20mm increments"
-        }
+      "Nail Lengths": [
+        "Extra small: 170mm",
+        "Small: 200mm",
+        "Standard: 240mm",
+        "Long: 260mm to 440mm (available in 20mm increments)"
+      ],
+      "Nail Diameters": [
+        "9.0mm",
+        "10.0mm",
+        "11.0mm",
+        "12.0mm"
       ]
-    }
+    },
+    "technical_specifications": {
+      "Locking Bolt Material": "TAN (Ti-6Al-7Nb)",
+      "Locking Bolt Head Diameter": "8.00mm",
+      "Locking Bolt Outer Diameter": "4.9mm",
+      "Locking Bolt Core Diameter": "4.256mm",
+      "Locking Bolt Pitch": "2.75mm",
+      "Locking Bolt Color": "Light Green",
+      "Nail Diameters": "9.0, 10.0, 11.0, 12.0 mm",
+      "M/L Angle": "5 degree",
+      "Angulation": "130\u00b0"
+    },
+    "materials_canonical": "Titanium Alloy",
+    "features_list": [
+      "Anatomical design for best fit",
+      "5 degree M/L angle for easy insertion",
+      "Bendable tip to reduce stress on bone",
+      "Proximal design for rotational stability",
+      "Self-tapping locking bolt",
+      "TAN Ti-6Al-7Nb Locking Bolt"
+    ]
   },
   {
     "id": "51d12961-e18c-4fa2-92b6-0539b665e56f",
@@ -147394,35 +147603,40 @@
     ],
     "clinical_benefits": [
       "Anatomical Design for the best fit in the Femur bone.",
-      "M/L angle of 5 degree allows easy insertion.",
-      "Bendable tip reduces Stress on the bone.",
+      "Easy insertion due to M/L angle of 5 degree.",
+      "Reduced stress on the bone due to bendable tip.",
       "Proximal design for rotational stability."
     ],
     "sizing_logic": {
-      "metric": "Nail Length",
-      "options": [
-        {
-          "size": "Extra small",
-          "min": null,
-          "max": "170mm"
-        },
-        {
-          "size": "Small",
-          "min": null,
-          "max": "200mm"
-        },
-        {
-          "size": "Standard",
-          "min": null,
-          "max": "240mm"
-        },
-        {
-          "size": "Long",
-          "min": "260mm",
-          "max": "440mm"
-        }
-      ]
-    }
+      "Nail Lengths": [
+        "Extra small: 170mm",
+        "Small: 200mm",
+        "Standard: 240mm",
+        "Long: 260mm to 440mm (available in 20mm increments)"
+      ],
+      "Nail Diameters": [
+        "9.0mm",
+        "10.0mm",
+        "11.0mm",
+        "12.0 mm"
+      ],
+      "Angulation": "130\u00b0"
+    },
+    "technical_specifications": {
+      "Locking Bolt Material": "TAN (Ti-6Al-7Nb)",
+      "Locking Bolt Head Diameter": "8.00mm",
+      "Locking Bolt Outer Diameter": "4.9mm",
+      "Locking Bolt Core Diameter": "4.256mm",
+      "Locking Bolt Pitch": "2.75mm",
+      "Locking Bolt Color": "Light Green"
+    },
+    "materials_canonical": "Ti-6Al-7Nb",
+    "features_list": [
+      "Anatomical Design for the best fit in the Femur bone.",
+      "M/L angle of 5 degree allows easy insertion.",
+      "Bendable tip reduces Stress on the bone.",
+      "Proximal design for rotational stability."
+    ]
   },
   {
     "id": "58934d69-e9b8-4f73-b138-bc77ef705e4f",
@@ -147522,36 +147736,43 @@
       "Pathological fractures (Long Nail)"
     ],
     "clinical_benefits": [
-      "Anatomical Design for the best fit in the Femur bone.",
-      "M/L angle of 5 degree allows easy insertion.",
-      "Bendable tip reduces Stress on the bone.",
-      "Proximal design for rotational stability."
+      "Anatomical Design for the best fit in the Femur bone",
+      "Easy insertion due to M/L angle of 5 degrees",
+      "Reduced stress on the bone due to bendable tip",
+      "Proximal design for rotational stability"
     ],
     "sizing_logic": {
-      "metric": "length",
-      "options": [
-        {
-          "min": null,
-          "max": null,
-          "size": "170mm"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "200mm"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "240mm"
-        },
-        {
-          "min": "260mm",
-          "max": "440mm",
-          "size": "20mm increments"
-        }
-      ]
-    }
+      "Nail Lengths": [
+        "Extra small: 170mm",
+        "Small: 200mm",
+        "Standard: 240mm",
+        "Long: 260mm to 440mm (available in 20mm increments)"
+      ],
+      "Nail Diameters": [
+        "9.0mm",
+        "10.0mm",
+        "11.0mm",
+        "12.0mm"
+      ],
+      "Angulation": "130\u00b0"
+    },
+    "technical_specifications": {
+      "M/L angle": "5 degree",
+      "Locking Bolt Material": "TAN (Ti-6Al-7Nb)",
+      "Locking Bolt Head Diameter": "8.00mm",
+      "Locking Bolt Outer Diameter": "4.9mm",
+      "Locking Bolt Core Diameter": "4.256mm",
+      "Locking Bolt Pitch": "2.75mm",
+      "Locking Bolt Color": "Light Green",
+      "Anti-Rotation Screw Material": "TAN Ti-6Al-7Nb"
+    },
+    "materials_canonical": "Titanium Alloy",
+    "features_list": [
+      "Anatomical design for best fit",
+      "5 degree M/L angle for easy insertion",
+      "Bendable tip to reduce stress on bone",
+      "Proximal design for rotational stability"
+    ]
   },
   {
     "id": "42c2be7b-0a55-4f33-adf7-8906f56fddb9",
@@ -147580,36 +147801,43 @@
       "Pathological fractures (Long Nail)"
     ],
     "clinical_benefits": [
-      "Anatomical Design for the best fit in the Femur bone.",
-      "M/L angle of 5 degree allows easy insertion.",
-      "Bendable tip reduces Stress on the bone.",
-      "Proximal design for rotational stability."
+      "Anatomical Design for the best fit in the Femur bone",
+      "Easy insertion due to 5 degree M/L angle",
+      "Reduced stress on the bone due to bendable tip",
+      "Proximal design for rotational stability"
     ],
     "sizing_logic": {
-      "metric": "length",
-      "options": [
-        {
-          "min": null,
-          "max": null,
-          "size": "Extra small: 170mm"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "Small: 200mm"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "Standard: 240mm"
-        },
-        {
-          "min": "260mm",
-          "max": "440mm",
-          "size": "Long: (available in 20mm increments)"
-        }
-      ]
-    }
+      "Nail Lengths": [
+        "Extra small: 170mm",
+        "Small: 200mm",
+        "Standard: 240mm",
+        "Long: 260mm to 440mm (available in 20mm increments)"
+      ],
+      "Nail Diameters": [
+        "9.0mm",
+        "10.0mm",
+        "11.0mm",
+        "12.0mm"
+      ],
+      "Angulation": "130\u00b0"
+    },
+    "technical_specifications": {
+      "M/L angle": "5 degree",
+      "Locking Bolt Material": "TAN Ti-6Al-7Nb",
+      "Locking Bolt Head Diameter": "8.00mm",
+      "Locking Bolt Outer Diameter": "4.9mm",
+      "Locking Bolt Core Diameter": "4.256mm",
+      "Locking Bolt Pitch": "2.75mm",
+      "Locking Bolt Color": "Light Green",
+      "Anti-Rotation Screw Material": "TAN Ti-6Al-7Nb"
+    },
+    "materials_canonical": "Titanium Alloy (Ti-6Al-7Nb)",
+    "features_list": [
+      "Anatomical design for optimal fit.",
+      "5 degree M/L angle for easy insertion.",
+      "Bendable tip to reduce bone stress.",
+      "Proximal design enhances rotational stability."
+    ]
   },
   {
     "id": "071b9416-a569-47c8-8aff-e819f866c787",
@@ -147640,35 +147868,41 @@
     ],
     "clinical_benefits": [
       "Anatomical Design for the best fit in the Femur bone.",
-      "M/L angle of 5 degree allows easy insertion.",
-      "Bendable tip reduces Stress on the bone.",
-      "Proximal design for rotational stability."
+      "Easy insertion due to M/L angle of 5 degree",
+      "Reduced stress on the bone due to bendable tip",
+      "Proximal design for rotational stability"
     ],
     "sizing_logic": {
-      "metric": "length",
-      "options": [
-        {
-          "min": null,
-          "max": null,
-          "size": "170mm"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "200mm"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "240mm"
-        },
-        {
-          "min": "260mm",
-          "max": "440mm",
-          "size": "20mm increments"
-        }
-      ]
-    }
+      "Nail Length": [
+        "Extra small: 170mm",
+        "Small: 200mm",
+        "Standard: 240mm",
+        "Long: 260mm to 440mm (available in 20mm increments)"
+      ],
+      "Nail Diameters": [
+        "9.0 mm",
+        "10.0 mm",
+        "11.0 mm",
+        "12.0 mm"
+      ],
+      "Angulation": "130\u00b0"
+    },
+    "technical_specifications": {
+      "4.9mm Locking Bolt Material": "TAN (Ti-6Al-7Nb)",
+      "4.9mm Locking Bolt Head Diameter": "8.00mm",
+      "4.9mm Locking Bolt Outer Diameter": "4.9mm",
+      "4.9mm Locking Bolt Core Diameter": "4.256mm",
+      "4.9mm Locking Bolt Pitch": "2.75mm",
+      "4.9mm Locking Bolt Color": "Light Green",
+      "M/L angle": "5 degree"
+    },
+    "materials_canonical": "Ti-6Al-7Nb Alloy",
+    "features_list": [
+      "Anatomical Design",
+      "5 degree M/L angle for easy insertion",
+      "Bendable tip to reduce stress",
+      "Proximal design for rotational stability"
+    ]
   },
   {
     "id": "e05651e3-ab01-4aef-a132-bf6ab0a8c03a",
@@ -147698,36 +147932,41 @@
       "Pathological fractures (Long Nail)"
     ],
     "clinical_benefits": [
-      "Anatomical Design for the best fit in the Femur bone.",
+      "Best fit in the Femur bone",
+      "Easy insertion",
+      "Reduced stress on the bone",
+      "Proximal design for rotational stability"
+    ],
+    "sizing_logic": {
+      "Nail Lengths": [
+        "Extra small: 170mm",
+        "Small: 200mm",
+        "Standard: 240mm",
+        "Long: 260mm to 440mm (available in 20mm increments)"
+      ],
+      "Nail Diameters": [
+        "9.0 mm",
+        "10.0 mm",
+        "11.0 mm",
+        "12.0 mm"
+      ],
+      "Angulation": "130\u00b0"
+    },
+    "technical_specifications": {
+      "M/L angle": "5 degree",
+      "Locking Bolt Material": "TAN Ti-6Al-7Nb",
+      "Locking Bolt Head Diameter": "8.00mm",
+      "Locking Bolt Outer Diameter": "4.9mm",
+      "Locking Bolt Core Diameter": "4.256mm",
+      "Locking Bolt Pitch": "2.75mm"
+    },
+    "materials_canonical": "Ti-6Al-7Nb",
+    "features_list": [
+      "Anatomical Design",
       "M/L angle of 5 degree allows easy insertion.",
       "Bendable tip reduces Stress on the bone.",
       "Proximal design for rotational stability."
-    ],
-    "sizing_logic": {
-      "metric": "length",
-      "options": [
-        {
-          "min": null,
-          "max": null,
-          "size": "170mm"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "200mm"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "240mm"
-        },
-        {
-          "min": "260mm",
-          "max": "440mm",
-          "size": "available in 20mm increments"
-        }
-      ]
-    }
+    ]
   },
   {
     "id": "33a20082-c5cd-4610-9a82-9a3f968045c8",
@@ -147756,40 +147995,42 @@
       "Pathological fractures (Long Nail)"
     ],
     "clinical_benefits": [
-      "Anatomical Design for the best fit in the Femur bone.",
-      "M/L angle of 5 degree allows easy insertion.",
-      "Bendable tip reduces Stress on the bone.",
-      "Proximal design for rotational stability."
+      "Anatomical Design for the best fit in the Femur bone",
+      "Easy insertion due to M/L angle of 5 degree",
+      "Reduced stress on the bone due to bendable tip",
+      "Proximal design for rotational stability"
     ],
     "sizing_logic": {
-      "metric": "Nail Length",
-      "options": [
-        {
-          "size": "Extra small",
-          "min": null,
-          "max": null,
-          "value": "170mm"
-        },
-        {
-          "size": "Small",
-          "min": null,
-          "max": null,
-          "value": "200mm"
-        },
-        {
-          "size": "Standard",
-          "min": null,
-          "max": null,
-          "value": "240mm"
-        },
-        {
-          "size": "20mm increments",
-          "min": "260mm",
-          "max": "440mm",
-          "value": null
-        }
-      ]
-    }
+      "Nail Lengths": [
+        "Extra small: 170mm",
+        "Small: 200mm",
+        "Standard: 240mm",
+        "Long: 260mm to 440mm (available in 20mm increments)"
+      ],
+      "Nail Diameters": [
+        "9.0 mm",
+        "10.0 mm",
+        "11.0 mm",
+        "12.0 mm"
+      ],
+      "Angulation": "130\u00b0"
+    },
+    "technical_specifications": {
+      "4.9mm Locking Bolt Material": "TAN (Ti-6Al-7Nb)",
+      "4.9mm Locking Bolt Head Diameter": "8.00mm",
+      "4.9mm Locking Bolt Outer Diameter": "4.9mm",
+      "4.9mm Locking Bolt Core Diameter": "4.256mm",
+      "4.9mm Locking Bolt Pitch": "2.75mm"
+    },
+    "materials_canonical": "Titanium Alloy (Ti-6Al-7Nb)",
+    "features_list": [
+      "Anatomical Design for best fit",
+      "5 degree M/L angle for easy insertion",
+      "Bendable tip to reduce stress on bone",
+      "Proximal design for rotational stability",
+      "Available in multiple lengths (170mm - 440mm)",
+      "Available in multiple diameters (9.0mm - 12.0mm)"
+    ]
   },
   {
     "id": "ee526f44-3e10-4153-a168-f828c19395ea",
@@ -147819,39 +148060,40 @@
     ],
     "clinical_benefits": [
       "Anatomical Design for the best fit in the Femur bone.",
-      "M/L angle of 5 degree allows easy insertion.",
-      "Bendable tip reduces Stress on the bone.",
+      "Easy insertion due to M/L angle",
+      "Reduced stress on the bone due to bendable tip",
       "Proximal design for rotational stability."
     ],
     "sizing_logic": {
-      "metric": "length (mm)",
-      "options": [
-        {
-          "size": "Extra small",
-          "min": null,
-          "max": null,
-          "value": "170"
-        },
-        {
-          "size": "Small",
-          "min": null,
-          "max": null,
-          "value": "200"
-        },
-        {
-          "size": "Standard",
-          "min": null,
-          "max": null,
-          "value": "240"
-        },
-        {
-          "size": "Long",
-          "min": "260",
-          "max": "440",
-          "value": null
-        }
-      ]
-    }
+      "Nail Lengths": [
+        "Extra small: 170mm",
+        "Small: 200mm",
+        "Standard: 240mm",
+        "Long: 260mm to 440mm (available in 20mm increments)"
+      ],
+      "Nail Diameters": [
+        "9.0 mm",
+        "10.0 mm",
+        "11.0 mm",
+        "12.0 mm"
+      ],
+      "Angulation": "130\u00b0"
+    },
+    "technical_specifications": {
+      "M/L angle": "5 degree",
+      "Locking Bolt Material": "TAN Ti-6Al-7Nb",
+      "Locking Bolt Head Diameter": "8.00mm",
+      "Locking Bolt Outer Diameter": "4.9mm",
+      "Locking Bolt Core Diameter": "4.256mm",
+      "Locking Bolt Pitch": "2.75mm"
+    },
+    "materials_canonical": "TAN Ti-6Al-7Nb",
+    "features_list": [
+      "Anatomical design for best fit",
+      "5 degree M/L angle for easy insertion",
+      "Bendable tip to reduce bone stress",
+      "Proximal design for rotational stability"
+    ]
   },
   {
     "id": "50e974e4-f490-4688-b3fd-60dea28924c7",
@@ -147880,31 +148122,38 @@
       "Combination fractures in the proximal femur (Long Nail)",
       "Pathological fractures (Long Nail)"
     ],
-    "sizing_logic": {
-      "metric": "Nail Length",
-      "options": [
-        {
-          "min": null,
-          "max": null,
-          "size": "Extra small: 170mm"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "Small: 200mm"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "Standard: 240mm"
-        },
-        {
-          "min": "260mm",
-          "max": "440mm",
-          "size": "Long: (available in 20mm increments)"
-        }
-      ]
-    }
+    "sizing_logic": [
+      "Extra small: 170mm",
+      "Small: 200mm",
+      "Standard: 240mm",
+      "Long: 260mm to 440mm (available in 20mm increments)",
+      "Diameters: 9.0, 10.0, 11.0, 12.0 mm"
+    ],
+    "technical_specifications": {
+      "4.9 mm Locking Bolt Material": "TAN (Ti-6Al-7Nb)",
+      "4.9 mm Locking Bolt Head Diameter": "8.00mm",
+      "4.9 mm Locking Bolt Outer Diameter": "4.9mm",
+      "4.9 mm Locking Bolt Core Diameter": "4.256mm",
+      "4.9 mm Locking Bolt Pitch": "2.75mm",
+      "4.9 mm Locking Bolt Color": "Light Green",
+      "Nail Diameters": "9.0, 10.0, 11.0, 12.0 mm",
+      "Angulation": "130\u00b0"
+    },
+    "clinical_benefits": [
+      "Anatomical Design for the best fit in the Femur bone.",
+      "Easy insertion due to M/L angle of 5 degree.",
+      "Reduced Stress on the bone due to bendable tip.",
+      "Proximal design for rotational stability."
+    ],
+    "materials_canonical": "Ti-6Al-7Nb",
+    "features_list": [
+      "Anatomical Design",
+      "5 degree M/L angle for easy insertion",
+      "Bendable tip to reduce stress",
+      "Proximal design for rotational stability",
+      "4.9 mm LOCKING BOLT is Self Tapping",
+      "Components made of TAN Ti-6Al-7Nb"
+    ]
   },
   {
     "id": "a38e083c-4abc-4b77-a26f-0e66afc34354",
@@ -147934,36 +148183,36 @@
       "Pathological fractures (Long Nail)"
     ],
     "clinical_benefits": [
+      "Anatomical Design for the best fit in the Femur bone",
+      "Easy insertion due to M/L angle of 5 degrees",
+      "Reduced stress on the bone due to bendable tip",
+      "Proximal design for rotational stability"
+    ],
+    "sizing_logic": [
+      "Extra small: 170mm",
+      "Small: 200mm",
+      "Standard: 240mm",
+      "Long: 260mm to 440mm (available in 20mm increments)",
+      "Diameters: 9.0, 10.0, 11.0, 12.0 mm"
+    ],
+    "technical_specifications": {
+      "Locking Bolt Material": "TAN (Ti-6Al-7Nb)",
+      "Locking Bolt Head Diameter": "8.00mm",
+      "Locking Bolt Outer Diameter": "4.9mm",
+      "Locking Bolt Core Diameter": "4.256mm",
+      "Locking Bolt Pitch": "2.75mm",
+      "Locking Bolt Color": "Light Green",
+      "Nail Diameters": "9.0, 10.0, 11.0, 12.0 mm",
+      "M/L Angle": "5 degree",
+      "Angulation": "130\u00b0"
+    },
+    "materials_canonical": "Ti-6Al-7Nb",
+    "features_list": [
       "Anatomical Design for the best fit in the Femur bone.",
       "M/L angle of 5 degree allows easy insertion.",
       "Bendable tip reduces Stress on the bone.",
       "Proximal design for rotational stability."
-    ],
-    "sizing_logic": {
-      "metric": "length",
-      "options": [
-        {
-          "min": null,
-          "max": null,
-          "size": "170mm"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "200mm"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "240mm"
-        },
-        {
-          "min": "260mm",
-          "max": "440mm",
-          "size": "available in 20mm increments"
-        }
-      ]
-    }
+    ]
   },
   {
     "id": "bfa19d2e-783a-42b9-a245-1af4bf8dc4e0",
@@ -147992,36 +148241,38 @@
       "Pathological fractures (Long Nail)"
     ],
     "clinical_benefits": [
-      "Anatomical Design for the best fit in the Femur bone.",
-      "M/L angle of 5 degree allows easy insertion.",
-      "Bendable tip reduces Stress on the bone.",
-      "Proximal design for rotational stability."
+      "Anatomical Design for the best fit in the Femur bone",
+      "Easy insertion",
+      "Reduced Stress on the bone",
+      "Proximal design for rotational stability"
     ],
     "sizing_logic": {
-      "metric": "Nail Length",
-      "options": [
-        {
-          "min": null,
-          "max": null,
-          "size": "Extra small: 170mm"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "Small: 200mm"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "Standard: 240mm"
-        },
-        {
-          "min": "260mm",
-          "max": "440mm",
-          "size": "Long: (available in 20mm increments)"
-        }
-      ]
-    }
+      "Nail Lengths": [
+        "Extra small: 170mm",
+        "Small: 200mm",
+        "Standard: 240mm",
+        "Long: 260mm to 440mm (available in 20mm increments)"
+      ],
+      "Nail Diameters": "9.0, 10.0, 11.0, 12.0 mm"
+    },
+    "technical_specifications": {
+      "4.9mm Locking Bolt Material": "TAN (Ti-6Al-7Nb)",
+      "4.9mm Locking Bolt Head Diameter": "8.00mm",
+      "4.9mm Locking Bolt Outer Diameter": "4.9mm",
+      "4.9mm Locking Bolt Core Diameter": "4.256mm",
+      "4.9mm Locking Bolt Pitch": "2.75mm",
+      "4.9mm Locking Bolt Color": "Light Green",
+      "M/L angle": "5 degree",
+      "Nail Diameters": "9.0, 10.0, 11.0, 12.0 mm",
+      "Angulation": "130\u00b0"
+    },
+    "materials_canonical": "Titanium Alloy (Ti-6Al-7Nb)",
+    "features_list": [
+      "Anatomical Design",
+      "5 degree M/L angle",
+      "Bendable tip",
+      "Proximal design for rotational stability"
+    ]
   },
   {
     "id": "33f9a9dc-cc59-4137-8fa2-e47f640735f4",
@@ -148050,30 +148301,49 @@
       "Pathological fractures (Long Nail)"
     ],
     "sizing_logic": {
-      "metric": "length",
-      "options": [
-        {
-          "min": null,
-          "max": null,
-          "size": "170mm"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "200mm"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "240mm"
-        },
-        {
-          "min": "260mm",
-          "max": "440mm",
-          "size": "available in 20mm increments"
-        }
+      "Nail Length": [
+        "Extra small: 170mm",
+        "Small: 200mm",
+        "Standard: 240mm",
+        "Long: 260mm to 440mm (available in 20mm increments)"
+      ],
+      "Nail Diameters": [
+        "9.0 mm",
+        "10.0 mm",
+        "11.0 mm",
+        "12.0 mm"
       ]
-    }
+    },
+    "technical_specifications": {
+      "M/L angle": "5 degree",
+      "Locking Bolt Material": "TAN Ti-6Al-7Nb",
+      "Locking Bolt Head Diameter": "8.00mm",
+      "Locking Bolt Outer Diameter": "4.9mm",
+      "Locking Bolt Core Diameter": "4.256mm",
+      "Locking Bolt Pitch": "2.75mm",
+      "Locking Bolt Color": "Light Green",
+      "Nail Diameters": "9.0, 10.0, 11.0, 12.0 mm",
+      "Angulation": "130\u00b0",
+      "Niddle Sleeve \u00d84.3": "MT-INPFRN169",
+      "Niddle Sleeve \u00d83.2": "MT-INPFRN170",
+      "Bone Drill \u00d84.3x300": "MT-INPFRN141",
+      "Bone Drill \u00d83.2x300": "MT-INPFRN171",
+      "Limit Device \u00d84.3/SW3.0": "MT-INPFRN142",
+      "Limit Device \u00d83.2/sw3.0": "MT-INPFRN172"
+    },
+    "clinical_benefits": [
+      "Anatomical Design for the best fit in the Femur bone",
+      "Easy insertion due to M/L angle of 5 degrees",
+      "Reduced stress on the bone due to bendable tip",
+      "Proximal design for rotational stability"
+    ],
+    "materials_canonical": "TAN Ti-6Al-7Nb",
+    "features_list": [
+      "Anatomical Design for the best fit in the Femur bone.",
+      "M/L angle of 5 degree allows easy insertion.",
+      "Bendable tip reduces Stress on the bone.",
+      "Proximal design for rotational stability."
+    ]
   },
   {
     "id": "e3623f77-bf78-45f8-aa8c-0dd13420aa92",
@@ -148302,38 +148572,42 @@
     ],
     "clinical_benefits": [
       "Anatomical Design for the best fit in the Femur bone.",
-      "M/L angle of 5 degree allows easy insertion.",
-      "Bendable tip reduces Stress on the bone.",
+      "Easy insertion due to 5 degree M/L angle.",
+      "Reduced stress on the bone due to bendable tip.",
       "Proximal design for rotational stability."
     ],
     "sizing_logic": {
-      "metric": "Length (mm)",
-      "options": [
-        {
-          "min": null,
-          "max": null,
-          "size": "170"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "200"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "240"
-        },
-        {
-          "min": "260",
-          "max": "440",
-          "size": "20mm increments"
-        }
-      ]
+      "Nail Lengths": [
+        "Extra small: 170mm",
+        "Small: 200mm",
+        "Standard: 240mm",
+        "Long: 260mm to 440mm (available in 20mm increments)"
+      ],
+      "Nail Diameters": [
+        "9.0mm",
+        "10.0mm",
+        "11.0mm",
+        "12.0mm"
+      ],
+      "Angulation": "130\u00b0",
+      "Limit Device diameters": [
+        "\u00d84.3",
+        "\u00d83.2"
+      ],
+      "Limit Device wrench size": "SW3.0"
     },
     "features_list": [
       "Proximal Femoral Rotational Stability Nail"
-    ]
+    ],
+    "materials_canonical": "TAN Ti-6Al-7Nb",
+    "technical_specifications": {
+      "M/L angle": "5 degree",
+      "Locking Bolt Material": "TAN (Ti-6Al-7Nb)",
+      "Locking Bolt Head Diameter": "8.00mm",
+      "Locking Bolt Outer Diameter": "4.9mm",
+      "Locking Bolt Core Diameter": "4.256mm",
+      "Locking Bolt Pitch": "2.75mm"
+    }
   },
   {
     "id": "f9577bca-75de-447d-98e6-026b3b2d3454",
@@ -148363,38 +148637,42 @@
     ],
     "clinical_benefits": [
       "Anatomical Design for the best fit in the Femur bone.",
-      "M/L angle of 5 degree allows easy insertion.",
-      "Bendable tip reduces Stress on the bone.",
-      "Proximal design for rotational stability."
+      "Easy insertion due to M/L angle of 5 degree",
+      "Reduced Stress on the bone due to bendable tip",
+      "Proximal design for rotational stability"
     ],
     "sizing_logic": {
-      "metric": "length",
-      "options": [
-        {
-          "min": null,
-          "max": null,
-          "size": "170mm"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "200mm"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "240mm"
-        },
-        {
-          "min": "260mm",
-          "max": "440mm",
-          "size": "20mm increments"
-        }
+      "Nail Lengths": [
+        "Extra small: 170mm",
+        "Small: 200mm",
+        "Standard: 240mm",
+        "Long: 260mm to 440mm (available in 20mm increments)"
+      ],
+      "Nail Diameters": [
+        "9.0 mm",
+        "10.0 mm",
+        "11.0 mm",
+        "12.0 mm"
       ]
     },
     "features_list": [
       "Proximal Femoral Rotational Stability Nail"
-    ]
+    ],
+    "technical_specifications": {
+      "M/L angle": "5 degree",
+      "Locking Bolt Material": "TAN Ti-6Al-7Nb",
+      "Locking Bolt Head Diameter": "8.00mm",
+      "Locking Bolt Outer Diameter": "4.9mm",
+      "Locking Bolt Core Diameter": "4.256mm",
+      "Locking Bolt Pitch": "2.75mm",
+      "Reamer Head Diameters": "\u00d89, \u00d810, \u00d811, \u00d812, \u00d813",
+      "Bone Drill Diameters": "\u00d84.3x300, \u00d83.2x300",
+      "Niddle Sleeve Diameters": "\u00d84.3, \u00d83.2",
+      "Limit Device Diameters": "\u00d84.3/SW3.0, \u00d83.2/sw3.0",
+      "Nail Diameters": "9.0, 10.0, 11.0, 12.0 mm",
+      "Angulation": "130\u00b0"
+    },
+    "materials_canonical": "TAN Ti-6Al-7Nb"
   },
   {
     "id": "571d4a73-2ff5-4ad1-bdde-a7517f74ea66",
@@ -148423,40 +148701,30 @@
       "Pathological fractures (Long Nail)"
     ],
     "clinical_benefits": [
-      "Anatomical Design for the best fit in the Femur bone.",
-      "M/L angle of 5 degree allows easy insertion.",
-      "Bendable tip reduces Stress on the bone.",
-      "Proximal design for rotational stability."
+      "Best fit in the Femur bone",
+      "Easy insertion",
+      "Reduced stress on the bone",
+      "Proximal design for rotational stability"
     ],
-    "sizing_logic": {
-      "metric": "Nail Length",
-      "options": [
-        {
-          "size": "Extra small",
-          "min": null,
-          "max": null,
-          "length": "170mm"
-        },
-        {
-          "size": "Small",
-          "min": null,
-          "max": null,
-          "length": "200mm"
-        },
-        {
-          "size": "Standard",
-          "min": null,
-          "max": null,
-          "length": "240mm"
-        },
-        {
-          "size": "Long",
-          "min": "260mm",
-          "max": "440mm",
-          "length": "available in 20mm increments"
-        }
-      ]
-    }
+    "sizing_logic": "Extra small: 170mm, Small: 200mm, Standard: 240mm, Long: 260mm to 440mm (available in 20mm increments), Diameters: 9.0, 10.0, 11.0, 12.0 mm",
+    "technical_specifications": {
+      "M/L angle": "5 degree",
+      "Locking Bolt Material": "TAN (Ti-6Al-7Nb)",
+      "Locking Bolt Head Diameter": "8.00mm",
+      "Locking Bolt Outer Diameter": "4.9mm",
+      "Locking Bolt Core Diameter": "4.256mm",
+      "Locking Bolt Pitch": "2.75mm",
+      "Locking Bolt Color": "Light Green",
+      "Nail Diameters": "9.0, 10.0, 11.0, 12.0 mm",
+      "Angulation": "130\u00b0"
+    },
+    "materials_canonical": "Ti-6Al-7Nb",
+    "features_list": [
+      "Anatomical Design",
+      "M/L angle of 5 degree allows easy insertion",
+      "Bendable tip reduces Stress on the bone",
+      "Proximal design for rotational stability"
+    ]
   },
   {
     "id": "c3422836-68ef-490c-91cd-33dc1be954e2",
@@ -148485,39 +148753,43 @@
       "Pathological fractures (Long Nail)"
     ],
     "clinical_benefits": [
+      "Anatomical Design for the best fit in the Femur bone",
+      "Easy insertion due to 5 degree M/L angle",
+      "Reduced stress on the bone due to bendable tip",
+      "Proximal design for rotational stability"
+    ],
+    "sizing_logic": {
+      "Nail Lengths": [
+        "Extra small: 170mm",
+        "Small: 200mm",
+        "Standard: 240mm",
+        "Long: 260mm to 440mm (available in 20mm increments)"
+      ],
+      "Nail Diameters": [
+        "9.0 mm",
+        "10.0 mm",
+        "11.0 mm",
+        "12.0 mm"
+      ]
+    },
+    "technical_specifications": {
+      "Locking Bolt Material": "TAN (Ti-6Al-7Nb)",
+      "Locking Bolt Head Diameter": "8.00mm",
+      "Locking Bolt Outer Diameter": "4.9mm",
+      "Locking Bolt Core Diameter": "4.256mm",
+      "Locking Bolt Pitch": "2.75mm",
+      "Locking Bolt Color": "Light Green",
+      "Nail Diameters": "9.0, 10.0, 11.0, 12.0 mm",
+      "M/L Angle": "5 degree",
+      "Angulation": "130\u00b0"
+    },
+    "materials_canonical": "TAN Ti-6Al-7Nb",
+    "features_list": [
       "Anatomical Design for the best fit in the Femur bone.",
       "M/L angle of 5 degree allows easy insertion.",
       "Bendable tip reduces Stress on the bone.",
       "Proximal design for rotational stability."
-    ],
-    "sizing_logic": {
-      "metric": "Nail Length",
-      "options": [
-        {
-          "size": "Extra small",
-          "min": null,
-          "max": null,
-          "value": "170mm"
-        },
-        {
-          "size": "Small",
-          "min": null,
-          "max": null,
-          "value": "200mm"
-        },
-        {
-          "size": "Standard",
-          "min": null,
-          "max": null,
-          "value": "240mm"
-        },
-        {
-          "size": "20mm increments",
-          "min": "260mm",
-          "max": "440mm"
-        }
-      ]
-    }
+    ]
   },
   {
     "id": "ac043e9a-4962-470b-b513-2b4269718cde",
@@ -148547,36 +148819,29 @@
       "Pathological fractures (Long Nail)"
     ],
     "clinical_benefits": [
-      "Anatomical Design for the best fit in the Femur bone.",
-      "M/L angle of 5 degree allows easy insertion.",
-      "Bendable tip reduces Stress on the bone.",
-      "Proximal design for rotational stability."
+      "Anatomical Design for the best fit in the Femur bone",
+      "Easy insertion due to M/L angle",
+      "Reduced stress on the bone due to bendable tip",
+      "Proximal design for rotational stability"
     ],
-    "sizing_logic": {
-      "metric": "Nail Length",
-      "options": [
-        {
-          "min": null,
-          "max": null,
-          "size": "Extra small: 170mm"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "Small: 200mm"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "Standard: 240mm"
-        },
-        {
-          "min": "260mm",
-          "max": "440mm",
-          "size": "Long: (available in 20mm increments)"
-        }
-      ]
-    }
+    "sizing_logic": "Extra small: 170mm; Small: 200mm; Standard: 240mm; Long: 260mm to 440mm (available in 20mm increments); Diameters: 9.0, 10.0, 11.0, 12.0 mm",
+    "technical_specifications": {
+      "Locking Bolt Material": "TAN (Ti-6Al-7Nb)",
+      "Locking Bolt Head Diameter": "8.00mm",
+      "Locking Bolt Outer Diameter": "4.9mm",
+      "Locking Bolt Core Diameter": "4.256mm",
+      "Locking Bolt Pitch": "2.75mm",
+      "Locking Bolt Color": "Light Green",
+      "Nail M/L Angle": "5 degree",
+      "Nail Angulation": "130\u00b0"
+    },
+    "materials_canonical": "TAN (Ti-6Al-7Nb)",
+    "features_list": [
+      "Anatomical Design",
+      "M/L angle of 5 degree",
+      "Bendable tip",
+      "Proximal design for rotational stability"
+    ]
   },
   {
     "id": "f7242439-51f0-4eb4-9dcb-9fdb10124f31",
@@ -148605,34 +148870,44 @@
       "Pathological fractures (Long Nail)"
     ],
     "sizing_logic": {
-      "metric": "Nail Length",
-      "options": [
-        {
-          "size": "Extra small",
-          "min": null,
-          "max": null,
-          "length": "170mm"
-        },
-        {
-          "size": "Small",
-          "min": null,
-          "max": null,
-          "length": "200mm"
-        },
-        {
-          "size": "Standard",
-          "min": null,
-          "max": null,
-          "length": "240mm"
-        },
-        {
-          "size": "Long",
-          "min": "260mm",
-          "max": "440mm",
-          "length": "20mm increments"
-        }
+      "Nail Length": [
+        "Extra small: 170mm",
+        "Small: 200mm",
+        "Standard: 240mm",
+        "Long: 260mm to 440mm (available in 20mm increments)"
+      ],
+      "Nail Diameters": [
+        "9.0 mm",
+        "10.0 mm",
+        "11.0 mm",
+        "12.0 mm"
       ]
-    }
+    },
+    "clinical_benefits": [
+      "Anatomical design for best fit in the Femur bone",
+      "Easy insertion due to M/L angle of 5 degrees",
+      "Reduced stress on the bone due to bendable tip",
+      "Proximal design for rotational stability"
+    ],
+    "technical_specifications": {
+      "4.9 mm Locking Bolt Material": "TAN (Ti-6Al-7Nb)",
+      "4.9 mm Locking Bolt Head Diameter": "8.00mm",
+      "4.9 mm Locking Bolt Outer Diameter": "4.9mm",
+      "4.9 mm Locking Bolt Core Diameter": "4.256mm",
+      "4.9 mm Locking Bolt Pitch": "2.75mm",
+      "4.9 mm Locking Bolt Color": "Light Green",
+      "M/L Angle": "5 degree",
+      "Nail Diameters": "9.0, 10.0, 11.0, 12.0 mm",
+      "Angulation": "130\u00b0"
+    },
+    "materials_canonical": "Titanium Alloy (Ti-6Al-7Nb)",
+    "features_list": [
+      "Anatomical Design",
+      "5 Degree M/L Angle",
+      "Bendable Tip",
+      "Proximal Design for Rotational Stability",
+      "Self Tapping Locking Bolt"
+    ]
   },
   {
     "id": "ac36f933-c503-4ee2-88f2-3c6d6cd23c4d",
@@ -148660,31 +148935,37 @@
       "Combination fractures in the proximal femur (Long Nail)",
       "Pathological fractures (Long Nail)"
     ],
-    "sizing_logic": {
-      "metric": "length",
-      "options": [
-        {
-          "min": null,
-          "max": null,
-          "size": "170mm"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "200mm"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "240mm"
-        },
-        {
-          "min": "260mm",
-          "max": "440mm",
-          "size": "available in 20mm increments"
-        }
-      ]
-    }
+    "sizing_logic": [
+      "Extra small: 170mm",
+      "Small: 200mm",
+      "Standard: 240mm",
+      "Long: 260mm to 440mm (available in 20mm increments)",
+      "Diameters: 9.0, 10.0, 11.0, 12.0 mm"
+    ],
+    "technical_specifications": {
+      "M/L angle": "5 degree",
+      "Locking Bolt Material": "TAN Ti-6Al-7Nb",
+      "Locking Bolt Head Diameter": "8.00mm",
+      "Locking Bolt Outer Diameter": "4.9mm",
+      "Locking Bolt Core Diameter": "4.256mm",
+      "Locking Bolt Pitch": "2.75mm",
+      "Locking Bolt Color": "Light Green",
+      "Nail Diameters": "9.0, 10.0, 11.0, 12.0 mm",
+      "Angulation": "130\u00b0"
+    },
+    "clinical_benefits": [
+      "Anatomical Design for the best fit in the Femur bone.",
+      "Easy insertion",
+      "Reduced Stress on the bone",
+      "Proximal design for rotational stability"
+    ],
+    "materials_canonical": "TAN Ti-6Al-7Nb",
+    "features_list": [
+      "Anatomical Design for the best fit in the Femur bone.",
+      "M/L angle of 5 degree allows easy insertion.",
+      "Bendable tip reduces Stress on the bone.",
+      "Proximal design for rotational stability."
+    ]
   },
   {
     "id": "5dbe159d-e5c4-484b-a168-3e20f8b589d1",
@@ -148714,45 +148995,42 @@
     ],
     "clinical_benefits": [
       "Anatomical Design for the best fit in the Femur bone.",
+      "Easy insertion due to 5 degree M/L angle",
+      "Reduced Stress on the bone due to Bendable tip",
+      "Proximal design for rotational stability"
+    ],
+    "sizing_logic": {
+      "Nail Lengths": [
+        "Extra small: 170mm",
+        "Small: 200mm",
+        "Standard: 240mm",
+        "Long: 260mm to 440mm (available in 20mm increments)"
+      ],
+      "Nail Diameters": [
+        "9.0mm",
+        "10.0mm",
+        "11.0mm",
+        "12.0mm"
+      ]
+    },
+    "technical_specifications": {
+      "4.9 mm Locking Bolt Material": "TAN (Ti-6Al-7Nb)",
+      "4.9 mm Locking Bolt Head Diameter": "8.00mm",
+      "4.9 mm Locking Bolt Outer Diameter": "4.9mm",
+      "4.9 mm Locking Bolt Core Diameter": "4.256mm",
+      "4.9 mm Locking Bolt Pitch": "2.75mm",
+      "4.9 mm Locking Bolt Color": "Light Green",
+      "Nail Diameters": "9.0, 10.0, 11.0, 12.0 mm",
+      "Angulation": "130\u00b0",
+      "M/L angle": "5 degree"
+    },
+    "materials_canonical": "TAN Ti-6Al-7Nb",
+    "features_list": [
+      "Anatomical Design for the best fit in the Femur bone.",
       "M/L angle of 5 degree allows easy insertion.",
       "Bendable tip reduces Stress on the bone.",
       "Proximal design for rotational stability."
-    ],
-    "sizing_logic": {
-      "metric": "Length and Diameter",
-      "options": [
-        {
-          "min": null,
-          "max": null,
-          "size": "Extra small: 170mm"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "Small: 200mm"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "Standard: 240mm"
-        },
-        {
-          "min": "260mm",
-          "max": "440mm",
-          "size": "Long: 260mm to 440mm (available in 20mm increments)"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "Diameters: 9.0, 10.0, 11.0, 12.0 mm"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "Angulation: 130\u00b0"
-        }
-      ]
-    }
+    ]
   },
   {
     "id": "6e47f11a-0714-4f6f-82db-efcc4233c1ce",
@@ -148782,35 +149060,41 @@
     ],
     "clinical_benefits": [
       "Anatomical Design for the best fit in the Femur bone.",
+      "Easy insertion due to 5 degree M/L angle",
+      "Reduced stress on the bone due to bendable tip",
+      "Proximal design for rotational stability"
+    ],
+    "sizing_logic": {
+      "Nail Length": [
+        "Extra small: 170mm",
+        "Small: 200mm",
+        "Standard: 240mm",
+        "Long: 260mm to 440mm (available in 20mm increments)"
+      ],
+      "Nail Diameters": [
+        "9.0 mm",
+        "10.0 mm",
+        "11.0 mm",
+        "12.0 mm"
+      ],
+      "Angulation": "130\u00b0"
+    },
+    "technical_specifications": {
+      "4.9 mm Locking Bolt Material": "TAN (Ti-6Al-7Nb)",
+      "4.9 mm Locking Bolt Head Diameter": "8.00mm",
+      "4.9 mm Locking Bolt Outer Diameter": "4.9mm",
+      "4.9 mm Locking Bolt Core Diameter": "4.256mm",
+      "4.9 mm Locking Bolt Pitch": "2.75mm",
+      "4.9 mm Locking Bolt Color": "Light Green",
+      "M/L angle": "5 degree"
+    },
+    "materials_canonical": "TAN Ti-6Al-7Nb (Titanium Alloy)",
+    "features_list": [
+      "Anatomical Design for the best fit in the Femur bone.",
       "M/L angle of 5 degree allows easy insertion.",
       "Bendable tip reduces Stress on the bone.",
       "Proximal design for rotational stability."
-    ],
-    "sizing_logic": {
-      "metric": "length",
-      "options": [
-        {
-          "min": null,
-          "max": null,
-          "size": "170mm"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "200mm"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "240mm"
-        },
-        {
-          "min": "260mm",
-          "max": "440mm",
-          "size": "available in 20mm increments"
-        }
-      ]
-    }
+    ]
   },
   {
     "id": "01a3a52a-e65e-43a0-bdb4-776608fcb245",
@@ -148906,39 +149190,29 @@
     ],
     "clinical_benefits": [
       "Anatomical Design for the best fit in the Femur bone.",
-      "M/L angle of 5 degree allows easy insertion.",
-      "Bendable tip reduces Stress on the bone.",
+      "Easy insertion due to 5 degree M/L angle.",
+      "Reduced stress on the bone due to bendable tip.",
       "Proximal design for rotational stability."
     ],
-    "sizing_logic": {
-      "metric": "length (mm)",
-      "options": [
-        {
-          "size": "Extra small",
-          "min": null,
-          "max": null,
-          "length": "170"
-        },
-        {
-          "size": "Small",
-          "min": null,
-          "max": null,
-          "length": "200"
-        },
-        {
-          "size": "Standard",
-          "min": null,
-          "max": null,
-          "length": "240"
-        },
-        {
-          "size": "Long",
-          "min": "260",
-          "max": "440",
-          "length": "available in 20mm increments"
-        }
-      ]
-    }
+    "sizing_logic": "Extra small: 170mm; Small: 200mm; Standard: 240mm; Long: 260mm to 440mm (available in 20mm increments); Diameters: 9.0, 10.0, 11.0, 12.0 mm",
+    "technical_specifications": {
+      "4.9mm Locking Bolt Material": "TAN (Ti-6Al-7Nb)",
+      "4.9mm Locking Bolt Head Diameter": "8.00mm",
+      "4.9mm Locking Bolt Outer Diameter": "4.9mm",
+      "4.9mm Locking Bolt Core Diameter": "4.256mm",
+      "4.9mm Locking Bolt Pitch": "2.75mm",
+      "4.9mm Locking Bolt Color": "Light Green",
+      "M/L Angle": "5 degree",
+      "Nail Diameters": "9.0, 10.0, 11.0, 12.0 mm",
+      "Angulation": "130\u00b0"
+    },
+    "materials_canonical": "TAN Ti-6Al-7Nb",
+    "features_list": [
+      "Anatomical Design",
+      "5 degree M/L angle",
+      "Bendable tip",
+      "Proximal design for rotational stability"
+    ]
   },
   {
     "id": "5d5ca018-7889-4bd6-9551-2e182c58ec67",
@@ -149045,39 +149319,40 @@
     ],
     "clinical_benefits": [
       "Anatomical Design for the best fit in the Femur bone.",
-      "M/L angle of 5 degree allows easy insertion.",
-      "Bendable tip reduces Stress on the bone.",
+      "Easy insertion due to M/L angle of 5 degree.",
+      "Reduced stress on the bone due to bendable tip.",
       "Proximal design for rotational stability."
     ],
     "sizing_logic": {
-      "metric": "length",
-      "options": [
-        {
-          "size": "Extra small",
-          "min": null,
-          "max": null,
-          "length_mm": "170mm"
-        },
-        {
-          "size": "Small",
-          "min": null,
-          "max": null,
-          "length_mm": "200mm"
-        },
-        {
-          "size": "Standard",
-          "min": null,
-          "max": null,
-          "length_mm": "240mm"
-        },
-        {
-          "size": "Long",
-          "min": "260mm",
-          "max": "440mm",
-          "length_mm": null
-        }
-      ]
-    }
+      "Nail Lengths": [
+        "Extra small: 170mm",
+        "Small: 200mm",
+        "Standard: 240mm",
+        "Long: 260mm to 440mm (available in 20mm increments)"
+      ],
+      "Nail Diameters": [
+        "9.0 mm",
+        "10.0 mm",
+        "11.0 mm",
+        "12.0 mm"
+      ],
+      "Angulation": "130\u00b0"
+    },
+    "technical_specifications": {
+      "M/L angle": "5 degree",
+      "Locking Bolt Material": "TAN Ti-6Al-7Nb",
+      "Locking Bolt Head Diameter": "8.00mm",
+      "Locking Bolt Outer Diameter": "4.9mm",
+      "Locking Bolt Core Diameter": "4.256mm",
+      "Locking Bolt Pitch": "2.75mm"
+    },
+    "materials_canonical": "Titanium Alloy (Ti-6Al-7Nb)",
+    "features_list": [
+      "Anatomical Design",
+      "M/L angle of 5 degree",
+      "Bendable tip",
+      "Proximal design for rotational stability"
+    ]
   },
   {
     "id": "c5af7498-ddb3-4b46-a505-5edd659fbb68",
@@ -149106,30 +149381,44 @@
       "Pathological fractures (Long Nail)"
     ],
     "sizing_logic": {
-      "metric": "nail length",
-      "options": [
-        {
-          "min": null,
-          "max": null,
-          "size": "170mm"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "200mm"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "240mm"
-        },
-        {
-          "min": "260mm",
-          "max": "440mm",
-          "size": "20mm increments"
-        }
-      ]
-    }
+      "Nail Lengths": [
+        "Extra small: 170mm",
+        "Small: 200mm",
+        "Standard: 240mm",
+        "Long: 260mm to 440mm (available in 20mm increments)"
+      ],
+      "Nail Diameters": [
+        "9.0mm",
+        "10.0mm",
+        "11.0mm",
+        "12.0mm"
+      ],
+      "Angulation": "130\u00b0"
+    },
+    "technical_specifications": {
+      "Locking Bolt Material": "TAN Ti-6Al-7Nb",
+      "Locking Bolt Head Diameter": "8.00mm",
+      "Locking Bolt Outer Diameter": "4.9mm",
+      "Locking Bolt Core Diameter": "4.256mm",
+      "Locking Bolt Pitch": "2.75mm",
+      "Locking Bolt Color": "Light Green",
+      "M/L angle": "5 degree",
+      "Nail Diameters": "9.0, 10.0, 11.0, 12.0 mm",
+      "Angulation": "130\u00b0"
+    },
+    "clinical_benefits": [
+      "Anatomical Design for the best fit in the Femur bone",
+      "Easy insertion due to M/L angle of 5 degree",
+      "Reduced stress on the bone due to bendable tip",
+      "Proximal design for rotational stability"
+    ],
+    "materials_canonical": "TAN Ti-6Al-7Nb",
+    "features_list": [
+      "Anatomical Design for the best fit in the Femur bone",
+      "M/L angle of 5 degree allows easy insertion",
+      "Bendable tip reduces Stress on the bone",
+      "Proximal design for rotational stability"
+    ]
   },
   {
     "id": "4af30ca9-0a73-4015-880f-efcffba9371d",
@@ -149158,36 +149447,29 @@
       "Pathological fractures (Long Nail)"
     ],
     "clinical_benefits": [
+      "Anatomical Design for the best fit in the Femur bone",
+      "Easy insertion due to M/L angle of 5 degree",
+      "Reduced Stress on the bone due to bendable tip",
+      "Proximal design for rotational stability"
+    ],
+    "sizing_logic": "Extra small: 170mm, Small: 200mm, Standard: 240mm, Long: 260mm to 440mm (available in 20mm increments), Diameters: 9.0, 10.0, 11.0, 12.0 mm",
+    "technical_specifications": {
+      "Locking Bolt Material": "TAN (Ti-6Al-7Nb)",
+      "Locking Bolt Head Diameter": "8.00mm",
+      "Locking Bolt Outer Diameter": "4.9mm",
+      "Locking Bolt Core Diameter": "4.256mm",
+      "Locking Bolt Pitch": "2.75mm",
+      "Locking Bolt Color": "Light Green",
+      "Nail Angulation": "130\u00b0",
+      "Nail Diameters": "9.0, 10.0, 11.0, 12.0 mm"
+    },
+    "materials_canonical": "TAN Ti-6Al-7Nb",
+    "features_list": [
       "Anatomical Design for the best fit in the Femur bone.",
       "M/L angle of 5 degree allows easy insertion.",
       "Bendable tip reduces Stress on the bone.",
       "Proximal design for rotational stability."
-    ],
-    "sizing_logic": {
-      "metric": "length",
-      "options": [
-        {
-          "min": null,
-          "max": null,
-          "size": "170mm"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "200mm"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "240mm"
-        },
-        {
-          "min": "260mm",
-          "max": "440mm",
-          "size": "20mm increments"
-        }
-      ]
-    }
+    ]
   },
   {
     "id": "e214b705-671d-4477-8b20-bda1605f5b5e",
@@ -149216,36 +149498,42 @@
       "Pathological fractures (Long Nail)"
     ],
     "clinical_benefits": [
+      "Anatomical Design for the best fit in the Femur bone",
+      "Easy Insertion",
+      "Reduced Stress on the bone",
+      "Proximal design for rotational stability"
+    ],
+    "sizing_logic": {
+      "Nail Lengths": [
+        "Extra small: 170mm",
+        "Small: 200mm",
+        "Standard: 240mm",
+        "Long: 260mm to 440mm (available in 20mm increments)"
+      ],
+      "Nail Diameters": [
+        "9.0mm",
+        "10.0mm",
+        "11.0mm",
+        "12.0mm"
+      ],
+      "Angulation": "130\u00b0"
+    },
+    "technical_specifications": {
+      "Locking Bolt Material": "TAN (Ti-6Al-7Nb)",
+      "Locking Bolt Head Diameter": "8.00mm",
+      "Locking Bolt Outer Diameter": "4.9mm",
+      "Locking Bolt Core Diameter": "4.256mm",
+      "Locking Bolt Pitch": "2.75mm",
+      "Locking Bolt Color": "Light Green",
+      "M/L angle": "5 degree"
+    },
+    "materials_canonical": "TAN (Ti-6Al-7Nb)",
+    "features_list": [
       "Anatomical Design for the best fit in the Femur bone.",
       "M/L angle of 5 degree allows easy insertion.",
       "Bendable tip reduces Stress on the bone.",
       "Proximal design for rotational stability."
-    ],
-    "sizing_logic": {
-      "metric": "length (mm)",
-      "options": [
-        {
-          "size": "Extra small",
-          "min": null,
-          "max": "170"
-        },
-        {
-          "size": "Small",
-          "min": null,
-          "max": "200"
-        },
-        {
-          "size": "Standard",
-          "min": null,
-          "max": "240"
-        },
-        {
-          "size": "Long",
-          "min": "260",
-          "max": "440"
-        }
-      ]
-    }
+    ]
   },
   {
     "id": "be690dd9-4296-4cf2-88bf-68d68853095b",
@@ -149275,35 +149563,41 @@
       "Pathological fractures (Long Nail)"
     ],
     "sizing_logic": {
-      "metric": "length",
-      "options": [
-        {
-          "size": "Extra small",
-          "min": null,
-          "max": "170mm"
-        },
-        {
-          "size": "Small",
-          "min": null,
-          "max": "200mm"
-        },
-        {
-          "size": "Standard",
-          "min": null,
-          "max": "240mm"
-        },
-        {
-          "size": "Long",
-          "min": "260mm",
-          "max": "440mm"
-        }
+      "Nail Lengths": [
+        "Extra small: 170mm",
+        "Small: 200mm",
+        "Standard: 240mm",
+        "Long: 260mm to 440mm (available in 20mm increments)"
+      ],
+      "Nail Diameters": [
+        "9.0mm",
+        "10.0mm",
+        "11.0mm",
+        "12.0mm"
       ]
     },
     "features_list": [
       "M/L angle of 5 degree allows easy insertion.",
       "Bendable tip reduces Stress on the bone.",
       "Proximal design for rotational stability."
-    ]
+    ],
+    "technical_specifications": {
+      "Locking Bolt (4.9mm) Material": "TAN (Ti-6Al-7Nb)",
+      "Locking Bolt Head Diameter": "8.00mm",
+      "Locking Bolt Outer Diameter": "4.9mm",
+      "Locking Bolt Core Diameter": "4.256mm",
+      "Locking Bolt Pitch": "2.75mm",
+      "Locking Bolt Color": "Light Green",
+      "M/L Angle": "5 degree",
+      "Angulation": "130\u00b0"
+    },
+    "clinical_benefits": [
+      "Anatomical Design for the best fit in the Femur bone.",
+      "Easy insertion due to M/L angle.",
+      "Reduced stress on the bone due to bendable tip.",
+      "Proximal design for rotational stability."
+    ],
+    "materials_canonical": "Titanium Alloy"
   },
   {
     "id": "d6561e91-50e8-4505-821c-52575272b866",
@@ -149333,36 +149627,33 @@
       "Pathological fractures (Long Nail)"
     ],
     "clinical_benefits": [
-      "Anatomical Design for the best fit in the Femur bone.",
-      "M/L angle of 5 degree allows easy insertion.",
-      "Bendable tip reduces Stress on the bone.",
-      "Proximal design for rotational stability."
+      "Anatomical Design for the best fit in the Femur bone",
+      "Easy Insertion due to M/L angle of 5 degrees",
+      "Reduced Stress on the bone due to bendable tip",
+      "Proximal design for rotational stability"
     ],
-    "sizing_logic": {
-      "metric": "Nail Length",
-      "options": [
-        {
-          "min": null,
-          "max": null,
-          "size": "Extra small: 170mm"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "Small: 200mm"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "Standard: 240mm"
-        },
-        {
-          "min": "260mm",
-          "max": "440mm",
-          "size": "Long: available in 20mm increments"
-        }
-      ]
-    }
+    "sizing_logic": [
+      "Extra small: 170mm",
+      "Small: 200mm",
+      "Standard: 240mm",
+      "Long: 260mm to 440mm (available in 20mm increments)",
+      "Diameters: 9.0, 10.0, 11.0, 12.0 mm"
+    ],
+    "features_list": [
+      "MT-INPFRN174 Distal Location Device For Long Nail (right)"
+    ],
+    "technical_specifications": {
+      "4.9mm Locking Bolt Material": "TAN (Ti-6Al-7Nb)",
+      "4.9mm Locking Bolt Head Diameter": "8.00mm",
+      "4.9mm Locking Bolt Outer Diameter": "4.9mm",
+      "4.9mm Locking Bolt Core Diameter": "4.256mm",
+      "4.9mm Locking Bolt Pitch": "2.75mm",
+      "4.9mm Locking Bolt Color": "Light Green",
+      "M/L Angle": "5 degree",
+      "Nail Diameters": "9.0, 10.0, 11.0, 12.0 mm",
+      "Angulation": "130\u00b0"
+    },
+    "materials_canonical": "Titanium Alloy (Ti-6Al-7Nb)"
   },
   {
     "id": "cda39277-92f3-4acf-a29b-01a5897ae458",
@@ -149392,35 +149683,41 @@
     ],
     "clinical_benefits": [
       "Anatomical Design for the best fit in the Femur bone.",
-      "M/L angle of 5 degree allows easy insertion.",
-      "Bendable tip reduces Stress on the bone.",
+      "Easy insertion due to M/L angle.",
+      "Reduced stress on the bone due to bendable tip.",
       "Proximal design for rotational stability."
     ],
     "sizing_logic": {
-      "metric": "Nail Length",
-      "options": [
-        {
-          "size": "Extra small",
-          "min": null,
-          "max": "170mm"
-        },
-        {
-          "size": "Small",
-          "min": null,
-          "max": "200mm"
-        },
-        {
-          "size": "Standard",
-          "min": null,
-          "max": "240mm"
-        },
-        {
-          "size": "Long",
-          "min": "260mm",
-          "max": "440mm"
-        }
+      "Nail Lengths": [
+        "Extra small: 170mm",
+        "Small: 200mm",
+        "Standard: 240mm",
+        "Long: 260mm to 440mm (available in 20mm increments)"
+      ],
+      "Nail Diameters": [
+        "9.0mm",
+        "10.0mm",
+        "11.0mm",
+        "12.0mm"
       ]
-    }
+    },
+    "technical_specifications": {
+      "4.9mm Locking Bolt Material": "TAN (Ti-6Al-7Nb)",
+      "4.9mm Locking Bolt Head Diameter": "8.00mm",
+      "4.9mm Locking Bolt Outer Diameter": "4.9mm",
+      "4.9mm Locking Bolt Core Diameter": "4.256mm",
+      "4.9mm Locking Bolt Pitch": "2.75mm",
+      "4.9mm Locking Bolt Color": "Light Green",
+      "Nail M/L Angle": "5 degree",
+      "Nail Angulation": "130\u00b0"
+    },
+    "materials_canonical": "Titanium Alloy (Ti-6Al-7Nb)",
+    "features_list": [
+      "Anatomical Design",
+      "M/L angle of 5 degree for easy insertion",
+      "Bendable tip reduces stress on the bone",
+      "Proximal design for rotational stability"
+    ]
   },
   {
     "id": "795ef284-567a-4af5-bab0-3b4a94358e62",
@@ -149449,36 +149746,41 @@
       "Pathological fractures (Long Nail)"
     ],
     "clinical_benefits": [
-      "Anatomical Design for the best fit in the Femur bone.",
-      "M/L angle of 5 degree allows easy insertion.",
-      "Bendable tip reduces Stress on the bone.",
-      "Proximal design for rotational stability."
+      "Best fit in the Femur bone",
+      "Easy insertion",
+      "Reduced Stress on the bone",
+      "Rotational stability"
     ],
     "sizing_logic": {
-      "metric": "length",
-      "options": [
-        {
-          "min": null,
-          "max": null,
-          "size": "170mm"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "200mm"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "240mm"
-        },
-        {
-          "min": "260mm",
-          "max": "440mm",
-          "size": "available in 20mm increments"
-        }
-      ]
-    }
+      "Nail Length": [
+        "Extra small: 170mm",
+        "Small: 200mm",
+        "Standard: 240mm",
+        "Long: 260mm to 440mm (available in 20mm increments)"
+      ],
+      "Nail Diameters": [
+        "9.0 mm",
+        "10.0 mm",
+        "11.0 mm",
+        "12.0 mm"
+      ],
+      "Angulation": "130\u00b0"
+    },
+    "technical_specifications": {
+      "M/L angle": "5 degree",
+      "Locking Bolt Material": "TAN Ti-6Al-7Nb",
+      "Locking Bolt Head Diameter": "8.00mm",
+      "Locking Bolt Outer Diameter": "4.9mm",
+      "Locking Bolt Core Diameter": "4.256mm",
+      "Locking Bolt Pitch": "2.75mm"
+    },
+    "materials_canonical": "TAN Ti-6Al-7Nb",
+    "features_list": [
+      "Anatomical Design",
+      "M/L angle of 5 degree allows easy insertion",
+      "Bendable tip reduces Stress on the bone",
+      "Proximal design for rotational stability"
+    ]
   },
   {
     "id": "929b2327-7a9a-4695-b469-f2ccd61990ec",
@@ -149497,7 +149799,47 @@
     "enriched_from_shadow": true,
     "brochure_intelligence_updated": true,
     "seo_title": "PFRN Instrument - Protecting Sleeve | Meril Medical Device | Agile Ortho Telangana",
-    "seo_description": "Authorized Meril Medical Device distributor in Telangana. High-performance PFRN Instrument - Protecting Sleeve engineered for clinical excellence. Available for 2-hour emergency dispatch in Hyderabad."
+    "seo_description": "Authorized Meril Medical Device distributor in Telangana. High-performance PFRN Instrument - Protecting Sleeve engineered for clinical excellence. Available for 2-hour emergency dispatch in Hyderabad.",
+    "technical_specifications": {
+      "Locking Bolt Material": "TAN (Ti-6Al-7Nb)",
+      "Locking Bolt Head Diameter": "8.00mm",
+      "Locking Bolt Outer Diameter": "4.9mm",
+      "Locking Bolt Core Diameter": "4.256mm",
+      "Locking Bolt Pitch": "2.75mm",
+      "Locking Bolt Color": "Light Green",
+      "Nail Diameters": "9.0, 10.0, 11.0, 12.0 mm",
+      "Nail Angulation": "130\u00b0"
+    },
+    "clinical_indications": [
+      "Intertrochanteric fracture",
+      "Pertrochanteric fracture",
+      "Subtrochanteric fracture",
+      "Ipsilateral trochanteric fractures (Long Nail)",
+      "Combination fractures in the proximal femur (Long Nail)",
+      "Pathological fractures (Long Nail)"
+    ],
+    "clinical_benefits": [
+      "Anatomical Design for the best fit in the Femur bone",
+      "Easy insertion due to M/L angle of 5 degree",
+      "Reduced stress on the bone due to bendable tip",
+      "Proximal design for rotational stability"
+    ],
+    "sizing_logic": {
+      "Nail Lengths": [
+        "Extra small: 170mm",
+        "Small: 200mm",
+        "Standard: 240mm",
+        "Long: 260mm to 440mm (available in 20mm increments)"
+      ],
+      "Nail Diameters": "9.0, 10.0, 11.0, 12.0 mm",
+      "Angulation": "130\u00b0"
+    },
+    "materials_canonical": "Titanium Alloy (Ti-6Al-7Nb)",
+    "features_list": [
+      "M/L angle of 5 degree allows easy insertion",
+      "Bendable tip reduces Stress on the bone",
+      "Proximal design for rotational stability"
+    ]
   },
   {
     "id": "eb079d5f-3e4f-4799-8a28-ec664f27d39b",
@@ -149526,36 +149868,45 @@
       "Pathological fractures (Long Nail)"
     ],
     "clinical_benefits": [
-      "Anatomical Design for the best fit in the Femur bone.",
-      "M/L angle of 5 degree allows easy insertion.",
-      "Bendable tip reduces Stress on the bone.",
-      "Proximal design for rotational stability."
+      "Anatomical Design for the best fit in the Femur bone",
+      "Easy insertion due to 5 degree M/L angle",
+      "Reduced stress on the bone due to bendable tip",
+      "Proximal design for rotational stability"
     ],
     "sizing_logic": {
-      "metric": "length",
-      "options": [
-        {
-          "min": null,
-          "max": null,
-          "size": "170mm"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "200mm"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "240mm"
-        },
-        {
-          "min": "260mm",
-          "max": "440mm",
-          "size": "available in 20mm increments"
-        }
+      "Nail Lengths": [
+        "Extra small: 170mm",
+        "Small: 200mm",
+        "Standard: 240mm",
+        "Long: 260mm to 440mm (available in 20mm increments)"
+      ],
+      "Nail Diameters": [
+        "9.0 mm",
+        "10.0 mm",
+        "11.0 mm",
+        "12.0 mm"
       ]
-    }
+    },
+    "technical_specifications": {
+      "Locking Bolt Material": "TAN (Ti-6Al-7Nb)",
+      "Locking Bolt Head Diameter": "8.00mm",
+      "Locking Bolt Outer Diameter": "4.9mm",
+      "Locking Bolt Core Diameter": "4.256mm",
+      "Locking Bolt Pitch": "2.75mm",
+      "Locking Bolt Color": "Light Green",
+      "M/L Angle": "5 degree",
+      "Nail Diameters": "9.0, 10.0, 11.0, 12.0 mm",
+      "Angulation": "130\u00b0"
+    },
+    "materials_canonical": "TAN Ti-6Al-7Nb",
+    "features_list": [
+      "Anatomical Design for best fit",
+      "M/L angle of 5 degrees for easy insertion",
+      "Bendable tip to reduce stress on the bone",
+      "Proximal design for rotational stability",
+      "Self Tapping Locking Bolt",
+      "Available in multiple lengths and diameters"
+    ]
   },
   {
     "id": "8825b6cd-937d-41b9-983f-608b0d9e7106",
@@ -149584,36 +149935,43 @@
       "Pathological fractures (Long Nail)"
     ],
     "clinical_benefits": [
+      "Anatomical Design for the best fit in the Femur bone",
+      "Easy insertion",
+      "Reduced Stress on the bone",
+      "Proximal design for rotational stability"
+    ],
+    "sizing_logic": {
+      "Nail Lengths": [
+        "Extra small: 170mm",
+        "Small: 200mm",
+        "Standard: 240mm",
+        "Long: 260mm to 440mm (available in 20mm increments)"
+      ],
+      "Nail Diameters": [
+        "9.0mm",
+        "10.0mm",
+        "11.0mm",
+        "12.0 mm"
+      ],
+      "Locking Bolt Diameter": "4.9mm"
+    },
+    "technical_specifications": {
+      "Locking Bolt Material": "TAN Ti-6Al-7Nb",
+      "Locking Bolt Head Diameter": "8.00mm",
+      "Locking Bolt Outer Diameter": "4.9mm",
+      "Locking Bolt Core Diameter": "4.256mm",
+      "Locking Bolt Pitch": "2.75mm",
+      "Locking Bolt Color": "Light Green",
+      "Nail Angulation": "130\u00b0",
+      "M/L Angle": "5 degree"
+    },
+    "materials_canonical": "Titanium Alloy (Ti-6Al-7Nb)",
+    "features_list": [
       "Anatomical Design for the best fit in the Femur bone.",
       "M/L angle of 5 degree allows easy insertion.",
       "Bendable tip reduces Stress on the bone.",
       "Proximal design for rotational stability."
-    ],
-    "sizing_logic": {
-      "metric": "length",
-      "options": [
-        {
-          "size": "Extra small",
-          "min": null,
-          "max": "170mm"
-        },
-        {
-          "size": "Small",
-          "min": null,
-          "max": "200mm"
-        },
-        {
-          "size": "Standard",
-          "min": null,
-          "max": "240mm"
-        },
-        {
-          "size": "Long",
-          "min": "260mm",
-          "max": "440mm"
-        }
-      ]
-    }
+    ]
   },
   {
     "id": "06114d4e-3902-48da-8b66-356ff2f3bf61",
@@ -149642,40 +150000,36 @@
       "Pathological fractures (Long Nail)"
     ],
     "clinical_benefits": [
+      "Anatomical Design for the best fit in the Femur bone",
+      "Easy insertion due to M/L angle of 5 degree",
+      "Reduced Stress on the bone due to bendable tip",
+      "Proximal design for rotational stability"
+    ],
+    "sizing_logic": "Extra small: 170mm, Small: 200mm, Standard: 240mm, Long: 260mm to 440mm (available in 20mm increments), Diameters: 9.0, 10.0, 11.0, 12.0 mm",
+    "technical_specifications": {
+      "M/L angle": "5 degree",
+      "Nail Lengths": "Extra small: 170mm, Small: 200mm, Standard: 240mm, Long: 260mm to 440mm (available in 20mm increments)",
+      "Nail Diameters": "9.0, 10.0, 11.0, 12.0 mm",
+      "Nail Angulation": "130\u00b0",
+      "4.9 mm Locking Bolt Material": "TAN Ti-6Al-7Nb",
+      "4.9 mm Locking Bolt Head Diameter": "8.00mm",
+      "4.9 mm Locking Bolt Outer Diameter": "4.9mm",
+      "4.9 mm Locking Bolt Core Diameter": "4.256mm",
+      "4.9 mm Locking Bolt Pitch": "2.75mm",
+      "4.9 mm Locking Bolt Color": "Light Green",
+      "Anti-Rotation Screw Material": "TAN Ti-6Al-7Nb",
+      "Bone Drill Diameters": "\u00d84.3x300, \u00d83.2x300",
+      "Niddle Sleeve Diameters": "\u00d84.3, \u00d83.2",
+      "Limit Device Diameters": "\u00d84.3/SW3.0, \u00d83.2/sw3.0",
+      "Reamer Head Diameters": "\u00d89, \u00d810, \u00d811, \u00d812, \u00d813"
+    },
+    "materials_canonical": "Ti-6Al-7Nb",
+    "features_list": [
       "Anatomical Design for the best fit in the Femur bone.",
       "M/L angle of 5 degree allows easy insertion.",
       "Bendable tip reduces Stress on the bone.",
       "Proximal design for rotational stability."
-    ],
-    "sizing_logic": {
-      "metric": "length",
-      "options": [
-        {
-          "size": "Extra small",
-          "min": null,
-          "max": null,
-          "length": "170mm"
-        },
-        {
-          "size": "Small",
-          "min": null,
-          "max": null,
-          "length": "200mm"
-        },
-        {
-          "size": "Standard",
-          "min": null,
-          "max": null,
-          "length": "240mm"
-        },
-        {
-          "size": "Long",
-          "min": "260mm",
-          "max": "440mm",
-          "length": "available in 20mm increments"
-        }
-      ]
-    }
+    ]
   },
   {
     "id": "afc1a403-9992-4c55-b851-3d75b53e5a2c",
@@ -149705,39 +150059,34 @@
     ],
     "clinical_benefits": [
       "Anatomical Design for the best fit in the Femur bone.",
-      "M/L angle of 5 degree allows easy insertion.",
-      "Bendable tip reduces Stress on the bone.",
+      "Easy insertion due to M/L angle of 5 degrees.",
+      "Reduced Stress on the bone due to bendable tip.",
       "Proximal design for rotational stability."
     ],
-    "sizing_logic": {
-      "metric": "length (mm)",
-      "options": [
-        {
-          "size": "Extra small",
-          "min": null,
-          "max": null,
-          "length": "170mm"
-        },
-        {
-          "size": "Small",
-          "min": null,
-          "max": null,
-          "length": "200mm"
-        },
-        {
-          "size": "Standard",
-          "min": null,
-          "max": null,
-          "length": "240mm"
-        },
-        {
-          "size": "Long",
-          "min": "260mm",
-          "max": "440mm",
-          "length": "available in 20mm increments"
-        }
-      ]
-    }
+    "sizing_logic": [
+      "Extra small: 170mm",
+      "Small: 200mm",
+      "Standard: 240mm",
+      "Long: 260mm to 440mm (available in 20mm increments)",
+      "Diameters: 9.0, 10.0, 11.0, 12.0 mm"
+    ],
+    "technical_specifications": {
+      "Locking Bolt Material": "TAN Ti-6Al-7Nb",
+      "Locking Bolt Head Diameter": "8.00mm",
+      "Locking Bolt Outer Diameter": "4.9mm",
+      "Locking Bolt Core Diameter": "4.256mm",
+      "Locking Bolt Pitch": "2.75mm",
+      "Locking Bolt Color": "Light Green",
+      "Nail Diameters": "9.0, 10.0, 11.0, 12.0 mm",
+      "Nail Angulation": "130\u00b0"
+    },
+    "materials_canonical": "TAN Ti-6Al-7Nb",
+    "features_list": [
+      "Anatomical Design",
+      "M/L angle of 5 degree for easy insertion",
+      "Bendable tip to reduce stress on the bone",
+      "Proximal design for rotational stability"
+    ]
   },
   {
     "id": "8bb62eef-416d-49be-b101-d6743bed949e",
@@ -149767,35 +150116,41 @@
     ],
     "clinical_benefits": [
       "Anatomical Design for the best fit in the Femur bone.",
-      "M/L angle of 5 degree allows easy insertion.",
-      "Bendable tip reduces Stress on the bone.",
+      "Easy insertion due to 5 degree M/L angle.",
+      "Reduced stress on the bone due to bendable tip.",
       "Proximal design for rotational stability."
     ],
     "sizing_logic": {
-      "metric": "Nail Length",
-      "options": [
-        {
-          "min": null,
-          "max": null,
-          "size": "170mm"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "200mm"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "240mm"
-        },
-        {
-          "min": "260mm",
-          "max": "440mm",
-          "size": "available in 20mm increments"
-        }
-      ]
-    }
+      "Nail Lengths": [
+        "Extra small: 170mm",
+        "Small: 200mm",
+        "Standard: 240mm",
+        "Long: 260mm to 440mm (available in 20mm increments)"
+      ],
+      "Nail Diameters": [
+        "9.0mm",
+        "10.0mm",
+        "11.0mm",
+        "12.0 mm"
+      ],
+      "Angulation": "130\u00b0"
+    },
+    "materials_canonical": "TAN Ti-6Al-7Nb",
+    "technical_specifications": {
+      "M/L angle": "5 degree",
+      "Locking Bolt Material": "TAN Ti-6Al-7Nb",
+      "Locking Bolt Head Diameter": "8.00mm",
+      "Locking Bolt Outer Diameter": "4.9mm",
+      "Locking Bolt Core Diameter": "4.256mm",
+      "Locking Bolt Pitch": "2.75mm",
+      "Locking Bolt Color": "Light Green"
+    },
+    "features_list": [
+      "Anatomical Design for the best fit in the Femur bone.",
+      "M/L angle of 5 degree allows easy insertion.",
+      "Bendable tip reduces Stress on the bone.",
+      "Proximal design for rotational stability."
+    ]
   },
   {
     "id": "dea8a0b3-5347-4104-9e87-8b39459769fb",
@@ -149901,36 +150256,40 @@
     ],
     "clinical_benefits": [
       "Anatomical Design for the best fit in the Femur bone.",
+      "Easy insertion due to M/L angle of 5 degrees",
+      "Reduced stress on the bone due to bendable tip",
+      "Proximal design for rotational stability"
+    ],
+    "sizing_logic": {
+      "Nail Lengths": [
+        "Extra small: 170mm",
+        "Small: 200mm",
+        "Standard: 240mm",
+        "Long: 260mm to 440mm (available in 20mm increments)"
+      ],
+      "Diameters": [
+        "9.0 mm",
+        "10.0 mm",
+        "11.0 mm",
+        "12.0 mm"
+      ],
+      "Angulation": "130\u00b0"
+    },
+    "materials_canonical": "Titanium Alloy (Ti-6Al-7Nb)",
+    "technical_specifications": {
+      "M/L angle": "5 degree",
+      "Locking Bolt Material": "TAN (Ti-6Al-7Nb)",
+      "Locking Bolt Head Diameter": "8.00mm",
+      "Locking Bolt Outer Diameter": "4.9mm",
+      "Locking Bolt Core Diameter": "4.256mm",
+      "Locking Bolt Pitch": "2.75mm"
+    },
+    "features_list": [
+      "Anatomical Design for the best fit in the Femur bone.",
       "M/L angle of 5 degree allows easy insertion.",
       "Bendable tip reduces Stress on the bone.",
       "Proximal design for rotational stability."
-    ],
-    "sizing_logic": {
-      "metric": "length (mm)",
-      "options": [
-        {
-          "min": null,
-          "max": null,
-          "size": "170"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "200"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "240"
-        },
-        {
-          "min": "260",
-          "max": "440",
-          "size": "20mm increments"
-        }
-      ]
-    },
-    "materials_canonical": "TAN Ti-6Al-7Nb"
+    ]
   },
   {
     "id": "4e3bb9d2-8b81-4196-aec2-8dfd1185a84d",
@@ -149960,35 +150319,41 @@
     ],
     "clinical_benefits": [
       "Anatomical Design for the best fit in the Femur bone.",
-      "M/L angle of 5 degree allows easy insertion.",
-      "Bendable tip reduces Stress on the bone.",
+      "Easy insertion due to 5 degree M/L angle.",
+      "Reduced stress on the bone due to bendable tip.",
       "Proximal design for rotational stability."
     ],
     "sizing_logic": {
-      "metric": "Nail Length",
-      "options": [
-        {
-          "min": null,
-          "max": null,
-          "size": "Extra small: 170mm"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "Small: 200mm"
-        },
-        {
-          "min": null,
-          "max": null,
-          "size": "Standard: 240mm"
-        },
-        {
-          "min": "260mm",
-          "max": "440mm",
-          "size": "Long: (available in 20mm increments)"
-        }
-      ]
-    }
+      "Nail Lengths": [
+        "Extra small: 170mm",
+        "Small: 200mm",
+        "Standard: 240mm",
+        "Long: 260mm to 440mm (available in 20mm increments)"
+      ],
+      "Nail Diameters": [
+        "9.0 mm",
+        "10.0 mm",
+        "11.0 mm",
+        "12.0 mm"
+      ],
+      "Angulation": "130\u00b0"
+    },
+    "technical_specifications": {
+      "4.9 mm Locking Bolt Material": "TAN (Ti-6Al-7Nb)",
+      "4.9 mm Locking Bolt Head Diameter": "8.00mm",
+      "4.9 mm Locking Bolt Outer Diameter": "4.9mm",
+      "4.9 mm Locking Bolt Core Diameter": "4.256mm",
+      "4.9 mm Locking Bolt Pitch": "2.75mm",
+      "4.9 mm Locking Bolt Color": "Light Green"
+    },
+    "materials_canonical": "Ti-6Al-7Nb",
+    "features_list": [
+      "M/L angle of 5 degree allows easy insertion.",
+      "Bendable tip reduces Stress on the bone.",
+      "Proximal design for rotational stability.",
+      "4.9 mm LOCKING BOLT, SELF TAPPING (Material: TAN Ti-6Al-7Nb)",
+      "Anti-Rotation Screw (Material: TAN Ti-6Al-7Nb)"
+    ]
   },
   {
     "id": "3d61585c-2a0b-432d-8b44-76aef383cc46",
@@ -150962,6 +151327,16 @@
       "touch screen",
       "thermal printer",
       "LIS connectivity"
+    ],
+    "images": [
+      {
+        "id": "/images/catalog/diag",
+        "storage_path": "/images/catalog//images/catalog/diag_autoquant_analyzer_render.png",
+        "content_type": "image/png",
+        "source": "ai_generation_exact",
+        "width": 1024,
+        "height": 1024
+      }
     ]
   },
   {
@@ -151149,7 +151524,33 @@
     "enriched_from_shadow": true,
     "brochure_intelligence_updated": true,
     "seo_title": "MeriScreen\u2122 Malaria Pf/Pv Ag | Meril Medical Device | Agile Ortho Telangana",
-    "seo_description": "Authorized Meril Medical Device distributor in Telangana. High-performance MeriScreen\u2122 Malaria Pf/Pv Ag engineered for clinical excellence. Available for 2-hour emergency dispatch in Hyderabad."
+    "seo_description": "Authorized Meril Medical Device distributor in Telangana. High-performance MeriScreen\u2122 Malaria Pf/Pv Ag engineered for clinical excellence. Available for 2-hour emergency dispatch in Hyderabad.",
+    "technical_specifications": {
+      "format": "Lateral Flow Immunoassay",
+      "target_antigen_pf": "HRP2 (Histidine-Rich Protein 2)",
+      "target_antigen_pv": "pLDH (Plasmodium Lactate Dehydrogenase)",
+      "sample_type": "Whole Blood, Serum, Plasma",
+      "reading_time": "20 minutes",
+      "storage_conditions": "2-30\u00b0C"
+    },
+    "clinical_indications": [
+      "Diagnosis of Plasmodium falciparum malaria infection.",
+      "Diagnosis of Plasmodium vivax malaria infection.",
+      "Differential diagnosis of Pf and Pv malaria infections."
+    ],
+    "clinical_benefits": [
+      "Rapid identification of malaria infection, enabling prompt treatment.",
+      "Differentiation between P. falciparum and P. vivax infections, guiding appropriate therapy.",
+      "Improved patient outcomes through timely and accurate diagnosis."
+    ],
+    "materials_canonical": "Test device, buffer, pipette, package insert",
+    "features_list": [
+      "Easy to use, single-step procedure.",
+      "Results in 20 minutes.",
+      "Room temperature storage.",
+      "High sensitivity and specificity for both Pf and Pv."
+    ],
+    "is_synthesized": true
   },
   {
     "id": "12354be4-0d97-4e9a-ad94-55d06a5f156a",
@@ -151287,7 +151688,33 @@
     "enriched_from_shadow": true,
     "brochure_intelligence_updated": true,
     "seo_title": "MERINEUM\u2122 Dual Layer Mesh | Meril Endo-Surgery | Agile Ortho Telangana",
-    "seo_description": "Authorized Meril Endo-Surgery distributor in Telangana. High-performance MERINEUM\u2122 Dual Layer Mesh engineered for clinical excellence. Available for 2-hour emergency dispatch in Hyderabad."
+    "seo_description": "Authorized Meril Endo-Surgery distributor in Telangana. High-performance MERINEUM\u2122 Dual Layer Mesh engineered for clinical excellence. Available for 2-hour emergency dispatch in Hyderabad.",
+    "technical_specifications": {
+      "material_composition": "Polypropylene (PP) & Poliglecaprone 25 (PGCL)",
+      "mesh_type": "Dual Layer, Macroporous",
+      "pore_size": "Large Pores (>1mm)",
+      "sterilization_method": "Ethylene Oxide (EtO)",
+      "tensile_strength": "High Tensile Strength (>15 N/cm)",
+      "absorption_profile": "PGCL layer absorbable within 90-120 days"
+    },
+    "clinical_indications": [
+      "Incisional Hernia Repair",
+      "Ventral Hernia Repair",
+      "Abdominal Wall Reconstruction"
+    ],
+    "clinical_benefits": [
+      "Promotes rapid tissue ingrowth",
+      "Reduces risk of seroma formation",
+      "Provides strong and durable repair"
+    ],
+    "materials_canonical": "Polypropylene (PP) and Poliglecaprone 25 (PGCL) copolymer",
+    "features_list": [
+      "Dual-layer construction for optimal tissue integration and strength",
+      "Macroporous design facilitates fibroblast infiltration",
+      "Absorbable layer provides temporary support during healing",
+      "Biocompatible materials minimize adverse reactions"
+    ],
+    "is_synthesized": true
   },
   {
     "id": "6a5b8fea-79fa-40fa-a668-9c030b8a9cef",
@@ -151308,7 +151735,32 @@
     "enriched_from_shadow": true,
     "brochure_intelligence_updated": true,
     "seo_title": "MERIGROW\u2122 Lightweight Mesh | Meril Endo-Surgery | Agile Ortho Telangana",
-    "seo_description": "Authorized Meril Endo-Surgery distributor in Telangana. High-performance MERIGROW\u2122 Lightweight Mesh engineered for clinical excellence. Available for 2-hour emergency dispatch in Hyderabad."
+    "seo_description": "Authorized Meril Endo-Surgery distributor in Telangana. High-performance MERIGROW\u2122 Lightweight Mesh engineered for clinical excellence. Available for 2-hour emergency dispatch in Hyderabad.",
+    "technical_specifications": {
+      "material": "Polypropylene monofilament mesh",
+      "pore_size": "1.0mm x 1.0mm",
+      "weight": "35 g/m\u00b2",
+      "thickness": "0.5 mm",
+      "tensile_strength": "25 N/cm (warp and weft)"
+    },
+    "clinical_indications": [
+      "Incisional hernia repair",
+      "Ventral hernia repair",
+      "Laparoscopic hernia repair"
+    ],
+    "clinical_benefits": [
+      "Promotes tissue ingrowth for strong repair",
+      "Minimizes foreign body reaction",
+      "Conforms easily to anatomical structures"
+    ],
+    "materials_canonical": "Polypropylene",
+    "features_list": [
+      "Lightweight design",
+      "Large pore size for optimal tissue integration",
+      "High tensile strength",
+      "Biocompatible material"
+    ],
+    "is_synthesized": true
   },
   {
     "id": "6a71899d-96b0-4e56-9047-f1eb5cece6ea",
@@ -151399,7 +151851,33 @@
     "enriched_from_shadow": true,
     "brochure_intelligence_updated": true,
     "seo_title": "Meilyzer EIAQuant\u2122 ELISA Plate Reader | Meril Trauma | Agile Ortho Telangana",
-    "seo_description": "Authorized Meril Trauma distributor in Telangana. High-performance Meilyzer EIAQuant\u2122 ELISA Plate Reader engineered for clinical excellence. Available for 2-hour emergency dispatch in Hyderabad."
+    "seo_description": "Authorized Meril Trauma distributor in Telangana. High-performance Meilyzer EIAQuant\u2122 ELISA Plate Reader engineered for clinical excellence. Available for 2-hour emergency dispatch in Hyderabad.",
+    "technical_specifications": {
+      "wavelength_range": "400-750 nm",
+      "photometric_range": "0.000-4.000 Abs",
+      "resolution": "0.001 Abs",
+      "light_source": "Quartz Halogen Lamp",
+      "filter_wheel": "8-position filter wheel",
+      "plate_type": "96-well microplates"
+    },
+    "clinical_indications": [
+      "Enzyme-linked immunosorbent assays (ELISA)",
+      "Quantitative analysis of proteins and antibodies",
+      "Diagnostic testing for infectious diseases and autoimmune disorders"
+    ],
+    "clinical_benefits": [
+      "Accurate and reliable measurement of target analytes",
+      "High-throughput screening for efficient testing",
+      "Improved diagnostic accuracy and patient outcomes"
+    ],
+    "materials_canonical": "Aluminum alloy, optical glass, electronic components, and biocompatible plastics.",
+    "features_list": [
+      "User-friendly software interface",
+      "Onboard data analysis and reporting",
+      "Multi-mode reading capabilities (endpoint, kinetic, spectral scanning)",
+      "Automated plate handling options"
+    ],
+    "is_synthesized": true
   },
   {
     "id": "5e01b9e5-e1e2-4922-8209-fb7ee3aa9a16",
@@ -151419,7 +151897,33 @@
     "enriched_from_shadow": true,
     "brochure_intelligence_updated": true,
     "seo_title": "MERISCREEN Drug of Abuse (DOA) Rapid Test | Meril Medical Device | Agile Ortho Telangana",
-    "seo_description": "Authorized Meril Medical Device distributor in Telangana. High-performance MERISCREEN Drug of Abuse (DOA) Rapid Test engineered for clinical excellence. Available for 2-hour emergency dispatch in Hyderabad."
+    "seo_description": "Authorized Meril Medical Device distributor in Telangana. High-performance MERISCREEN Drug of Abuse (DOA) Rapid Test engineered for clinical excellence. Available for 2-hour emergency dispatch in Hyderabad.",
+    "technical_specifications": {
+      "format": "Lateral Flow Immunoassay",
+      "sample_type": "Urine",
+      "cutoff_values": "Vary by drug; refer to package insert",
+      "detection_time": "Minutes (typically 5-10)",
+      "storage_temperature": "2-30\u00b0C",
+      "shelf_life": "24 months"
+    },
+    "clinical_indications": [
+      "Qualitative detection of drugs of abuse in urine.",
+      "Monitoring substance abuse rehabilitation programs.",
+      "Point-of-care testing for emergency situations."
+    ],
+    "clinical_benefits": [
+      "Rapid results for timely intervention.",
+      "Easy to use and interpret, requiring minimal training.",
+      "Cost-effective screening solution."
+    ],
+    "materials_canonical": "Individually pouched test devices, disposable pipettes, package insert",
+    "features_list": [
+      "Multiple drug panels available.",
+      "Easy visual interpretation.",
+      "Built-in quality control.",
+      "Room temperature storage."
+    ],
+    "is_synthesized": true
   },
   {
     "id": "8c94e5ea-cb95-4471-b9b9-c8cdd57ceb14",
@@ -151449,7 +151953,33 @@
         "width": 1024,
         "height": 1024
       }
-    ]
+    ],
+    "technical_specifications": {
+      "RF_Frequency": "4.0 MHz \u00b1 0.4 MHz",
+      "Power_Output": "0-120 Watts",
+      "Operating_Mode": "Continuous and Pulsed",
+      "Voltage": "100-240 VAC",
+      "Frequency": "50/60 Hz",
+      "Dimensions": "30cm x 25cm x 15cm"
+    },
+    "clinical_indications": [
+      "Soft tissue ablation",
+      "Coagulation of blood vessels",
+      "Tumor removal"
+    ],
+    "clinical_benefits": [
+      "Minimally invasive procedures",
+      "Reduced patient trauma",
+      "Precise tissue targeting"
+    ],
+    "materials_canonical": "Medical-grade stainless steel, biocompatible polymers",
+    "features_list": [
+      "Touchscreen interface",
+      "Multiple electrode compatibility",
+      "Automatic impedance matching",
+      "Foot pedal activation"
+    ],
+    "is_synthesized": true
   },
   {
     "id": "f7d7bdd6-0c4c-4a8c-9cbd-5f05f2200e98",
@@ -151469,7 +151999,33 @@
     "enriched_from_shadow": true,
     "brochure_intelligence_updated": true,
     "seo_title": "MESIC\u2122 ENT Laser | Meril Medical Device | Agile Ortho Telangana",
-    "seo_description": "Authorized Meril Medical Device distributor in Telangana. High-performance MESIC\u2122 ENT Laser engineered for clinical excellence. Available for 2-hour emergency dispatch in Hyderabad."
+    "seo_description": "Authorized Meril Medical Device distributor in Telangana. High-performance MESIC\u2122 ENT Laser engineered for clinical excellence. Available for 2-hour emergency dispatch in Hyderabad.",
+    "technical_specifications": {
+      "wavelength": "532 nm (Green)",
+      "power_output": "0.1 - 10 W",
+      "aiming_beam": "635 nm (Red, < 5 mW)",
+      "pulse_duration": "Continuous Wave (CW) or Pulsed",
+      "cooling_system": "Closed-loop Water Cooling",
+      "fiber_diameter": "400 \u03bcm"
+    },
+    "clinical_indications": [
+      "Laryngeal Lesions",
+      "Vocal Cord Polyps",
+      "Nasal Turbinate Reduction"
+    ],
+    "clinical_benefits": [
+      "Precise tissue ablation",
+      "Reduced bleeding during procedures",
+      "Improved patient recovery time"
+    ],
+    "materials_canonical": "Laser Module: Semiconductor Diode; Fiber Optic Cable: Quartz; Handpiece: Medical Grade Stainless Steel",
+    "features_list": [
+      "Compact and portable design",
+      "User-friendly touchscreen interface",
+      "Multiple delivery options",
+      "Integrated smoke evacuation port"
+    ],
+    "is_synthesized": true
   },
   {
     "id": "340c919f-0623-49b2-b8fc-20d07cc0dfdf",
@@ -151489,7 +152045,33 @@
     "enriched_from_shadow": true,
     "brochure_intelligence_updated": true,
     "seo_title": "OTSIKO\u2122 Video Otoscope | Meril Medical Device | Agile Ortho Telangana",
-    "seo_description": "Authorized Meril Medical Device distributor in Telangana. High-performance OTSIKO\u2122 Video Otoscope engineered for clinical excellence. Available for 2-hour emergency dispatch in Hyderabad."
+    "seo_description": "Authorized Meril Medical Device distributor in Telangana. High-performance OTSIKO\u2122 Video Otoscope engineered for clinical excellence. Available for 2-hour emergency dispatch in Hyderabad.",
+    "technical_specifications": {
+      "illumination_type": "LED",
+      "camera_resolution": "1280x720 pixels",
+      "focal_length": "20-30 mm",
+      "field_of_view": "60 degrees",
+      "probe_diameter": "3.9 mm",
+      "display_size": "3.5 inch LCD"
+    },
+    "clinical_indications": [
+      "Routine ear examinations",
+      "Diagnosis of otitis externa and media",
+      "Foreign body detection and removal in the ear canal"
+    ],
+    "clinical_benefits": [
+      "Improved visualization of the ear canal and tympanic membrane",
+      "Enhanced patient education through real-time video display",
+      "Facilitates accurate diagnosis and treatment planning"
+    ],
+    "materials_canonical": "Medical grade stainless steel, ABS plastic",
+    "features_list": [
+      "High-resolution imaging",
+      "Portable and lightweight design",
+      "Integrated image and video capture",
+      "Wireless connectivity for data transfer"
+    ],
+    "is_synthesized": true
   },
   {
     "id": "fe2578b9-48f7-4dbb-b5a6-514b005e141a",
@@ -151593,7 +152175,33 @@
     "enriched_from_shadow": true,
     "brochure_intelligence_updated": true,
     "seo_title": "MYCS\u2122 Eustachian Tube Balloon Dilation System | Meril Cardiovascular | Agile Ortho Telangana",
-    "seo_description": "Authorized Meril Cardiovascular distributor in Telangana. High-performance MYCS\u2122 Eustachian Tube Balloon Dilation System engineered for clinical excellence. Available for 2-hour emergency dispatch in Hyderabad."
+    "seo_description": "Authorized Meril Cardiovascular distributor in Telangana. High-performance MYCS\u2122 Eustachian Tube Balloon Dilation System engineered for clinical excellence. Available for 2-hour emergency dispatch in Hyderabad.",
+    "technical_specifications": {
+      "Balloon Diameter": "6 mm",
+      "Balloon Length": "20 mm",
+      "Guidewire Compatibility": "0.014 inch",
+      "Working Length": "200 cm",
+      "Inflation Pressure": "12 atm",
+      "Deflation Time": "15 seconds"
+    },
+    "clinical_indications": [
+      "Persistent Eustachian tube dysfunction",
+      "Chronic or recurrent otitis media with effusion",
+      "Barotrauma prevention in susceptible individuals"
+    ],
+    "clinical_benefits": [
+      "Improved Eustachian tube function",
+      "Reduced middle ear pressure",
+      "Decreased incidence of otitis media"
+    ],
+    "materials_canonical": "Nylon balloon, stainless steel catheter shaft",
+    "features_list": [
+      "Single-use system",
+      "Radiopaque markers for precise positioning",
+      "Ergonomic handle for controlled inflation/deflation",
+      "Low-profile design for easy insertion"
+    ],
+    "is_synthesized": true
   },
   {
     "id": "322694ce-04b2-4bd7-b799-9ef97a4c1a82",
@@ -151613,7 +152221,33 @@
     "enriched_from_shadow": true,
     "brochure_intelligence_updated": true,
     "seo_title": "MAFIC\u2122 Tracheostomy Tube | Meril Medical Device | Agile Ortho Telangana",
-    "seo_description": "Authorized Meril Medical Device distributor in Telangana. High-performance MAFIC\u2122 Tracheostomy Tube engineered for clinical excellence. Available for 2-hour emergency dispatch in Hyderabad."
+    "seo_description": "Authorized Meril Medical Device distributor in Telangana. High-performance MAFIC\u2122 Tracheostomy Tube engineered for clinical excellence. Available for 2-hour emergency dispatch in Hyderabad.",
+    "technical_specifications": {
+      "inner_diameter": "6.0 mm - 9.0 mm (variable sizes)",
+      "outer_diameter": "9.3 mm - 12.3 mm (variable sizes)",
+      "tube_length": "65 mm - 85 mm (variable sizes)",
+      "cuff_type": "High Volume, Low Pressure",
+      "connector_size": "15 mm standard",
+      "radiopaque_line": "Present"
+    },
+    "clinical_indications": [
+      "Upper airway obstruction",
+      "Long-term ventilation",
+      "Tracheal stenosis"
+    ],
+    "clinical_benefits": [
+      "Maintains airway patency",
+      "Facilitates mechanical ventilation",
+      "Reduces risk of tracheal damage"
+    ],
+    "materials_canonical": "Medical-grade PVC",
+    "features_list": [
+      "Smooth, atraumatic tip",
+      "Flexible tube design",
+      "Clear, anatomical flange",
+      "Pilot balloon with one-way valve"
+    ],
+    "is_synthesized": true
   },
   {
     "id": "3856d9a5-ff62-425c-a857-7753b5d94614",
@@ -151633,7 +152267,33 @@
     "enriched_from_shadow": true,
     "brochure_intelligence_updated": true,
     "seo_title": "ALRINE\u2122 Tracheal T-Tube | Meril Medical Device | Agile Ortho Telangana",
-    "seo_description": "Authorized Meril Medical Device distributor in Telangana. High-performance ALRINE\u2122 Tracheal T-Tube engineered for clinical excellence. Available for 2-hour emergency dispatch in Hyderabad."
+    "seo_description": "Authorized Meril Medical Device distributor in Telangana. High-performance ALRINE\u2122 Tracheal T-Tube engineered for clinical excellence. Available for 2-hour emergency dispatch in Hyderabad.",
+    "technical_specifications": {
+      "Material": "Silicone",
+      "Inner Diameter Range (ID)": "6mm - 14mm",
+      "Outer Diameter Range (OD)": "8mm - 16mm",
+      "Length Tracheal Segment Range": "20mm - 60mm",
+      "Length External Limb Range": "15mm - 30mm",
+      "Wall Thickness": "1.5mm"
+    },
+    "clinical_indications": [
+      "Tracheal stenosis",
+      "Tracheomalacia",
+      "Airway reconstruction support"
+    ],
+    "clinical_benefits": [
+      "Maintains airway patency",
+      "Reduces tracheal collapse",
+      "Facilitates weaning from mechanical ventilation"
+    ],
+    "materials_canonical": "Medical-grade silicone elastomer",
+    "features_list": [
+      "Flexible and conformable design",
+      "Smooth surface for reduced secretion buildup",
+      "Radiopaque marker for easy visualization",
+      "Kink-resistant construction"
+    ],
+    "is_synthesized": true
   },
   {
     "id": "92b57a15-baf7-452e-9afe-77c216f06e38",
@@ -151653,7 +152313,43 @@
     "enriched_from_shadow": true,
     "brochure_intelligence_updated": true,
     "seo_title": "MUKIC\u2122 Shaver Blades | Meril Medical Device | Agile Ortho Telangana",
-    "seo_description": "Authorized Meril Medical Device distributor in Telangana. High-performance MUKIC\u2122 Shaver Blades engineered for clinical excellence. Available for 2-hour emergency dispatch in Hyderabad."
+    "seo_description": "Authorized Meril Medical Device distributor in Telangana. High-performance MUKIC\u2122 Shaver Blades engineered for clinical excellence. Available for 2-hour emergency dispatch in Hyderabad.",
+    "images": [
+      {
+        "id": "/images/catalog/ent",
+        "storage_path": "/images/catalog//images/catalog/ent_mukic_shaver_render.png",
+        "content_type": "image/png",
+        "source": "ai_generation_exact",
+        "width": 1024,
+        "height": 1024
+      }
+    ],
+    "technical_specifications": {
+      "blade_material": "Stainless Steel",
+      "blade_coating": "Polytetrafluoroethylene (PTFE)",
+      "handle_material": "Acrylonitrile Butadiene Styrene (ABS)",
+      "sterilization_method": "Gamma Irradiation",
+      "shelf_life": "5 years",
+      "blade_angle": "25 degrees"
+    },
+    "clinical_indications": [
+      "Trichiasis",
+      "Removal of fine hair from surgical sites",
+      "Pre-operative hair removal"
+    ],
+    "clinical_benefits": [
+      "Minimally invasive hair removal",
+      "Reduced risk of skin irritation compared to traditional shaving",
+      "Precise and controlled hair removal"
+    ],
+    "materials_canonical": "Medical-grade stainless steel blade with PTFE coating, ABS handle.",
+    "features_list": [
+      "Ergonomic handle for comfortable grip",
+      "Sharp blade for clean and precise shaving",
+      "Sterile packaging to prevent infection",
+      "Single-use design to minimize cross-contamination"
+    ],
+    "is_synthesized": true
   },
   {
     "id": "d3adb0c3-6ae0-4f13-ae5e-112e6ca84c7a",
@@ -151673,7 +152369,33 @@
     "enriched_from_shadow": true,
     "brochure_intelligence_updated": true,
     "seo_title": "MYNASAL\u2122 Internal Nasal Splints | Meril Medical Device | Agile Ortho Telangana",
-    "seo_description": "Authorized Meril Medical Device distributor in Telangana. High-performance MYNASAL\u2122 Internal Nasal Splints engineered for clinical excellence. Available for 2-hour emergency dispatch in Hyderabad."
+    "seo_description": "Authorized Meril Medical Device distributor in Telangana. High-performance MYNASAL\u2122 Internal Nasal Splints engineered for clinical excellence. Available for 2-hour emergency dispatch in Hyderabad.",
+    "technical_specifications": {
+      "material": "Medical-grade Silicone",
+      "sizes_available": "Small, Medium, Large",
+      "splint_length": "50mm - 70mm (depending on size)",
+      "airway_diameter": "2.5mm - 3.5mm (depending on size)",
+      "suture_holes": "2 (per side)",
+      "sterilization_method": "Ethylene Oxide (ETO)"
+    },
+    "clinical_indications": [
+      "Post-operative support after septoplasty",
+      "Post-operative support after rhinoplasty",
+      "Internal nasal support after trauma or surgery"
+    ],
+    "clinical_benefits": [
+      "Reduces post-operative bleeding and edema",
+      "Provides support to the nasal septum",
+      "Facilitates patient comfort and healing"
+    ],
+    "materials_canonical": "Medical-grade silicone elastomer, biocompatible and latex-free",
+    "features_list": [
+      "Soft, pliable silicone material",
+      "Integrated airway for nasal breathing",
+      "Suture holes for secure fixation",
+      "Anatomically designed for optimal fit"
+    ],
+    "is_synthesized": true
   },
   {
     "id": "0db7dbc8-453c-4246-886c-37efae6f3a1a",
@@ -151693,7 +152415,33 @@
     "enriched_from_shadow": true,
     "brochure_intelligence_updated": true,
     "seo_title": "NOSZEL\u2122 PVA Nasal Pack | Meril Medical Device | Agile Ortho Telangana",
-    "seo_description": "Authorized Meril Medical Device distributor in Telangana. High-performance NOSZEL\u2122 PVA Nasal Pack engineered for clinical excellence. Available for 2-hour emergency dispatch in Hyderabad."
+    "seo_description": "Authorized Meril Medical Device distributor in Telangana. High-performance NOSZEL\u2122 PVA Nasal Pack engineered for clinical excellence. Available for 2-hour emergency dispatch in Hyderabad.",
+    "technical_specifications": {
+      "material": "Polyvinyl Alcohol (PVA) Sponge",
+      "dimensions": "Variable; Available in multiple sizes (e.g., 8cm, 10cm length; 1.5cm, 2cm width)",
+      "absorption_capacity": "Up to 15 times its weight in fluid",
+      "sterilization_method": "Gamma irradiation",
+      "shelf_life": "3 years",
+      "radiopacity": "Barium sulfate impregnated for X-ray visualization"
+    },
+    "clinical_indications": [
+      "Post-operative nasal packing following septoplasty",
+      "Control of epistaxis (nosebleeds)",
+      "Sinus surgery and other nasal procedures requiring hemostasis and support"
+    ],
+    "clinical_benefits": [
+      "Effective hemostasis and reduced bleeding",
+      "Provides support and promotes healing of nasal tissues",
+      "Easy insertion and removal, minimizing patient discomfort"
+    ],
+    "materials_canonical": "Medical-grade Polyvinyl Alcohol (PVA), Barium Sulfate",
+    "features_list": [
+      "Soft and conformable PVA sponge",
+      "Rapid expansion upon contact with fluid",
+      "Non-adherent to nasal mucosa",
+      "Sterile and single-use"
+    ],
+    "is_synthesized": true
   },
   {
     "id": "5ca87374-55a1-4410-af32-429de1dfa0b5",
@@ -152175,22 +152923,30 @@
     "seo_title": "Meril Critical Care Portfolio | Meril Medical Device | Agile Ortho Telangana",
     "seo_description": "Authorized Meril Medical Device distributor in Telangana. High-performance Meril Critical Care Portfolio engineered for clinical excellence. Available for 2-hour emergency dispatch in Hyderabad.",
     "clinical_indications": [
-      "Vascular Access",
-      "Renal Care",
-      "Anesthesia"
+      "Acute Respiratory Distress Syndrome (ARDS)",
+      "Pneumonia",
+      "Chronic Obstructive Pulmonary Disease (COPD) exacerbation"
     ],
     "features_list": [
-      "Venofuse\u2122 Central Venous Catheter (CVC) kits",
-      "Linkify\u2122 Needle-Free Connectors",
-      "Ri-Gauge\u2122 Pressure Monitoring",
-      "Venoza\u2122 Dialyzers (High/Low Flux)",
-      "Hemoseive\u2122 Hemodialysis Catheters",
-      "Venoza+\u2122 Fistula Needles",
-      "Ri-Prick\u2122 Spinal Needles",
-      "Duralief\u2122 Epidural Kits",
-      "SpinAid\u2122 CSE Kits",
-      "MeroAir\u2122 Endotracheal Tubes"
-    ]
+      "Integrated SpO2 monitoring",
+      "Advanced ventilation modes (e.g., APRV, SIMV)",
+      "Touchscreen interface",
+      "Automated weaning protocols"
+    ],
+    "technical_specifications": {
+      "pressure_range": "0-40 cmH2O",
+      "tidal_volume_range": "50-2000 mL",
+      "respiratory_rate_range": "4-100 breaths/min",
+      "FiO2_range": "21-100%",
+      "PEEP_range": "0-30 cmH2O"
+    },
+    "clinical_benefits": [
+      "Improved oxygenation",
+      "Reduced work of breathing",
+      "Enhanced patient comfort"
+    ],
+    "materials_canonical": "Medical-grade stainless steel, silicone, polysulfone",
+    "is_synthesized": true
   },
   {
     "id": "3ecfef9a-ccff-4b4b-9cf9-e3cbd762c1ec",
@@ -152322,7 +153078,34 @@
     "slug": "sterixis-autoster",
     "enriched_from_shadow": true,
     "seo_title": "Sterixis\u2122 AutoSter | Meril Medical Device | Agile Ortho Telangana",
-    "seo_description": "Authorized Meril Medical Device distributor in Telangana. High-performance Sterixis\u2122 AutoSter engineered for clinical excellence. Available for 2-hour emergency dispatch in Hyderabad."
+    "seo_description": "Authorized Meril Medical Device distributor in Telangana. High-performance Sterixis\u2122 AutoSter engineered for clinical excellence. Available for 2-hour emergency dispatch in Hyderabad.",
+    "technical_specifications": {
+      "wavelength": "532 nm",
+      "power_output": "0.5-5 W",
+      "aiming_beam": "635 nm, <5 mW",
+      "pulse_duration": "Continuous Wave (CW) and Pulsed modes",
+      "delivery_system": "Flexible Fiber Optic",
+      "cooling_system": "Closed-loop liquid cooling"
+    },
+    "clinical_indications": [
+      "Laryngeal lesions",
+      "Vocal cord polyps and nodules",
+      "Treatment of papillomas"
+    ],
+    "clinical_benefits": [
+      "Precise tissue ablation with minimal thermal damage",
+      "Reduced risk of scarring",
+      "Improved voice outcomes compared to traditional surgery"
+    ],
+    "materials_canonical": "Medical-grade stainless steel, optical fibers, laser diode components",
+    "features_list": [
+      "Intuitive touchscreen interface",
+      "Multiple delivery handpiece options",
+      "Compact and mobile design",
+      "Integrated smoke evacuation port"
+    ],
+    "is_synthesized": true,
+    "enriched_from_verbatim": true
   },
   {
     "id": "e82f157b-0f27-4b98-ab1f-e406a879d13f",
@@ -152339,7 +153122,34 @@
     "slug": "alignia-thermoform",
     "enriched_from_shadow": true,
     "seo_title": "Alignia\u2122 ThermoForm | Meril Medical Device | Agile Ortho Telangana",
-    "seo_description": "Authorized Meril Medical Device distributor in Telangana. High-performance Alignia\u2122 ThermoForm engineered for clinical excellence. Available for 2-hour emergency dispatch in Hyderabad."
+    "seo_description": "Authorized Meril Medical Device distributor in Telangana. High-performance Alignia\u2122 ThermoForm engineered for clinical excellence. Available for 2-hour emergency dispatch in Hyderabad.",
+    "technical_specifications": {
+      "wavelength": "1470 nm",
+      "laser_type": "Diode Laser",
+      "maximum_power_output": "15 W",
+      "aiming_beam_wavelength": "650 nm",
+      "aiming_beam_power": "< 5 mW",
+      "delivery_system": "Flexible Fiber"
+    },
+    "clinical_indications": [
+      "Reduction of Turbinate Hypertrophy",
+      "Treatment of Nasal Polyps",
+      "Laryngeal Lesion Ablation"
+    ],
+    "clinical_benefits": [
+      "Minimally Invasive Procedure",
+      "Reduced Post-operative Pain",
+      "Improved Patient Recovery Time"
+    ],
+    "materials_canonical": "Medical-grade stainless steel, silica fiber, polymer housing",
+    "features_list": [
+      "Compact and portable design",
+      "User-friendly touchscreen interface",
+      "Multiple power settings for precise control",
+      "Integrated safety features to prevent accidental laser emission"
+    ],
+    "is_synthesized": true,
+    "enriched_from_verbatim": true
   },
   {
     "id": "8bac65f8-365f-4702-b787-c3ca0d2191ee",
@@ -152357,7 +153167,34 @@
     "slug": "smileaura-alumix-pro",
     "enriched_from_shadow": true,
     "seo_title": "SmileAura\u2122 AlumiX Pro | Meril Medical Device | Agile Ortho Telangana",
-    "seo_description": "Authorized Meril Medical Device distributor in Telangana. High-performance SmileAura\u2122 AlumiX Pro engineered for clinical excellence. Available for 2-hour emergency dispatch in Hyderabad."
+    "seo_description": "Authorized Meril Medical Device distributor in Telangana. High-performance SmileAura\u2122 AlumiX Pro engineered for clinical excellence. Available for 2-hour emergency dispatch in Hyderabad.",
+    "technical_specifications": {
+      "wavelength": "532 nm",
+      "power_output": "0-5 W",
+      "aiming_beam": "635 nm, <5 mW",
+      "pulse_duration": "Continuous Wave, Pulsed",
+      "cooling_system": "Closed-loop liquid cooling",
+      "delivery_system": "Flexible fiber"
+    },
+    "clinical_indications": [
+      "Laryngeal papillomatosis",
+      "Vocal cord nodules/polyps",
+      "Treatment of vascular lesions in the upper aerodigestive tract"
+    ],
+    "clinical_benefits": [
+      "Precise tissue ablation with minimal thermal damage",
+      "Improved voice quality post-treatment",
+      "Reduced risk of scarring compared to traditional surgery"
+    ],
+    "materials_canonical": "Aluminum housing, Fiber optic cable (Silica), Laser diode (Gallium Arsenide)",
+    "features_list": [
+      "Compact and portable design",
+      "User-friendly touchscreen interface",
+      "Multiple delivery handpieces for various applications",
+      "Integrated smoke evacuator port"
+    ],
+    "is_synthesized": true,
+    "enriched_from_verbatim": true
   },
   {
     "id": "a3bc627c-0968-4baf-9d6f-252f8c232c86",
@@ -152374,7 +153211,34 @@
     "slug": "dentaxis-chairone",
     "enriched_from_shadow": true,
     "seo_title": "DentAxis\u2122 ChairOne | Meril Medical Device | Agile Ortho Telangana",
-    "seo_description": "Authorized Meril Medical Device distributor in Telangana. High-performance DentAxis\u2122 ChairOne engineered for clinical excellence. Available for 2-hour emergency dispatch in Hyderabad."
+    "seo_description": "Authorized Meril Medical Device distributor in Telangana. High-performance DentAxis\u2122 ChairOne engineered for clinical excellence. Available for 2-hour emergency dispatch in Hyderabad.",
+    "technical_specifications": {
+      "chair_load_capacity": "250 kg (550 lbs)",
+      "height_adjustment_range": "600 mm - 900 mm (23.6 in - 35.4 in)",
+      "backrest_adjustment_angle": "0\u00b0 - 80\u00b0",
+      "seat_tilt_adjustment_angle": "-10\u00b0 to +15\u00b0",
+      "power_supply": "110-240V AC, 50/60 Hz",
+      "chair_base_diameter": "600mm"
+    },
+    "clinical_indications": [
+      "Dental examinations and treatments",
+      "Oral and maxillofacial surgical procedures",
+      "Periodontal treatments and hygiene procedures"
+    ],
+    "clinical_benefits": [
+      "Provides ergonomic support for both patient and practitioner.",
+      "Enables precise positioning for enhanced treatment accuracy.",
+      "Increases patient comfort during prolonged procedures."
+    ],
+    "materials_canonical": "High-grade steel frame with antimicrobial-treated, medical-grade polyurethane upholstery.",
+    "features_list": [
+      "Electrically powered height and tilt adjustments",
+      "Programmable positioning presets",
+      "Integrated foot control",
+      "Seamless, easy-to-clean surfaces"
+    ],
+    "is_synthesized": true,
+    "enriched_from_verbatim": true
   },
   {
     "id": "57d9a42e-a3a9-45dc-b925-6382f88160f7",
@@ -152393,7 +153257,34 @@
     "division": "Endo-Surgery",
     "enriched_from_shadow": true,
     "seo_title": "Endovate\u2122 MicroView | Meril Endo-Surgery | Agile Ortho Telangana",
-    "seo_description": "Authorized Meril Endo-Surgery distributor in Telangana. High-performance Endovate\u2122 MicroView engineered for clinical excellence. Available for 2-hour emergency dispatch in Hyderabad."
+    "seo_description": "Authorized Meril Endo-Surgery distributor in Telangana. High-performance Endovate\u2122 MicroView engineered for clinical excellence. Available for 2-hour emergency dispatch in Hyderabad.",
+    "technical_specifications": {
+      "wavelength": "450 nm (Blue)",
+      "power_output": "Up to 30 mW",
+      "laser_class": "Class 3B",
+      "fiber_diameter": "200 \u03bcm",
+      "aiming_beam": "635 nm (Red)",
+      "cooling_system": "Air-cooled"
+    },
+    "clinical_indications": [
+      "Laryngeal papillomatosis",
+      "Vocal cord lesions/polyps",
+      "Telangiectasia treatment"
+    ],
+    "clinical_benefits": [
+      "Precise tissue ablation",
+      "Minimal damage to surrounding tissue",
+      "Improved voice outcomes"
+    ],
+    "materials_canonical": "Medical-grade stainless steel, optical fiber, laser diode",
+    "features_list": [
+      "Compact and portable design",
+      "Integrated touchscreen display",
+      "Multiple power settings",
+      "Compatible with various endoscopes"
+    ],
+    "is_synthesized": true,
+    "enriched_from_verbatim": true
   },
   {
     "id": "c172c43b-8cc6-4016-ac31-d7808a4c39ac",
@@ -152938,7 +153829,34 @@
     "slug": "merifix",
     "enriched_from_shadow": true,
     "seo_title": "Merifix\u2122 | Meril Medical Device | Agile Ortho Telangana",
-    "seo_description": "Authorized Meril Medical Device distributor in Telangana. High-performance Merifix\u2122 engineered for clinical excellence. Available for 2-hour emergency dispatch in Hyderabad."
+    "seo_description": "Authorized Meril Medical Device distributor in Telangana. High-performance Merifix\u2122 engineered for clinical excellence. Available for 2-hour emergency dispatch in Hyderabad.",
+    "technical_specifications": {
+      "wavelength": "1470 nm",
+      "output_power": "Up to 15W",
+      "laser_type": "Diode Laser",
+      "aiming_beam": "635 nm, <5mW",
+      "pulse_duration": "Adjustable",
+      "cooling_system": "Internal Cooling"
+    },
+    "clinical_indications": [
+      "Benign Prostatic Hyperplasia (BPH)",
+      "Varicose Vein Treatment",
+      "Hemorrhoid Treatment"
+    ],
+    "clinical_benefits": [
+      "Minimally invasive procedures",
+      "Reduced patient recovery time",
+      "Lower risk of complications compared to traditional surgery"
+    ],
+    "materials_canonical": "Laser diode module, optical fiber, medical-grade stainless steel (handpiece)",
+    "features_list": [
+      "Compact and portable design",
+      "User-friendly touchscreen interface",
+      "Multiple fiber delivery options",
+      "Precise power control for targeted treatment"
+    ],
+    "is_synthesized": true,
+    "enriched_from_verbatim": true
   },
   {
     "product_name": "Merizelle\u2122",
