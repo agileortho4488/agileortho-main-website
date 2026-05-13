@@ -206,6 +206,14 @@ export default function PremiumHeader() {
               >
                 <Search className="w-5 h-5" />
               </button>
+              <a
+                href="https://agileortho.shop"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-muted-foreground hover:text-white transition-colors px-4 border-r border-white/10"
+              >
+                Shop
+              </a>
               <Link
                 href="/contact"
                 className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-muted-foreground hover:text-white transition-colors px-4"

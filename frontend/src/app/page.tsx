@@ -282,7 +282,7 @@ export default function Home() {
                 </div>
              </div>
              
-             <div className="grid grid-cols-2 lg:grid-cols-4 gap-16 w-full max-w-4xl">
+             <div className="grid grid-cols-2 lg:grid-cols-5 gap-16 w-full max-w-5xl">
                 <div>
                   <h5 className="text-[10px] font-black uppercase tracking-[0.4em] text-primary mb-8">Surgical Desk</h5>
                   <ul className="space-y-4 text-sm font-bold opacity-60 hover:opacity-100 transition-opacity">
@@ -302,6 +302,13 @@ export default function Home() {
                     <li><Link href="/districts/mahbubnagar">Mahabubnagar</Link></li>
                     <li><Link href="/districts/nalgonda">Nalgonda</Link></li>
                     <li><Link href="/districts" className="text-primary">All 33 Districts</Link></li>
+                  </ul>
+                </div>
+                <div>
+                  <h5 className="text-[10px] font-black uppercase tracking-[0.4em] text-primary mb-8">Group Sites</h5>
+                  <ul className="space-y-4 text-sm font-bold opacity-60 hover:opacity-100 transition-opacity">
+                    <li><a href="https://agileortho.shop" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-primary transition-colors">Agile Shop <ExternalLink className="w-3 h-3" /></a></li>
+                    <li><a href="https://agileortho.in" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-primary transition-colors">Agile Ortho <ExternalLink className="w-3 h-3" /></a></li>
                   </ul>
                 </div>
                 <div>
