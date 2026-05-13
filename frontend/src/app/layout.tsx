@@ -23,6 +23,7 @@ const mono = IBM_Plex_Mono({
 });
 
 import ClientWidgetWrapper from '../components/ClientWidgetWrapper';
+import '../index.css';
 
 export const metadata: Metadata = {
   title: {
