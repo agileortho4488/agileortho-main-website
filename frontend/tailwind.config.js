@@ -15,9 +15,9 @@ module.exports = {
                         sm: 'calc(var(--radius) - 4px)'
                 },
                 fontFamily: {
-                        heading: ['Outfit', 'sans-serif'],
-                        body: ['Manrope', 'sans-serif'],
-                        mono: ['IBM Plex Mono', 'monospace'],
+                        heading: ['var(--font-sora)', 'sans-serif'],
+                        body: ['var(--font-inter)', 'sans-serif'],
+                        mono: ['var(--font-jetbrains)', 'monospace'],
                 },
                 colors: {
                         background: 'hsl(var(--background))',

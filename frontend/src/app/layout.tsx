@@ -1,26 +1,28 @@
 import type { Metadata } from 'next';
-import { Outfit, Manrope, IBM_Plex_Mono } from 'next/font/google';
+import { Sora, Inter, JetBrains_Mono } from 'next/font/google';
 import dynamic from 'next/dynamic';
 import Script from 'next/script';
 
-const outfit = Outfit({
+const sora = Sora({
   subsets: ['latin'],
-  variable: '--font-outfit',
+  variable: '--font-sora',
   display: 'swap',
 });
 
-const manrope = Manrope({
+const inter = Inter({
   subsets: ['latin'],
-  variable: '--font-manrope',
+  variable: '--font-inter',
   display: 'swap',
 });
 
-const mono = IBM_Plex_Mono({
-  weight: ['400', '500'],
+const jetbrains = JetBrains_Mono({
   subsets: ['latin'],
-  variable: '--font-mono',
+  variable: '--font-jetbrains',
   display: 'swap',
 });
+
+import SmoothScroll from '../components/SmoothScroll';
+import EmergencyOTDispatch from '../components/EmergencyOTDispatch';
 
 import ClientWidgetWrapper from '../components/ClientWidgetWrapper';
 import '../index.css';
@@ -125,7 +127,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${outfit.variable} ${manrope.variable} ${mono.variable}`}>
+    <html lang="en" className={`${sora.variable} ${inter.variable} ${jetbrains.variable}`}>
       <head>
         {/* JSON-LD LocalBusiness schema */}
         <script
@@ -133,7 +135,9 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
         />
       </head>
-      <body className="antialiased">
+      <body className="antialiased font-body">
+        <SmoothScroll />
+        <EmergencyOTDispatch />
         {children}
         <ClientWidgetWrapper />
 

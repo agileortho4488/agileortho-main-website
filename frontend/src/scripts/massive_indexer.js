@@ -1,20 +1,29 @@
-const fs = require('fs');
-const path = require('path');
-
 const API_KEY = '896511a788a74392b7dfa32b14d091c4';
 const HOST = 'agilehealthcare.in';
-const SITEMAP_PATH = path.join(__dirname, '../../public/sitemap.xml');
+const SITEMAP_URL = `https://${HOST}/sitemap.xml`;
 
 async function runIndexer() {
   console.log('🚀 Starting Massive Indexing for Agile Healthcare...');
   
-  if (!fs.existsSync(SITEMAP_PATH)) {
-    console.error('❌ Sitemap not found at:', SITEMAP_PATH);
+  let sitemap;
+  try {
+    console.log(`🔗 Fetching sitemap from ${SITEMAP_URL}...`);
+    const response = await fetch(SITEMAP_URL);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    sitemap = await response.text();
+  } catch (error) {
+    console.error('❌ Failed to fetch sitemap:', error);
     return;
   }
 
-  const sitemap = fs.readFileSync(SITEMAP_PATH, 'utf-8');
-  const urls = sitemap.match(/<loc>(.*?)<\/loc>/g).map(u => u.replace(/<\/?loc>/g, ''));
+  const matches = sitemap.match(/<loc>(.*?)<\/loc>/g);
+  if (!matches) {
+    console.error('❌ No URLs found in sitemap.');
+    return;
+  }
+  const urls = matches.map(u => u.replace(/<\/?loc>/g, ''));
 
   console.log(`🔗 Found ${urls.length} URLs in sitemap.`);
 
