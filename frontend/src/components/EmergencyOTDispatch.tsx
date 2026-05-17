@@ -1,11 +1,14 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Phone, MessageSquare, Zap } from 'lucide-react';
+import OTDispatchModal from './OTDispatchModal';
 
 export default function EmergencyOTDispatch() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[100] w-full max-w-xl px-4">
       <motion.div 
@@ -35,16 +38,17 @@ export default function EmergencyOTDispatch() {
             <Phone className="w-4 h-4" />
             <span className="text-[10px] font-bold uppercase tracking-wider hidden sm:inline">Call HQ</span>
           </Link>
-          <Link 
-            href="https://wa.me/918500204488?text=I%20need%20urgent%20OT%20support."
-            target="_blank"
+          <button 
+            onClick={() => setIsModalOpen(true)}
             className="flex items-center gap-2 px-6 py-2 rounded-xl bg-primary text-black font-bold hover:scale-105 active:scale-95 transition-all shadow-lg shadow-primary/20"
           >
             <MessageSquare className="w-4 h-4" />
             <span className="text-[10px] font-bold uppercase tracking-wider">WhatsApp Dispatch</span>
-          </Link>
+          </button>
         </div>
       </motion.div>
+
+      <OTDispatchModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
   );
 }
