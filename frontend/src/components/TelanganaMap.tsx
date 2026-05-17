@@ -115,7 +115,7 @@ const TelanganaMap: React.FC = () => {
           return (
             <path
               key={district.name}
-              ref={(el) => (pathsRef.current[idx] = el)}
+              ref={(el) => { pathsRef.current[idx] = el; }}
               d={d || ""}
               className="transition-all duration-300 pointer-events-auto"
               fill="rgba(0, 10, 30, 0.6)"
