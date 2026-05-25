@@ -96,7 +96,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
   // DEEP AUDIT FIX: Cast to any to bypass strict JSON-inference issues in Next.js 15
   const product = rawProduct as any;
 
-  // Enhanced MedicalDevice JSON-LD for Clinical Authority
+  // Enhanced MedicalDevice JSON-LD for Clinical Authority & GEO (SGE)
   const jsonLd = {
     '@context': 'https://schema.org/',
     '@type': ['Product', 'MedicalDevice'],
@@ -108,6 +108,23 @@ export default async function ProductPage({ params }: ProductPageProps) {
     material: product.materials_canonical || product.material_canonical,
     clinicalCondition: product.clinical_indications?.join(', '),
     isProprietary: true,
+    additionalProperty: [
+      {
+        '@type': 'PropertyValue',
+        name: 'Material',
+        value: product.materials_canonical || product.material_canonical || 'Medical Grade',
+      },
+      {
+        '@type': 'PropertyValue',
+        name: 'Clinical Indication',
+        value: product.clinical_indications?.join(', ') || 'Surgical use',
+      },
+      {
+        '@type': 'PropertyValue',
+        name: 'Division',
+        value: product.division_canonical,
+      }
+    ],
     offers: {
       '@type': 'AggregateOffer',
       offerCount: '1',
@@ -245,9 +262,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
               {product.brand} · {product.category}
             </p>
 
-            <p className="text-lg text-muted-foreground leading-relaxed mb-10 border-l-2 border-white/10 pl-6 italic">
+            {/* SGE Citation Block for Generative Engine Optimization */}
+            <section itemProp="abstract" className="text-lg text-muted-foreground leading-relaxed mb-10 border-l-2 border-white/10 pl-6 italic">
               {product.description_shadow || product.description_live}
-            </p>
+            </section>
 
             {/* Material Badge */}
             {(product.materials_canonical || product.material_canonical) && (
