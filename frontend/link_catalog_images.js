@@ -39,7 +39,17 @@ const keywordMap = {
   'pfin': 'trauma_pfin_nail_render',
   'mboss': 'trauma_mboss_screw_render',
   'variabilis': 'variabilis_radial_plate_render',
-  'cancellous screw': 'trauma_cancellous_screw_render'
+  'cancellous screw': 'trauma_cancellous_screw_render',
+  'meriscreen': 'diag_meriscreen_render',
+  'merilisa': 'diag_meriscreen_render',
+  'mirus power': 'endo_mirus_power_render',
+  'tracheal': 'ent_tracheal_tube_render',
+  'dentaxis': 'dental_dentaxis_render',
+  'prosthenix': 'dental_dentaxis_render',
+  'mesic compact': 'endo_mesic_shears_render',
+  'flomero': 'cv_flomero_valve_render',
+  'fixator': 'trauma_ext_fixator_render',
+  'ent': 'ent_instrument_set_render'
 };
 
 // Fallback division images
