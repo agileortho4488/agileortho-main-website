@@ -40,7 +40,8 @@ Hyderabad Metro (4 Zones, 1,891+ facilities), Warangal, Nizamabad, Karimnagar, K
 
 ## Key Pages
 - Home: https://agilehealthcare.in/
-- Product Catalog: https://agilehealthcare.in/catalog
+- Main Product Catalog (HTML): https://agilehealthcare.in/catalog
+- Full Machine-Readable Catalog Index (For LLMs): https://agilehealthcare.in/llms-catalog.txt
 - About Us: https://agilehealthcare.in/about
 - Contact: https://agilehealthcare.in/contact
 - Service Areas: https://agilehealthcare.in/districts
