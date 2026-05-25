@@ -12,7 +12,7 @@ export async function POST(req: Request) {
   // Load the catalog once per request context
   const products = await getAllProducts();
 
-  const result = streamText({
+  const result = await streamText({
     model: google('models/gemini-1.5-pro-latest'),
     system: `You are the 'Agile Healthcare Clinical Lead Consultant', an elite AI assistant for a premier medical device distributor in Telangana, India.
     Your job is to assist surgeons and hospital procurement officers with technical specifications and product availability.
@@ -28,6 +28,7 @@ export async function POST(req: Request) {
         parameters: z.object({
           query: z.string().describe('The name of the product, category, or division (e.g., "Destiknee", "Trauma plate", "Cardiovascular").'),
         }),
+        // @ts-ignore - Vercel AI SDK type inference mismatch for execute return type
         execute: async ({ query }) => {
           const q = query.toLowerCase();
           // Extremely basic text search against the JSON array
@@ -39,17 +40,19 @@ export async function POST(req: Request) {
           ).slice(0, 5); // Return top 5 matches to save context window
 
           if (matches.length === 0) {
-            return { message: "No products found matching that query in the catalog." };
+            return { results: [], message: "No products found matching that query in the catalog." };
           }
 
-          return matches.map((m: any) => ({
-            name: m.product_name_display,
-            division: m.division_canonical,
-            category: m.category,
-            material: m.materials_canonical || m.material_canonical,
-            sku: m.sku_code,
-            specs: m.technical_specifications || "No technical specs available.",
-          }));
+          return {
+            results: matches.map((m: any) => ({
+              name: m.product_name_display,
+              division: m.division_canonical,
+              category: m.category,
+              material: m.materials_canonical || m.material_canonical,
+              sku: m.sku_code,
+              specs: m.technical_specifications || "No technical specs available.",
+            }))
+          };
         },
       }),
     },
