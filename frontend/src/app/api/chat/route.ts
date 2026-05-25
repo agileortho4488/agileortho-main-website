@@ -1,4 +1,5 @@
 import { google } from '@ai-sdk/google';
+import { anthropic } from '@ai-sdk/anthropic';
 import { streamText, tool } from 'ai';
 import { z } from 'zod';
 import { getAllProducts } from '@/lib/data';
@@ -12,8 +13,14 @@ export async function POST(req: Request) {
   // Load the catalog once per request context
   const products = await getAllProducts();
 
+  // Dynamically select model based on available API Keys
+  // Prioritize Claude for clinical reasoning, fallback to Gemini
+  const activeModel = process.env.ANTHROPIC_API_KEY 
+    ? anthropic('claude-3-haiku-20240307') 
+    : google('models/gemini-1.5-pro-latest');
+
   const result = await streamText({
-    model: google('models/gemini-1.5-pro-latest'),
+    model: activeModel,
     system: `You are the 'Agile Healthcare Clinical Lead Consultant', an elite AI assistant for a premier medical device distributor in Telangana, India.
     Your job is to assist surgeons and hospital procurement officers with technical specifications and product availability.
     - BE HIGHLY PROFESSIONAL, clinical, and concise. 
