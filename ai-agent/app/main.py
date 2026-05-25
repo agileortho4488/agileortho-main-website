@@ -20,21 +20,23 @@ async def startup_event():
     # Initialize the RAG service (Vector DB, LLM)
     rag_service.initialize()
 
-@app.post("/chat")
+@app.post("/api/chat")
 async def chat_endpoint(request: ChatRequest):
     try:
         response = rag_service.chat(request.message, request.session_id)
         return {"response": response}
     except Exception as e:
+        import traceback
+        traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.post("/index/url")
+@app.post("/api/index/url")
 async def index_url_endpoint(request: IndexUrlRequest, background_tasks: BackgroundTasks):
     # Process scraping in background to not block
     background_tasks.add_task(rag_service.index_url, request.url)
     return {"message": f"Started indexing {request.url} in the background."}
 
-@app.post("/index/pdf")
+@app.post("/api/index/pdf")
 async def index_pdf_endpoint(background_tasks: BackgroundTasks, file: UploadFile = File(...)):
     if not file.filename.endswith(".pdf"):
         raise HTTPException(status_code=400, detail="Only PDF files are supported.")
