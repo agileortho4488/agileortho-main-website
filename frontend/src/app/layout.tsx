@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Sora, Inter, JetBrains_Mono } from 'next/font/google';
 import dynamic from 'next/dynamic';
 import Script from 'next/script';
+import AIChatWidget from '@/components/AIChatWidget';
 
 const sora = Sora({
   subsets: ['latin'],
@@ -140,6 +141,9 @@ export default function RootLayout({
         <EmergencyOTDispatch />
         {children}
         <ClientWidgetWrapper />
+
+        {/* Global Clinical AI Agent for Lead Capture */}
+        <AIChatWidget />
 
         {/* Google Analytics 4 */}
         <Script
