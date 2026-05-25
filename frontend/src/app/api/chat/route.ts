@@ -17,7 +17,7 @@ export async function POST(req: Request) {
   // Prioritize Claude for clinical reasoning, fallback to Gemini
   const activeModel = process.env.ANTHROPIC_API_KEY 
     ? anthropic('claude-3-haiku-20240307') 
-    : google('models/gemini-1.5-pro-latest');
+    : google('models/gemini-2.5-flash');
 
   const result = await streamText({
     model: activeModel,
