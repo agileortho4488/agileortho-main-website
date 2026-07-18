@@ -52,9 +52,10 @@ export async function POST(request: NextRequest) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, phone, email, hospital: organization || '',
                                enquiryType: enquiryType || 'General', interest: message }),
+        signal: AbortSignal.timeout(4000), // never let an unreachable Brain hang the request
       });
     } catch (e) {
-      console.error('Brain forward failed:', e);
+      console.error('Brain forward failed (non-fatal):', (e as Error).message);
     }
 
     // Best-effort local log (fails silently on read-only serverless filesystems).
@@ -123,19 +124,21 @@ export async function POST(request: NextRequest) {
         `,
       };
 
-      const resendResponse = await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${RESEND_API_KEY}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(emailPayload),
-      });
-
-      if (!resendResponse.ok) {
-        const err = await resendResponse.text();
-        console.error('Resend API error:', err);
-        // Don't fail — lead is still captured in logs
+      try {
+        const resendResponse = await fetch('https://api.resend.com/emails', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${RESEND_API_KEY}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(emailPayload),
+          signal: AbortSignal.timeout(5000),
+        });
+        if (!resendResponse.ok) {
+          console.error('Resend API error:', await resendResponse.text());
+        }
+      } catch (e) {
+        console.error('Resend send failed (non-fatal):', (e as Error).message);
       }
     }
 
