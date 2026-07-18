@@ -39,24 +39,33 @@ export async function POST(request: NextRequest) {
       status: 'new',
     };
 
-    // Log to Unified Lead Vault
-    ensureLeadsFile();
-    const leads = JSON.parse(fs.readFileSync(LEADS_FILE, 'utf8'));
-    leads.push(leadData);
-    fs.writeFileSync(LEADS_FILE, JSON.stringify(leads, null, 2));
-
     // Log to console (visible in Vercel logs)
     console.log('NEW LEAD CAPTURED:', JSON.stringify(leadData, null, 2));
 
-    // Forward to Agile Brain (permanent store + WhatsApp auto-welcome + CMO follow-up).
-    // Fire-and-forget: never block or fail the enquiry if the Brain is briefly down.
+    // Forward to Agile Brain FIRST — this is the permanent store (Vercel FS is read-only,
+    // so the local-file write below often throws; it must never block the real capture).
+    // Awaited so we know the lead is safe before responding, but never fatal.
     const BRAIN_URL = process.env.BRAIN_URL || 'http://151.185.47.113:8000';
-    fetch(`${BRAIN_URL}/api/leads/website`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, phone, email, hospital: organization || '',
-                             enquiryType: enquiryType || 'General', interest: message }),
-    }).catch((e) => console.error('Brain forward failed:', e));
+    try {
+      await fetch(`${BRAIN_URL}/api/leads/website`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, phone, email, hospital: organization || '',
+                               enquiryType: enquiryType || 'General', interest: message }),
+      });
+    } catch (e) {
+      console.error('Brain forward failed:', e);
+    }
+
+    // Best-effort local log (fails silently on read-only serverless filesystems).
+    try {
+      ensureLeadsFile();
+      const leads = JSON.parse(fs.readFileSync(LEADS_FILE, 'utf8'));
+      leads.push(leadData);
+      fs.writeFileSync(LEADS_FILE, JSON.stringify(leads, null, 2));
+    } catch (e) {
+      console.warn('Local lead file not writable (expected on Vercel):', (e as Error).message);
+    }
 
     // Try sending email via Resend (if API key is set)
     const RESEND_API_KEY = process.env.RESEND_API_KEY;
