@@ -48,6 +48,16 @@ export async function POST(request: NextRequest) {
     // Log to console (visible in Vercel logs)
     console.log('NEW LEAD CAPTURED:', JSON.stringify(leadData, null, 2));
 
+    // Forward to Agile Brain (permanent store + WhatsApp auto-welcome + CMO follow-up).
+    // Fire-and-forget: never block or fail the enquiry if the Brain is briefly down.
+    const BRAIN_URL = process.env.BRAIN_URL || 'http://151.185.47.113:8000';
+    fetch(`${BRAIN_URL}/api/leads/website`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, phone, email, hospital: organization || '',
+                             enquiryType: enquiryType || 'General', interest: message }),
+    }).catch((e) => console.error('Brain forward failed:', e));
+
     // Try sending email via Resend (if API key is set)
     const RESEND_API_KEY = process.env.RESEND_API_KEY;
     
