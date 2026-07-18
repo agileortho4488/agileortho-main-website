@@ -42,6 +42,15 @@ export default function ContactPage() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Something went wrong');
       setStatus('success');
+      // Conversion tracking — tells Meta & Google "this visitor became a lead",
+      // so ad algorithms optimise spend toward people who actually enquire.
+      try {
+        (window as any).fbq?.('track', 'Lead');
+        (window as any).gtag?.('event', 'generate_lead', {
+          event_category: 'enquiry',
+          event_label: form.enquiryType || 'General',
+        });
+      } catch { /* analytics must never block the form */ }
     } catch (err: any) {
       setStatus('error');
       setErrorMsg(err.message || 'Submission failed. Please call us directly.');
