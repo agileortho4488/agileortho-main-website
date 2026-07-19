@@ -17,10 +17,11 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { name, email, phone, organization, enquiryType, message } = body;
 
-    // Basic validation
-    if (!name || !email || !phone || !message) {
+    // Only name + phone are required — email/message optional so ad landing pages can use
+    // a short 2-field form (every extra required field drops ad-lead conversion, esp. mobile).
+    if (!name || !phone) {
       return NextResponse.json(
-        { error: 'Missing required fields: name, email, phone, message' },
+        { error: 'Please give your name and phone number.' },
         { status: 400 }
       );
     }
