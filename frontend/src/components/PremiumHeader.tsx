@@ -206,14 +206,25 @@ export default function PremiumHeader() {
               >
                 <Search className="w-5 h-5" />
               </button>
-              <a
-                href="https://agileortho.shop"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-muted-foreground hover:text-white transition-colors px-4 border-r border-white/10"
-              >
-                Shop
-              </a>
+              <div className="group relative px-4 border-r border-white/10">
+                <button className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-muted-foreground hover:text-white transition-colors">
+                  Shop
+                </button>
+                <div className="invisible group-hover:visible absolute right-0 top-full pt-3 z-50">
+                  <div className="w-56 rounded-xl border border-white/10 bg-[#0a0f1f]/95 backdrop-blur-xl p-2 shadow-2xl">
+                    <a href="https://agileortho.shop" target="_blank" rel="noopener noreferrer"
+                      className="block rounded-lg px-4 py-3 text-xs font-bold uppercase tracking-widest text-white/80 hover:bg-white/5 hover:text-primary">
+                      Implants Store
+                      <span className="block mt-0.5 text-[10px] font-medium normal-case tracking-normal text-white/40">Trauma, joints, spine — agileortho.shop</span>
+                    </a>
+                    <a href="https://agilehealthcare.shop" target="_blank" rel="noopener noreferrer"
+                      className="block rounded-lg px-4 py-3 text-xs font-bold uppercase tracking-widest text-white/80 hover:bg-white/5 hover:text-primary">
+                      Diagnostics Store
+                      <span className="block mt-0.5 text-[10px] font-medium normal-case tracking-normal text-white/40">Meril reagents & IVD — agilehealthcare.shop</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
               <Link
                 href="/contact"
                 className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-muted-foreground hover:text-white transition-colors px-4"
