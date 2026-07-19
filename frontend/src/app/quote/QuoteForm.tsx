@@ -37,7 +37,6 @@ export default function QuoteForm() {
       });
       if (!res.ok) throw new Error((await res.json()).error || 'Something went wrong');
       setStatus('success');
-      // tell Meta & Google this click became a lead — so the ad algorithms find more like them
       try {
         (window as any).fbq?.('track', 'Lead');
         (window as any).gtag?.('event', 'generate_lead', { event_category: 'ad_landing', event_label: form.need });
@@ -49,48 +48,47 @@ export default function QuoteForm() {
 
   if (status === 'success') {
     return (
-      <div className="rounded-2xl bg-white/5 border border-emerald-500/30 p-8 text-center">
-        <CheckCircle2 className="mx-auto mb-3 text-emerald-400" size={44} />
-        <h3 className="text-xl font-semibold text-white">Thank you! We&apos;ve got your details.</h3>
-        <p className="mt-2 text-slate-300">Our team will call you shortly. For anything urgent, call now:</p>
-        <a href="tel:+917416521222" className="mt-4 inline-flex items-center gap-2 rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white hover:bg-blue-500">
-          <Phone size={18} /> +91 74165 21222
+      <div className="border border-primary/40 bg-white/[0.03] backdrop-blur-2xl p-10 text-center">
+        <CheckCircle2 className="mx-auto mb-4 text-primary" size={48} />
+        <h3 className="font-heading text-2xl font-black uppercase italic tracking-tight text-white">Request received</h3>
+        <p className="mt-3 text-muted-foreground">Our team will call you shortly. For an urgent case, call now:</p>
+        <a href="tel:+917416521222" className="mt-6 inline-flex items-center gap-2 bg-primary px-8 py-4 text-sm font-black uppercase tracking-widest text-black transition-all hover:bg-white">
+          <Phone size={16} /> +91 74165 21222
         </a>
       </div>
     );
   }
 
+  const inputCls =
+    'w-full border border-white/10 bg-white/[0.03] px-5 py-4 text-white placeholder-white/40 outline-none transition-colors focus:border-primary/60';
+
   return (
-    <form onSubmit={submit} className="rounded-2xl bg-white/5 border border-white/10 p-5 sm:p-6 backdrop-blur">
-      <h2 className="text-lg font-semibold text-white">Get a callback & best price</h2>
-      <p className="mt-1 text-sm text-slate-400">Takes 20 seconds. No obligation.</p>
-      <div className="mt-4 space-y-3">
-        <input
-          name="name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })}
-          placeholder="Your name" autoComplete="name"
-          className="w-full rounded-xl bg-slate-900/60 border border-white/10 px-4 py-3 text-white placeholder-slate-500 focus:border-blue-500 focus:outline-none"
-        />
-        <input
-          name="phone" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })}
-          placeholder="Mobile number" inputMode="tel" autoComplete="tel"
-          className="w-full rounded-xl bg-slate-900/60 border border-white/10 px-4 py-3 text-white placeholder-slate-500 focus:border-blue-500 focus:outline-none"
-        />
-        <select
-          name="need" value={form.need} onChange={(e) => setForm({ ...form, need: e.target.value })}
-          className="w-full rounded-xl bg-slate-900/60 border border-white/10 px-4 py-3 text-white focus:border-blue-500 focus:outline-none"
-        >
-          {NEEDS.map((n) => <option key={n} value={n} className="bg-slate-900">{n}</option>)}
+    <form onSubmit={submit} className="border border-white/10 bg-white/[0.03] p-7 backdrop-blur-2xl sm:p-8">
+      <div className="mb-1 text-[10px] font-black uppercase tracking-[0.35em] text-primary">Fast Response</div>
+      <h2 className="font-heading text-2xl font-black uppercase italic leading-none tracking-tight text-white sm:text-3xl">
+        Get a callback
+      </h2>
+      <p className="mt-2 text-sm text-muted-foreground">Takes 20 seconds. No obligation.</p>
+
+      <div className="mt-6 space-y-3">
+        <input name="name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })}
+          placeholder="Your name" autoComplete="name" className={inputCls} />
+        <input name="phone" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })}
+          placeholder="Mobile number" inputMode="tel" autoComplete="tel" className={inputCls} />
+        <select name="need" value={form.need} onChange={(e) => setForm({ ...form, need: e.target.value })}
+          className={inputCls}>
+          {NEEDS.map((n) => <option key={n} value={n} className="bg-[#0a0f1f] text-white">{n}</option>)}
         </select>
       </div>
+
       {status === 'error' && <p className="mt-3 text-sm text-amber-400">{err}</p>}
-      <button
-        type="submit" disabled={status === 'loading'}
-        className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 px-6 py-3.5 font-semibold text-white hover:bg-blue-500 disabled:opacity-60"
-      >
-        {status === 'loading' ? <><Loader2 className="animate-spin" size={18} /> Sending…</> : 'Request Callback'}
+
+      <button type="submit" disabled={status === 'loading'}
+        className="mt-6 flex w-full items-center justify-center gap-2 bg-primary px-6 py-4 text-sm font-black uppercase tracking-widest text-black transition-all hover:bg-white disabled:opacity-60">
+        {status === 'loading' ? <><Loader2 className="animate-spin" size={16} /> Sending…</> : 'Request Callback'}
       </button>
-      <p className="mt-3 text-center text-xs text-slate-500">
-        Prefer to talk now? <a href="tel:+917416521222" className="text-blue-400 hover:underline">Call +91 74165 21222</a>
+      <p className="mt-4 text-center text-xs text-white/40">
+        Prefer to talk? <a href="tel:+917416521222" className="text-primary hover:underline">Call +91 74165 21222</a>
       </p>
     </form>
   );
