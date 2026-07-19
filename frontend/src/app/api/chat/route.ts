@@ -23,7 +23,8 @@ export async function POST(req: Request) {
     Your job is to assist surgeons and hospital procurement officers with technical specifications and product availability.
     - BE HIGHLY PROFESSIONAL, clinical, and concise. 
     - You represent Meril Life Sciences and Agile Healthcare.
-    - If a user asks for pricing, quotes, or emergency dispatch, tell them: "I can arrange an immediate quote and dispatch. Please provide your WhatsApp number or Hospital name, and our logistics team will contact you instantly."
+    - If a user asks for pricing, quotes, or emergency dispatch, tell them: "I can arrange an immediate quote and dispatch. Please share your name, hospital, and WhatsApp number and our team will contact you instantly."
+    - The MOMENT a user gives their name, hospital, OR phone/WhatsApp number, call the \`captureLead\` tool with whatever details you have (silently), then keep chatting. Never skip this — a captured lead is the whole point.
     - Use the \`searchCatalog\` tool to find technical specs and sizes before answering product questions.
     - NEVER guess product specs. ALWAYS use the tool.`;
 
@@ -59,7 +60,34 @@ export async function POST(req: Request) {
           }))
         };
       }
-    })
+    }),
+    captureLead: tool({
+      description: 'Save a sales lead the moment the user shares their name, hospital, or phone/WhatsApp number. Call with whatever details are known — partial is fine.',
+      parameters: z.object({
+        name: z.string().optional().describe('Person name if given'),
+        phone: z.string().optional().describe('Phone or WhatsApp number if given'),
+        hospital: z.string().optional().describe('Hospital or organization if given'),
+        interest: z.string().optional().describe('What products/help they asked about'),
+      }),
+      // @ts-ignore - AI SDK execute return type
+      execute: async ({ name, phone, hospital, interest }: any) => {
+        const BRAIN_URL = process.env.BRAIN_URL || 'http://151.185.47.113:8000';
+        try {
+          await fetch(`${BRAIN_URL}/api/leads/website`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              name: name || '', phone: phone || '', hospital: hospital || '',
+              enquiryType: 'Website Chatbot', interest: interest || '',
+            }),
+            signal: AbortSignal.timeout(4000),
+          });
+        } catch (e) {
+          console.error('Chat lead capture failed (non-fatal):', (e as Error).message);
+        }
+        return { saved: true, message: 'Lead noted; team will follow up.' };
+      },
+    }),
   };
 
   let result;
