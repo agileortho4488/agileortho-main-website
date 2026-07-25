@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { getAllInsights } from '@/data/insights';
 import { ArrowRight, BookOpen, Stethoscope } from 'lucide-react';
+import SiteFooter from '@/components/SiteFooter';
 
 export const metadata = {
   title: 'Clinical Insights & Comparisons | Agile Healthcare',
@@ -78,6 +79,7 @@ export default function InsightsIndexPage() {
         )}
 
       </div>
+      <SiteFooter />
     </div>
   );
 }

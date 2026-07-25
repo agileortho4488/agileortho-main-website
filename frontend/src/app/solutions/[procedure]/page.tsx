@@ -19,6 +19,7 @@ import {
   History
 } from 'lucide-react';
 import PremiumHeader from '../../../components/PremiumHeader';
+import SiteFooter from '../../../components/SiteFooter';
 
 const PROCEDURES = {
   'tkr': {
@@ -245,16 +246,7 @@ export default function ProcedurePage() {
          </div>
       </section>
 
-      {/* Footer */}
-      <footer className="py-20 border-t border-white/5 text-center px-4 bg-black">
-         <p className="text-[10px] font-black uppercase tracking-[0.4em] text-white/20">Authorized Meril Master Distributor | {data.division} Division</p>
-         <div className="mt-8 flex items-center justify-center gap-12 opacity-10 grayscale">
-            <Award className="w-12 h-12" />
-            <ShieldCheck className="w-12 h-12" />
-            <Cpu className="w-12 h-12" />
-            <History className="w-12 h-12" />
-         </div>
-      </footer>
+      <SiteFooter />
     </main>
   );
 }

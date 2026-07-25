@@ -6,6 +6,7 @@ import { ChevronLeft, Calendar, Tag } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import LeadGenCTA from '@/components/LeadGenCTA';
+import SiteFooter from '@/components/SiteFooter';
 
 export async function generateStaticParams() {
   const insights = getAllInsights();
@@ -90,6 +91,7 @@ export default async function InsightPage({ params }: { params: Promise<{ slug: 
         </div>
 
       </div>
+      <SiteFooter />
     </div>
   );
 }

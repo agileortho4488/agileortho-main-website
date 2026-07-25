@@ -3,6 +3,7 @@
 import React, { useLayoutEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import SiteFooter from '@/components/SiteFooter';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { motion } from 'framer-motion';
@@ -412,18 +413,7 @@ export default function Home() {
       </section>
 
       {/* GLOBAL FOOTER */}
-      <footer className="py-32 border-t border-white/5 bg-black">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-           <div className="text-4xl font-black tracking-tighter uppercase italic mb-8">AGILE <span className="text-primary">HEALTHCARE</span></div>
-           <p className="text-muted-foreground mb-12 max-w-xl mx-auto">Authorized Master Franchise Distributor for Meril Life Sciences. Serving the future of surgery in Telangana.</p>
-           <div className="flex justify-center gap-12 text-[10px] font-black uppercase tracking-widest text-white/40">
-              <Link href="/about" className="hover:text-primary transition-colors">About Us</Link>
-              <Link href="/contact" className="hover:text-primary transition-colors">Contact</Link>
-              <Link href="/catalog" className="hover:text-primary transition-colors">Catalog</Link>
-              <Link href="/districts" className="hover:text-primary transition-colors">Districts</Link>
-           </div>
-        </div>
-      </footer>
+      <SiteFooter />
     </main>
   );
 }
