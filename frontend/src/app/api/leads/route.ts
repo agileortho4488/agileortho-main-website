@@ -1,16 +1,11 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
 
-const LEADS_FILE = path.join(process.cwd(), 'src/data/leads.json');
-
-// Ensure the leads file exists
-function ensureLeadsFile() {
-  if (!fs.existsSync(LEADS_FILE)) {
-    fs.mkdirSync(path.dirname(LEADS_FILE), { recursive: true });
-    fs.writeFileSync(LEADS_FILE, JSON.stringify([], null, 2));
-  }
-}
+// 26-Jul fix: this used to write to a local JSON file under process.cwd(). On Vercel the
+// filesystem is ephemeral/read-only outside /tmp, so every lead submitted through the site's
+// LeadCaptureModal was silently lost — no error surfaced to the visitor (WhatsApp still opened)
+// or to anyone monitoring. Forwarding instead to the real, durable lead pipeline (Agile Command
+// backend), which already has rep-routing + auto WhatsApp intro + a founder-visible dashboard.
+const LEADS_BACKEND = process.env.LEADS_BACKEND_URL || 'http://151.185.47.113:8000';
 
 export async function POST(req: Request) {
   try {
@@ -21,37 +16,24 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
-    ensureLeadsFile();
+    const upstream = await fetch(`${LEADS_BACKEND}/api/leads/log`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name, phone, hospital: hospital || '', interest: interest || '',
+        source: source || 'website', city: district || '',
+      }),
+    });
 
-    const leads = JSON.parse(fs.readFileSync(LEADS_FILE, 'utf8'));
-    const newLead = {
-      id: Date.now().toString(),
-      timestamp: new Date().toISOString(),
-      name,
-      phone,
-      hospital,
-      interest,
-      source,
-      district,
-      status: 'new'
-    };
+    if (!upstream.ok) {
+      const detail = await upstream.text().catch(() => '');
+      console.error('Lead backend rejected submission:', upstream.status, detail);
+      return NextResponse.json({ error: 'Lead backend unavailable' }, { status: 502 });
+    }
 
-    leads.push(newLead);
-    fs.writeFileSync(LEADS_FILE, JSON.stringify(leads, null, 2));
-
-    return NextResponse.json({ success: true, leadId: newLead.id });
+    return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Lead Capture Error:', error);
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
-  }
-}
-
-export async function GET() {
-  try {
-    ensureLeadsFile();
-    const leads = JSON.parse(fs.readFileSync(LEADS_FILE, 'utf8'));
-    return NextResponse.json(leads);
-  } catch (error) {
-    return NextResponse.json({ error: 'Failed to fetch leads' }, { status: 500 });
   }
 }

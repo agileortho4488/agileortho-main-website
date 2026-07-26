@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Download, MessageCircle, Phone, ShieldCheck } from 'lucide-react';
 import LeadCaptureModal from './LeadCaptureModal';
 
@@ -10,6 +10,20 @@ interface ProductActionsProps {
 
 export default function ProductActions({ product }: ProductActionsProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    // @ts-ignore — real per-product ViewContent, the site previously only fired PageView
+    if (typeof window !== 'undefined' && window.fbq) {
+      // @ts-ignore
+      window.fbq('track', 'ViewContent', {
+        content_name: product.product_name_display,
+        content_category: product.division_canonical,
+        content_ids: [product.sku_code || product.slug],
+        content_type: 'product',
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [product.slug]);
 
   // Pre-filled WhatsApp message with product name + SKU for maximum conversion
   const waMessage = encodeURIComponent(
@@ -25,6 +39,13 @@ export default function ProductActions({ product }: ProductActionsProps) {
         target="_blank"
         rel="noopener noreferrer"
         id={`wa-cta-${product.slug || product.sku_code}`}
+        onClick={() => {
+          // @ts-ignore — fire-and-forget, does not block the navigation
+          if (typeof window !== 'undefined' && window.fbq) {
+            // @ts-ignore
+            window.fbq('track', 'Contact', { content_name: product.product_name_display });
+          }
+        }}
         className="flex-1 bg-[#25D366] text-black py-4 px-8 rounded-full flex items-center justify-center gap-2 font-black text-sm tracking-wider uppercase transition-all hover:scale-105 active:scale-95 shadow-lg shadow-[#25D366]/20"
       >
         <MessageCircle className="w-4 h-4" />

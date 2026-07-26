@@ -20,13 +20,17 @@ import {
   UserCheck,
   ArrowRight
 } from 'lucide-react';
+import dynamic from 'next/dynamic';
 import PremiumHeader from '../components/PremiumHeader';
 import StatsCounter from '../components/StatsCounter';
-import SizingWizard from '../components/SizingWizard';
 import TrustStrip from '../components/TrustStrip';
-import ClinicalShowcase from '../components/ClinicalShowcase';
-import BlueprintViewer from '../components/BlueprintViewer';
-import TelanganaMap from '../components/TelanganaMap';
+// Code-split the heavy below-the-fold widgets into their own chunks (Lighthouse flagged ~140 KiB
+// of unused JS / 8 long tasks on this page). SSR stays on (no `ssr: false`) so this only trims
+// the initial bundle — it does NOT remove server-rendered HTML, so CLS and SEO text are unaffected.
+const SizingWizard = dynamic(() => import('../components/SizingWizard'));
+const ClinicalShowcase = dynamic(() => import('../components/ClinicalShowcase'));
+const BlueprintViewer = dynamic(() => import('../components/BlueprintViewer'));
+const TelanganaMap = dynamic(() => import('../components/TelanganaMap'));
 
 gsap.registerPlugin(ScrollTrigger);
 

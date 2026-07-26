@@ -35,7 +35,7 @@ export default function LeadCaptureModal({
 
     try {
       // 1. Log Lead to Technical Infrastructure (Backend)
-      await fetch('/api/leads', {
+      const res = await fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -46,17 +46,26 @@ export default function LeadCaptureModal({
         }),
       });
 
-      // 2. Mock processing delay
-      await new Promise(resolve => setTimeout(resolve, 800));
+      if (!res.ok) {
+        throw new Error(`Lead submission failed (${res.status})`);
+      }
+
+      // @ts-ignore — Meta Pixel Lead event, only if the pixel is actually loaded
+      if (typeof window !== 'undefined' && window.fbq) {
+        // @ts-ignore
+        window.fbq('track', 'Lead', { content_name: productInterest, content_category: inquiryType });
+      }
+
       setIsSuccess(true);
-      
-      // 3. WhatsApp Redirection for immediate clinical engagement
+
+      // 2. WhatsApp Redirection for immediate clinical engagement — only after a confirmed save
       const waNumber = "918500204488";
       const text = encodeURIComponent(`${whatsappMessage}\n\nName: ${formState.name}\nHospital: ${formState.hospital}\nPhone: ${formState.phone}`);
       window.open(`https://wa.me/${waNumber}?text=${text}`, '_blank');
-      
+
     } catch (error) {
       console.error("Submission error:", error);
+      alert("Something went wrong saving your request — please WhatsApp us directly at +91 85002 04488.");
     } finally {
       setIsSubmitting(false);
     }
