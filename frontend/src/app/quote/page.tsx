@@ -8,7 +8,7 @@ import StatsCounter from '../../components/StatsCounter';
 import QuoteForm from './QuoteForm';
 
 export const metadata: Metadata = {
-  title: 'Orthopedic Implants & Surgical Supplies in Telangana | 2-Hour OT Dispatch — Agile Healthcare',
+  title: 'Orthopedic Implants & Surgical Supplies in Telangana | 2-Hour OT Dispatch',
   description:
     'Meril master distributor for Telangana. Trauma implants, joint replacement, sutures & surgical consumables delivered to your OT in 2 hours. CDSCO licensed, ISO 13485. Request a callback & best price.',
   alternates: { canonical: 'https://www.agilehealthcare.in/quote' },

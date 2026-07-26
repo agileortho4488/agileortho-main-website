@@ -49,7 +49,7 @@ export async function generateMetadata({ params }: DivisionPageProps) {
   const meta = DIVISION_META[division.toLowerCase().replace(/%20/g, ' ')];
   const divisionName = division.split('-').map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
   return {
-    title: `${divisionName} Medical Devices in Telangana | Agile Healthcare`,
+    title: `${divisionName} Medical Devices in Telangana`,
     description: `Browse ${divisionName} products from Meril Life Sciences — ${meta?.tagline || 'premium medical devices'}. Authorized distributor across all 33 districts of Telangana.`,
     alternates: { canonical: `https://agilehealthcare.in/catalog/${division}` },
   };

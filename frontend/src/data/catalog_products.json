@@ -14848,7 +14848,7 @@
     "images": [
       {
         "id": "/images/catalog/cc",
-        "storage_path": "/images/catalog//images/catalog/cc_venoza_needle_render.png",
+        "storage_path": "/images/catalog/cc_venoza_needle_render.png",
         "content_type": "image/png",
         "source": "ai_generation_exact",
         "width": 1024,
@@ -153999,7 +153999,7 @@
     "images": [
       {
         "id": "/images/catalog/diag",
-        "storage_path": "/images/catalog//images/catalog/diag_autoquant_analyzer_render.png",
+        "storage_path": "/images/catalog/diag_autoquant_analyzer_render.png",
         "content_type": "image/png",
         "source": "ai_generation_exact",
         "width": 1024,
@@ -155005,7 +155005,7 @@
     "images": [
       {
         "id": "/images/catalog/ent",
-        "storage_path": "/images/catalog//images/catalog/ent_mukic_shaver_render.png",
+        "storage_path": "/images/catalog/ent_mukic_shaver_render.png",
         "content_type": "image/png",
         "source": "ai_generation_exact",
         "width": 1024,

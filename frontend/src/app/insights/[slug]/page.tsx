@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!insight) return { title: 'Not Found' };
   
   return {
-    title: `${insight.title} | Agile Healthcare Insights`,
+    title: `${insight.title} | Insights`,
     description: `Clinical comparison and technical specifications for ${insight.title}`,
   };
 }

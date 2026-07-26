@@ -22,8 +22,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   ) || districtSlug;
 
   return {
-    title: `${districtName} Surgical Supplies & Logistics | Agile Healthcare`,
-    description: `Agile Healthcare is the leading medical device distributor in ${districtName}, providing 2-hour OT dispatch and clinical support for Meril Life Sciences products.`,
+    title: `${districtName} Surgical Supplies & Logistics`,
+    description: `Agile Healthcare is the leading medical device distributor in ${districtName}, providing fast OT dispatch and clinical support for Meril Life Sciences products.`,
     keywords: [`${districtName} surgical supplies`, `${districtName} medical devices`, `orthopedic implants ${districtName}`, `Meril distributor ${districtName}`],
   };
 }
@@ -42,7 +42,6 @@ export default async function DistrictPage({ params }: Props) {
       <section className="relative pt-32 pb-20 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-gradient-to-b from-primary/10 via-transparent to-transparent opacity-20" />
-          <div className="absolute inset-0 bg-[url('/images/ui/grid.svg')] bg-center opacity-10" />
         </div>
         
         <div className="relative z-10 max-w-7xl mx-auto px-4">
@@ -73,7 +72,9 @@ export default async function DistrictPage({ params }: Props) {
                     <Truck className="w-6 h-6 text-primary" />
                   </div>
                   <div>
-                    <div className="text-lg font-black font-mono tracking-tighter">4-6 HOURS</div>
+                    <div className="text-lg font-black font-mono tracking-tighter">
+                      {districtName === 'Hyderabad' ? '~2 HOURS' : 'SAME-DAY'}
+                    </div>
                     <div className="text-[9px] uppercase tracking-widest text-white/40">Dispatch ETA</div>
                   </div>
                 </div>

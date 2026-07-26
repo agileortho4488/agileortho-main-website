@@ -5,9 +5,9 @@ import { Phone, MessageCircle } from 'lucide-react';
 import PremiumHeader from '../../components/PremiumHeader';
 
 export const metadata: Metadata = {
-  title: 'FAQ — Meril Distributor Telangana | Implants, Diagnostics, OT Support | Agile Healthcare',
+  title: 'FAQ — Meril Distributor Telangana | Implants, Diagnostics, OT Support',
   description:
-    'Answers about Agile Healthcare: authorized Meril Life Sciences master franchise for Telangana, 2-hour OT implant dispatch in Hyderabad, buying diagnostics reagents online, bulk & tender pricing, and coverage across all 33 districts.',
+    'Answers about Agile Healthcare: authorized Meril Life Sciences master franchise for Telangana, fast OT implant dispatch in Hyderabad, buying diagnostics reagents online, bulk & tender pricing, and coverage across all 33 districts.',
   alternates: { canonical: 'https://www.agilehealthcare.in/faq' },
 };
 

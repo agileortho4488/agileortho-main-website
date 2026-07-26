@@ -5,7 +5,7 @@ import PremiumHeader from '@/components/PremiumHeader';
 import { MapPin, ChevronRight, Truck } from 'lucide-react';
 
 export const metadata = {
-  title: 'Telangana District Logistics Network | Agile Healthcare',
+  title: 'Telangana District Logistics Network',
   description: 'Explore Agile Healthcare\'s extensive distribution network across all 33 districts of Telangana. High-performance surgical supply chain for hospitals and surgeons.',
 };
 

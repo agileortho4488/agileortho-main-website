@@ -20,6 +20,26 @@ export default function PremiumHeader() {
   }, []);
 
   const [divisionsOpen, setDivisionsOpen] = useState(false);
+  const divisionsRef = React.useRef<HTMLDivElement | null>(null);
+  const closeTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+  const openDivisions = () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    setDivisionsOpen(true);
+  };
+  // ponytail: debounced close, not a layout restructure — the mt-4 gap between the button and the
+  // mega menu is a real hover dead-zone (same bug class as HumanAnatomySelector), but here the gap
+  // is purely cosmetic spacing, so bridging it with a delay is simpler than reworking the box model.
+  const closeDivisions = () => {
+    closeTimer.current = setTimeout(() => setDivisionsOpen(false), 200);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (divisionsRef.current && !divisionsRef.current.contains(e.target as Node)) setDivisionsOpen(false);
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const divisionCategories = [
     {
@@ -107,12 +127,14 @@ export default function PremiumHeader() {
 
             {/* Desktop Nav */}
             <nav className="hidden md:flex items-center gap-1">
-              <div 
+              <div
+                ref={divisionsRef}
                 className="relative group"
-                onMouseEnter={() => setDivisionsOpen(true)}
-                onMouseLeave={() => setDivisionsOpen(false)}
+                onMouseEnter={openDivisions}
+                onMouseLeave={closeDivisions}
               >
-                <button 
+                <button
+                  onClick={() => setDivisionsOpen((o) => !o)}
                   className={`px-5 py-2 text-sm font-bold transition-colors flex items-center gap-1 ${
                     divisionsOpen ? 'text-white' : 'text-muted-foreground hover:text-white'
                   }`}

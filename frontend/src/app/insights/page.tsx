@@ -5,7 +5,7 @@ import { ArrowRight, BookOpen, Stethoscope } from 'lucide-react';
 import SiteFooter from '@/components/SiteFooter';
 
 export const metadata = {
-  title: 'Clinical Insights & Comparisons | Agile Healthcare',
+  title: 'Clinical Insights & Comparisons',
   description: 'Expert clinical comparisons, technical specifications, and procurement guides for orthopedic and cardiovascular devices.',
 };
 
