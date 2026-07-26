@@ -152,8 +152,7 @@ export default function Home() {
           
           {/* Telemetry Grid */}
           <div className="telemetry-grid absolute inset-0 opacity-20">
-            <div className="absolute inset-0 bg-[url('/images/ui/grid.svg')] bg-center bg-repeat opacity-30" />
-            <motion.div 
+            <motion.div
               animate={{ 
                 opacity: [0.1, 0.3, 0.1],
                 scale: [1, 1.05, 1],
@@ -253,7 +252,7 @@ export default function Home() {
       <section className="py-24 bg-white/[0.02] border-y border-white/5">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-12 text-center">
-            <StatsCounter value={967} label="Global Implants" suffix="+" />
+            <StatsCounter value={1202} label="Global Implants" suffix="+" />
             <StatsCounter value={33} label="Districts Optimized" />
             <StatsCounter value={24} label="Surgery Support" suffix="/7" />
             <StatsCounter value={100} label="Hospital Trust" suffix="%" />

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Phone, MessageSquare, Zap } from 'lucide-react';
@@ -8,13 +8,25 @@ import OTDispatchModal from './OTDispatchModal';
 
 export default function EmergencyOTDispatch() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  // ponytail: past-hero visibility, not full collision-avoidance — a plain scrollY threshold
+  // (window height, no ref/IntersectionObserver) stops it covering the hero on load, which was
+  // the actual reported bug; it can still graze content further down the page like any fixed bar.
+  const [pastHero, setPastHero] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setPastHero(window.scrollY > window.innerHeight * 0.6);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   return (
     <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[100] w-full max-w-xl px-4">
-      <motion.div 
+      <motion.div
         initial={{ y: 100, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 1, duration: 0.8, ease: "circOut" }}
+        animate={pastHero ? { y: 0, opacity: 1 } : { y: 100, opacity: 0 }}
+        transition={{ duration: 0.5, ease: "circOut" }}
+        style={{ pointerEvents: pastHero ? 'auto' : 'none' }}
         className="bg-black/80 backdrop-blur-xl border border-white/10 rounded-2xl p-2 flex items-center justify-between shadow-2xl"
       >
         <div className="flex items-center gap-4 px-4">

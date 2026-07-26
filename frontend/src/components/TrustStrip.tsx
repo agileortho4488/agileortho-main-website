@@ -14,7 +14,7 @@ const trustItems = [
 
 export default function TrustStrip() {
   return (
-    <section className="py-6 border-y border-white/5 bg-white/[0.02] overflow-hidden whitespace-nowrap relative">
+    <section className="pt-24 pb-6 border-y border-white/5 bg-white/[0.02] overflow-hidden whitespace-nowrap relative">
       <div className="absolute left-0 top-0 w-32 h-full bg-gradient-to-r from-[#0A0A0A] to-transparent z-10" />
       <div className="absolute right-0 top-0 w-32 h-full bg-gradient-to-l from-[#0A0A0A] to-transparent z-10" />
       
