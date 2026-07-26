@@ -98,15 +98,17 @@ export default function HumanAnatomySelector() {
         {hotspots.map((spot) => (
           <motion.button
             key={spot.id}
-            className="absolute -translate-x-1/2 -translate-y-1/2 group z-20"
+            className="absolute -translate-x-1/2 -translate-y-1/2 group z-20 cursor-pointer"
             style={{ left: `${spot.x}%`, top: `${spot.y}%` }}
-            onMouseEnter={() => setActiveHotspot(spot)}
-            onMouseLeave={() => setActiveHotspot(null)}
+            onClick={() => setActiveHotspot(spot)}
+            aria-label={spot.name}
           >
             {/* Animated Ring */}
             <div className="relative flex items-center justify-center">
-              <div 
-                className="w-10 h-10 rounded-full border-2 opacity-50 group-hover:opacity-100 transition-opacity"
+              <div
+                className={`w-10 h-10 rounded-full border-2 transition-opacity ${
+                  activeHotspot?.id === spot.id ? 'opacity-100' : 'opacity-50 group-hover:opacity-100'
+                }`}
                 style={{ borderColor: spot.color }}
               />
               <motion.div 
