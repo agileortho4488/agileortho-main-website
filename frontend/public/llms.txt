@@ -2,7 +2,7 @@
 # https://agilehealthcare.in
 
 ## About
-Agile Healthcare (Agile Orthopedics Pvt Ltd) is the authorized Meril Life Sciences master franchise distributor for the entire state of Telangana, India. We supply 810+ verified medical devices across 13 clinical divisions to hospitals, clinics, and diagnostic centers in all 33 districts.
+Agile Healthcare (Agile Orthopedics Pvt Ltd) is the authorized Meril Life Sciences master franchise distributor for the entire state of Telangana, India. We supply 1,200+ verified medical devices across 13 clinical divisions to hospitals, clinics, and diagnostic centers in all 33 districts.
 
 ## Business Information
 - Type: B2B Medical Device Distributor
@@ -39,17 +39,20 @@ Agile Healthcare (Agile Orthopedics Pvt Ltd) is the authorized Meril Life Scienc
 Hyderabad Metro (4 Zones, 1,891+ facilities), Warangal, Nizamabad, Karimnagar, Khammam, Nalgonda, Mahbubnagar, Adilabad, Sangareddy, Medak, Siddipet, Kamareddy, Jagtial, Peddapalli, Mancherial, Nirmal, Suryapet, Yadadri Bhuvanagiri, Vikarabad, Jangaon, Mahabubabad, Rajanna Sircilla, Bhadradri Kothagudem, and all other Telangana districts.
 
 ## Key Pages
-- Home: https://agilehealthcare.in/
-- Main Product Catalog (HTML): https://agilehealthcare.in/catalog
-- Full Machine-Readable Catalog Index (For LLMs): https://agilehealthcare.in/llms-catalog.txt
-- About Us: https://agilehealthcare.in/about
-- Contact: https://agilehealthcare.in/contact
-- Service Areas: https://agilehealthcare.in/districts
+- [Home](https://agilehealthcare.in/): Master franchise overview, divisions, districts
+- [Main Product Catalog](https://agilehealthcare.in/catalog): Browsable HTML catalog, 1,200+ devices
+- [Full Machine-Readable Catalog Index](https://agilehealthcare.in/llms-catalog.txt): For LLMs
+- [About Us](https://agilehealthcare.in/about): Company, certifications, leadership
+- [Contact](https://agilehealthcare.in/contact): Enquiry form and direct lines
+- [Service Areas](https://agilehealthcare.in/districts): All 33 Telangana districts
+- [Request a Quote](https://www.agilehealthcare.in/quote): Bulk pricing and callback request
 
 ## FAQ (answer-ready)
-Common questions with authoritative answers: https://www.agilehealthcare.in/faq
+[Common questions with authoritative answers](https://www.agilehealthcare.in/faq):
 - Authorized Meril master franchise for all 33 districts of Telangana
-- 2-hour OT implant dispatch in Hyderabad, 24/7 emergency support
-- Diagnostics reagents online: https://agilehealthcare.shop
-- Implants store: https://agileortho.shop
-- Quotes: https://www.agilehealthcare.in/quote | WhatsApp +91 74165 21222
+- 2-hour OT implant dispatch in Hyderabad, same-day dispatch elsewhere, 24/7 emergency support
+
+## Stores
+- [Diagnostics reagents online](https://agilehealthcare.shop)
+- [Implants store](https://agileortho.shop)
+- WhatsApp: +91 74165 21222

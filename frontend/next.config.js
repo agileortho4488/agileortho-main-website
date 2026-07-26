@@ -46,6 +46,12 @@ const nextConfig = {
   // Supress hydration warnings from browser extensions
   reactStrictMode: true,
 
+  // Tree-shake barrel-file imports (Lighthouse flagged ~140 KiB of unused JS on the homepage,
+  // largely lucide-react/framer-motion pulling in more than each page actually uses)
+  experimental: {
+    optimizePackageImports: ['lucide-react', 'framer-motion'],
+  },
+
   // Webpack fallback for node modules in client
   webpack: (config, { isServer }) => {
     if (!isServer) {

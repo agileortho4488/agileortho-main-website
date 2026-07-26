@@ -222,8 +222,9 @@ export default function PremiumHeader() {
 
             {/* CTA Buttons */}
             <div className="hidden md:flex items-center gap-3">
-              <button 
+              <button
                 onClick={() => setSearchOpen(true)}
+                aria-label="Search"
                 className="p-2 w-10 h-10 rounded-full hover:bg-white/5 transition-all flex items-center justify-center text-white/60 hover:text-primary mr-2"
               >
                 <Search className="w-5 h-5" />
@@ -263,9 +264,11 @@ export default function PremiumHeader() {
             </div>
 
             {/* Mobile Toggle */}
-            <button 
+            <button
               className="md:hidden w-10 h-10 flex items-center justify-center text-white"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={mobileMenuOpen}
             >
               {mobileMenuOpen ? <X /> : <Menu />}
             </button>
