@@ -23,7 +23,6 @@ const jetbrains = JetBrains_Mono({
 });
 
 import SmoothScroll from '../components/SmoothScroll';
-import EmergencyOTDispatch from '../components/EmergencyOTDispatch';
 
 import ClientWidgetWrapper from '../components/ClientWidgetWrapper';
 import '../index.css';
@@ -138,7 +137,6 @@ export default function RootLayout({
       </head>
       <body className="antialiased font-body">
         <SmoothScroll />
-        <EmergencyOTDispatch />
         {children}
         <ClientWidgetWrapper />
 
