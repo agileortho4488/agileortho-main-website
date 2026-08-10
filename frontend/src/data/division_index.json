@@ -1,0 +1,82 @@
+[
+ {
+  "slug": "trauma",
+  "name": "Trauma & Reconstruction",
+  "count": 351
+ },
+ {
+  "slug": "endo-surgery",
+  "name": "Endo-Surgical",
+  "count": 180
+ },
+ {
+  "slug": "infection-prevention",
+  "name": "Infection Prevention",
+  "count": 156
+ },
+ {
+  "slug": "arthroplasty",
+  "name": "Joint Replacement",
+  "count": 110
+ },
+ {
+  "slug": "cardiovascular",
+  "name": "Cardiovascular",
+  "count": 64
+ },
+ {
+  "slug": "ent",
+  "name": "ENT",
+  "count": 55
+ },
+ {
+  "slug": "dental",
+  "name": "Dental",
+  "count": 54
+ },
+ {
+  "slug": "diagnostics",
+  "name": "Diagnostics",
+  "count": 51
+ },
+ {
+  "slug": "instruments",
+  "name": "Instruments",
+  "count": 49
+ },
+ {
+  "slug": "sports-medicine",
+  "name": "Sports Medicine",
+  "count": 31
+ },
+ {
+  "slug": "critical-care",
+  "name": "Critical Care",
+  "count": 27
+ },
+ {
+  "slug": "urology",
+  "name": "Urology",
+  "count": 27
+ },
+ {
+  "slug": "orthopedics",
+  "name": "Orthopedics",
+  "count": 24
+ },
+ {
+  "slug": "peripheral-intervention",
+  "name": "Peripheral Intervention",
+  "count": 16
+ },
+ {
+  "slug": "surgical-robotics",
+  "name": "Surgical Robotics",
+  "count": 4
+ },
+ {
+  "slug": "spine",
+  "name": "Spine",
+  "count": 3
+ }
+]

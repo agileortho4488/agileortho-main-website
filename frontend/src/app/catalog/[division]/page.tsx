@@ -41,6 +41,13 @@ export async function generateStaticParams() {
   const divisions = new Set(
     products.map((p: any) => p.division_canonical?.toLowerCase().replace(/\s+/g, '-')).filter(Boolean)
   );
+  // The filter below aliases two URLs, and those are the ones the site actually links and that
+  // search engines have indexed: /catalog/arthroplasty (Joint Replacement) and /catalog/robotics
+  // (Surgical Robotics). Without them here they were never pre-rendered — they only worked because
+  // Next fell back to rendering on demand, so the pages the customer is sent to were the two doing
+  // the most work at request time. Pre-build them.
+  if (divisions.has('joint-replacement')) divisions.add('arthroplasty');
+  if (divisions.has('surgical-robotics')) divisions.add('robotics');
   return Array.from(divisions).map((division) => ({ division }));
 }
 
