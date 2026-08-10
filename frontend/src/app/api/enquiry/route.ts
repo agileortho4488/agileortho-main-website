@@ -46,7 +46,10 @@ export async function POST(request: NextRequest) {
     // Forward to Agile Brain FIRST — this is the permanent store (Vercel FS is read-only,
     // so the local-file write below often throws; it must never block the real capture).
     // Awaited so we know the lead is safe before responding, but never fatal.
-    const BRAIN_URL = process.env.BRAIN_URL || 'http://151.185.47.113:8000';
+    // 10-Aug: was http://151.185.47.113:8000, which nothing outside that machine can reach
+    // (uvicorn binds loopback), and the catch below swallowed the failure after 4s - so
+    // every quote-form enquiry vanished with no error anywhere. Public HTTPS host instead.
+    const BRAIN_URL = process.env.BRAIN_URL || 'https://staff.agilehealthcare.in';
     try {
       await fetch(`${BRAIN_URL}/api/leads/website`, {
         method: 'POST',
