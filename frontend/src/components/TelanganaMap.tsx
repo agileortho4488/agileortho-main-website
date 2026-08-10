@@ -1,3 +1,7 @@
+// The whole of this map was drawn in #00f2ff, a cyan that appears NOWHERE in the token file:
+// not the brand gold, not the documented "Surgical Blue" (199 89% 48%), not the teal. It is an
+// orphan left over from an earlier theme, and it put one entire section of the homepage in a
+// different accent from every other section. Now the brand gold.
 "use client";
 
 import React, { useMemo, useState, useRef, useEffect } from "react";
@@ -62,8 +66,8 @@ const TelanganaMap: React.FC = () => {
       duration: 0.3,
       ease: "power2.out",
       transformOrigin: "50% 50%",
-      fill: "rgba(0, 242, 255, 0.2)",
-      stroke: "#00f2ff",
+      fill: "rgba(221, 171, 44, 0.2)",
+      stroke: "#DDAB2C",
     });
   };
 
@@ -77,7 +81,7 @@ const TelanganaMap: React.FC = () => {
       duration: 0.3,
       ease: "power2.in",
       fill: "rgba(0, 10, 30, 0.6)",
-      stroke: "rgba(0, 242, 255, 0.3)",
+      stroke: "rgba(221, 171, 44, 0.3)",
     });
   };
 
@@ -87,7 +91,7 @@ const TelanganaMap: React.FC = () => {
     <div className="relative w-full max-w-4xl mx-auto aspect-square flex items-center justify-center bg-black/40 backdrop-blur-xl border border-white/10 rounded-3xl overflow-hidden group">
       {/* Background Grid */}
       <div className="absolute inset-0 opacity-10 pointer-events-none" 
-           style={{ backgroundImage: 'radial-gradient(#00f2ff 1px, transparent 1px)', backgroundSize: '30px 30px' }} />
+           style={{ backgroundImage: 'radial-gradient(#DDAB2C 1px, transparent 1px)', backgroundSize: '30px 30px' }} />
 
       <svg
         ref={svgRef}
@@ -104,7 +108,7 @@ const TelanganaMap: React.FC = () => {
           </filter>
           
           <linearGradient id="hubGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#00f2ff" />
+            <stop offset="0%" stopColor="#DDAB2C" />
             <stop offset="100%" stopColor="#0066ff" />
           </linearGradient>
         </defs>
@@ -119,7 +123,7 @@ const TelanganaMap: React.FC = () => {
               d={d || ""}
               className="transition-all duration-300 pointer-events-auto"
               fill="rgba(0, 10, 30, 0.6)"
-              stroke="rgba(0, 242, 255, 0.3)"
+              stroke="rgba(221, 171, 44, 0.3)"
               strokeWidth="1.5"
               onMouseEnter={() => handleMouseEnter(district as District, idx)}
               onMouseLeave={() => handleMouseLeave(district as District, idx)}
@@ -142,7 +146,7 @@ const TelanganaMap: React.FC = () => {
               transition={{ duration: 0.5, ease: "easeInOut" }}
               d={`M ${hyderabadX} ${hyderabadY} Q ${(hyderabadX + (projection(hoveredDistrict.centroid)?.[0] || 0)) / 2} ${(hyderabadY + (projection(hoveredDistrict.centroid)?.[1] || 0)) / 2 - 50} ${projection(hoveredDistrict.centroid)?.[0]} ${projection(hoveredDistrict.centroid)?.[1]}`}
               fill="none"
-              stroke="#00f2ff"
+              stroke="#DDAB2C"
               strokeWidth="2"
               strokeDasharray="5,5"
               filter="url(#glow)"
@@ -153,8 +157,8 @@ const TelanganaMap: React.FC = () => {
         {/* Hyderabad Hub Node */}
         <g transform={`translate(${hyderabadX}, ${hyderabadY})`}>
           <circle r="12" fill="url(#hubGradient)" className="animate-pulse" filter="url(#glow)" />
-          <circle r="20" fill="none" stroke="#00f2ff" strokeWidth="1" className="animate-ping opacity-30" />
-          <text y="-20" textAnchor="middle" className="fill-[#00f2ff] text-[10px] font-bold tracking-widest uppercase pointer-events-none">
+          <circle r="20" fill="none" stroke="#DDAB2C" strokeWidth="1" className="animate-ping opacity-30" />
+          <text y="-20" textAnchor="middle" className="fill-[#DDAB2C] text-[10px] font-bold tracking-widest uppercase pointer-events-none">
             Dispatch Hub
           </text>
         </g>
@@ -162,22 +166,22 @@ const TelanganaMap: React.FC = () => {
 
       {/* Info Tooltip */}
       <div className="absolute top-8 left-8 z-20 pointer-events-none">
-        <div className="bg-black/80 backdrop-blur-md border border-[#00f2ff]/20 p-6 rounded-2xl">
-          <div className="text-[#00f2ff]/60 text-[10px] uppercase tracking-tighter mb-1 font-bold">Logistics Network</div>
+        <div className="bg-black/80 backdrop-blur-md border border-[#DDAB2C]/20 p-6 rounded-2xl">
+          <div className="text-[#DDAB2C]/60 text-[10px] uppercase tracking-tighter mb-1 font-bold">Logistics Network</div>
           <div className="text-3xl font-bold text-white tracking-tighter">
             {hoveredDistrict ? hoveredDistrict.name : "Telangana State"}
           </div>
           <div className="flex items-center gap-4 mt-4">
             <div className="flex flex-col">
               <span className="text-[10px] text-white/40 uppercase">Service Time</span>
-              <span className="text-[#00f2ff] font-mono">
+              <span className="text-[#DDAB2C] font-mono">
                 {hoveredDistrict ? (hoveredDistrict.name === "Hyderabad" ? "30 MINS" : "4-6 HOURS") : "--"}
               </span>
             </div>
             <div className="w-[1px] h-8 bg-white/10" />
             <div className="flex flex-col">
               <span className="text-[10px] text-white/40 uppercase">Fleet Active</span>
-              <span className="text-[#00f2ff] font-mono">
+              <span className="text-[#DDAB2C] font-mono">
                 {hoveredDistrict ? "24/7 LIVE" : "33 DISTRICTS"}
               </span>
             </div>
@@ -192,7 +196,7 @@ const TelanganaMap: React.FC = () => {
           animate={{ opacity: 1 }}
           className="absolute bottom-8 right-8 text-white/40 text-xs font-mono tracking-widest flex items-center gap-2"
         >
-          <div className="w-2 h-2 bg-[#00f2ff] rounded-full animate-pulse" />
+          <div className="w-2 h-2 bg-[#DDAB2C] rounded-full animate-pulse" />
           HOVER TO CALCULATE DISPATCH TELEMETRY
         </motion.div>
       )}

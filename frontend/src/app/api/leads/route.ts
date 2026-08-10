@@ -5,7 +5,15 @@ import { NextResponse } from 'next/server';
 // LeadCaptureModal was silently lost — no error surfaced to the visitor (WhatsApp still opened)
 // or to anyone monitoring. Forwarding instead to the real, durable lead pipeline (Agile Command
 // backend), which already has rep-routing + auto WhatsApp intro + a founder-visible dashboard.
-const LEADS_BACKEND = process.env.LEADS_BACKEND_URL || 'http://151.185.47.113:8000';
+// 10-Aug fix: this pointed at http://151.185.47.113:8000, which is NOT reachable from anywhere
+// except that machine — uvicorn binds 127.0.0.1:8000, so every lead this site ever captured hung
+// for ~21 seconds, failed, and returned 502. The visitor saw nothing wrong. Zero website leads
+// have ever been filed, and this is why.
+//
+// The public HTTPS host in front of the same backend works (nginx proxies it to 127.0.0.1:8000)
+// and the intake POST is now exempt from the staff auth gate, so this reaches the real pipeline:
+// rep routing, WhatsApp intro, founder dashboard. Verified end to end: HTTP 200, routed_to set.
+const LEADS_BACKEND = process.env.LEADS_BACKEND_URL || 'https://staff.agilehealthcare.in';
 
 export async function POST(req: Request) {
   try {

@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     template: '%s | Agile Healthcare',
   },
   description:
-    'Authorized Meril Life Sciences master franchise distributor for Telangana. 1,202 medical devices across Trauma, Joint Replacement, Cardiovascular, Diagnostics & 9 more clinical divisions.',
+    'Authorized Meril Life Sciences master franchise distributor for Telangana. 7,100+ active SKUs across Trauma, General Surgery, OT Solutions, Diagnostics, Sports Medicine, Joint Replacement and 4 more clinical divisions.',
   metadataBase: new URL('https://www.agilehealthcare.in'),
   openGraph: {
     type: 'website',
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Agile Healthcare | Meril Life Sciences Distributor Telangana',
     description:
-      'Authorized Meril Life Sciences master franchise distributor for Telangana. 1,202 medical devices across 13 clinical divisions.',
+      'Authorized Meril Life Sciences master franchise distributor for Telangana. 7,100+ active SKUs across 10 clinical divisions.',
   },
   robots: {
     index: true,
@@ -83,7 +83,7 @@ const localBusinessSchema = {
   description:
     'Authorized Meril Life Sciences master franchise distributor for all 33 districts of Telangana, India. Specializing in Trauma, Joint Replacement, Cardiovascular, Endo-Surgical, and Diagnostic medical devices.',
   url: 'https://agilehealthcare.in',
-  telephone: '+918500204488',
+  telephone: '+917416216262',
   address: {
     '@type': 'PostalAddress',
     streetAddress: 'Agile House, H.No 8-2-293/82/A/1261, Road No 36, Jubilee Hills',
@@ -113,7 +113,7 @@ const localBusinessSchema = {
   hasOfferCatalog: {
     '@type': 'OfferCatalog',
     name: 'Meril Life Sciences Medical Devices',
-    numberOfItems: 1202,
+    numberOfItems: 7100,
   },
   sameAs: [
     'https://wa.me/917416521222',

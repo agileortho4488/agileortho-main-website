@@ -11,6 +11,17 @@ interface DivisionPageProps {
   params: Promise<{ division: string }>;
 }
 
+import BROCHURES from '@/data/brochures.json';
+
+// Which divisions have a manufacturer brochure to show. Keyed by the division slug in the URL.
+const DIVISION_BROCHURE: Record<string, { href: string; title: string; source: string; pages: number }> =
+  Object.fromEntries(
+    Object.values(BROCHURES as Record<string, any>).map((b) => [
+      b.division,
+      { href: `/brochures/${b.slug}`, title: b.title, source: b.source, pages: b.pages.length },
+    ])
+  );
+
 const DIVISION_META: Record<string, { emoji: string; color: string; tagline: string; bg: string }> = {
   'trauma':                { emoji: '🦴', color: '#3b82f6', bg: 'from-blue-950/40 to-[#0A0A0A]',     tagline: 'Fracture Management & Fixation Systems' },
   'arthroplasty':          { emoji: '🦿', color: '#a78bfa', bg: 'from-violet-950/40 to-[#0A0A0A]',   tagline: 'Arthroplasty & Reconstruction Solutions' },
@@ -41,6 +52,13 @@ export async function generateStaticParams() {
   const divisions = new Set(
     products.map((p: any) => p.division_canonical?.toLowerCase().replace(/\s+/g, '-')).filter(Boolean)
   );
+  // The filter below aliases two URLs, and those are the ones the site actually links and that
+  // search engines have indexed: /catalog/arthroplasty (Joint Replacement) and /catalog/robotics
+  // (Surgical Robotics). Without them here they were never pre-rendered — they only worked because
+  // Next fell back to rendering on demand, so the pages the customer is sent to were the two doing
+  // the most work at request time. Pre-build them.
+  if (divisions.has('joint-replacement')) divisions.add('arthroplasty');
+  if (divisions.has('surgical-robotics')) divisions.add('robotics');
   return Array.from(divisions).map((division) => ({ division }));
 }
 
@@ -145,6 +163,32 @@ export default async function DivisionPage({ params }: DivisionPageProps) {
           </div>
         </div>
       </div>
+
+      {/* ── MANUFACTURER BROCHURE ──
+          62 of the 156 Infection Prevention products on this site have no photograph, and a
+          hospital buying surgical gowns or wound dressings decides on what the thing looks like.
+          The manufacturer's own 360 brochure covers exactly this division, so it is linked here
+          rather than left in a mailbox. Extend this map as brochures for other divisions arrive. */}
+      {DIVISION_BROCHURE[normalizedDivision] && (
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12">
+          <a
+            href={DIVISION_BROCHURE[normalizedDivision].href}
+            className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 rounded-2xl bg-primary/5 border border-primary/20 hover:bg-primary/10 transition-colors"
+          >
+            <div>
+              <div className="text-lg font-black uppercase tracking-tight">
+                {DIVISION_BROCHURE[normalizedDivision].title}
+              </div>
+              <div className="text-sm text-white/50 mt-1">
+                {DIVISION_BROCHURE[normalizedDivision].pages} pages from {DIVISION_BROCHURE[normalizedDivision].source}
+              </div>
+            </div>
+            <span className="text-xs font-black uppercase tracking-[0.2em] text-primary whitespace-nowrap">
+              View brochure →
+            </span>
+          </a>
+        </div>
+      )}
 
       {/* ── PRODUCT GRID ── */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">

@@ -52,7 +52,7 @@ export default function NotFound() {
           </div>
 
           <div className="mt-20 pt-10 border-t border-white/5">
-             <p className="text-[10px] font-black uppercase tracking-widest text-white/20 mb-6 italic">Or search our 1,202 products directly</p>
+             <p className="text-[10px] font-black uppercase tracking-widest text-white/20 mb-6 italic">Or search our 7,100+ products directly</p>
              <div className="relative max-w-md mx-auto">
                 <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-primary" />
                 <input 

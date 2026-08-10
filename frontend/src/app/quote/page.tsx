@@ -70,7 +70,7 @@ export default function QuotePage() {
       {/* METRICS */}
       <section className="border-y border-white/10 bg-white/[0.02] py-14">
         <div className="mx-auto grid max-w-5xl grid-cols-2 gap-8 px-5 md:grid-cols-4 sm:px-8">
-          <StatsCounter value={1202} label="Medical Devices" suffix="+" />
+          <StatsCounter value={7100} label="Active SKUs" suffix="+" />
           <StatsCounter value={33} label="Districts Covered" />
           <StatsCounter value={2} label="Hour OT Dispatch" suffix="hr" />
           <StatsCounter value={24} label="Support" suffix="/7" />

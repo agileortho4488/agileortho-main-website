@@ -71,7 +71,9 @@ export async function POST(req: Request) {
       }),
       // @ts-ignore - AI SDK execute return type
       execute: async ({ name, phone, hospital, interest }: any) => {
-        const BRAIN_URL = process.env.BRAIN_URL || 'http://151.185.47.113:8000';
+        // 10-Aug: was http://151.185.47.113:8000, which nothing outside that machine can reach
+        // (uvicorn binds loopback). Every lead sent here was lost. Public HTTPS host instead.
+        const BRAIN_URL = process.env.BRAIN_URL || 'https://staff.agilehealthcare.in';
         try {
           await fetch(`${BRAIN_URL}/api/leads/website`, {
             method: 'POST',
