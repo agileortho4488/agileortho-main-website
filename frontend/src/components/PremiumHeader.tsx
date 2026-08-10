@@ -323,7 +323,7 @@ export default function PremiumHeader() {
               <div className="pt-6 border-t border-white/5 flex flex-col gap-4">
                 <button className="flex items-center gap-3 text-lg font-bold">
                   <Phone className="w-5 h-5 text-primary" />
-                  +91 8500204488
+                  +91 7416216262
                 </button>
                 <div className="bg-primary p-6 rounded-2xl text-black">
                   <h4 className="font-black text-xl mb-1">Join the Network</h4>

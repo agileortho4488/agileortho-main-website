@@ -59,7 +59,7 @@ export default function LeadCaptureModal({
       setIsSuccess(true);
 
       // 2. WhatsApp Redirection for immediate clinical engagement — only after a confirmed save
-      const waNumber = "918500204488";
+      const waNumber = "917416216262";
       const text = encodeURIComponent(`${whatsappMessage}\n\nName: ${formState.name}\nHospital: ${formState.hospital}\nPhone: ${formState.phone}`);
       window.open(`https://wa.me/${waNumber}?text=${text}`, '_blank');
 

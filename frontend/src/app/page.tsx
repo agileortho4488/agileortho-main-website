@@ -199,7 +199,7 @@ export default function Home() {
 
               <div className="flex flex-col sm:flex-row items-center gap-8">
                 <Link 
-                  href="https://wa.me/918500204488?text=I%20need%20OT%20support%20for%20a%20surgery."
+                  href="https://wa.me/917416216262?text=I%20need%20OT%20support%20for%20a%20surgery."
                   className="group relative px-12 py-6 bg-primary text-black font-black uppercase tracking-widest text-sm rounded-none hover:bg-white transition-[background-color,transform] duration-200 ease-out hover:scale-105 active:scale-[0.97] shadow-[0_20px_40px_hsl(43_72%_52%/0.25)] w-full sm:w-auto text-center"
                 >
                   Request OT Support
@@ -461,13 +461,13 @@ export default function Home() {
             Someone will answer and we dispatch from Hyderabad.
           </p>
           <Link
-            href="https://wa.me/918500204488?text=I%20need%20an%20implant.%20Hospital%3A%20%0ASurgeon%3A%20%0AWhat%20I%20need%3A%20"
+            href="https://wa.me/917416216262?text=I%20need%20an%20implant.%20Hospital%3A%20%0ASurgeon%3A%20%0AWhat%20I%20need%3A%20"
             className="inline-block px-12 py-6 bg-primary text-black font-black uppercase tracking-widest text-sm hover:bg-white transition-[background-color,transform] duration-200 ease-out hover:scale-105 active:scale-[0.97] shadow-[0_20px_40px_hsl(43_72%_52%/0.25)]"
           >
             WhatsApp Us Now
           </Link>
           <p className="mt-8 text-[11px] font-black uppercase tracking-[0.3em] text-white/30">
-            8500 20 4488 &middot; Hyderabad &middot; All 33 districts
+            74162 16262 &middot; Hyderabad &middot; All 33 districts
           </p>
         </div>
       </section>
