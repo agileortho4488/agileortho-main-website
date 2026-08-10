@@ -6,7 +6,7 @@ import Image from 'next/image';
 import SiteFooter from '@/components/SiteFooter';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import {
   Bone,
   HeartPulse,
@@ -86,6 +86,10 @@ const SOLUTIONS = [
 ];
 
 export default function Home() {
+  // The GSAP entrance is guarded separately inside the effect below (it has to bail out BEFORE the
+  // .from() calls run). This hook covers the framer-motion pieces, which the GSAP guard never
+  // touched: two `repeat: Infinity` loops that kept animating for people who asked for less motion.
+  const reduceMotion = useReducedMotion();
   const heroRef = useRef(null);
   const headlineRef = useRef(null);
   const telemetryRef = useRef(null);
@@ -163,7 +167,7 @@ export default function Home() {
           {/* Telemetry Grid */}
           <div className="telemetry-grid absolute inset-0 opacity-20">
             <motion.div
-              animate={{ 
+              animate={reduceMotion ? undefined : {
                 opacity: [0.1, 0.3, 0.1],
                 scale: [1, 1.05, 1],
               }}
@@ -196,13 +200,13 @@ export default function Home() {
               <div className="flex flex-col sm:flex-row items-center gap-8">
                 <Link 
                   href="https://wa.me/918500204488?text=I%20need%20OT%20support%20for%20a%20surgery."
-                  className="group relative px-12 py-6 bg-primary text-black font-black uppercase tracking-widest text-sm rounded-none hover:bg-white transition-all hover:scale-105 active:scale-95 shadow-[0_20px_40px_hsl(43_72%_52%/0.25)] w-full sm:w-auto text-center"
+                  className="group relative px-12 py-6 bg-primary text-black font-black uppercase tracking-widest text-sm rounded-none hover:bg-white transition-[background-color,transform] duration-200 ease-out hover:scale-105 active:scale-[0.97] shadow-[0_20px_40px_hsl(43_72%_52%/0.25)] w-full sm:w-auto text-center"
                 >
                   Request OT Support
                 </Link>
                 <Link 
                   href="/catalog"
-                  className="px-12 py-6 rounded-none bg-transparent border border-white/20 font-black text-sm uppercase tracking-widest hover:bg-white hover:text-black transition-all w-full sm:w-auto text-center inline-flex items-center justify-center gap-3"
+                  className="px-12 py-6 rounded-none bg-transparent border border-white/20 font-black text-sm uppercase tracking-widest hover:bg-white hover:text-black transition-[background-color,color,transform] duration-200 ease-out active:scale-[0.97] w-full sm:w-auto text-center inline-flex items-center justify-center gap-3"
                 >
                   Explore Clinical Solutions <ArrowRight className="w-4 h-4" />
                 </Link>
@@ -223,7 +227,7 @@ export default function Home() {
                   src="/images/trauma-implant-macro.png" 
                   alt="Telemetry Implant Visualization" 
                   fill
-                  className="object-cover opacity-60 group-hover:scale-110 transition-transform duration-1000"
+                  className="object-cover opacity-60 group-hover:scale-105 transition-transform duration-500 ease-out"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
                 <div className="absolute bottom-8 left-8 right-8">
@@ -234,8 +238,11 @@ export default function Home() {
                 <div className="absolute top-8 right-8 space-y-2">
                    {[1,2,3].map(i => (
                      <div key={i} className="h-[2px] w-12 bg-primary/20 relative overflow-hidden">
-                        <motion.div 
-                          animate={{ x: [-48, 48] }}
+                        {/* `x` is framer-motion's shorthand and runs on the main thread via rAF, so
+                            three of these looping forever drop frames while the page is still
+                            loading. The full transform string is hardware-accelerated. */}
+                        <motion.div
+                          animate={reduceMotion ? undefined : { transform: ["translateX(-48px)", "translateX(48px)"] }}
                           transition={{ duration: 2, repeat: Infinity, delay: i * 0.5 }}
                           className="absolute inset-0 bg-primary"
                         />
@@ -283,12 +290,12 @@ export default function Home() {
                 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-12">
                    <div className="space-y-4">
-                     <Link href="/evidence" className="group flex items-center gap-4 text-sm font-black uppercase tracking-widest text-primary border border-primary/20 px-6 py-4 rounded-xl hover:bg-primary/5 transition-all text-center justify-center">
+                     <Link href="/evidence" className="group flex items-center gap-4 text-sm font-black uppercase tracking-widest text-primary border border-primary/20 px-6 py-4 rounded-xl hover:bg-primary/5 transition-[background-color,transform] duration-200 ease-out active:scale-[0.97] text-center justify-center">
                         Evidence Hub
                      </Link>
                    </div>
                    <div className="space-y-4">
-                     <Link href="/catalog" className="group flex items-center gap-4 text-sm font-black uppercase tracking-widest text-white border border-white/20 px-6 py-4 rounded-xl hover:bg-white/5 transition-all text-center justify-center">
+                     <Link href="/catalog" className="group flex items-center gap-4 text-sm font-black uppercase tracking-widest text-white border border-white/20 px-6 py-4 rounded-xl hover:bg-white/5 transition-[background-color,transform] duration-200 ease-out active:scale-[0.97] text-center justify-center">
                         Catalog Desk
                      </Link>
                    </div>
@@ -337,13 +344,13 @@ export default function Home() {
               // the entire card does what it has been promising, and keyboard users get a focus ring.
               <motion.div
                 key={i}
-                whileHover={{ y: -10 }}
+                whileHover={reduceMotion ? undefined : { y: -10 }}
                 className={`group ${i < 3 ? 'lg:col-span-2' : 'lg:col-span-3'}`}
               >
               <Link
                 href={`/catalog/${sol.slug}`}
                 aria-label={`${sol.title}: view the ${sol.division} division`}
-                className="relative flex h-full flex-col p-10 bg-[#0F172A] border border-white/5 rounded-3xl hover:border-primary/50 transition-all overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-[#050816]"
+                className="relative flex h-full flex-col p-10 bg-[#0F172A] border border-white/5 rounded-3xl hover:border-primary/50 transition-[border-color,transform] duration-200 ease-out active:scale-[0.99] overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-[#050816]"
               >
                 <div className="absolute top-0 right-0 p-6 opacity-0 group-hover:opacity-100 transition-opacity">
                    <ChevronRight className="w-8 h-8 text-primary" />
@@ -371,7 +378,7 @@ export default function Home() {
       {/* TRUST MARKERS */}
       <section className="py-24 border-y border-white/5">
         <div className="max-w-7xl mx-auto px-4">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 opacity-40 grayscale hover:grayscale-0 hover:opacity-100 transition-all">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 opacity-40 grayscale hover:grayscale-0 hover:opacity-100 transition-[filter,opacity] duration-300 ease-out">
               <div className="flex items-center justify-center gap-2">
                 <ShieldCheck className="w-5 h-5 text-primary" />
                 <span className="text-[10px] font-black uppercase tracking-widest">CDSCO Certified</span>
