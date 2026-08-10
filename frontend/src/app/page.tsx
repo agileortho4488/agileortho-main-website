@@ -118,14 +118,7 @@ export default function Home() {
           stagger: 0.2, 
           duration: 0.8, 
           ease: "power3.out" 
-        }, "-=0.5")
-        .from(".hero-metrics > div", {
-          opacity: 0,
-          y: 20,
-          stagger: 0.1,
-          duration: 0.6,
-          ease: "power2.out"
-        }, "-=0.3");
+        }, "-=0.5");
 
       // Scroll Triggered Animations for Sections
       gsap.from(".solutions-grid > div", {
@@ -184,7 +177,10 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
             <div className="lg:col-span-7 hero-content">
               <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-white/5 border border-white/10 mb-10 backdrop-blur-2xl">
-                <span className="flex h-2 w-2 rounded-full bg-primary animate-ping" />
+                {/* was animate-ping. A pulsing dot signals live status; a distributorship is not a
+                    live status, so it was pure decoration — and an infinite CSS animation that the
+                    JS reduced-motion guard above does not cover. Static mark. */}
+                <span className="flex h-2 w-2 rounded-full bg-primary" />
                 <span className="text-[10px] uppercase tracking-[0.4em] font-black text-white/60">Master Partner: Meril Life Sciences</span>
               </div>
               
@@ -212,25 +208,12 @@ export default function Home() {
                 </Link>
               </div>
 
-              {/* Hero Metrics */}
-              <div className="hero-metrics mt-24 grid grid-cols-2 md:grid-cols-4 gap-8 opacity-60">
-                <div className="space-y-1">
-                  <div className="text-2xl font-black font-mono tracking-tighter">7,100+</div>
-                  <div className="text-[9px] font-black uppercase tracking-widest text-white/40">Active SKUs</div>
-                </div>
-                <div className="space-y-1">
-                  <div className="text-2xl font-black font-mono tracking-tighter">33</div>
-                  <div className="text-[9px] font-black uppercase tracking-widest text-white/40">Districts Optimized</div>
-                </div>
-                <div className="space-y-1">
-                  <div className="text-2xl font-black font-mono tracking-tighter">24/7</div>
-                  <div className="text-[9px] font-black uppercase tracking-widest text-white/40">OT Support</div>
-                </div>
-                <div className="space-y-1">
-                  <div className="text-2xl font-black font-mono tracking-tighter">10</div>
-                  <div className="text-[9px] font-black uppercase tracking-widest text-white/40">Clinical Divisions</div>
-                </div>
-              </div>
+              {/* The hero metric strip lived here and showed 7,100+ / 33 / 24-7 / 10 — the SAME four
+                  numbers the stats section directly below already shows, one screen apart, with the
+                  labels not even matching ("Districts Optimized" here vs "Districts Served" there).
+                  Repeating a figure does not make it more convincing, it makes the reader wonder
+                  which one is right. The dedicated section below keeps them; the hero keeps its job,
+                  which is one message and one action. */}
             </div>
 
             {/* Right Column: Telemetry/Blueprint Animation Placeholder */}
@@ -244,7 +227,7 @@ export default function Home() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
                 <div className="absolute bottom-8 left-8 right-8">
-                  <div className="text-[10px] font-black uppercase tracking-[0.4em] text-primary mb-4">Precision Analysis</div>
+                  {/* third eyebrow removed; the caption below already says what the image is */}
                   <h3 className="text-xl font-bold uppercase tracking-tighter leading-none">Anatomical Blueprint Extraction</h3>
                 </div>
                 {/* Simulated Telemetry HUD */}
@@ -285,10 +268,10 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
              <div>
-                <div className="text-primary font-black uppercase tracking-[0.3em] text-xs mb-6 flex items-center gap-3">
-                   <span className="h-[2px] w-12 bg-primary"></span>
-                   The Surgeon's Toolkit
-                </div>
+                {/* Eyebrow removed. The page carried six of these small uppercase labels across
+                    eight sections; a section's position already tells the reader what it is, and
+                    stacking a label above every headline is the rhythm that makes a page feel
+                    templated. The headline alone does the work. */}
                 <h2 className="text-5xl md:text-8xl font-black tracking-tighter mb-8 leading-none uppercase italic">
                    Clinical<br />
                    <span className="text-primary text-4xl md:text-6xl">Intelligence.</span>
@@ -343,15 +326,23 @@ export default function Home() {
              <p className="max-w-3xl mx-auto text-xl text-muted-foreground">Moving from simple hardware to outcome-driven clinical segments.</p>
           </div>
 
-          <div className="solutions-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {/* Five divisions in a 3-column grid left a hole in the bottom-right: 3 + 2 and an empty
+              cell. A 6-column track fixes it without inventing filler — the first three cards take
+              2 columns each, the last two take 3 each, so both rows are full and the grid stops
+              looking like the generic three-equal-cards row. */}
+          <div className="solutions-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8">
             {SOLUTIONS.map((sol, i) => (
               // The whole card was cursor-pointer, lifted on hover and showed a chevron — but only
               // the 10px "View Division" text was actually clickable. It is now one real link, so
               // the entire card does what it has been promising, and keyboard users get a focus ring.
-              <motion.div key={i} whileHover={{ y: -10 }} className="group">
+              <motion.div
+                key={i}
+                whileHover={{ y: -10 }}
+                className={`group ${i < 3 ? 'lg:col-span-2' : 'lg:col-span-3'}`}
+              >
               <Link
                 href={`/catalog/${sol.slug}`}
-                aria-label={`${sol.title} — view the ${sol.division} division`}
+                aria-label={`${sol.title}: view the ${sol.division} division`}
                 className="relative flex h-full flex-col p-10 bg-[#0F172A] border border-white/5 rounded-3xl hover:border-primary/50 transition-all overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-[#050816]"
               >
                 <div className="absolute top-0 right-0 p-6 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -408,10 +399,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
             <div className="lg:col-span-4">
-              <div className="text-primary font-black uppercase tracking-[0.3em] text-xs mb-6 flex items-center gap-3">
-                <span className="h-[2px] w-12 bg-primary"></span>
-                Regional Backbone
-              </div>
+              {/* Eyebrow removed - see the note on the Clinical Intelligence section. */}
               <h2 className="text-5xl md:text-7xl font-black tracking-tighter mb-8 leading-none uppercase italic">
                 Statewide<br />
                 <span className="text-primary">Logistics.</span>
