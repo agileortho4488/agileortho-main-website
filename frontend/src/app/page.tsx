@@ -41,6 +41,7 @@ const SOLUTIONS = [
     icon: Activity, 
     division: 'Trauma',
     slug: 'trauma',
+    skus: 8233,   // measured from the item catalogue, not an estimate
     color: 'text-blue-400',
     border: 'hover:border-blue-500/50'
   },
@@ -50,6 +51,7 @@ const SOLUTIONS = [
     icon: Stethoscope, 
     division: 'Joint Replacement',
     slug: 'arthroplasty',
+    skus: 158,   // measured from the item catalogue, not an estimate
     color: 'text-primary',
     border: 'hover:border-primary/50'
   },
@@ -59,6 +61,7 @@ const SOLUTIONS = [
     icon: Heart, 
     division: 'Cardiovascular',
     slug: 'cardiovascular',
+    skus: 15,   // measured from the item catalogue, not an estimate
     color: 'text-red-500',
     border: 'hover:border-red-500/50'
   },
@@ -68,6 +71,7 @@ const SOLUTIONS = [
     icon: Dna, 
     division: 'Endo-Surgery',
     slug: 'endo-surgery',
+    skus: 1178,   // measured from the item catalogue, not an estimate
     color: 'text-purple-500',
     border: 'hover:border-purple-500/50'
   },
@@ -77,6 +81,7 @@ const SOLUTIONS = [
     icon: Microscope, 
     division: 'Diagnostics',
     slug: 'diagnostics',
+    skus: 382,   // measured from the item catalogue, not an estimate
     color: 'text-blue-500',
     border: 'hover:border-blue-500/50'
   },
@@ -202,8 +207,8 @@ export default function Home() {
               {/* Hero Metrics */}
               <div className="hero-metrics mt-24 grid grid-cols-2 md:grid-cols-4 gap-8 opacity-60">
                 <div className="space-y-1">
-                  <div className="text-2xl font-black font-mono tracking-tighter">1,202+</div>
-                  <div className="text-[9px] font-black uppercase tracking-widest text-white/40">Medical Devices</div>
+                  <div className="text-2xl font-black font-mono tracking-tighter">7,100+</div>
+                  <div className="text-[9px] font-black uppercase tracking-widest text-white/40">Active SKUs</div>
                 </div>
                 <div className="space-y-1">
                   <div className="text-2xl font-black font-mono tracking-tighter">33</div>
@@ -256,7 +261,7 @@ export default function Home() {
       <section className="py-24 bg-white/[0.02] border-y border-white/5">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-12 text-center">
-            <StatsCounter value={1202} label="Global Implants" suffix="+" />
+            <StatsCounter value={7100} label="Active SKUs" suffix="+" />
             <StatsCounter value={33} label="Districts Optimized" />
             <StatsCounter value={24} label="Surgery Support" suffix="/7" />
             <StatsCounter value={100} label="Hospital Trust" suffix="%" />
@@ -278,8 +283,8 @@ export default function Home() {
                    <span className="text-primary text-4xl md:text-6xl">Intelligence.</span>
                 </h2>
                 <p className="text-xl text-muted-foreground leading-relaxed mb-12 max-w-xl">
-                   We transformed static implant catalogs into an operational intelligence system. Use our 
-                   **Mechanical Sizing Wizard** to optimize your procedure selection.
+                   We transformed static implant catalogs into an operational intelligence system. Use our{' '}
+                   <strong className="text-white font-black">Mechanical Sizing Wizard</strong> to optimize your procedure selection.
                 </p>
                 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-12">
@@ -343,7 +348,7 @@ export default function Home() {
                   {sol.desc}
                 </p>
                 <div className="flex items-center justify-between">
-                   <span className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40">SKUs: 200+</span>
+                   <span className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40">{sol.skus ? `SKUs: ${sol.skus.toLocaleString('en-IN')}` : ''}</span>
                    <Link href={`/catalog/${sol.slug}`} className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">View Division</Link>
                 </div>
                 {/* Telemetry Pulse Overlay on Hover */}

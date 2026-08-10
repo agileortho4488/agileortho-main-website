@@ -11,7 +11,7 @@ const MILESTONES = [
   { year: '2020', title: 'Meril Partnership', desc: 'Authorized as the Master Franchise distributor for Meril Life Sciences.' },
   { year: '2022', title: 'Network Expansion', desc: 'Expanded logistics infrastructure to cover all 33 districts of Telangana.' },
   { year: '2024', title: 'Digital Transformation', desc: 'Launched the Surgical Intelligence Platform for enhanced clinical support.' },
-  { year: '2026', title: 'Operational Domination', desc: 'Scaling to ₹100 Crore annual revenue with 1,202+ medical devices.' },
+  { year: '2026', title: 'Operational Domination', desc: 'Scaling to ₹100 Crore annual revenue with 7,100+ active SKUs.' },
 ];
 
 export default function PartnershipTimeline() {

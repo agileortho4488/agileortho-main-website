@@ -138,7 +138,7 @@ export default function DivisionContent({ data, theme }: { data: any, theme: any
       <section className="py-24 border-t border-white/5 bg-black">
         <div className="max-w-7xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-12 text-center">
            {[
-             { label: 'Products', value: '1,202+' },
+             { label: 'Products', value: '7,100+' },
              { label: 'Districts', value: '33' },
              { label: 'OT Success', value: '99.9%' },
              { label: 'Dispatch', value: '2hr' }
