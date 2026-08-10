@@ -174,7 +174,7 @@ export default async function DistrictPage({ params }: Props) {
           </h2>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-8">
             <Link 
-              href="https://wa.me/917416216262"
+              href="https://wa.me/917416521222"
               className="px-12 py-6 bg-black text-white font-black uppercase tracking-widest text-sm hover:bg-white hover:text-black transition-all"
             >
               Contact Local Manager

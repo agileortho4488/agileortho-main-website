@@ -199,7 +199,7 @@ export default function Home() {
 
               <div className="flex flex-col sm:flex-row items-center gap-8">
                 <Link 
-                  href="https://wa.me/917416216262?text=I%20need%20OT%20support%20for%20a%20surgery."
+                  href="https://wa.me/917416521222?text=I%20need%20OT%20support%20for%20a%20surgery."
                   className="group relative px-12 py-6 bg-primary text-black font-black uppercase tracking-widest text-sm rounded-none hover:bg-white transition-[background-color,transform] duration-200 ease-out hover:scale-105 active:scale-[0.97] shadow-[0_20px_40px_hsl(43_72%_52%/0.25)] w-full sm:w-auto text-center"
                 >
                   Request OT Support
@@ -211,6 +211,16 @@ export default function Home() {
                   Explore Clinical Solutions <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
+
+              {/* Hospital procurement still runs on the phone. Both buttons above are taps into an
+                  app; a buyer who simply wants to ring somebody had no number anywhere above the
+                  fold, on any page. */}
+              <p className="mt-8 text-base text-white/50 text-center sm:text-left">
+                Or call{' '}
+                <a href="tel:+917416216262" className="font-black text-primary hover:text-white transition-colors tabular-nums">
+                  +91 74162 16262
+                </a>
+              </p>
 
               {/* The hero metric strip lived here and showed 7,100+ / 33 / 24-7 / 10 — the SAME four
                   numbers the stats section directly below already shows, one screen apart, with the
@@ -461,13 +471,22 @@ export default function Home() {
             Someone will answer and we dispatch from Hyderabad.
           </p>
           <Link
-            href="https://wa.me/917416216262?text=I%20need%20an%20implant.%20Hospital%3A%20%0ASurgeon%3A%20%0AWhat%20I%20need%3A%20"
+            href="https://wa.me/917416521222?text=I%20need%20an%20implant.%20Hospital%3A%20%0ASurgeon%3A%20%0AWhat%20I%20need%3A%20"
             className="inline-block px-12 py-6 bg-primary text-black font-black uppercase tracking-widest text-sm hover:bg-white transition-[background-color,transform] duration-200 ease-out hover:scale-105 active:scale-[0.97] shadow-[0_20px_40px_hsl(43_72%_52%/0.25)]"
           >
             WhatsApp Us Now
           </Link>
-          <p className="mt-8 text-[11px] font-black uppercase tracking-[0.3em] text-white/30">
-            74162 16262 &middot; Hyderabad &middot; All 33 districts
+          {/* A real tel: link, not printed text. Before this the whole site had no dialable number
+              on any page a buyer lands on: the only one lived inside the mobile menu and was a
+              <button> that did nothing when tapped. */}
+          <p className="mt-10 text-base text-white/60">
+            Or call{' '}
+            <a href="tel:+917416216262" className="font-black text-primary hover:text-white transition-colors tabular-nums">
+              +91 74162 16262
+            </a>
+          </p>
+          <p className="mt-3 text-[11px] font-black uppercase tracking-[0.3em] text-white/30">
+            Hyderabad &middot; All 33 districts
           </p>
         </div>
       </section>

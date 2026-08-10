@@ -321,10 +321,12 @@ export default function PremiumHeader() {
                 </Link>
               ))}
               <div className="pt-6 border-t border-white/5 flex flex-col gap-4">
-                <button className="flex items-center gap-3 text-lg font-bold">
+                {/* was a <button>, so tapping the number did nothing at all. On a phone the whole
+                    point of showing a number is that it dials. */}
+                <a href="tel:+917416216262" className="flex items-center gap-3 text-lg font-bold hover:text-primary transition-colors">
                   <Phone className="w-5 h-5 text-primary" />
-                  +91 7416216262
-                </button>
+                  +91 74162 16262
+                </a>
                 <div className="bg-primary p-6 rounded-2xl text-black">
                   <h4 className="font-black text-xl mb-1">Join the Network</h4>
                   <p className="text-sm font-medium opacity-80 mb-4">Authorized Meril Master Distributor</p>
