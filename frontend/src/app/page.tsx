@@ -279,15 +279,24 @@ export default function Home() {
                     eight sections; a section's position already tells the reader what it is, and
                     stacking a label above every headline is the rhythm that makes a page feel
                     templated. The headline alone does the work. */}
-                <h2 className="text-5xl md:text-8xl font-black tracking-tighter mb-8 leading-none uppercase italic">
-                   Clinical<br />
-                   <span className="text-primary text-4xl md:text-6xl">Intelligence.</span>
+                {/* This section used to be headed "Clinical Intelligence." with a paragraph about
+                    transforming static catalogs into an operational intelligence system - words that
+                    describe nothing a surgeon can act on, sitting above the one tool on this site a
+                    competitor cannot copy from a brochure. The heading now asks the question the tool
+                    answers, so the tool has a reason to be here. */}
+                <h2 className="text-5xl md:text-7xl font-black tracking-tighter mb-8 leading-none uppercase italic">
+                   Know the size<br />
+                   <span className="text-primary">before you open.</span>
                 </h2>
-                <p className="text-xl text-muted-foreground leading-relaxed mb-12 max-w-xl">
-                   We transformed static implant catalogs into an operational intelligence system. Use our{' '}
-                   <strong className="text-white font-black">Mechanical Sizing Wizard</strong> to optimize your procedure selection.
+                <p className="text-xl text-muted-foreground leading-relaxed mb-6 max-w-xl">
+                   Enter the femoral A-P measurement from your pre-op templating. It tells you which
+                   Destiknee size that falls in, on this page, without a catalogue or a phone call.
                 </p>
-                
+                <p className="text-sm text-white/40 leading-relaxed mb-12 max-w-xl">
+                   A planning guide, not a substitute for the manufacturer&apos;s surgical technique.
+                   Confirm the final size against it before ordering.
+                </p>
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-12">
                    <div className="space-y-4">
                      <Link href="/evidence" className="group flex items-center gap-4 text-sm font-black uppercase tracking-widest text-primary border border-primary/20 px-6 py-4 rounded-xl hover:bg-primary/5 transition-[background-color,transform] duration-200 ease-out active:scale-[0.97] text-center justify-center">
@@ -432,6 +441,34 @@ export default function Home() {
               <TelanganaMap />
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* THE CLOSING ASK.
+          Measured before this existed: the page runs 7,257px and the only real call to action sat
+          at 12% down it. Everything after that was reading, and it ended on the map. Someone who
+          read the whole page had to scroll back to the top to do anything. This asks once, plainly,
+          at the point where they have finished reading and know what we sell. Same WhatsApp number
+          as the hero, so there is nothing new for the office to watch. */}
+      <section className="py-32 px-4 border-t border-white/5">
+        <div className="max-w-3xl mx-auto text-center">
+          <h2 className="text-4xl md:text-6xl font-black tracking-tighter mb-8 leading-none uppercase italic">
+            Need an implant<br />
+            <span className="text-primary">today?</span>
+          </h2>
+          <p className="text-xl text-muted-foreground leading-relaxed mb-12 max-w-xl mx-auto">
+            Send us the case on WhatsApp. Tell us the hospital, the surgeon and what you need.
+            Someone will answer and we dispatch from Hyderabad.
+          </p>
+          <Link
+            href="https://wa.me/918500204488?text=I%20need%20an%20implant.%20Hospital%3A%20%0ASurgeon%3A%20%0AWhat%20I%20need%3A%20"
+            className="inline-block px-12 py-6 bg-primary text-black font-black uppercase tracking-widest text-sm hover:bg-white transition-[background-color,transform] duration-200 ease-out hover:scale-105 active:scale-[0.97] shadow-[0_20px_40px_hsl(43_72%_52%/0.25)]"
+          >
+            WhatsApp Us Now
+          </Link>
+          <p className="mt-8 text-[11px] font-black uppercase tracking-[0.3em] text-white/30">
+            8500 20 4488 &middot; Hyderabad &middot; All 33 districts
+          </p>
         </div>
       </section>
 
