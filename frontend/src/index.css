@@ -97,15 +97,22 @@
   * {
     @apply border-border;
   }
+  /* These three rules pointed at --font-manrope / --font-outfit / --font-mono, none of which are
+     ever defined — layout.tsx loads Sora, Inter and JetBrains Mono. An undefined custom property
+     makes the whole declaration invalid, so the browser DISCARDED it: verified on production,
+     every h2 and h3 was inheriting the body font (Inter) instead of the brand heading font.
+     Only the h1 looked right, because page.tsx puts an explicit font-heading class on it. */
   body {
     @apply bg-[#0A0A0A] text-white;
-    font-family: var(--font-manrope), sans-serif;
+    font-family: var(--font-inter), sans-serif;
   }
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-outfit), sans-serif;
+    font-family: var(--font-sora), sans-serif;
+    text-wrap: balance;               /* no single orphaned word on the last line */
   }
   code, pre, .mono {
-    font-family: var(--font-mono), monospace;
+    font-family: var(--font-jetbrains), monospace;
+    font-variant-numeric: tabular-nums;
   }
 }
 

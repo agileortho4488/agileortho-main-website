@@ -7,16 +7,16 @@ import SiteFooter from '@/components/SiteFooter';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { motion } from 'framer-motion';
-import { 
-  Activity, 
-  Heart, 
-  Stethoscope, 
-  Dna, 
-  Microscope, 
-  ChevronRight, 
+import {
+  Bone,
+  HeartPulse,
+  PersonStanding,
+  Scissors,
+  TestTubes,
+  ChevronRight,
   ShieldCheck,
   Award,
-  Zap,
+  Truck,
   UserCheck,
   ArrowRight
 } from 'lucide-react';
@@ -34,56 +34,54 @@ const TelanganaMap = dynamic(() => import('../components/TelanganaMap'));
 
 gsap.registerPlugin(ScrollTrigger);
 
+// ICONS ARE CLINICAL SIGNAGE ON THIS SITE, NOT DECORATION. The previous set was wrong in ways a
+// surgeon reads instantly: a DNA helix for stapling and laparoscopy, a stethoscope for knee and hip
+// replacement, a heart-rate trace for fractures. Each is now the instrument or anatomy the division
+// actually sells.
+//
+// COLOUR: five accents were in use here — blue-400, red-500, purple-500 and blue-500 alongside the
+// brand gold — and purple-on-blue is the single most recognisable AI-template fingerprint. The
+// company's own design system (design_guidelines.json) specifies ONE accent, Agile Gold. Restored.
 const SOLUTIONS = [
-  { 
-    title: 'Trauma & Fracture', 
-    desc: 'Anatomical plating systems and intramedullary nails engineered for early weight-bearing and stability.', 
-    icon: Activity, 
+  {
+    title: 'Trauma & Fracture',
+    desc: 'Anatomical plating systems and intramedullary nails engineered for early weight-bearing and stability.',
+    icon: Bone,
     division: 'Trauma',
     slug: 'trauma',
     skus: 8233,   // measured from the item catalogue, not an estimate
-    color: 'text-blue-400',
-    border: 'hover:border-blue-500/50'
   },
-  { 
-    title: 'Arthroplasty', 
-    desc: 'Primary and revision joint replacement solutions for hip and knee with proprietary wear-reduction technology.', 
-    icon: Stethoscope, 
+  {
+    title: 'Arthroplasty',
+    desc: 'Primary and revision joint replacement for hip and knee, across the full size range surgeons ask for.',
+    icon: PersonStanding,
     division: 'Joint Replacement',
     slug: 'arthroplasty',
     skus: 158,   // measured from the item catalogue, not an estimate
-    color: 'text-primary',
-    border: 'hover:border-primary/50'
   },
-  { 
-    title: 'Cardiovascular', 
-    desc: 'Bio-mimetic coronary stents and biological heart valves representing the pinnacle of interventional logic.', 
-    icon: Heart, 
+  {
+    title: 'Cardiovascular',
+    desc: 'Coronary stents and biological heart valves for interventional cardiology.',
+    icon: HeartPulse,
     division: 'Cardiovascular',
     slug: 'cardiovascular',
     skus: 15,   // measured from the item catalogue, not an estimate
-    color: 'text-red-500',
-    border: 'hover:border-red-500/50'
   },
-  { 
-    title: 'Endo-Surgery', 
-    desc: 'Smart-stapling systems and laparoscopic instrumentation for minimally invasive excellence.', 
-    icon: Dna, 
+  {
+    title: 'Endo-Surgery',
+    desc: 'Surgical stapling systems and laparoscopic instrumentation for minimally invasive procedures.',
+    icon: Scissors,
     division: 'Endo-Surgery',
     slug: 'endo-surgery',
     skus: 1178,   // measured from the item catalogue, not an estimate
-    color: 'text-purple-500',
-    border: 'hover:border-purple-500/50'
   },
-  { 
-    title: 'Diagnostics', 
-    desc: 'Advanced laboratory analyzers and rapid diagnostic test kits for hospital-wide accuracy.', 
-    icon: Microscope, 
+  {
+    title: 'Diagnostics',
+    desc: 'Laboratory analysers and reagents, plus rapid test kits, supplied to hospital and standalone labs.',
+    icon: TestTubes,
     division: 'Diagnostics',
     slug: 'diagnostics',
     skus: 382,   // measured from the item catalogue, not an estimate
-    color: 'text-blue-500',
-    border: 'hover:border-blue-500/50'
   },
 ];
 
@@ -93,6 +91,14 @@ export default function Home() {
   const telemetryRef = useRef(null);
 
   useLayoutEffect(() => {
+    // Respect the visitor's motion setting. Some people get nausea or migraine from a full-viewport
+    // entrance sequence, and this is a medical site. Bailing out BEFORE the gsap.from() calls is what
+    // makes this safe: .from() writes the start state (opacity 0) immediately and only the timeline
+    // brings it back, so any guard that lets those calls run and then blocks playback leaves the
+    // headline permanently invisible — which is exactly what happened when this was first written
+    // with gsap.matchMedia, caught in the browser.
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
     const ctx = gsap.context(() => {
       // Hero Entrance Sequence
       const tl = gsap.timeline();
@@ -145,7 +151,9 @@ export default function Home() {
       <TrustStrip />
 
       {/* SECTION 6: HERO EXPERIENCE */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+      {/* min-h-dvh, not min-h-screen: 100vh on iOS Safari includes the browser chrome, so the hero
+          jumped by ~80px the moment the toolbar collapsed on scroll. Most visitors here are on phones. */}
+      <section className="relative min-h-dvh flex items-center justify-center overflow-hidden pt-20">
         {/* Immersive Background */}
         <div className="absolute inset-0 z-0">
           <div className="hero-bg absolute inset-0">
@@ -192,7 +200,7 @@ export default function Home() {
               <div className="flex flex-col sm:flex-row items-center gap-8">
                 <Link 
                   href="https://wa.me/918500204488?text=I%20need%20OT%20support%20for%20a%20surgery."
-                  className="group relative px-12 py-6 bg-primary text-black font-black uppercase tracking-widest text-sm rounded-none hover:bg-white transition-all hover:scale-105 active:scale-95 shadow-[0_20px_40px_rgba(0,194,255,0.2)] w-full sm:w-auto text-center"
+                  className="group relative px-12 py-6 bg-primary text-black font-black uppercase tracking-widest text-sm rounded-none hover:bg-white transition-all hover:scale-105 active:scale-95 shadow-[0_20px_40px_hsl(43_72%_52%/0.25)] w-full sm:w-auto text-center"
                 >
                   Request OT Support
                 </Link>
@@ -219,7 +227,7 @@ export default function Home() {
                   <div className="text-[9px] font-black uppercase tracking-widest text-white/40">OT Support</div>
                 </div>
                 <div className="space-y-1">
-                  <div className="text-2xl font-black font-mono tracking-tighter">16</div>
+                  <div className="text-2xl font-black font-mono tracking-tighter">10</div>
                   <div className="text-[9px] font-black uppercase tracking-widest text-white/40">Clinical Divisions</div>
                 </div>
               </div>
@@ -257,14 +265,17 @@ export default function Home() {
         </div>
       </section>
 
-      {/* STATS: THE DOMINATION METRICS */}
+      {/* STATS — every one of these must be a number we can show a hospital the working for.
+          "100% Hospital Trust" was here: a round invented figure that nobody can verify and that a
+          procurement officer would be right to challenge. Replaced with the division count, which
+          is measured from the item catalogue like the SKU figure beside it. */}
       <section className="py-24 bg-white/[0.02] border-y border-white/5">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-12 text-center">
             <StatsCounter value={7100} label="Active SKUs" suffix="+" />
-            <StatsCounter value={33} label="Districts Optimized" />
+            <StatsCounter value={33} label="Districts Served" />
             <StatsCounter value={24} label="Surgery Support" suffix="/7" />
-            <StatsCounter value={100} label="Hospital Trust" suffix="%" />
+            <StatsCounter value={10} label="Clinical Divisions" />
           </div>
         </div>
       </section>
@@ -334,25 +345,32 @@ export default function Home() {
 
           <div className="solutions-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {SOLUTIONS.map((sol, i) => (
-              <motion.div
-                key={i}
-                whileHover={{ y: -10 }}
-                className={`group relative p-10 bg-[#0F172A] border border-white/5 rounded-[40px] ${sol.border} transition-all overflow-hidden cursor-pointer`}
+              // The whole card was cursor-pointer, lifted on hover and showed a chevron — but only
+              // the 10px "View Division" text was actually clickable. It is now one real link, so
+              // the entire card does what it has been promising, and keyboard users get a focus ring.
+              <motion.div key={i} whileHover={{ y: -10 }} className="group">
+              <Link
+                href={`/catalog/${sol.slug}`}
+                aria-label={`${sol.title} — view the ${sol.division} division`}
+                className="relative flex h-full flex-col p-10 bg-[#0F172A] border border-white/5 rounded-3xl hover:border-primary/50 transition-all overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-[#050816]"
               >
                 <div className="absolute top-0 right-0 p-6 opacity-0 group-hover:opacity-100 transition-opacity">
                    <ChevronRight className="w-8 h-8 text-primary" />
                 </div>
-                <sol.icon className={`w-12 h-12 ${sol.color} mb-8`} />
+                <sol.icon className="w-12 h-12 text-primary mb-8" strokeWidth={1.5} aria-hidden="true" />
                 <h3 className="text-2xl font-black mb-4 uppercase tracking-tighter">{sol.title}</h3>
                 <p className="text-muted-foreground leading-relaxed mb-8">
                   {sol.desc}
                 </p>
-                <div className="flex items-center justify-between">
-                   <span className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40">{sol.skus ? `SKUs: ${sol.skus.toLocaleString('en-IN')}` : ''}</span>
-                   <Link href={`/catalog/${sol.slug}`} className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">View Division</Link>
+                {/* mt-auto pins this row to the bottom so the SKU counts line up across cards
+                    whose descriptions run to different lengths */}
+                <div className="mt-auto flex items-center justify-between">
+                   <span className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40 tabular-nums">{sol.skus ? `SKUs: ${sol.skus.toLocaleString('en-IN')}` : ''}</span>
+                   <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">View Division</span>
                 </div>
                 {/* Telemetry Pulse Overlay on Hover */}
                 <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+              </Link>
               </motion.div>
             ))}
           </div>
@@ -372,7 +390,7 @@ export default function Home() {
                 <span className="text-[10px] font-black uppercase tracking-widest">ISO 13485:2016</span>
               </div>
               <div className="flex items-center justify-center gap-2">
-                <Zap className="w-5 h-5 text-primary" />
+                <Truck className="w-5 h-5 text-primary" />
                 <span className="text-[10px] font-black uppercase tracking-widest">2-Hour Dispatch</span>
               </div>
               <div className="flex items-center justify-center gap-2">
@@ -384,7 +402,9 @@ export default function Home() {
       </section>
 
       {/* SECTION 9: LOGISTICS ENGINE - TELANGANA MAP */}
-      <section className="py-32 bg-black relative overflow-hidden" id="logistics">
+      {/* was bg-black — a jump to pure #000 in the middle of a page whose ground is #050816 read as
+          a copy-paste seam. Same family, one step darker. */}
+      <section className="py-32 bg-[#03050F] relative overflow-hidden" id="logistics">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
             <div className="lg:col-span-4">
@@ -397,8 +417,8 @@ export default function Home() {
                 <span className="text-primary">Logistics.</span>
               </h2>
               <p className="text-xl text-muted-foreground leading-relaxed mb-12">
-                Our hub-and-spoke dispatch model ensures that clinical support and hardware reach every corner of Telangana with unmatched speed. 
-                <span className="text-white block mt-4 font-bold uppercase tracking-tight italic">Hover over the districts to see our service telemetry.</span>
+                Our hub-and-spoke dispatch model gets clinical support and hardware to every corner of Telangana.
+                <span className="text-white block mt-4 font-bold uppercase tracking-tight italic">Tap or hover a district to see its service cover.</span>
               </p>
               
               <div className="space-y-6">
