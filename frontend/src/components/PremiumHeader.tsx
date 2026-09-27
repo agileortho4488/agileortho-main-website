@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, ChevronRight, Phone, MessageSquare, Search } from 'lucide-react';
+import { Menu, X, ChevronRight, Phone, MessageSquare, Search, LogIn } from 'lucide-react';
 import CommandSearch from './CommandSearch';
 
 export default function PremiumHeader() {
@@ -248,6 +248,14 @@ export default function PremiumHeader() {
                   </div>
                 </div>
               </div>
+              {/* Customer portal: orders, prices, bills, pay by UPI (connect.agilehealthcare.in) */}
+              <a
+                href="https://connect.agilehealthcare.in"
+                className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-muted-foreground hover:text-white transition-colors px-4 border-r border-white/10"
+              >
+                <LogIn className="w-4 h-4 text-primary" />
+                Customer Login
+              </a>
               <Link
                 href="/contact"
                 className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-muted-foreground hover:text-white transition-colors px-4"
@@ -321,6 +329,14 @@ export default function PremiumHeader() {
                 </Link>
               ))}
               <div className="pt-6 border-t border-white/5 flex flex-col gap-4">
+                <a
+                  href="https://connect.agilehealthcare.in"
+                  className="flex items-center justify-center gap-3 rounded-xl border border-primary/40 py-3 text-base font-bold text-white"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <LogIn className="w-5 h-5 text-primary" />
+                  Customer Login
+                </a>
                 <button className="flex items-center gap-3 text-lg font-bold">
                   <Phone className="w-5 h-5 text-primary" />
                   +91 8500204488
