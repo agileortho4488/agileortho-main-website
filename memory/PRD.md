@@ -78,7 +78,7 @@ Build a B2B medical device platform for "Agile Healthcare", a premier Meril Life
 - Consolidate prerender_districts.py with frontend districts.js
 
 ## Credentials
-- Admin Login: `/admin/login` with password `AgileHealth2026admin`
+- Admin Login: `/admin/login` with password `[removed]`
 - Interakt API Key: In backend/.env
 
 ## Key API Endpoints

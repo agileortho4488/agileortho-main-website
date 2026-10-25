@@ -30,7 +30,7 @@
     "backend": "87.5% (7/8 pytest tests passed - 1 timeout on bulk sync)",
     "frontend": "100% (all UI flows verified)"
   },
-  "test_credentials": "Admin: /admin/login - password: AgileHealth2026admin",
+  "test_credentials": "Admin: /admin/login - password: [removed]",
   "seed_data_creation": "None - used existing Interakt contacts",
   "retest_needed": false,
   "main_agent_can_self_test": true,

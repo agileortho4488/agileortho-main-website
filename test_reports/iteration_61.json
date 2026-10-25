@@ -28,7 +28,7 @@
     "backend": "100% (23/23 pytest tests passed)",
     "frontend": "100% (all UI flows verified)"
   },
-  "test_credentials": "Admin: /admin/login - password: AgileHealth2026admin",
+  "test_credentials": "Admin: /admin/login - password: [removed]",
   "seed_data_creation": "None - used existing data",
   "retest_needed": false,
   "main_agent_can_self_test": true,
@@ -36,7 +36,7 @@
   "features_tested": {
     "admin_login": {
       "status": "PASS",
-      "details": "Login with password AgileHealth2026admin works, redirects to dashboard"
+      "details": "Login with password [removed] works, redirects to dashboard"
     },
     "dashboard_stats": {
       "status": "PASS",

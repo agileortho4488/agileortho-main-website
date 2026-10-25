@@ -168,12 +168,12 @@ class TestAdminLogin:
         """Test admin login with correct password"""
         response = requests.post(
             f"{BASE_URL}/api/admin/login",
-            json={"password": "AgileHealth2026admin"}
+            json={"password": os.environ.get("TEST_ADMIN_PASSWORD", "")}
         )
         assert response.status_code == 200, f"Admin login failed with status {response.status_code}"
         data = response.json()
         assert "token" in data or "success" in data or response.status_code == 200, "Login response missing expected fields"
-        print("PASS: Admin login works with password AgileHealth2026admin")
+        print("PASS: Admin login works with password the test admin password")
 
 
 if __name__ == "__main__":

@@ -34,10 +34,10 @@ class TestAdminAuth:
     """Admin authentication tests"""
     
     def test_admin_login_with_correct_password(self):
-        """Test admin login with AgileHealth2026admin"""
+        """Test admin login with the test admin password"""
         response = requests.post(
             f"{BASE_URL}/api/admin/login",
-            json={"password": "AgileHealth2026admin"},
+            json={"password": os.environ.get("TEST_ADMIN_PASSWORD", "")},
             timeout=10
         )
         assert response.status_code == 200, f"Expected 200, got {response.status_code}: {response.text}"
@@ -68,7 +68,7 @@ class TestAdminAuth:
         # First login
         login_response = requests.post(
             f"{BASE_URL}/api/admin/login",
-            json={"password": "AgileHealth2026admin"},
+            json={"password": os.environ.get("TEST_ADMIN_PASSWORD", "")},
             timeout=10
         )
         assert login_response.status_code == 200

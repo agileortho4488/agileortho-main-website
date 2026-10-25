@@ -1,5 +1,5 @@
 {
-  "summary": "Iteration 59: Cookie Consent Banner & App Health - All 12 test cases PASSED. Cookie consent banner appears on first visit with Accept All, Reject Non-Essential, and X dismiss buttons. Clicking Accept All sets localStorage to 'accepted' and grants GA4/Meta Pixel consent. Clicking Reject or X dismiss sets localStorage to 'rejected'. Banner does NOT reappear after page reload when consent was given. GA4 consent mode defaults to denied. Admin login works with password AgileHealth2026admin. Catalog divisions API returns data. Product detail page renders correctly. Chatbot widget visible alongside cookie banner.",
+  "summary": "Iteration 59: Cookie Consent Banner & App Health - All 12 test cases PASSED. Cookie consent banner appears on first visit with Accept All, Reject Non-Essential, and X dismiss buttons. Clicking Accept All sets localStorage to 'accepted' and grants GA4/Meta Pixel consent. Clicking Reject or X dismiss sets localStorage to 'rejected'. Banner does NOT reappear after page reload when consent was given. GA4 consent mode defaults to denied. Admin login works with password [removed]. Catalog divisions API returns data. Product detail page renders correctly. Chatbot widget visible alongside cookie banner.",
   "backend_issues": {
     "critical": [],
     "minor": []
@@ -23,7 +23,7 @@
     "backend": "100% (7/7 tests passed)",
     "frontend": "100% (12/12 cookie consent tests passed)"
   },
-  "test_credentials": "Admin: /admin/login - password: AgileHealth2026admin",
+  "test_credentials": "Admin: /admin/login - password: [removed]",
   "seed_data_creation": "None - used existing data",
   "retest_needed": false,
   "main_agent_can_self_test": true,
@@ -67,7 +67,7 @@
     },
     "admin_login": {
       "status": "PASS",
-      "details": "Admin login works with password AgileHealth2026admin, redirects to dashboard"
+      "details": "Admin login works with password [removed], redirects to dashboard"
     },
     "catalog_divisions_api": {
       "status": "PASS",

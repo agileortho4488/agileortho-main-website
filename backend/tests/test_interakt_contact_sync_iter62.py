@@ -26,7 +26,7 @@ class TestInteraktContactSync:
         # Login to get admin token
         login_resp = self.session.post(
             f"{BASE_URL}/api/admin/login",
-            json={"password": "AgileHealth2026admin"}
+            json={"password": os.environ.get("TEST_ADMIN_PASSWORD", "")}
         )
         assert login_resp.status_code == 200, f"Admin login failed: {login_resp.text}"
         token = login_resp.json().get("token")
@@ -36,7 +36,7 @@ class TestInteraktContactSync:
         """Test admin login works"""
         resp = requests.post(
             f"{BASE_URL}/api/admin/login",
-            json={"password": "AgileHealth2026admin"}
+            json={"password": os.environ.get("TEST_ADMIN_PASSWORD", "")}
         )
         assert resp.status_code == 200
         data = resp.json()
@@ -148,7 +148,7 @@ class TestPushLeadsToInterakt:
         
         login_resp = self.session.post(
             f"{BASE_URL}/api/admin/login",
-            json={"password": "AgileHealth2026admin"}
+            json={"password": os.environ.get("TEST_ADMIN_PASSWORD", "")}
         )
         assert login_resp.status_code == 200
         token = login_resp.json().get("token")

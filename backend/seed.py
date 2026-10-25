@@ -142,16 +142,22 @@ async def seed_catalog():
 
     # Seed admin auth fallback (hashed password stored in DB)
     from helpers import hash_password
-    admin_pw = (os.environ.get("ADMIN_PASSWORD") or "").strip('"').strip("'") or "AgileHealth2026admin"
-    await mongo_db["admin_config"].update_one(
-        {"type": "admin_auth"},
-        {"$set": {
-            "type": "admin_auth",
-            "password_hash": hash_password(admin_pw),
-            "updated_at": datetime.now(timezone.utc).isoformat(),
-        }},
-        upsert=True,
-    )
-    print("Admin auth fallback seeded")
+    # Only from ADMIN_PASSWORD. With none set, the stored hash is removed rather than
+    # left holding the old default, which was published in this repo.
+    admin_pw = (os.environ.get("ADMIN_PASSWORD") or "").strip('"').strip("'")
+    if admin_pw:
+        await mongo_db["admin_config"].update_one(
+            {"type": "admin_auth"},
+            {"$set": {
+                "type": "admin_auth",
+                "password_hash": hash_password(admin_pw),
+                "updated_at": datetime.now(timezone.utc).isoformat(),
+            }},
+            upsert=True,
+        )
+        print("Admin auth fallback seeded")
+    else:
+        await mongo_db["admin_config"].delete_one({"type": "admin_auth"})
+        print("ADMIN_PASSWORD not set - admin login is disabled")
 
     print("Catalog seed complete with indexes")

@@ -582,7 +582,7 @@ All **33 districts** of Telangana have dedicated service area pages with:
 
 | System | Credential |
 |--------|-----------|
-| Admin Login | Password: `AgileHealth2026admin` |
+| Admin Login | Password: `[removed]` |
 | Interakt API | Key in backend/.env |
 | OpenAI | Key in backend/.env |
 | Google Analytics | G-MXXC41JFLG |

@@ -20,8 +20,8 @@ router = APIRouter()
 
 @router.post("/api/admin/login")
 async def admin_login(body: AdminLogin):
-    # Hardcoded hash fallback — works regardless of env var state
-    HARDCODED_HASH = "929de6a2de5a741bdc91f55a9db7b36422607681b85fc7edb6ebff375dc6af08"
+    # No hard-coded fallback: that hash was of a password published in this repo,
+    # so it kept working whatever ADMIN_PASSWORD was changed to.
     input_hash = hash_password(body.password)
 
     # Check 1: Direct env var match
@@ -29,12 +29,7 @@ async def admin_login(body: AdminLogin):
         token = create_token({"sub": "admin", "role": "super_admin"})
         return {"token": token, "role": "super_admin"}
 
-    # Check 2: Hash match (works even if env var is missing/mangled)
-    if input_hash == HARDCODED_HASH:
-        token = create_token({"sub": "admin", "role": "super_admin"})
-        return {"token": token, "role": "super_admin"}
-
-    # Check 3: DB fallback
+    # Check 2: DB fallback (seeded from ADMIN_PASSWORD only)
     from db import db as mongo_db
     admin_config = await mongo_db["admin_config"].find_one({"type": "admin_auth"})
     if admin_config and input_hash == admin_config.get("password_hash", ""):
