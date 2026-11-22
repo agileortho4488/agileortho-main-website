@@ -1,0 +1,412 @@
+/* How we deliver (Service.dc.html). Page-scoped; tokens from globals.css. */
+
+.stage { position: relative; overflow: hidden; background: var(--stage); color: var(--stage-ink); }
+.inner { max-width: var(--wrap); margin: 0 auto; padding-left: var(--gutter); padding-right: var(--gutter); }
+
+/* 1 Opener */
+.hero { display: grid; grid-template-columns: 1fr; gap: 40px; align-items: center; padding-top: clamp(32px, 6vw, 80px); padding-bottom: clamp(64px, 9vw, 112px); }
+@media (min-width: 1000px) { .hero { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 56px; } }
+.crumb { font-size: 13px; color: var(--stage-ink-2); margin-bottom: 8px; }
+.crumb ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; align-items: center; }
+.crumb a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 6px; margin-left: -6px; color: var(--stage-ink-2) !important; text-decoration: none; }
+.crumb a:hover, .crumb a:focus-visible { color: var(--stage-ink) !important; }
+.crumbNow { color: var(--stage-ink); padding: 0 6px; }
+.eyb { margin: 0 0 20px; max-width: 520px; font-family: var(--font-body); font-size: 13px; font-weight: 600; line-height: 1.5; letter-spacing: .04em; color: var(--stage-ink-2); }
+.disp { font-family: var(--font-head); font-weight: 500; font-size: clamp(52px, 8.4vw, 120px); line-height: .95; letter-spacing: -0.045em; color: var(--stage-ink); }
+.disp span { display: block; }
+.disp .rose { color: var(--rose); }
+.sub { margin: 28px 0 0; max-width: 460px; font-size: 18px; line-height: 1.5; color: #C9C4BE; }
+.cta { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 14px; margin-top: 32px; }
+.btnRose { display: inline-flex; align-items: center; gap: 10px; min-height: 54px; padding: 0 24px; border-radius: 27px; background: var(--rose); color: #1A0E0C !important; text-decoration: none; font-weight: 600; font-size: 16px; white-space: nowrap; transition: background-color .2s ease, transform .12s ease-out; }
+.btnRose:active { transform: scale(.98); }
+.glass { background: rgba(255, 244, 236, .06); border: 1px solid rgba(255, 236, 224, .14); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+.telPill { display: inline-flex; align-items: center; gap: 12px; min-height: 54px; padding: 8px 22px 8px 8px; border-radius: 27px; color: var(--stage-ink) !important; text-decoration: none; font-size: 15px; font-weight: 600; white-space: nowrap; transition: background-color .2s ease, transform .12s ease-out; }
+.telPill:active { transform: scale(.98); }
+.telIcon { flex: none; width: 38px; height: 38px; border-radius: 50%; background: var(--maroon); color: var(--stage-ink); display: inline-flex; align-items: center; justify-content: center; }
+.telNum { color: var(--rose); }
+@media (hover: hover) { .btnRose:hover { background: #F0B3A0; } .telPill:hover { background: rgba(255, 244, 236, .14); } }
+.photo { position: relative; margin: 0; aspect-ratio: 4 / 5; max-height: 680px; border-radius: var(--radius); overflow: hidden; background: var(--stage); }
+.photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 72%; transform: scale(1.04); display: block; filter: saturate(.55) contrast(1.12) brightness(1.02); }
+.photo::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(11, 10, 10, .25) 0%, rgba(11, 10, 10, 0) 25%, rgba(11, 10, 10, 0) 75%, rgba(11, 10, 10, .4) 100%); }
+@media (max-width: 999px) {
+  .hero { display: flex; flex-direction: column; align-items: stretch; gap: 0; }
+  .heroTxt { display: contents; }
+  .crumb { order: 1; } .eyb { order: 2; margin-bottom: 14px; } .disp { order: 3; }
+  .photo { order: 4; aspect-ratio: 16 / 9; margin-top: 16px; }
+  .sub { order: 5; } .cta { order: 6; margin-top: 24px; }
+}
+@media (max-width: 480px) { .cta > a { width: 100%; justify-content: center; } .telPill { padding: 8px 18px 8px 8px; white-space: normal; justify-content: flex-start !important; font-size: 14px; line-height: 1.3; } .telLb { flex: 1 1 auto; } }
+
+@keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: no-preference) {
+  .r1 { animation: rise .7s cubic-bezier(.2, .7, .1, 1) both; }
+  .r2 { animation: rise .7s cubic-bezier(.2, .7, .1, 1) .12s both; }
+  .r3 { animation: rise .7s cubic-bezier(.2, .7, .1, 1) .24s both; }
+  .r4 { animation: rise .7s cubic-bezier(.2, .7, .1, 1) .36s both; }
+}
+
+/* Steps */
+.steps { list-style: none; margin: 0; padding: 0; }
+.light { background: var(--bg); }
+.two { display: grid; grid-template-columns: 1fr; gap: clamp(28px, 4vw, 64px); align-items: start; padding-top: clamp(56px, 6vw, 88px); padding-bottom: clamp(56px, 6vw, 88px); }
+@media (min-width: 1000px) { .two { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+.noBottom { padding-bottom: 0; }
+.ey { margin: 0 0 14px; font-size: 13px; font-weight: 600; color: var(--maroon); }
+.stage .ey { color: var(--rose); }
+.h2s { text-wrap: balance; margin: 0 0 18px; font-family: var(--font-head); font-weight: 500; font-size: clamp(28px, 3.2vw, 44px); line-height: 1.08; letter-spacing: -0.03em; }
+.h3s { margin: 0 0 8px; font-family: var(--font-head); font-weight: 500; font-size: 20px; line-height: 1.25; letter-spacing: -0.02em; }
+.lead { margin: 0 0 24px; max-width: 440px; font-size: 18px; color: #3A3733; }
+.body { margin: 0; max-width: 440px; font-size: 17px; color: #3A3733; }
+.stage .lead, .stage .body { color: #C9C4BE; }
+.lead + .body { margin-top: -8px; }
+.side { padding-top: 24px; border-top: 1px solid var(--line); }
+@media (min-width: 1000px) { .side { margin-top: 30px; } }
+.txt { display: inline-flex; align-items: center; min-height: 44px; color: var(--maroon); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: rgba(138, 0, 0, .35); }
+.txt:hover { text-decoration-color: currentColor; }
+
+/* 02 Delivered */
+.glow { position: absolute; inset: 0; background: radial-gradient(50% 75% at 28% 50%, rgba(120, 40, 24, .5) 0%, rgba(86, 23, 19, .22) 42%, rgba(11, 10, 10, 0) 75%); }
+.deliv { position: relative; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr)); gap: clamp(32px, 5vw, 80px); align-items: start; padding-top: clamp(56px, 6vw, 88px); padding-bottom: clamp(56px, 6vw, 88px); }
+.night { margin-top: 32px; max-width: 440px; padding-top: 24px; border-top: 1px solid rgba(242, 240, 237, .14); }
+.card { margin-top: 34px; border-radius: var(--radius); padding: clamp(28px, 4vw, 48px); }
+@media (min-width: 1000px) { .card { order: -1; } }
+@media (max-width: 999px) { .card { margin-top: 0; } }
+.route { list-style: none; margin: 0; padding: 0; }
+.route li { position: relative; padding: 0 0 28px 34px; }
+.route li::before { content: ''; position: absolute; left: 5px; top: 8px; width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--rose); }
+.route li::after { content: ''; position: absolute; left: 10px; top: 24px; bottom: 4px; width: 2px; background: rgba(233, 162, 140, .3); }
+.route li:last-child { padding-bottom: 0; }
+.route li:last-child::before { background: var(--rose); }
+.route li:last-child::after { display: none; }
+.route b { display: block; font-family: var(--font-head); font-weight: 500; font-size: 22px; line-height: 1.25; letter-spacing: -0.02em; color: var(--stage-ink); }
+.route span { display: block; margin-top: 4px; font-size: 15px; color: #9C968F; }
+.anyHour { margin-top: 36px; padding-top: 24px; border-top: 1px solid rgba(242, 240, 237, .14); }
+.big { margin: 0; font-family: var(--font-head); font-weight: 500; font-size: clamp(40px, 4.4vw, 56px); line-height: 1; letter-spacing: -0.04em; color: var(--stage-ink); }
+.bigSub { margin: 8px 0 0; font-size: 15px; color: #9C968F; }
+
+/* 03 Collected */
+.before { margin: 0 0 4px; font-size: 15px; font-weight: 600; }
+.rows { margin: 0; padding: 0; list-style: none; border-bottom: 1px solid var(--line); }
+.rows li { display: flex; gap: 20px; align-items: baseline; padding: 22px 0; border-top: 1px solid var(--line); font-family: var(--font-head); font-weight: 500; font-size: 18px; line-height: 1.4; letter-spacing: -0.02em; }
+.sn { flex: none; min-width: 24px; font-size: 14px; font-weight: 600; letter-spacing: 0; color: var(--maroon); }
+
+/* Booking band */
+.bookSec { padding: clamp(40px, 5vw, 64px) 16px clamp(64px, 8vw, 112px); }
+.band { position: relative; overflow: hidden; max-width: 1392px; margin: 0 auto; background: radial-gradient(55% 120% at 92% 0%, rgba(214, 150, 118, .26) 0%, rgba(74, 16, 14, 0) 65%), linear-gradient(160deg, #561713 0%, #3B0E0C 100%); color: #fff; border-radius: 28px; padding: clamp(36px, 5vw, 72px) clamp(24px, 5vw, 72px); }
+.grain { position: absolute; inset: 0; opacity: .07; mix-blend-mode: overlay; pointer-events: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+.book { position: relative; display: grid; grid-template-columns: 1fr; gap: clamp(28px, 4vw, 56px); align-items: start; }
+@media (min-width: 900px) { .book { grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); align-items: start; } }
+.bookH { margin: 0 0 18px; font-family: var(--font-head); font-weight: 500; font-size: clamp(32px, 4vw, 56px); line-height: 1.02; letter-spacing: -0.035em; color: #fff; }
+.bookLead { margin: 0 0 28px; font-size: 18px; color: #F6E9E7; }
+.btnW { display: inline-flex; align-items: center; flex-wrap: wrap; gap: 4px 10px; min-height: 54px; max-width: 100%; padding: 12px 22px; border-radius: 26px; background: #fff; color: #561713 !important; text-decoration: none; font-weight: 600; font-size: 16px; transition: background-color .2s ease, transform .12s ease-out; }
+.btnW:active { transform: scale(.98); }
+@media (hover: hover) { .btnW:hover { background: var(--stage-ink); } }
+.nowrap { white-space: nowrap; }
+.bookCard { background: #fff; color: var(--ink); border-radius: 20px; padding: 8px clamp(18px, 3vw, 28px) 20px; }
+.bkList { margin: 0; padding: 0; list-style: none; border-bottom: 1px solid var(--line); }
+.bkList li { display: flex; gap: 20px; align-items: flex-start; min-height: 52px; padding: 14px 0; border-top: 1px solid var(--line); font-size: 17px; line-height: 1.35; }
+.bkList li:first-child { border-top: 0; }
+.bkN { flex: none; min-width: 24px; padding-top: 2px; font-family: var(--font-head); font-weight: 600; font-size: 14px; color: var(--maroon); }
+.note { margin: 14px 0 0; font-size: 15px; color: #3A3733; }
+.note + .note { margin-top: 6px; }
+.tl { display: inline-flex; align-items: center; min-height: 44px; color: var(--ink) !important; font-weight: 600; text-decoration: underline; text-decoration-color: var(--maroon); text-underline-offset: 3px; }
+@media (max-width: 899px) {
+  .book { display: flex; flex-direction: column; align-items: stretch; }
+  .bookL { display: contents; }
+  .bookH { order: 1; } .bookLead { order: 2; margin-bottom: 20px; } .bookCard { order: 3; }
+  .bookSub { order: 4; margin-top: 16px; }
+  .btnW { order: 5; margin-top: 0; align-self: flex-start; }
+}
+@media (max-width: 640px) {
+  .bookCard { background: transparent; color: #fff; padding: 0; }
+  .bookCard .bkList { border-bottom-color: rgba(255, 255, 255, .18); }
+  .bookCard .bkList li { border-top-color: rgba(255, 255, 255, .18); gap: 14px; font-size: 16px; min-height: 44px; padding: 10px 0; }
+  .bookLead { margin-bottom: 8px; }
+  .bookCard .note { margin-top: 10px; }
+  .anyHour { display: none; }
+  .bookCard .bkN { color: #F0B3AA; }
+  .bookCard .note { color: #F6E9E7; }
+  .bookCard .tl { color: #fff !important; text-decoration-color: #F0B3AA; }
+}
+.band a:focus-visible { outline-color: #fff; }
+.bookCard a:focus-visible { outline-color: var(--maroon); }
+@media (max-width: 640px) { .bookCard a:focus-visible { outline-color: #fff; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .btnRose, .telPill, .btnW { transition: none; }
+  .btnRose:active, .telPill:active, .btnW:active { transform: none; }
+}
+
+.bookSub { margin: 0 0 24px; max-width: 420px; font-size: 17px; color: #F6E9E7; }
+/* Who sterilises what, readable in five seconds. */
+.who { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0 0; max-width: 440px; }
+.who > div { padding: 14px 16px; border-radius: 14px; background: var(--card); box-shadow: 0 0 0 1px rgba(17, 17, 17, .08); }
+.who dt { font-size: 14px; color: var(--ink-2); line-height: 1.35; }
+.who dd { margin: 6px 0 0; font-family: var(--font-head); font-weight: 600; font-size: 17px; line-height: 1.25; }
+.bookSub a { display: inline-block; padding: 12px 0; margin: -12px 0; color: #fff !important; font-weight: 600; }
+
+/* ---------- Round 3 (real-site review) ---------- */
+/* Emergency pill: the same shared pill as the home opener and the device pages (icon disc, label, number at the end). */
+.telPill { gap: 10px; min-height: 44px; padding: 0 16px 0 9px; border-radius: 999px; color: #F3ECE6 !important; font-size: 14px; font-weight: 400; }
+.telIcon { width: 28px; height: 28px; background: rgba(233, 162, 140, .18); color: var(--rose); }
+.telIcon svg { width: 14px; height: 14px; }
+.telLb { color: #CFC4BB; }
+.telPill b { font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+@media (max-width: 480px) {
+  .telPill { padding: 6px 16px 6px 9px; font-size: 13px; justify-content: flex-start !important; }
+  .telLb { flex: 1 1 auto; line-height: 1.3; }
+  .disp { line-height: .9; }
+}
+/* The sharp tray photo: keep the instruments in frame. */
+.photo img { object-position: 50% 55%; filter: saturate(.7) contrast(1.06); }
+
+/* Who sterilises what: plain two-column rows with a hairline, in the section's type. */
+.who { display: block; max-width: 440px; margin: 20px 0 0; border-bottom: 1px solid var(--line); }
+.who > div { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; padding: 14px 0; border-radius: 0; background: none; box-shadow: none; border-top: 1px solid var(--line); }
+.who dt { font-size: 15px; color: #3A3733; }
+.who dd { margin: 0; font-size: 16px; }
+
+/* Heading that should wrap naturally (the design's line break). */
+.natural { text-wrap: wrap; }
+
+/* Text links: a 44px tap area even when the line wraps. */
+.txt { padding-block: 10px; gap: 6px; flex-wrap: wrap; }
+
+/* Booking band on a phone: the WhatsApp button sits right under its instruction, then the list. */
+@media (max-width: 899px) {
+  .btnW { order: 3; margin-bottom: 24px; }
+  .bookCard { order: 4; }
+}
+@media (max-width: 640px) {
+  .bookCard .note { margin-top: 6px; }
+  .note + .note { margin-top: 0; }
+}
+
+/* ---------- Round 4 (real-site review) ---------- */
+/* One h1: the eyebrow line, then the three display lines. */
+.h1 { margin: 0; font-weight: inherit; }
+.h1 .eyb { display: block; }
+.h1 .disp { display: block; }
+/* Emergency pill: a solid red phone disc and the number in salmon (Service.dc.html). */
+.telIcon { background: var(--maroon); color: #fff; }
+.telPill b.telNum { color: var(--rose); }
+/* Hero photo: the packed metal trays, graded down for the black stage, with an inner vignette. */
+.photo img { object-position: 40% 60%; filter: saturate(.6) contrast(1.1) brightness(.85); }
+.photo::after { background: radial-gradient(120% 90% at 50% 50%, rgba(11, 10, 10, 0) 55%, rgba(11, 10, 10, .55) 100%), linear-gradient(180deg, rgba(11, 10, 10, .2) 0%, rgba(11, 10, 10, 0) 30%, rgba(11, 10, 10, 0) 70%, rgba(11, 10, 10, .4) 100%); }
+@media (max-width: 999px) {
+  .h1 { order: 2; }
+  .h1 .eyb { margin-bottom: 14px; }
+  /* Phone: headline and both actions first; the photo follows the actions. */
+  .photo { order: 7; aspect-ratio: 4 / 3; margin-top: 28px; }
+}
+/* Who sterilises: labels in the body colour at 14px; stacked under 420px. */
+.who dt { font-size: 14px; color: #3A3733; }
+@media (max-width: 420px) { .who > div { grid-template-columns: minmax(0, 1fr); gap: 4px; } }
+/* Route card on a phone: a tighter rhythm. */
+@media (max-width: 640px) {
+  .card { padding: 24px 22px; }
+  .route li { padding-bottom: 16px; }
+  .route b { font-size: 19px; }
+  .anyHour { display: block; margin-top: 20px; padding-top: 16px; }
+  .big { font-size: 36px; }
+}
+/* Booking band: the left column holds the plain promise and the notes; the card holds the six items. */
+.bookMore { margin-top: 28px; }
+.bookMore .bookSub { margin: 0 0 14px; }
+.bkNote { margin: 0; font-size: 15px; color: #F6E9E7; }
+.bkNote + .bkNote { margin-top: 2px; }
+.tlW { display: inline-flex; align-items: center; min-height: 44px; color: #fff !important; font-weight: 600; text-decoration: underline; text-decoration-color: #F0B3AA; text-underline-offset: 3px; }
+.btnAgain { display: none; }
+@media (max-width: 899px) {
+  .bookMore { order: 5; margin-top: 20px; }
+  .btnAgain { display: inline-flex; margin: 20px 0 4px; }
+}
+@media (min-width: 641px) and (max-width: 899px) { .btnAgain { background: var(--maroon); color: #fff !important; } }
+
+/* ---------- Round 5 (real-site review) ---------- */
+.sr { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; border: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+/* Hero photo: a slight warm grade, so it sits with the oxblood bands. */
+.photo img { filter: sepia(.12) saturate(.6) contrast(1.1) brightness(.85); }
+.photo::before { content: ''; position: absolute; inset: 0; z-index: 1; background: rgba(120, 52, 30, .08); mix-blend-mode: multiply; pointer-events: none; }
+/* Emergency pill: two parts, the number heavier. */
+.telPill b.telNum { font-size: 17px; font-weight: 700; letter-spacing: -.01em; }
+/* Who sterilises: the label check is the caption; the table fills its column; values never break mid-word. */
+.whoCap { margin: 8px 0 0; font-size: 15px; color: #3A3733; }
+.who { max-width: none; }
+.who > div { grid-template-columns: minmax(0, 1.2fr) minmax(13ch, 1fr); }
+.who dd { hyphens: manual; overflow-wrap: normal; }
+/* 02: the dispatch link in the night answer. */
+.tlD { color: var(--stage-ink) !important; font-weight: 600; text-decoration: underline; text-decoration-color: var(--rose); text-underline-offset: 3px; display: inline-block; padding: 10px 0; margin: -10px 0; }
+/* 03: the checklist starts level with the heading. */
+@media (min-width: 1000px) { .noBottom .side { margin-top: 0; } }
+/* Booking band: left column = heading and promise; the white card = three items, notes, one button. */
+.bookCard { padding: 8px clamp(20px, 3vw, 28px) 24px; }
+.bookCard .note { margin: 10px 0 0; }
+.btnBook { margin-top: 18px; background: var(--maroon); color: #fff !important; }
+@media (max-width: 899px) {
+  .book { display: grid; }
+  .bookL { display: block; }
+  .bookCard { order: 0; }
+}
+@media (max-width: 640px) {
+  .bookCard { background: transparent; color: #fff; padding: 0; }
+  .bookCard .bkList li { gap: 10px; }
+  .bkN { min-width: 16px; }
+  .btnBook { background: #fff; color: var(--maroon) !important; }
+  /* Phone hero: the photo is a short band above the headline, so the steps, the button and the emergency pill fit the first screen. */
+  .photo { order: 0; aspect-ratio: auto; height: 180px; margin: 0 0 20px; }
+  .photo img { object-position: 45% 58%; }
+  /* Route card: tighter. */
+  .anyHour { margin-top: 16px; padding-top: 14px; }
+  .big { font-size: 30px; }
+}
+@media (hover: hover) { .btnBook:hover { background: #6E0000; } }
+@media (hover: hover) and (max-width: 640px) { .btnBook:hover { background: var(--stage-ink); } }
+/* Hero photo: tint the cold blue toward the warm stage. */
+.photo::before { background: rgba(150, 78, 48, .32); mix-blend-mode: color; }
+.bookL .bookSub { margin: 0 0 14px; }
+.bookL .bookLead { margin: 0; }
+@media (max-width: 640px) { .bookL { margin-bottom: 4px; } .bookCard .bkList li:first-child { padding-top: 4px; } }
+
+/* ---------- Round 6 (real-site review) ---------- */
+/* Hero photo: no colour wash. The steel and the blue drape read as they are. */
+.photo::before { content: none; }
+.photo img { filter: saturate(.7) contrast(1.08); }
+/* Breadcrumb above the eyebrow (as on the device and department pages). */
+@media (max-width: 999px) {
+  .crumb { order: 1; }
+  /* Phone: the headline and both actions lead; the photo follows them at 4:3. */
+  .photo { order: 7; aspect-ratio: 4 / 3; height: auto; margin: 28px 0 0; }
+}
+@media (max-width: 640px) { .photo { order: 7; aspect-ratio: 4 / 3; height: auto; margin: 24px 0 0; } }
+/* Who sterilises: on a phone, the label sits above the value, 14px in the body colour. */
+@media (max-width: 560px) {
+  .who > div { grid-template-columns: minmax(0, 1fr); gap: 4px; padding: 12px 0; }
+  .who dt { font-size: 14px; color: #3A3733; }
+}
+/* 02 route card: tighter on a phone. */
+@media (max-width: 640px) {
+  .card { padding: 22px 20px 22px; }
+  .anyHour { margin-top: 14px; padding-top: 12px; }
+  .bigSub { margin-top: 6px; }
+}
+/* 03: one lead sentence and a link on the left; the lab note sits under the checklist. */
+.noBottom { padding-top: clamp(48px, 5vw, 72px); }
+.labNote { margin: 14px 0 0; font-size: 15px; color: #3A3733; }
+/* Booking band: left = heading, promise, button; the card = the six items and the patient note. */
+.bookL .btnW { margin-top: 4px; }
+.bookL .bkNote { margin-top: 14px; }
+.cardLead { margin: 16px 0 6px; font-size: 16px; font-weight: 600; color: var(--ink); }
+.bookCard .bkList li { min-height: 48px; padding: 11px 0; }
+@media (max-width: 640px) {
+  .cardLead { color: #fff; margin-top: 0; }
+  .bookL .btnW { margin-bottom: 0; }
+}
+@media (min-width: 900px) { .book { align-items: center; } }
+
+/* ---------- Round 7 (real-site review) ---------- */
+/* Hero emergency pill: the peach disc (as on home), dark icon, so the phone reads on the black pill. */
+.telIcon { background: var(--rose); color: #1A0E0C; }
+/* 01 Who sterilises: labels at 15px in the body ink (70%), 16px row padding; the table starts level with the left h2. */
+.who > div { padding: 16px 0; }
+.who dt { font-size: 15px; color: rgba(17, 17, 17, .72); line-height: 1.4; }
+@media (max-width: 560px) { .who dt { font-size: 15px; color: rgba(17, 17, 17, .72); } .who > div { padding: 16px 0; } }
+/* 02: the night answer ends on a real 44px call button. */
+.callD { display: inline-flex; align-items: center; gap: 10px; min-height: 48px; margin-top: 18px; padding: 0 22px; border-radius: 999px; background: var(--stage-ink); color: var(--ink) !important; text-decoration: none; font-weight: 600; font-size: 15px; font-variant-numeric: tabular-nums; transition: background-color .18s ease; }
+@media (hover: hover) { .callD:hover { background: #fff; } }
+.callD:focus-visible { outline: 2px solid var(--stage-ink); outline-offset: 3px; }
+@media (max-width: 480px) { .callD { width: 100%; justify-content: center; } }
+@media (prefers-reduced-motion: reduce) { .callD { transition: none; } }
+/* Booking band: lead under the heading on the left (as designed); the card ends on the A to Z line. */
+.bookL .bookLead { margin: 0 0 24px; }
+.bookL .bookSub { margin: 24px 0 0; max-width: 420px; color: #F6E9E7; }
+.bookCard .note + .note { margin-top: 2px; }
+@media (max-width: 899px) {
+  .bookL { display: block; }
+  .bookL .bookSub { margin-top: 18px; }
+}
+@media (max-width: 640px) {
+  .bookCard .note .tl { color: #fff !important; text-decoration-color: #F0B3AA; }
+}
+/* Phone hero: a shorter headline line-height, and the photo capped (16:10) on the instruments, not the drape. */
+@media (max-width: 640px) {
+  .disp { line-height: .9; }
+  .photo { aspect-ratio: 16 / 10; max-height: 230px; margin-top: 20px; }
+  .photo img { object-position: 60% 55%; transform: scale(1.12); }
+}
+@media (min-width: 1000px) { .two:not(.noBottom) > .side { margin-top: 42px; } }
+
+/* ---------- Round 8 (real-site review) ---------- */
+@media (min-width: 1000px) {
+  /* Hero photo: the full column, so its right edge lines up with the header button and the rules below. */
+  .photo { aspect-ratio: auto; max-height: none; align-self: stretch; min-height: 520px; }
+  /* 01: the sterilise table starts level with the section heading (the eyebrow is 34px tall). */
+  .two:not(.noBottom) > .side { margin-top: 34px; }
+  /* 02: the route card runs the full height of the text beside it. */
+  .deliv { align-items: stretch; }
+  .card { display: flex; flex-direction: column; justify-content: center; margin-top: 0; }
+}
+/* Phone hero photo: a 16:9 strip. */
+@media (max-width: 640px) { .photo { aspect-ratio: 16 / 9; max-height: none; } }
+/* "Who sterilises" rows read as a table: a hairline and 12px padding, label and value side by side. */
+@media (max-width: 560px) {
+  .who > div { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; padding: 12px 0; }
+}
+/* Booking list: the planned-case item stands apart from the five that every case needs. */
+.bkList li.bkCond { border-top: 2px solid var(--line); margin-top: 6px; font-style: normal; }
+@media (max-width: 640px) { .bookCard .bkList li.bkCond { border-top-color: rgba(255, 255, 255, .4); } }
+
+/* ---------- Round 9 (real-site review) ---------- */
+/* Hero photo: warm-graded, as on the other dark stages. */
+.photo img { filter: sepia(.35) saturate(.55) hue-rotate(-12deg) contrast(1.08) brightness(.85); }
+.photo::before { background: rgba(120, 60, 34, .22); }
+/* 01: the sterilisation table starts level with the heading. */
+@media (min-width: 1000px) { .side { margin-top: 0; } }
+/* 02: the route card fits its content, and carries the one fact a buyer needs. */
+.card { align-self: start; }
+.routeFact { margin: 28px 0 0; padding-top: 20px; border-top: 1px solid rgba(242, 240, 237, .14); font-size: 16px; line-height: 1.6; color: var(--stage-ink); }
+.labNote { margin-top: 28px; font-size: 15px; color: #B9B4AE; max-width: 440px; }
+/* Book a set: one WhatsApp button on a phone, after the list. */
+@media (max-width: 640px) { .bookL .btnW:not(.btnAgain) { display: none; } }
+
+/* ---------- Round 10 (real-site review, round 9 notes) ---------- */
+/* Hero photo: one warm colour temperature with the rest of the site. */
+.photo img { filter: sepia(.28) saturate(.85) contrast(1.06) brightness(.9); }
+.photo::before { content: ''; position: absolute; inset: 0; z-index: 1; background: rgba(214, 150, 118, .15); mix-blend-mode: soft-light; pointer-events: none; }
+/* 02 Delivered: the route card (now with the lab line) sits level with the middle of the text. */
+@media (min-width: 1000px) { .card { align-self: center; } }
+.labBox { margin-top: 22px; padding-top: 18px; border-top: 1px solid rgba(242, 240, 237, .14); }
+.labH { margin: 0 0 6px; font-family: var(--font-head); font-weight: 600; font-size: 17px; color: var(--stage-ink); }
+.labP { margin: 0; font-size: 15px; line-height: 1.5; color: #CFCAC4; }
+/* Who sterilises the set: on a phone, the label above the answer. */
+@media (max-width: 560px) { .who > div { grid-template-columns: minmax(0, 1fr); gap: 4px; } }
+/* 03 Before our rider comes: the same row spacing as section 01. */
+.rows li { padding: 16px 0; }
+/* How do I book: the Telangana line right under the question. */
+.bookL .bookSubTop { margin: 12px 0 20px; }
+.photo img { filter: sepia(.45) saturate(.75) hue-rotate(-6deg) contrast(1.06) brightness(.9); }
+
+/* ---------- Round 11 (real-site review, round 10 notes) ---------- */
+/* Hero photo: a warm grade toward the copper accent, cropped tight on the trays, with an editorial caption. */
+.photo img { object-position: 50% 62%; transform: scale(1.18); filter: sepia(.4) saturate(.9) hue-rotate(-8deg) contrast(1.12) brightness(.92); }
+.photo::before { background: rgba(214, 150, 118, .18); mix-blend-mode: soft-light; }
+.photoCap { position: absolute; left: 16px; bottom: 14px; z-index: 2; max-width: calc(100% - 32px); padding: 6px 12px; border-radius: 999px; background: rgba(11, 10, 10, .62); color: #E8E4DF; font-size: 13px; line-height: 1.4; }
+/* 02: the card holds the route and lab supplies only, centred against the text column. */
+@media (min-width: 1000px) { .card { align-self: center; margin-top: 0; } }
+/* How do I book: the text block centred against the list card; one rule style on every row, no extra gap. */
+@media (min-width: 900px) { .book { align-items: center; } }
+.bkList { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.bkList li, .bkList li:first-child, .bkList li.bkCond { min-height: 48px; padding: 12px 0; margin-top: 0; border-top: 1px solid var(--line); }
+.bkList li:first-child { border-top: 0; }
+.bookCard { padding-top: 20px; }
+@media (max-width: 640px) {
+  .bookCard { padding-top: 0; }
+  .bookCard .bkList { border-top: 1px solid rgba(255, 255, 255, .18); border-bottom-color: rgba(255, 255, 255, .18); }
+  .bookCard .bkList li, .bookCard .bkList li.bkCond, .bookCard .bkList li:first-child { border-top-color: rgba(255, 255, 255, .18); padding: 10px 0; }
+  .bookCard .bkList li:first-child { border-top: 0; }
+  .bookL .bookLead { margin-bottom: 12px; }
+}
+/* Booking card foot: 12px between the two notes; the A to Z link is a full 44px target. */
+.bookCard .note + .note { margin-top: 12px; }
+.bookCard .note .tl { min-height: 44px; }
+.nowrap { white-space: nowrap; }

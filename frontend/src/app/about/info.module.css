@@ -1,0 +1,574 @@
+/* About, Contact, Privacy and Terms: one visual language (approved About.dc / Contact.dc). */
+
+/* Dark hero strip: black stage, soft maroon light on the right, film grain */
+.hero { position: relative; overflow: hidden; background: var(--stage); color: var(--stage-ink); padding: clamp(24px, 4vw, 56px) 0 clamp(40px, 6vw, 88px); }
+.glow { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(45% 70% at 78% 50%, rgba(138, 0, 0, 0.22) 0%, rgba(60, 14, 10, 0.12) 40%, rgba(11, 10, 10, 0) 72%); }
+.grain { position: absolute; inset: 0; pointer-events: none; opacity: .08; mix-blend-mode: overlay; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+.heroGrid { position: relative; display: grid; grid-template-columns: 1fr; gap: 28px clamp(32px, 5vw, 72px); align-items: center; }
+@media (min-width: 1000px) { .heroGrid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+.eyebrow { margin: 0 0 18px; font-size: 13px; letter-spacing: 0.04em; color: var(--stage-ink-2); font-family: var(--font-body); font-weight: 400; }
+.eyebrowRose { margin: 0; font-size: 13px; font-weight: 600; letter-spacing: .06em; color: var(--rose); font-family: var(--font-body); line-height: 1.4; }
+.display { margin: 0; max-width: 600px; font-family: var(--font-head); font-size: clamp(36px, 4.6vw, 68px); line-height: 1.02; letter-spacing: -0.035em; font-weight: 500; text-wrap: balance; color: #fff; }
+.lead { margin: 20px 0 0; max-width: 480px; font-size: 17px; line-height: 1.5; color: #D9D4CE; }
+.note { margin: 0; font-size: 13px; color: #9C968F; }
+
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+  .rise { animation: rise .7s cubic-bezier(.2, .7, .1, 1) both; }
+  .d1 { animation-delay: .07s; } .d2 { animation-delay: .14s; } .d3 { animation-delay: .21s; }
+}
+
+/* Maps (sketches, not to scale) */
+.map { position: relative; width: 100%; aspect-ratio: 4 / 3; max-height: 460px; }
+.map svg, .mapCard svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+@media (max-width: 600px) {
+  .map { aspect-ratio: 4 / 3; max-height: none; }
+  .map .lg { font-size: 20px; } .map .sm { font-size: 16px; } .map .tiny { font-size: 15px; }
+}
+.mapCard { position: relative; border-radius: 20px; overflow: hidden; background: radial-gradient(70% 70% at 60% 45%, #221C19 0%, #141110 75%); aspect-ratio: 2.4 / 1; width: 100%; align-self: start; }
+@media (max-width: 560px) { .mapCard { display: none; } }
+
+/* Buttons */
+.btnW { display: inline-flex; flex-wrap: wrap; align-items: center; column-gap: 10px; row-gap: 2px; max-width: 100%; min-height: 52px; padding: 12px 22px; border-radius: 26px; background: #fff; color: #6E0F0B; text-decoration: none; font-weight: 600; font-size: 15px; transition: background-color .18s ease, transform .1s ease; }
+.btnW:active { transform: scale(.98); }
+.nowrap { white-space: nowrap; }
+.pill { display: inline-flex; align-items: center; min-height: 48px; padding: 0 22px; border-radius: 999px; border: 1px solid var(--ink); color: var(--ink); text-decoration: none; font-weight: 600; font-size: 14px; transition: background-color .18s ease, color .18s ease, transform .1s ease; }
+.pill:active { transform: scale(.98); }
+.pill:focus-visible { background: var(--ink); color: #fff; }
+.call { display: inline-flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 22px; border-radius: 999px; background: var(--stage-ink); color: var(--ink) !important; text-decoration: none; font-weight: 600; font-size: 15px; align-self: flex-start; transition: background-color .15s ease, transform .12s ease; }
+.call:active { transform: scale(.98); }
+.maps { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 8px; margin: 4px 0 0; max-width: 460px; }
+.maps a { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 16px; border: 1px solid #C9C4BE; border-radius: 999px; background: #fff; color: var(--ink); text-decoration: none; font-size: 15px; }
+@media (hover: hover) {
+  .btnW:hover { background: #EFE9E4; }
+  .pill:hover { background: var(--ink); color: #fff; }
+  .call:hover { background: #fff; }
+  .maps a:hover { border-color: var(--maroon); }
+}
+
+/* Text link: dark text, maroon underline */
+.tl { color: var(--ink); text-decoration: underline; text-decoration-color: var(--maroon); text-underline-offset: 3px; transition: color .15s ease; }
+@media (hover: hover) { .tl:hover { color: var(--maroon); } }
+.tlRed { color: var(--maroon); text-decoration-color: rgba(138, 0, 0, 0.35); text-underline-offset: 3px; }
+@media (hover: hover) { .tlRed:hover { text-decoration-color: var(--maroon); } }
+
+/* Section headings on the light page */
+.h2 { margin: 0; font-family: var(--font-head); font-weight: 500; font-size: clamp(28px, 3.2vw, 44px); line-height: 1.05; letter-spacing: -0.03em; }
+.h2s { margin: 0; text-wrap: balance; font-family: var(--font-head); font-weight: 500; font-size: clamp(26px, 2.6vw, 36px); line-height: 1.1; letter-spacing: -0.03em; }
+.body { color: #3A3733; }
+.sec { padding-top: clamp(64px, 8vw, 112px); }
+
+/* About: what we are + numbers */
+.what { display: grid; grid-template-columns: 1fr; gap: clamp(32px, 4vw, 56px); align-items: start; padding-top: clamp(56px, 7vw, 96px); }
+@media (min-width: 1000px) { .what { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+.whatP { margin: 18px 0 0; max-width: 620px; font-size: 18px; line-height: 1.6; color: #3A3733; }
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0 clamp(16px, 3vw, 40px); margin: 0; }
+.stats > div { border-top: 1px solid rgba(17, 17, 17, .2); padding-top: 18px; display: flex; flex-direction: column-reverse; justify-content: flex-end; }
+.stats dd { margin: 0; font-family: var(--font-head); font-size: clamp(40px, 5vw, 80px); line-height: 1; letter-spacing: -0.045em; font-weight: 500; font-variant-numeric: tabular-nums lining-nums; }
+.stats dt::first-letter { text-transform: uppercase; }
+.stats dt { margin: 8px 0 0; font-size: 15px; color: #3A3733; max-width: 220px; }
+
+/* About: how we work */
+.steps { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px clamp(20px, 3vw, 40px); margin: clamp(24px, 3vw, 36px) 0 0; padding: 0; list-style: none; }
+.steps li { border-top: 1px solid rgba(17, 17, 17, .2); padding-top: 20px; display: flex; flex-direction: column; gap: 6px; }
+.ic { width: 44px; height: 44px; border-radius: 50%; background: #EAE7E2; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 10px; }
+.k { margin: 0; font-size: 13px; color: var(--maroon); font-weight: 600; }
+.v { margin: 0; font-size: 16px; line-height: 1.5; color: #3A3733; }
+
+/* About: papers */
+.docs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin: 28px 0 0; padding: 0; list-style: none; }
+.doc { position: relative; background: #fff; border: 1px solid transparent; border-radius: 20px; padding: 20px 22px; display: flex; flex-direction: column; gap: 4px; }
+.docTop { border-color: #561713; box-shadow: 0 0 0 1px #561713 inset; }
+.most { display: inline-block; margin-left: 6px; padding: 2px 8px; border-radius: 999px; background: #F3E6E2; color: #7A1414; font-size: 11px; font-weight: 600; vertical-align: 1px; }
+.nm { margin: 10px 0 0; font-size: 14px; color: var(--ink-2); }
+.no { margin: 0; font-size: 16px; font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.doc a { margin-top: 6px; display: inline-flex; align-items: center; min-height: 44px; font-size: 14px; font-weight: 600; align-self: flex-start; }
+.doc a::after { content: ''; position: absolute; inset: 0; border-radius: inherit; }
+.pbtn { margin: 24px 0 0; display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+@media (max-width: 1000px) { .docs, .steps { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 600px) {
+  .stats { gap: 0 14px; } .stats > div { padding: 14px 0 4px; } .stats dd { font-size: 40px; } .stats dt { font-size: 13px; line-height: 1.35; }
+  .steps { grid-template-columns: 1fr; gap: 0; } .steps li { display: grid; grid-template-columns: 44px 1fr; gap: 2px 14px; padding: 18px 0; } .ic { grid-row: span 2; margin: 0; }
+  .docs { grid-template-columns: 1fr; gap: 0; background: #fff; border-radius: 20px; padding: 4px 16px; }
+  .doc { display: grid; grid-template-columns: 20px 1fr; column-gap: 12px; row-gap: 2px; align-items: center; min-height: 64px; border-radius: 0; border: 0; box-shadow: none; padding: 12px 0; border-top: 1px solid rgba(17, 17, 17, .1); }
+  .doc:first-child { border-top: 0; }
+  .doc svg { grid-row: span 3; align-self: start; margin-top: 2px; width: 16px; height: 20px; }
+  .doc .nm, .doc .no, .doc a { grid-column: 2; }
+  .doc .nm { margin: 0; font-size: 13px; } .doc .no { font-size: 14px; }
+  .doc a { margin: 2px 0 0; font-size: 13px; }
+  .pbtn a { width: 100%; justify-content: center; }
+}
+
+/* Contact: emergency card in the hero */
+.sos { align-self: center; display: flex; flex-direction: column; gap: 22px; padding: clamp(24px, 3vw, 36px); border-radius: 22px; background: rgba(255, 255, 255, .04); border: 1px solid rgba(233, 162, 140, 0.28); }
+.sosH { margin: 0; font-size: 13px; font-weight: 600; color: #F0B3AA; letter-spacing: 0; font-family: var(--font-body); }
+.sosNum { margin: 0; font-family: var(--font-head); font-weight: 500; font-size: clamp(36px, 4vw, 56px); line-height: 1.05; letter-spacing: -0.03em; }
+.sosNum a { color: #fff !important; text-decoration: none; }
+.heroCol { display: flex; flex-direction: column; justify-content: center; gap: 18px; }
+.heroCol .lead { margin: 0; color: #CFC9C2; }
+.heroCol .display { max-width: 15ch; font-size: clamp(36px, 4.4vw, 60px); line-height: 1.04; }
+
+/* Contact: body */
+.cBody { display: flex; flex-direction: column; gap: 20px; padding-bottom: clamp(56px, 7vw, 96px); }
+.where { padding-top: clamp(40px, 5vw, 72px); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(380px, 100%), 1fr)); gap: 24px clamp(32px, 5vw, 72px); align-items: start; }
+.stack { display: flex; flex-direction: column; gap: 12px; }
+.office { margin: 0; font-size: 15px; line-height: 1.6; color: #6B655F; max-width: 44ch; }
+.pair { margin-top: clamp(20px, 5vw, 52px); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr)); gap: 20px 40px; align-items: start; }
+.block { border-top: 1px solid var(--line); padding: clamp(24px, 3vw, 44px) 0; display: flex; flex-direction: column; gap: 18px; }
+.block p { margin: 0; }
+.txt { font-size: 17px; line-height: 1.5; color: #45403B; }
+.nums { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.nums li { display: flex; align-items: baseline; gap: 18px; padding: 14px 0; border-top: 1px solid #E2DFDA; font-size: 17px; line-height: 1.45; }
+.n { flex: 0 0 auto; width: 30px; font-family: var(--font-head); font-size: 18px; font-weight: 600; color: var(--maroon); }
+.three { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 0 32px; font-size: 15px; color: #45403B; }
+@media (min-width: 900px) { .three { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .nums li { padding: 8px 0; } }
+
+/* Contact: desks table, becomes a list on a narrow column */
+.desks { container-type: inline-size; }
+.dt { width: 100%; border-collapse: collapse; font-size: 15px; line-height: 1.4; }
+.dt thead th { text-align: left; font-size: 12px; font-weight: 500; color: #6B655F; padding: 0 12px 8px 0; border-bottom: 1px solid rgba(17, 17, 17, 0.35); }
+.dt tbody th, .dt td { text-align: left; padding: 12px 12px 12px 0; border-bottom: 1px solid #E2DFDA; vertical-align: top; }
+.dt tbody th { font-weight: 400; }
+.dt td { color: #45403B; }
+.dt td:last-child { padding-right: 0; }
+.lk { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; }
+.lk { margin-top: -4px; }
+.lk a { display: inline-flex; align-items: center; min-height: 28px; white-space: nowrap; font-weight: 600; color: var(--ink); text-decoration: underline; text-decoration-color: #C9C4BE; text-underline-offset: 3px; overflow-wrap: anywhere; }
+@media (hover: hover) { .lk a:hover { text-decoration-color: var(--maroon); } }
+.hl { display: none; }
+@container (max-width: 560px) {
+  .dt thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .dt tr { display: flex; flex-direction: column; gap: 6px; padding: 16px 0; border-top: 1px solid #E2DFDA; }
+  .dt tbody th, .dt td { border: 0; padding: 0; }
+  .dt tbody th { font-weight: 600; }
+  .hl { display: inline; }
+  .lk { gap: 6px; margin-top: 4px; flex-direction: row; flex-wrap: wrap; align-items: center; }
+  .lk a { min-height: 48px; padding: 0 16px; border: 1px solid #C9C4BE; border-radius: 999px; text-decoration: none; background: #fff; }
+  .lk a.lkMain { background: var(--ink); border-color: var(--ink); color: #fff; font-weight: 600; }
+  .lk a.lkMore { min-height: 44px; padding: 0; border: 0; background: transparent; text-decoration: underline; text-decoration-color: var(--maroon); justify-content: flex-start !important; }
+}
+
+/* Contact: privacy fold */
+.fold { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 12px 0; font-size: 15px; line-height: 1.55; color: #45403B; }
+.fold summary { list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 56px; }
+.fold summary::-webkit-details-marker { display: none; }
+.fold summary h2 { margin: 0; font-family: var(--font-head); font-weight: 500; font-size: 18px; line-height: 1.3; letter-spacing: -0.01em; }
+.pm { flex: 0 0 auto; width: 44px; height: 44px; border-radius: 999px; border: 1px solid #C9C4BE; display: inline-flex; align-items: center; justify-content: center; transition: transform .2s ease; }
+.fold[open] .pm { transform: rotate(45deg); }
+.cols { columns: 2 34ch; column-gap: clamp(32px, 5vw, 72px); margin-top: 16px; }
+.cols p { margin: 0 0 12px; break-inside: avoid; }
+
+/* Privacy and Terms: heading left, text right, a line between sections */
+.legal { padding: clamp(40px, 5vw, 72px) 0 clamp(56px, 7vw, 96px); }
+.row { display: grid; grid-template-columns: 1fr; gap: 8px clamp(32px, 5vw, 72px); border-top: 1px solid var(--line); padding: clamp(20px, 2.5vw, 32px) 0; }
+@media (min-width: 900px) { .row { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); } }
+.row h2 { margin: 0; font-family: var(--font-head); font-weight: 500; font-size: clamp(22px, 2.2vw, 28px); line-height: 1.15; letter-spacing: -0.02em; }
+.row div { font-size: 17px; line-height: 1.6; color: #3A3733; max-width: 62ch; }
+.row div p:last-child { margin-bottom: 0; }
+.updated { margin: 20px 0 0; font-size: 13px; color: var(--stage-ink-2); }
+
+@media (prefers-reduced-motion: reduce) {
+  .btnW, .pill, .call, .tl, .pm { transition: none; }
+  .btnW:active, .pill:active, .call:active { transform: none; }
+}
+.hero a:focus-visible, .hero summary:focus-visible { outline-color: var(--stage-ink); }
+
+.src { margin: 14px 0 0; font-size: 13px; color: var(--ink-2); }
+
+/* Contact table: give "How to reach" room so addresses and numbers never break. */
+.dt { table-layout: fixed; }
+.dt thead th:nth-child(1) { width: 38%; }
+.dt thead th:nth-child(2) { width: 24%; }
+.dt thead th:nth-child(3) { width: 38%; }
+@media (max-width: 760px) { .lk { flex-direction: column; align-items: stretch; } .lk a { justify-content: center; } }
+.privLine { margin: 0; font-size: 15px; }
+.tap { display: inline-flex; align-items: center; min-height: 44px; }
+.cBody:has(.privLine) { padding-bottom: 32px; }
+
+/* About hero: the same two actions as the other pages (WhatsApp, emergency line). */
+.acts { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 14px; margin-top: 26px; }
+.sosBar { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 16px 0 9px; border-radius: 999px; background: rgba(255, 244, 236, .06); border: 1px solid rgba(255, 236, 224, .14); color: var(--stage-ink) !important; text-decoration: none; font-size: 14px; }
+.sic { flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; background: rgba(233, 162, 140, .18); color: var(--rose); }
+.slb { color: #CFC4BB; }
+.sosBar b { font-weight: 600; white-space: nowrap; }
+@media (hover: hover) { .sosBar:hover { background: rgba(255, 244, 236, .10); } }
+@media (max-width: 640px) { .acts { flex-direction: column; align-items: stretch; } .acts .btnW { justify-content: center; } .sosBar { padding: 6px 16px 6px 9px; font-size: 13px; } .slb { flex: 1 1 auto; line-height: 1.3; } .map { max-height: 240px; } }
+.howMore { margin: 24px 0 0; font-size: 16px; color: #3A3733; }
+.howMore a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 600; }
+
+/* ---------- Round 3 (real-site review) ---------- */
+/* Copper WhatsApp button, the same primary as home, departments and How we deliver. */
+.btnRose { display: inline-flex; flex-wrap: wrap; align-items: center; column-gap: 10px; row-gap: 2px; max-width: 100%; min-height: 52px; padding: 12px 22px; border-radius: 26px; background: var(--rose); color: #1A0E0C !important; text-decoration: none; font-weight: 600; font-size: 15px; transition: background-color .18s ease, transform .1s ease; }
+.btnRose:active { transform: scale(.98); }
+@media (hover: hover) { .btnRose:hover { background: #F0B3A0; } }
+@media (max-width: 640px) { .acts .btnRose { justify-content: center; } }
+@media (prefers-reduced-motion: reduce) { .btnRose { transition: none; } .btnRose:active { transform: none; } }
+
+/* About hero: one real photograph (the dispatch map is on Contact). */
+.heroPhoto { position: relative; margin: 0; aspect-ratio: 4 / 3; max-height: 460px; border-radius: 24px; overflow: hidden; background: var(--stage); }
+.heroPhoto img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 35% 70%; filter: saturate(.6) contrast(1.08); }
+.heroPhoto::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(11, 10, 10, .2) 0%, rgba(11, 10, 10, 0) 30%, rgba(11, 10, 10, 0) 70%, rgba(11, 10, 10, .35) 100%); }
+@media (max-width: 999px) { .heroPhoto { aspect-ratio: 16 / 9; } }
+
+/* How we work: four facts in one row. */
+.steps { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+@media (max-width: 1000px) { .steps { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 600px) { .steps { grid-template-columns: 1fr; } }
+
+/* Numbers: captions start on one line under each number; the source sits under the row. */
+.statsSrc { margin: 16px 0 0; font-size: 13px; color: var(--ink-2); }
+
+/* Papers: plain note instead of a red pill; each card links to a copy. */
+.mostTxt { margin: 0; font-size: 13px; color: var(--ink-2); }
+@media (max-width: 600px) { .doc .mostTxt { grid-column: 2; } }
+
+/* Inline text links: a 44px tap area without moving the text. */
+.tl, .tlRed { padding-block: 12px; }
+
+/* Contact: headings wrap naturally; the map top meets the text top; recall in four steps. */
+.cBody .h2s { max-width: 24ch; text-wrap: pretty; }
+.tap { gap: 6px; }
+.where { align-items: start; }
+@media (min-width: 900px) { .four { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.doc a { gap: 6px; }
+
+/* ---------- Round 4 (real-site review) ---------- */
+/* About numbers: a wider column and smaller figures, so "1,769" has room and captions stay short. */
+@media (min-width: 1000px) { .what { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); } }
+.stats dd { font-size: clamp(40px, 4.2vw, 60px); }
+.stats dt { max-width: 26ch; line-height: 1.4; }
+@media (max-width: 600px) {
+  /* Phone: number left, caption right, one row each. */
+  .stats { grid-template-columns: 1fr; gap: 0; }
+  .stats > div { flex-direction: row-reverse; justify-content: flex-end; align-items: center; gap: 16px; padding: 14px 0; }
+  .stats dd { flex: 0 0 96px; font-size: 34px; }
+  .stats dt { margin: 0; max-width: none; font-size: 14px; }
+}
+/* How we work: two About-only points; the labels are h3. */
+.steps2 { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 880px; }
+@media (max-width: 600px) { .steps2 { grid-template-columns: 1fr; } }
+h3.k { font-family: var(--font-body); line-height: 1.4; }
+/* Papers: a small inline chip beside the drug licence, so the four cards line up. */
+.most { margin-left: 8px; font-size: 11.5px; vertical-align: 1px; white-space: nowrap; }
+.display { line-height: 1.06; }
+
+/* Contact: one h1 (eyebrow line, then the display line). */
+.h1c { margin: 0; font-weight: inherit; display: flex; flex-direction: column; gap: 18px; }
+.h1c > span { display: block; }
+/* Contact map: keep the sketch's own ratio so the labels render at 12px or more. */
+.mapCard { aspect-ratio: 480 / 388; max-width: 560px; justify-self: end; }
+/* Recall: three steps, then the MvPI line across the full width; step text at body size. */
+.recall { font-size: 16px; }
+@media (min-width: 900px) { .recall { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.mvpi { margin: 0; font-size: 16px; color: #45403B; }
+.mvpi a { display: inline; padding-block: 12px; line-height: 1.6; }
+/* Who to contact: the emergency button in brand red; every link a 44px target. */
+.lk a { min-height: 44px; }
+.lk a.lkMain { color: var(--maroon); }
+@container (max-width: 560px) { .lk a.lkMain { background: var(--maroon); border-color: var(--maroon); color: #fff; } }
+.lk a.lkMore { padding-block: 12px; }
+.cBody { padding-bottom: 64px; }
+/* About hero photo (the bright drape scene): graded down for the black stage, with an inner vignette. */
+.heroPhoto img { object-position: 50% 55%; filter: saturate(.35) sepia(.15) contrast(1.12) brightness(.62); }
+.heroPhoto::after { background: radial-gradient(120% 90% at 50% 50%, rgba(11, 10, 10, 0) 50%, rgba(11, 10, 10, .6) 100%), linear-gradient(180deg, rgba(11, 10, 10, .2) 0%, rgba(11, 10, 10, 0) 30%, rgba(11, 10, 10, 0) 70%, rgba(11, 10, 10, .35) 100%); }
+
+/* ---------- Round 5 (real-site review) ---------- */
+/* Hero headline: a clear 64px gap to the photo. */
+.heroGrid { column-gap: clamp(32px, 6vw, 88px); }
+.display { max-width: 13ch; }
+/* Hero photo: darker, warmer, cropped on the instruments, melting into the black. */
+.heroPhoto img { object-position: 52% 50%; transform: scale(1.25); filter: saturate(.45) sepia(.22) contrast(1.15) brightness(.55); }
+.heroPhoto::after { background: radial-gradient(90% 80% at 50% 50%, rgba(11, 10, 10, 0) 35%, rgba(11, 10, 10, .85) 100%); }
+/* Phone-only numbers in the hero. */
+.heroStats { display: none; }
+/* Stats: two-line captions; the source line spans all three. */
+.stats dt { max-width: 20ch; }
+.statsSrc { grid-column: 1 / -1; }
+/* How we work: three items across the full row. */
+.steps3 { grid-template-columns: repeat(3, minmax(0, 1fr)); max-width: none; }
+@media (max-width: 1000px) { .steps3 { grid-template-columns: 1fr 1fr; } }
+/* Paper links: plain underlined text with a 44px tap area. */
+.doc a.tl { display: inline-flex; align-items: center; min-height: 44px; padding-block: 0; text-decoration-thickness: 1px; }
+@media (max-width: 600px) {
+  .steps3 { grid-template-columns: 1fr; }
+  .heroPhoto { display: none; }
+  .heroStats { display: grid; gap: 0; margin: 4px 0 0; padding: 0; list-style: none; color: #C9C4BE; font-size: 14px; line-height: 1.35; }
+  .heroStats li { display: flex; align-items: baseline; gap: 12px; padding: 10px 0; border-top: 1px solid rgba(255, 255, 255, .12); }
+  .heroStats b { flex: 0 0 72px; font-family: var(--font-head); font-size: 26px; font-weight: 500; letter-spacing: -.03em; color: #fff; }
+  .statsMain { display: none; }
+  .statsMain + .statsSrc { margin-top: 0; }
+}
+
+/* Contact, round 5 */
+.srOnly { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; border: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+/* Hero: the emergency card starts level with the headline. */
+.heroGrid:has(.h1c) { align-items: start; }
+/* Hero note: the body-muted colour (4.5:1 on the black stage). */
+.heroCol .note { font-size: 14px; color: #B9B4AE; }
+/* Where are we: the text block sits centred against the tall map card. */
+.where { align-items: center; }
+/* Who do I contact: wider need column; the recall link sits under the number. */
+.dt thead th:nth-child(1) { width: 40%; }
+.dt thead th:nth-child(2) { width: 25%; }
+.dt thead th:nth-child(3) { width: 35%; }
+.lk a.lkMore { font-size: 14px; font-weight: 500; min-height: 44px; }
+@container (max-width: 560px) { .lk a.lkMain { background: var(--ink); border-color: var(--ink); color: #fff; } }
+@media (max-width: 760px) { .lk a.lkMain { background: var(--ink); border-color: var(--ink); color: #fff; } }
+/* Recall: the patient-file line on its own; the MvPI line reads as a footnote under a rule. */
+.recallNo { display: block; margin-top: 6px; font-weight: 600; }
+.mvpi { padding-top: 16px; border-top: 1px solid rgba(17, 17, 17, .2); }
+.heroGrid .display { max-width: 15ch; }
+.heroPhoto::before { content: ''; position: absolute; inset: 0; z-index: 1; background: rgba(150, 78, 48, .38); mix-blend-mode: color; pointer-events: none; }
+
+/* ---------- Round 6 (real-site review) ---------- */
+/* About hero photo: the operating theatre, shot not filtered. No colour wash. */
+.heroPhoto::before { content: none; }
+.heroPhoto img { object-position: 50% 50%; transform: none; filter: saturate(.6) contrast(1.06) brightness(.8); }
+.heroPhoto::after { background: radial-gradient(110% 90% at 50% 50%, rgba(11, 10, 10, 0) 55%, rgba(11, 10, 10, .55) 100%); }
+/* Rhythm: about 72px between sections on desktop. */
+.what { padding-top: clamp(48px, 5vw, 72px); }
+.papers { padding-top: clamp(48px, 5vw, 72px); padding-bottom: 64px; }
+/* Stats: the numbers and their source line sit level with the paragraph bottom. */
+@media (min-width: 1000px) { .what { align-items: end; } }
+/* Papers: a tidy credentials strip (about 25% less padding). */
+.doc { padding: 14px 18px; gap: 2px; }
+.doc a, .doc a.tl { min-height: 44px; padding-block: 10px; margin-top: 0; }
+/* Phone hero numbers: the label sits under its number; the source line right below. */
+.heroSrc { display: none; }
+@media (max-width: 600px) {
+  .heroSrc { display: block; margin: -16px 0 0; font-size: 13px; color: #B9B4AE; }
+  .statsMain + .statsSrc { display: none; }
+}
+@media (max-width: 420px) {
+  .heroStats li { flex-direction: column; align-items: flex-start; gap: 2px; }
+  .heroStats b { flex: none; }
+}
+
+/* Contact, round 6 */
+/* Where are we: the text starts level with the top of the map card. */
+.where { align-items: start; }
+/* Hero: one WhatsApp button; full width on a phone, level with the emergency card. */
+.heroAct { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; margin-top: 6px; }
+@media (max-width: 640px) { .heroAct { align-items: stretch; } .heroAct .btnRose { justify-content: center; } }
+/* Maps buttons: the area name first, the action small. */
+.maps a { gap: 8px; }
+.maps a b { font-weight: 600; }
+.mapsSub { font-size: 13px; color: var(--ink-2); }
+/* Who do I contact: one link style; red only marks the emergency row. */
+.lk a.lkMain { color: var(--ink); }
+.emRow th { color: var(--maroon); font-weight: 600 !important; }
+.emRow th::before { content: ''; display: inline-block; width: 8px; height: 8px; margin-right: 8px; border-radius: 50%; background: var(--maroon); vertical-align: 1px; }
+/* Phone: the emergency call stays one filled button; every other link is a plain 44px text link. */
+@container (max-width: 560px) {
+  .dt tr { gap: 2px; padding: 12px 0; }
+  .lk { margin-top: 0; gap: 0 16px; }
+  .lk a { min-height: 44px; padding: 0; border: 0; border-radius: 0; background: transparent; text-decoration: underline; text-decoration-color: #C9C4BE; justify-content: flex-start !important; }
+  .lk a.lkMain { min-height: 48px; padding: 0 20px; margin: 6px 0 2px; border-radius: 999px; background: var(--ink); color: #fff; text-decoration: none; justify-content: center !important; }
+  .lk a.lkMore { min-height: 44px; padding-block: 0; }
+}
+@media (max-width: 760px) {
+  .lk { flex-direction: row; flex-wrap: wrap; align-items: center; }
+  .lk a { justify-content: flex-start; }
+  .lk a.lkMain { background: var(--ink); color: #fff; }
+}
+@media (max-width: 560px) { .lk a.lkMain { flex: 1 1 100%; } }
+/* Recall: the patient-file warning spans the row under the three steps. */
+.recallWarn { margin: 4px 0 0; padding: 12px 16px; border-radius: 12px; background: rgba(138, 0, 0, .06); color: var(--ink); font-size: 16px; font-weight: 600; }
+
+/* ---------- Round 7 (real-site review) ---------- */
+/* About hero photo: the instrument trays, low-key, with a dark vignette (as the How we deliver hero). */
+.heroPhoto img { object-position: 45% 60%; transform: scale(1.06); filter: saturate(.7) contrast(1.08) brightness(.82); }
+.heroPhoto::after { background: radial-gradient(120% 90% at 50% 50%, rgba(11, 10, 10, 0) 50%, rgba(11, 10, 10, .6) 100%), linear-gradient(180deg, rgba(11, 10, 10, .2) 0%, rgba(11, 10, 10, 0) 30%, rgba(11, 10, 10, 0) 70%, rgba(11, 10, 10, .4) 100%); }
+/* Numbers: the top rule starts level with the paragraph's first line; each caption is one line at 1440. */
+@media (min-width: 1000px) {
+  .what { align-items: start; }
+  .what > div:last-child { margin-top: calc(clamp(28px, 3.2vw, 44px) * 1.05 + 18px); }
+  .stats dt { max-width: none; white-space: nowrap; }
+}
+/* How we work: four icon cells, the same eyebrow red as How we deliver's 01 / 02 / 03. */
+.how { padding-top: clamp(48px, 5vw, 72px); }
+.how .steps { margin-top: clamp(20px, 2.5vw, 32px); }
+.how .k { font-size: 13px; font-weight: 600; color: var(--maroon); }
+.how .v .tl { display: inline; padding-block: 12px; }
+/* Papers: two 48px pill buttons under the cards; the band follows at the normal gap. */
+.papers { padding-bottom: clamp(48px, 5vw, 72px); }
+.papers .pbtn { margin-top: 24px; }
+/* Phone: three numbers in one row (figure over caption), then the photo as a 16:9 strip. */
+@media (max-width: 600px) {
+  .heroStats { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 8px; border-top: 1px solid rgba(255, 255, 255, .12); }
+  .heroStats li, .heroStats li:first-child { flex-direction: column; align-items: flex-start; gap: 4px; padding: 14px 0 0; border-top: 0; font-size: 13px; line-height: 1.3; }
+  .heroStats b { flex: none; font-size: 32px; line-height: 1; }
+  .heroSrc { order: 4; margin: -12px 0 0; }
+  .heroPhoto { display: block; order: 5; aspect-ratio: 16 / 9; margin-top: 4px; border-radius: 18px; }
+  .heroStats { order: 3; }
+}
+
+/* Contact, round 7 */
+.crumbC { margin-bottom: -10px; }
+/* Where are we: the text block sits centred against a shorter map card, so both sides end together. */
+.where { align-items: center; }
+.mapCard { max-width: 480px; }
+/* Who do I contact: one action per row; the recall note sits under the need in small type. */
+.needNote { display: flex; align-items: center; gap: 4px; min-height: 44px; margin-bottom: -12px; font-size: 13.5px; font-weight: 500; color: var(--maroon) !important; text-decoration: underline; text-decoration-color: rgba(138, 0, 0, .35); text-underline-offset: 3px; }
+.desks .h2s, .sendRow .h2s { max-width: 22ch; }
+/* Complaint row on a phone: the email and the call stack, each a 44px link. */
+@media (max-width: 560px) { .lk { flex-direction: column; align-items: flex-start; } .lk a.lkMain { align-self: stretch; } }
+/* What should I send: heading left, one line and the links right (the full list is on How we deliver). */
+.sendRow { display: grid; grid-template-columns: 1fr; gap: 14px 40px; }
+@media (min-width: 900px) { .sendRow { grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); align-items: start; } }
+.sendTxt { display: flex; flex-direction: column; gap: 14px; }
+.sendLinks { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; }
+@media (max-width: 560px) { .sendLinks .pill { width: 100%; justify-content: center; } }
+/* Recall: the patient-file warning is sized to its words, with a warning icon. */
+.recallWarn { display: inline-flex; align-items: center; gap: 10px; max-width: fit-content; }
+.recallWarn svg { flex: none; color: var(--maroon); }
+
+/* ---------- Round 8 (real-site review) ---------- */
+/* About, "What is": the numbers run under the text, across the full width. */
+@media (min-width: 1000px) {
+  .what { grid-template-columns: minmax(0, 1fr); }
+  .what > div:last-child { margin-top: 0; }
+  .what .stats { max-width: none; }
+}
+/* How we work: larger icons, and the label reads as the heading of each item. */
+.ic { width: 56px; height: 56px; }
+.how .k { font-size: 15px; font-weight: 600; color: var(--ink); }
+@media (max-width: 600px) { .steps li { grid-template-columns: 56px 1fr; } }
+/* Papers: the email button sits on the heading line, at the right. */
+.papersHead { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px 32px; }
+@media (max-width: 600px) { .papersHead .pill { width: 100%; justify-content: center; } }
+/* "Ask for a copy": a full 44px tap height on a phone. */
+@media (max-width: 600px) { .doc a, .doc a.tl { display: inline-flex; min-height: 44px; padding-block: 12px; } }
+/* About hero numbers on a phone: three equal columns, each caption under its number. */
+@media (max-width: 600px) { .heroStats li, .heroStats li:first-child { justify-content: flex-start; } .heroStats span { display: block; } }
+
+/* Contact: the six things to send, as a list. */
+.sendList { list-style: none; margin: 0; padding: 0; border-bottom: 1px solid #E2DFDA; }
+.sendList li { display: flex; align-items: baseline; gap: 14px; padding: 10px 0; border-top: 1px solid #E2DFDA; font-size: 17px; line-height: 1.4; }
+.sendList li.sendCond { border-top: 2px solid #CFC9C2; }
+.sendLinks .pill { gap: 8px; }
+/* Contact table: header labels 12px; on wide screens the links sit at the right of their column. */
+.dt thead th { font-size: 12px; letter-spacing: .02em; }
+@media (min-width: 761px) { .dt td:last-child, .dt thead th:last-child { text-align: right; } .dt td:last-child .lk { align-items: flex-end; } }
+/* Contact links: a full 44px tap height everywhere. */
+.lk a, .needNote { min-height: 44px; }
+/* Recall warning: inside step 1, under its text. */
+.recall .recallWarn { display: flex; margin-top: 10px; font-size: 15px; }
+/* Maps pills: the sub-label in body-text colour. */
+.mapsSub { color: #45403B; }
+/* Contact hero: the emergency card starts level with the eyebrow (under the 48px breadcrumb). */
+@media (min-width: 1000px) { .heroGrid:has(.h1c) > .sos { align-self: start; margin-top: 48px; } }
+@media (min-width: 761px) { .dt thead th:last-child { padding-right: 0; } }
+
+/* ---------- Round 9 (real-site review) ---------- */
+/* "What should I send": the rule and the A to Z link sit under the question. */
+.sendHead { display: flex; flex-direction: column; gap: 10px; }
+/* A text link that wraps as normal text, with a 44px tap height. */
+.tapText { display: inline-block; padding-block: 11px; line-height: 1.4; }
+/* Desk table: narrower, so the reach column sits next to the contact column. */
+@media (min-width: 761px) { .dt { max-width: 960px; } }
+/* Every contact link is a 44px tap target. */
+.lk a { min-height: 44px; }
+/* Recall warning: the full width of the step text on a phone. */
+@media (max-width: 560px) { .recall .recallWarn { max-width: none; width: 100%; box-sizing: border-box; } }
+/* Map card: no taller than the address block beside it. */
+@media (min-width: 761px) { .mapCard { aspect-ratio: 480 / 330; max-height: 330px; } .where { align-items: center; } }
+
+/* ---------- Round 9 (real-site review) ---------- */
+/* "What is": the text at the left, the three numbers stacked at the right, read in one glance. */
+@media (min-width: 1000px) {
+  .what { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); align-items: start; }
+  .what > div:last-child { margin-top: 0; }
+  .what .statsMain { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .what .statsMain > div { display: grid; grid-template-columns: 150px minmax(0, 1fr); align-items: baseline; gap: 20px; padding: 14px 0; border-top: 1px solid rgba(17, 17, 17, .14); }
+  .what .statsMain dd { grid-row: 1; font-size: 48px; margin: 0; }
+  .what .statsMain dt { margin: 0; }
+}
+/* Hero photo: warm-graded and cropped to the lights and the table. */
+.heroPhoto img { object-position: 50% 38%; transform: scale(1.3); filter: sepia(.3) saturate(.55) contrast(1.1) brightness(.72); }
+/* Phone: the numbers sit under "What is", with the same dividers as on desktop; none in the hero. */
+@media (max-width: 999px) {
+  .heroStats, .heroSrc { display: none !important; }
+  .statsMain { display: grid !important; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .statsMain > div { border-top: 1px solid rgba(17, 17, 17, .14); padding-top: 12px; }
+  .statsMain + .statsSrc { display: block !important; margin-top: 10px; }
+}
+@media (max-width: 420px) { .statsMain dt { font-size: 12.5px; line-height: 1.3; white-space: normal !important; } .statsMain dd { font-size: 30px; } }
+/* Papers: "Ask for a copy" is a 44px tap target everywhere. */
+.doc a, .doc a.tl { min-height: 44px; padding-block: 12px; }
+@media (min-width: 761px) { .dt thead th:last-child, .dt td:last-child { text-align: left; } .dt td:last-child .lk { align-items: flex-start; } }
+.heroPhoto::before { content: ''; position: absolute; inset: 0; z-index: 1; background: rgba(140, 70, 40, .28); mix-blend-mode: multiply; pointer-events: none; }
+@media (max-width: 999px) {
+  .statsMain > div { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .statsMain dd { order: -1; margin: 0; font-size: 34px; line-height: 1; }
+  .statsMain dt { margin: 0; max-width: none; white-space: normal !important; font-size: 13px; line-height: 1.35; }
+}
+/* How we work, no icons: label over text on a phone. */
+@media (max-width: 600px) { .how .steps li { display: flex; flex-direction: column; gap: 4px; } }
+@media (max-width: 999px) { .statsMain > div { justify-content: flex-start !important; align-items: flex-start !important; text-align: left; } .statsMain dd { text-align: left; } }
+
+/* ---------- Round 10 (real-site review, round 9 notes) ---------- */
+/* About hero photo: lighter and with its colour kept; a soft edge, not a muddy filter. */
+.heroPhoto::before { content: none; }
+.heroPhoto img { filter: saturate(.9) contrast(1.08) brightness(.95); }
+.heroPhoto::after { background: radial-gradient(120% 90% at 50% 50%, rgba(11, 10, 10, 0) 60%, rgba(11, 10, 10, .25) 100%); }
+/* How we work: a number on each card, as a visual anchor. */
+.howN { display: block; font-family: var(--font-head); font-size: 28px; font-weight: 500; line-height: 1; letter-spacing: -0.03em; color: var(--maroon); }
+@media (max-width: 600px) { .how .steps li { gap: 6px; } .howN { font-size: 22px; } }
+/* Papers: the icon in the brand colour, a shorter card, a readable "Ask for a copy". */
+.doc { padding: 16px 18px; gap: 4px; }
+.doc a, .doc a.tl { font-size: 15px; }
+@media (max-width: 600px) { .doc svg { width: 20px; height: 24px; } }
+/* Phone numbers row: each label sits right under its number. */
+@media (max-width: 999px) { .statsMain > div { gap: 6px; } .statsMain dt { margin: 0; } }
+/* Contact: the table uses the full content width. */
+@media (min-width: 761px) { .dt { max-width: none; } }
+/* Recall: the patient-file note runs under all three steps. */
+.recallWarnAll { display: flex; width: 100%; max-width: none; box-sizing: border-box; margin: 4px 0 0; font-size: 15px; }
+@media (max-width: 999px) { .statsMain > div { flex-direction: column !important; justify-content: flex-start !important; } .statsMain dd { order: -1; } }
+@media (max-width: 999px) { .statsMain dd { flex: none; } }
+
+/* ---------- Round 11 (real-site review, round 10 notes) ---------- */
+/* Hero photo: darker and warmer with a vignette, so it sits in the dark hero. */
+.heroPhoto img { filter: sepia(.35) saturate(.7) hue-rotate(-8deg) contrast(1.1) brightness(.72); }
+.heroPhoto::after { background: radial-gradient(110% 90% at 50% 45%, rgba(11, 10, 10, 0) 45%, rgba(11, 10, 10, .6) 100%), linear-gradient(180deg, rgba(11, 10, 10, .15) 0%, rgba(11, 10, 10, 0) 35%, rgba(11, 10, 10, .35) 100%); }
+/* Stats, desktop: the label 24px from its number. Phone: one figure per row, number left, label right. */
+@media (min-width: 1000px) { .what .statsMain > div { grid-template-columns: max-content minmax(0, 1fr); gap: 24px; } .what .statsMain dd { min-width: 4.4ch; } }
+@media (max-width: 999px) {
+  .statsMain { grid-template-columns: minmax(0, 1fr) !important; gap: 0 !important; }
+  .statsMain > div { flex-direction: row !important; align-items: baseline !important; gap: 16px !important; padding: 12px 0; }
+  .statsMain dd { order: -1; min-width: 4.4ch; font-size: 34px; }
+  .statsMain dt { font-size: 14px !important; }
+}
+/* Paper cards: a 24px icon top-aligned beside the label, and "Ask for a copy" as a clear text button with an arrow. */
+.doc { display: grid; grid-template-columns: 24px minmax(0, 1fr); column-gap: 14px; row-gap: 2px; align-items: start; }
+.doc svg { grid-row: span 3; width: 24px; height: 29px; margin-top: 1px; }
+.doc .nm, .doc .no, .doc a { grid-column: 2; }
+.doc a { color: var(--maroon); text-decoration: underline; text-underline-offset: 3px; }
+.doc a::before { content: ''; }
+.doc a::after { content: ' \2192'; position: static; inset: auto; margin-left: 6px; text-decoration: none; }
+.papersHead { align-items: flex-end; }
+@media (max-width: 600px) {
+  .docs { padding: 4px 16px; }
+  .doc { grid-template-columns: 24px minmax(0, 1fr); column-gap: 12px; }
+  .doc svg { width: 20px; height: 24px; }
+}
+
+/* ---------- Round 11 (real-site review, round 10 notes): Contact ---------- */
+/* "Where are we?": the text block centred against the map card. */
+.where { align-items: center; }
+/* "Who do I contact": every row's action is the same 48px outlined pill; the emergency row stays dark. */
+.dt td, .dt th { vertical-align: middle; }
+.lk { gap: 8px !important; margin-top: 0 !important; }
+.lk a, .lk a.lkMore { min-height: 48px !important; padding: 0 18px !important; border: 1px solid #A9A39C !important; border-radius: 999px !important; background: #fff !important; color: var(--ink) !important; text-decoration: none !important; justify-content: center !important; }
+.lk a.lkMain { background: var(--ink) !important; border-color: var(--ink) !important; color: #fff !important; }
+/* "Recall steps below": a 44px link with air around it. */
+.needNote { display: inline-flex !important; align-items: center; min-height: 44px; margin-top: 6px; }
+/* "What should I send": the six-item list inline, then one 44px link row. */
+.sendList { list-style: none; margin: 4px 0 0; padding: 0; border-top: 1px solid #E2DFDA; }
+.sendList li { display: flex; align-items: baseline; gap: 14px; min-height: 44px; padding: 10px 0; border-bottom: 1px solid #E2DFDA; font-size: 16px; line-height: 1.4; }
+.sendList .n { flex: 0 0 auto; min-width: 1.2em; color: var(--maroon); font-weight: 600; }
+.linkRow { margin: 0; }
+.linkRow a { display: inline-flex; align-items: center; min-height: 44px; }
+.cBody { padding-bottom: 40px; }

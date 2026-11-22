@@ -1,0 +1,305 @@
+{
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/catalog/products/:slug((?:[a-z0-9-]*-)?(?:distal-radi[a-z0-9]*)(?:-[a-z0-9-]*)?(?:/.*)?)",
+      "destination": "/devices/distal-radius-locking-plate",
+      "permanent": true
+    },
+    {
+      "source": "/catalog/products/:slug((?:[a-z0-9-]*-)?(?:suture-anchors?|suture-passer|meniscal|loop-fixation|tendon-to-bone|nail-caps?|end-caps?|card-block|screwdriver|torque-limiting|positioning|endoscope|camera|monitor|light-source|plating)(?:-[a-z0-9-]*)?(?:/.*)?)",
+      "destination": "/departments/orthopaedics",
+      "permanent": true
+    },
+    {
+      "source": "/catalog/products/:slug((?:[a-z0-9-]*-)?(?:intrauterine|uterine)(?:-[a-z0-9-]*)?(?:/.*)?)",
+      "destination": "/departments/gynaecology",
+      "permanent": true
+    },
+    {
+      "source": "/catalog/products/:slug((?:[a-z0-9-]*-)?(?:hydrophilic|amplatz|cystostomy|suprapubic|holmium|ureter[a-z0-9]*|dj|stone|basket|lithotrip[a-z0-9]*|urolog[a-z0-9]*|foley|urinary|nephro[a-z0-9]*|dilators?|access-sheaths?)(?:-[a-z0-9-]*)?(?:/.*)?)",
+      "destination": "/departments/urology",
+      "permanent": true
+    },
+    {
+      "source": "/catalog/products/:slug((?:[a-z0-9-]*-)?(?:cpap|bpap|apap|bipap|concentrators?|sleep|ventilators?)(?:-[a-z0-9-]*)?(?:/.*)?)",
+      "destination": "/departments/sleep-respiratory",
+      "permanent": true
+    },
+    {
+      "source": "/catalog/products/:slug((?:[a-z0-9-]*-)?(?:central-venous|endotracheal|airways?|anesthe[a-z0-9]*|anaesthe[a-z0-9]*|epidural|spinal-needles?|breathing|hme|pressure-monitoring|dialy[a-z0-9]*|hemodialysis|fistula-needles?|feeding|suction|oxygen-cannula|catheter-mounts?|connectors?|iv|cvc|oropharyngeal)(?:-[a-z0-9-]*)?(?:/.*)?)",
+      "destination": "/departments/critical-care",
+      "permanent": true
+    },
+    {
+      "source": "/catalog/products/:slug((?:[a-z0-9-]*-)?(?:nasal|sinus|ear|tracheost[a-z0-9]*|tracheal|otoscope|tympan[a-z0-9]*|grommets?|epistaxis|eustachian|coblation|ent|pva|splints?|rf|plasma|laser)(?:-[a-z0-9-]*)?(?:/.*)?)",
+      "destination": "/departments/ent",
+      "permanent": true
+    },
+    {
+      "source": "/catalog/products/:slug((?:[a-z0-9-]*-)?(?:pedicle|spine|spinal|interbody|cages?|vertebr[a-z0-9]*|kyphopl[a-z0-9]*|bone-tamps?|cervical|lumbar)(?:-[a-z0-9-]*)?(?:/.*)?)",
+      "destination": "/departments/spine",
+      "permanent": true
+    },
+    {
+      "source": "/catalog/products/:slug((?:[a-z0-9-]*-)?(?:sutur[a-z0-9]*|catgut|ligat[a-z0-9]*|clips?|hernia|mesh|trocars?|stapl[a-z0-9]*|endocutters?|cutters?|reloads?|hemosta[a-z0-9]*|haemosta[a-z0-9]*|adhesives?|hemorrhoids?|pph|ultrasonic|laparo[a-z0-9]*|shears?|needles|polyglactin|polydioxanone|polypropylene|polyester|polyamide|silk|nylon|ligature|bonewax|handpiece|transducer|fiber|woven|glue)(?:-[a-z0-9-]*)?(?:/.*)?)",
+      "destination": "/departments/endo-surgery",
+      "permanent": true
+    },
+    {
+      "source": "/catalog/products/:slug((?:[a-z0-9-]*-)?(?:drapes?|gowns?|caps?|bouffant|masks?|disinfect[a-z0-9]*|rub|scrub|skin-prep[a-z0-9]*|preparation|steril[a-z0-9]*|wraps?|incise|aprons?|hygiene|saniti[a-z0-9]*|cleaners?|detergents?|protection|shoe-covers?|hoods?|helmets?|chg|povidone|iodine|wipes?|enzymatic|surface|glutaraldehyde|ipa|alcohol|antiseptic|solution|clipper|blades|kits|battery|charger|holster|opa|dressing)(?:-[a-z0-9-]*)?(?:/.*)?)",
+      "destination": "/departments/ot-infection-control",
+      "permanent": true
+    },
+    {
+      "source": "/catalog/products/:slug((?:[a-z0-9-]*-)?(?:valves?|oxygenators?|bypass|sternal|stabilizer|bioprosthesis|sizer|crimp[a-z0-9]*|annuloplasty|intra-aortic|teer|edge-to-edge|implantable-clip|aortic|mitral|pericardial)(?:-[a-z0-9-]*)?(?:/.*)?)",
+      "destination": "/departments/cardiac-surgery",
+      "permanent": true
+    },
+    {
+      "source": "/catalog/products/:slug((?:[a-z0-9-]*-)?(?:peripheral|biliary|embolic|emboli[a-z0-9]*|vascular-grafts?|closure|aneurysm|coils?|pta)(?:-[a-z0-9-]*)?(?:/.*)?)",
+      "destination": "/departments/vascular",
+      "permanent": true
+    },
+    {
+      "source": "/catalog/products/:slug((?:[a-z0-9-]*-)?(?:coronary|stents?|ptca|balloon|scaffold|tavr|tavi|thv|guide-?wires?|introducer|sheaths?|guide-catheter|inflation|bms|drug-eluting|sirolimus|catheters?)(?:-[a-z0-9-]*)?(?:/.*)?)",
+      "destination": "/departments/cardiology",
+      "permanent": true
+    },
+    {
+      "source": "/catalog/products/:slug((?:[a-z0-9-]*-)?(?:tests?|rapid|analy[a-z0-9]*|reagents?|elisa|blood-group[a-z0-9]*|hematology|haematology|diagnost[a-z0-9]*|urine|collection-tubes?|hba1c|cards?|strips?|cassettes?|antigen|antibod[a-z0-9]*|hiv|hcv|hbsag|malaria|dengue|typhoid|pregnancy|controls?|quadro|sickle-cell|lectin|calibrators?)(?:-[a-z0-9-]*)?(?:/.*)?)",
+      "destination": "/departments/laboratory-diagnostics",
+      "permanent": true
+    },
+    {
+      "source": "/catalog/products/:slug((?:[a-z0-9-]*-)?(?:plates?|screws?|nails?|nailing|wires?|pins?|knee|hip|femor[a-z0-9]*|femur|tibi[a-z0-9]*|acetab[a-z0-9]*|cups?|stems?|patell[a-z0-9]*|humer[a-z0-9]*|radi[a-z0-9]*|ulna[a-z0-9]*|clavic[a-z0-9]*|calcan[a-z0-9]*|fixators?|bones?|locking|cannulated|reamers?|arthroscop[a-z0-9]*|anchors?|shaver|cement|trauma|ortho[a-z0-9]*|bipolar|liners?|trials?|jigs?|guides?|holders?|impactors?|extractors?|drill[a-z0-9]*|osteot[a-z0-9]*|tendons?|ligaments?|grafts?|olecran[a-z0-9]*|malleol[a-z0-9]*|ankle|shoulder|elbow|wrist|hand|foot|robotic|trolley|instruments?|augments?|shell|insert|bolts?|restrictor|centralizer|pressurizer|hammer|offset|junction|dual-mobility|tray|reconstruction|shaft)(?:-[a-z0-9-]*)?(?:/.*)?)",
+      "destination": "/departments/orthopaedics",
+      "permanent": true
+    },
+    {
+      "source": "/catalog/products/:path*",
+      "destination": "/devices",
+      "permanent": true
+    },
+    {
+      "source": "/catalog/orthopedics",
+      "destination": "/departments/orthopaedics",
+      "permanent": true
+    },
+    {
+      "source": "/divisions/orthopedics",
+      "destination": "/departments/orthopaedics",
+      "permanent": true
+    },
+    {
+      "source": "/catalog/joint-replacement",
+      "destination": "/departments/orthopaedics",
+      "permanent": true
+    },
+    {
+      "source": "/divisions/joint-replacement",
+      "destination": "/departments/orthopaedics",
+      "permanent": true
+    },
+    {
+      "source": "/catalog/trauma",
+      "destination": "/departments/orthopaedics",
+      "permanent": true
+    },
+    {
+      "source": "/divisions/trauma",
+      "destination": "/departments/orthopaedics",
+      "permanent": true
+    },
+    {
+      "source": "/catalog/arthroplasty",
+      "destination": "/departments/orthopaedics",
+      "permanent": true
+    },
+    {
+      "source": "/divisions/arthroplasty",
+      "destination": "/departments/orthopaedics",
+      "permanent": true
+    },
+    {
+      "source": "/catalog/sports-medicine",
+      "destination": "/departments/orthopaedics",
+      "permanent": true
+    },
+    {
+      "source": "/divisions/sports-medicine",
+      "destination": "/departments/orthopaedics",
+      "permanent": true
+    },
+    {
+      "source": "/catalog/instruments",
+      "destination": "/departments/orthopaedics",
+      "permanent": true
+    },
+    {
+      "source": "/divisions/instruments",
+      "destination": "/departments/orthopaedics",
+      "permanent": true
+    },
+    {
+      "source": "/catalog/cardiovascular",
+      "destination": "/departments/cardiology",
+      "permanent": true
+    },
+    {
+      "source": "/divisions/cardiovascular",
+      "destination": "/departments/cardiology",
+      "permanent": true
+    },
+    {
+      "source": "/catalog/ent",
+      "destination": "/departments/ent",
+      "permanent": true
+    },
+    {
+      "source": "/divisions/ent",
+      "destination": "/departments/ent",
+      "permanent": true
+    },
+    {
+      "source": "/catalog/endo-surgery",
+      "destination": "/departments/endo-surgery",
+      "permanent": true
+    },
+    {
+      "source": "/divisions/endo-surgery",
+      "destination": "/departments/endo-surgery",
+      "permanent": true
+    },
+    {
+      "source": "/catalog/infection-prevention",
+      "destination": "/departments/ot-infection-control",
+      "permanent": true
+    },
+    {
+      "source": "/divisions/infection-prevention",
+      "destination": "/departments/ot-infection-control",
+      "permanent": true
+    },
+    {
+      "source": "/catalog/peripheral-intervention",
+      "destination": "/departments/vascular",
+      "permanent": true
+    },
+    {
+      "source": "/divisions/peripheral-intervention",
+      "destination": "/departments/vascular",
+      "permanent": true
+    },
+    {
+      "source": "/catalog/critical-care",
+      "destination": "/departments/critical-care",
+      "permanent": true
+    },
+    {
+      "source": "/divisions/critical-care",
+      "destination": "/departments/critical-care",
+      "permanent": true
+    },
+    {
+      "source": "/catalog/diagnostics",
+      "destination": "/departments/laboratory-diagnostics",
+      "permanent": true
+    },
+    {
+      "source": "/divisions/diagnostics",
+      "destination": "/departments/laboratory-diagnostics",
+      "permanent": true
+    },
+    {
+      "source": "/catalog/spine",
+      "destination": "/departments/spine",
+      "permanent": true
+    },
+    {
+      "source": "/divisions/spine",
+      "destination": "/departments/spine",
+      "permanent": true
+    },
+    {
+      "source": "/catalog/urology",
+      "destination": "/departments/urology",
+      "permanent": true
+    },
+    {
+      "source": "/divisions/urology",
+      "destination": "/departments/urology",
+      "permanent": true
+    },
+    {
+      "source": "/catalog",
+      "destination": "/devices",
+      "permanent": true
+    },
+    {
+      "source": "/catalog/:path*",
+      "destination": "/devices",
+      "permanent": true
+    },
+    {
+      "source": "/divisions/:path*",
+      "destination": "/devices",
+      "permanent": true
+    },
+    {
+      "source": "/districts",
+      "destination": "/how-we-deliver",
+      "permanent": true
+    },
+    {
+      "source": "/districts/:path*",
+      "destination": "/how-we-deliver",
+      "permanent": true
+    },
+    {
+      "source": "/solutions/:path*",
+      "destination": "/devices",
+      "permanent": true
+    },
+    {
+      "source": "/evidence",
+      "destination": "/devices",
+      "permanent": true
+    },
+    {
+      "source": "/evidence/:path*",
+      "destination": "/devices",
+      "permanent": true
+    },
+    {
+      "source": "/insights",
+      "destination": "/devices",
+      "permanent": true
+    },
+    {
+      "source": "/insights/:path*",
+      "destination": "/devices",
+      "permanent": true
+    },
+    {
+      "source": "/quote",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/quote/:path*",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/faq",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/llms-catalog.txt",
+      "destination": "/llms.txt",
+      "permanent": true
+    }
+  ]
+}
