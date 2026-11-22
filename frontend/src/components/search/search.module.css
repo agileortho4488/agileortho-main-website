@@ -1,0 +1,486 @@
+/* Devices A to Z (Search template). Page-scoped; tokens come from globals.css. */
+@keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+.rise { animation: rise .45s cubic-bezier(.2, .7, .1, 1) both; }
+.sr { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; border: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Hero */
+.hero { position: relative; overflow: hidden; background: radial-gradient(44% 56% at 70% 30%, rgba(138, 0, 0, .26) 0%, rgba(60, 14, 10, .14) 44%, rgba(11, 10, 10, 0) 74%), var(--stage); color: var(--stage-ink); }
+.heroIn { position: relative; max-width: var(--wrap); margin: 0 auto; padding: 28px var(--gutter) clamp(48px, 6vw, 72px); }
+.hgrid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; }
+.hleft { min-width: 0; }
+.eb { margin: 0 0 14px; font-size: 13px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: #A8A29C; }
+.h1 { margin: 0; font-weight: 500; font-size: clamp(42px, 6vw, 84px); line-height: 1; letter-spacing: -.03em; }
+.lede { margin: 16px 0 0; max-width: 46ch; font-size: 17px; color: #C9C4BE; }
+.lbl { display: block; margin: 28px 0 8px; font-size: 15px; color: #C9C4BE; }
+.form { min-height: 64px; display: flex; align-items: center; gap: 14px; background: #fff; border-radius: 999px; padding: 8px clamp(18px, 3vw, 30px); box-shadow: 0 24px 60px -30px rgba(0, 0, 0, .7); }
+.form svg { flex: 0 0 auto; }
+.input { flex: 1 1 auto; min-width: 0; border: 0; background: transparent; color: var(--ink); font-family: var(--font-head); font-size: clamp(20px, 2.4vw, 28px); letter-spacing: -.02em; min-height: 48px; outline-offset: 4px; }
+.input::placeholder { color: #6B655F; opacity: 1; }
+.dchips { list-style: none; margin: 0 calc(-1 * var(--gutter)) 0 0; padding: 0 48px 4px 0; display: flex; flex-wrap: nowrap; gap: 8px; overflow-x: auto; scrollbar-width: none; scroll-snap-type: x proximity; -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 120px), transparent); mask-image: linear-gradient(90deg, #000 calc(100% - 120px), transparent); }
+.dchips::-webkit-scrollbar { display: none; }
+.dchips li { flex: 0 0 auto; scroll-snap-align: start; }
+.dchips button { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, .16); background: transparent; color: #E8E4DF; font: inherit; font-size: 14px; white-space: nowrap; cursor: pointer; transition: background-color .15s ease; }
+.dchips button[aria-pressed='true'] { background: var(--stage-ink); color: var(--ink); border-color: var(--stage-ink); }
+.dchips button:focus-visible { outline: 2px solid var(--stage-ink); outline-offset: 2px; }
+
+/* Popular devices: a 2x2 grid on desktop, a sideways strip on phones. */
+.hfig { display: flex; flex-wrap: nowrap; gap: 12px; overflow-x: auto; scrollbar-width: none; margin-right: calc(-1 * var(--gutter)); padding-right: 40px; -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 56px), transparent); mask-image: linear-gradient(90deg, #000 calc(100% - 56px), transparent); }
+.hfig::-webkit-scrollbar { display: none; }
+.hfl { grid-column: 1 / -1; margin: 0; line-height: 1.08; font-size: 13px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: #A8A29C; }
+.hf { display: flex; flex-direction: column; gap: 10px; min-height: 44px; padding: 14px 14px 16px; border-radius: 20px; background: rgba(255, 255, 255, .035); border: 1px solid rgba(255, 255, 255, .10); color: #E8E4DF !important; text-decoration: none; font-size: 14px; font-weight: 500; line-height: 1.3; transition: background-color .2s ease, border-color .2s ease; }
+.hf:focus-visible { outline: 2px solid var(--stage-ink); outline-offset: 3px; }
+.hfi { display: flex; align-items: center; justify-content: center; height: clamp(120px, 11vw, 160px); border-radius: 14px; background: radial-gradient(70% 70% at 50% 45%, rgba(255, 244, 236, .10) 0%, rgba(255, 244, 236, 0) 70%); }
+.hf img { display: block; width: auto; height: clamp(100px, 9vw, 132px); max-width: 86%; object-fit: contain; filter: drop-shadow(0 18px 22px rgba(0, 0, 0, .55)); transition: transform .3s cubic-bezier(.2, .7, .1, 1); }
+.hf img.silver { rotate: -20deg; filter: grayscale(1) brightness(.95) contrast(1.05) drop-shadow(0 0 1px rgba(255, 255, 255, .3)) drop-shadow(0 18px 22px rgba(0, 0, 0, .55)); }
+.hf img.lift { filter: contrast(1.35) brightness(1.25) drop-shadow(0 18px 22px rgba(0, 0, 0, .55)); }
+.hfn { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.hfn::after { content: "→"; color: #A8A29C; }
+@media (max-width: 999px) { .hf { flex: 0 0 156px; } .hfl { display: none; } .hfi { height: 118px; } .hf img { height: 96px; } }
+@media (min-width: 1000px) {
+  .hgrid { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 56px; align-items: stretch; }
+  .hleft { display: flex; flex-direction: column; }
+  .hsearch { margin-top: auto; }
+  /* Wide screens: every department chip shows, on two or three lines; nothing is cut. */
+  .dchips { flex-wrap: wrap; overflow: visible; margin-right: 0; padding-right: 0; -webkit-mask-image: none; mask-image: none; }
+  .hfig { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; overflow: visible; margin-right: 0; padding-right: 0; -webkit-mask-image: none; mask-image: none; }
+}
+
+/* Results */
+.results { max-width: var(--wrap); margin: 0 auto; padding: 40px var(--gutter) 0; scroll-margin-top: 80px; }
+.rh { margin: 0; font-weight: 500; font-size: clamp(26px, 3.4vw, 42px); line-height: 1.06; letter-spacing: -.03em; max-width: 900px; scroll-margin-top: 88px; }
+.rh:focus { outline: none; }
+.rlist { list-style: none; margin: 22px 0 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+.row { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: clamp(12px, 2.4vw, 28px); background: var(--card); border-radius: 22px; padding: 14px clamp(12px, 2vw, 22px) 14px clamp(20px, 3vw, 32px); color: var(--ink); text-decoration: none; transition: transform .2s cubic-bezier(.2, .7, .1, 1); }
+.row::after { content: ''; position: absolute; inset: 0; border-radius: inherit; box-shadow: 0 18px 40px -24px rgba(17, 17, 17, .35); opacity: 0; pointer-events: none; transition: opacity .2s; }
+.row:focus-visible::after { opacity: 1; }
+.row:focus-visible { transform: translateY(-2px); }
+.row:active { transform: translateY(-1px) scale(.99); }
+.rmain { display: block; min-width: 0; overflow-wrap: break-word; hyphens: auto; }
+.rtop { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 12px; }
+.rname { font-family: var(--font-head); font-weight: 600; font-size: clamp(18px, 1.8vw, 22px); letter-spacing: -.025em; line-height: 1.2; }
+.rdept { font-size: 12px; font-weight: 500; color: var(--maroon); background: rgba(138, 0, 0, .07); border-radius: 999px; padding: 3px 10px; white-space: nowrap; }
+.raka { display: block; font-size: 14px; line-height: 1.35; color: var(--ink-2); margin-top: 4px; }
+.raka b { color: var(--ink); font-weight: 600; }
+.rline { display: block; font-size: 15px; margin-top: 6px; max-width: 64ch; }
+.act { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 500; color: var(--ink-2); white-space: nowrap; }
+.arr { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 50%; font-size: 18px; background: var(--bg); color: var(--ink); transition: background-color .2s ease, color .2s ease; }
+.row:focus-visible .arr { background: var(--maroon); color: #fff; }
+@media (max-width: 480px) { .arr { width: 32px; height: 32px; } .row { grid-template-columns: minmax(0, 1fr); row-gap: 10px; } .act { justify-content: space-between; } }
+
+.none { position: relative; overflow: hidden; margin-top: 22px; background: radial-gradient(40% 70% at 80% 50%, rgba(138, 0, 0, .38) 0%, rgba(60, 14, 10, .16) 45%, rgba(11, 10, 10, 0) 75%), var(--stage); color: var(--stage-ink); border-radius: 24px; padding: clamp(28px, 5vw, 56px); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 32px; align-items: center; }
+.noneH { margin: 0 0 14px; font-weight: 500; font-size: clamp(24px, 3vw, 36px); line-height: 1.08; letter-spacing: -.03em; }
+.noneP { margin: 0 0 24px; color: #C9C4BE; max-width: 46ch; }
+.btnR { display: inline-flex; flex-wrap: wrap; align-items: center; column-gap: 10px; row-gap: 2px; max-width: 100%; min-height: 50px; padding: 12px 22px; border-radius: 26px; background: var(--maroon); color: #fff; text-decoration: none; font-weight: 600; font-size: 15px; transition: background-color .2s ease, transform .1s ease; }
+.btnR:active { transform: scale(.98); }
+.btnR:focus-visible, .cl:focus-visible { outline: 2px solid var(--stage-ink); outline-offset: 3px; }
+.nw { white-space: nowrap; }
+.closeH { margin: 0 0 12px; font-size: 13px; color: #A8A29C; }
+.closeL { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.cl { display: flex; align-items: center; gap: 14px; min-height: 52px; border: 1px solid rgba(255, 255, 255, .1); border-radius: 16px; padding: 8px 16px; background: rgba(255, 255, 255, .06); color: var(--stage-ink); text-decoration: none; transition: background-color .2s ease; }
+.cl > span:first-child { flex: 1 1 auto; }
+.clN { display: block; font-weight: 500; }
+.clA { display: block; font-size: 13px; color: #A8A29C; }
+
+/* A to Z */
+.az { max-width: var(--wrap); margin: 0 auto; padding: 88px var(--gutter) clamp(48px, 6vw, 80px); scroll-margin-top: 72px; }
+.azhead { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 24px; margin: 0 0 18px; }
+.azh { margin: 0; font-weight: 500; font-size: clamp(30px, 4vw, 48px); line-height: 1.05; letter-spacing: -.035em; }
+.azsub { margin: 0; font-size: 13px; color: var(--ink-2); }
+.aznav { position: sticky; top: 0; z-index: 5; background: rgba(244, 243, 240, .94); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); padding: 10px 0; box-shadow: 0 8px 16px -12px rgba(17, 17, 17, .25); }
+.azbar { display: flex; align-items: center; width: max-content; max-width: 100%; background: #fff; border-radius: 999px; padding: 4px; overflow-x: auto; scroll-snap-type: x proximity; scrollbar-width: none; }
+.azbar::-webkit-scrollbar { display: none; }
+.azl { flex: 0 0 44px; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; border-radius: 999px; color: var(--ink); text-decoration: none; font-family: var(--font-head); font-weight: 600; font-size: 15px; scroll-snap-align: start; transition: background-color .15s ease; }
+.azl:focus-visible { outline-offset: -2px; background: var(--bg); }
+.aztop { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 6px; height: 44px; margin-left: 8px; padding: 0 16px; border-left: 1px solid rgba(17, 17, 17, .1); color: var(--ink-2); text-decoration: none; font-size: 13px; font-weight: 500; white-space: nowrap; }
+.azcols { columns: 3 300px; column-gap: 48px; column-fill: balance; margin-top: 32px; }
+.azg { break-inside: avoid; padding-top: 8px; padding-bottom: 40px; scroll-margin-top: 140px; }
+.azgh { margin: 0; font-family: var(--font-head); font-weight: 500; font-size: clamp(40px, 5vw, 56px); letter-spacing: -.03em; line-height: 1; }
+.azrule { display: block; width: 32px; height: 1px; background: var(--maroon); margin: 10px 0 14px; }
+.azlist { border-top: 1px solid var(--line); }
+.aze { display: block; border-bottom: 1px solid var(--line); scroll-margin-top: 140px; }
+.azx summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 12px; min-height: 48px; padding: 8px 0; }
+.azx summary::-webkit-details-marker { display: none; }
+.azx summary:focus-visible { outline: 2px solid var(--maroon); outline-offset: 2px; border-radius: 8px; }
+.azt { flex: 1 1 auto; min-width: 0; line-height: 1.3; }
+.azn { display: inline; margin-right: 10px; color: var(--ink); font-family: var(--font-head); font-size: 18px; font-weight: 600; letter-spacing: -.015em; line-height: 1.25; }
+.azdp { display: inline; font-size: 13.5px; font-weight: 500; color: #4A4642; white-space: nowrap; }
+.azpg { color: var(--maroon); white-space: nowrap; }
+.azpg svg { vertical-align: -2px; }
+.azoff { color: rgba(17, 17, 17, .28); cursor: default; }
+.fab { display: none; }
+.azc { flex: 0 0 auto; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #6E6862; transition: transform .2s ease, background-color .15s ease, color .15s ease; }
+.azx[open] .azc { transform: rotate(180deg); color: var(--ink); }
+.azb { padding: 0 40px 14px 0; font-size: 14.5px; line-height: 1.5; color: #3F3B37; }
+.azb p { margin: 0 0 8px; }
+.aka { font-size: 14px; line-height: 1.4; color: var(--ink-2); margin: 0 0 6px; }
+.azk { display: flex; flex-wrap: wrap; gap: 4px 18px; font-size: 13.5px; font-weight: 500; }
+.azk a { display: inline-flex; align-items: center; min-height: 44px; color: var(--maroon); text-underline-offset: 3px; }
+
+@media (hover: hover) {
+  .dchips button:hover { background: rgba(255, 255, 255, .08); }
+  .dchips button[aria-pressed='true']:hover { background: #fff; }
+  .hf:hover { background: rgba(255, 255, 255, .06); border-color: rgba(255, 255, 255, .18); }
+  .hf:hover img { transform: scale(1.04); }
+  .row:hover::after { opacity: 1; }
+  .row:hover .arr { background: var(--maroon); color: #fff; }
+  .btnR:hover { background: #6E0000; }
+  .cl:hover { background: rgba(255, 255, 255, .1); }
+  a.azl:hover { background: var(--bg); }
+  .aztop:hover { color: var(--ink); }
+  .azx summary:hover .azc { background: var(--maroon); color: #fff; }
+  .azx summary:hover .azn { color: #6E0000; }
+}
+
+
+@media (max-width: 640px) {
+  .azgh { font-size: 28px; margin-top: 8px; }
+  .azrule { margin: 4px 0 6px; }
+  .azn { display: block; margin-right: 0; }
+  .azdp { display: block; margin-top: 2px; font-size: 13px; }
+  .azx summary { min-height: 44px; padding: 10px 0; }
+  .az { padding-top: 56px; }
+}
+@media (max-width: 560px) {
+  .azg { padding-bottom: 20px; }
+  /* Phone: the letters wrap (no hidden sideways scroll) and the bar is not sticky; a floating button brings it back. */
+  .aznav { position: static; box-shadow: none; padding: 6px 0; scroll-margin-top: 12px; }
+  .azbar { flex-wrap: wrap; width: auto; max-width: none; overflow: visible; border-radius: 22px; justify-content: flex-start; }
+  .azoff { display: none; }
+  .aztop { display: none; }
+  .fab { display: inline-flex; align-items: center; gap: 6px; position: fixed; right: 16px; bottom: max(16px, env(safe-area-inset-bottom)); z-index: 9; min-height: 48px; padding: 0 18px; border-radius: 999px; background: var(--ink); color: #fff; text-decoration: none; font-size: 14px; font-weight: 600; box-shadow: 0 10px 24px rgba(0, 0, 0, .25); opacity: 0; pointer-events: none; transition: opacity .2s ease; }
+  .fabOn { opacity: 1; pointer-events: auto; }
+  .dchips { -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 64px), transparent); mask-image: linear-gradient(90deg, #000 calc(100% - 64px), transparent); }
+  .hfig { -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 64px), transparent); mask-image: linear-gradient(90deg, #000 calc(100% - 64px), transparent); }
+}
+@media (prefers-reduced-motion: reduce) { .fab { transition: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .rise { animation: none; }
+  .row, .row::after, .arr, .azl, .azc, .cl, .hf, .hf img, .dchips button, .btnR { transition: none; }
+  .row:hover, .row:focus-visible, .row:active, .btnR:active { transform: none; }
+}
+
+/* ---------- Round 3 (real-site review) ---------- */
+/* Department chips: six, then "See all". */
+.dmore { font-weight: 600; border-style: dashed !important; }
+
+/* Popular tiles: each device fills about 70% of its tile, so the four carry the same weight. */
+.hf img { height: 86%; max-height: none; max-width: 92%; }
+.hf img.silver { height: 100%; max-width: 100%; scale: 1.25; }
+.hf img.knee { scale: 1.3; }
+.hf img.nail { rotate: 38deg; height: 112%; }
+
+/* Key for the two row kinds. */
+.azkey { margin: 0 0 10px; font-size: 14px; color: var(--ink-2); }
+.azkey .azpg, .azkeyc { display: inline-flex; width: 22px; justify-content: center; font-weight: 700; color: var(--maroon); }
+.azkeyc { color: #6E6862; }
+
+/* Letter bar and "Back to top" side by side; the bar scrolls sideways when it does not fit. */
+.aznav { display: flex; align-items: center; gap: 8px; }
+.azbar { flex: 0 1 auto; min-width: 0; }
+.aztop { margin-left: 0; border-left: 0; background: #fff; border-radius: 999px; height: 52px; }
+.azoff { pointer-events: none; }
+
+/* A to Z: rows balance across the three columns (a letter can continue in the next column, never a row). */
+.azg { break-inside: auto; }
+.azgh, .azrule { break-after: avoid; }
+.aze { break-inside: avoid; }
+
+/* The department sits on its own line on every screen. */
+.azn { display: block; margin-right: 0; }
+.azdp { display: block; margin-top: 2px; white-space: normal; }
+
+/* A row with a device page is one link with an arrow; a row without one opens a short note (chevron). */
+.azgo { display: flex; align-items: center; gap: 12px; min-height: 48px; padding: 8px 0; color: var(--ink); text-decoration: none; }
+.azgo .azpg { flex: 0 0 auto; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: background-color .15s ease, color .15s ease; }
+.azgo:focus-visible { outline: 2px solid var(--maroon); outline-offset: 2px; border-radius: 8px; }
+@media (hover: hover) {
+  .azgo:hover .azn { color: #6E0000; }
+  .azgo:hover .azpg { background: var(--maroon); color: #fff; }
+}
+
+@media (max-width: 999px) {
+  /* Phone and tablet: all four popular devices show, 2 by 2. */
+  .hfig { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; overflow: visible; margin-right: 0; padding-right: 0; -webkit-mask-image: none; mask-image: none; }
+  .hfl { display: block; }
+  .hf { flex: none; }
+}
+@media (max-width: 560px) {
+  .hfig { -webkit-mask-image: none; mask-image: none; }
+  .hfi { height: 108px; }
+  .hf { padding: 10px 10px 12px; }
+  /* Phone: one sticky row of letters that scrolls sideways, with a round "back to top" at its end. */
+  .aznav { position: sticky; top: 0; box-shadow: 0 8px 16px -12px rgba(17, 17, 17, .25); padding: 8px 0; margin: 0 calc(-1 * var(--gutter)); padding-left: var(--gutter); padding-right: var(--gutter); }
+  .azbar { flex: 1 1 auto; flex-wrap: nowrap; width: auto; max-width: none; overflow-x: auto; border-radius: 999px; -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 28px), transparent); mask-image: linear-gradient(90deg, #000 calc(100% - 28px), transparent); }
+  .azl { flex: 0 0 44px; height: 44px; }
+  .aztop { display: inline-flex; flex: 0 0 52px; width: 52px; justify-content: center; padding: 0; font-size: 18px; }
+  .aztopT { display: none; }
+  .az { padding-bottom: 24px; }
+  .azg { padding-bottom: 16px; }
+}
+@media (prefers-reduced-motion: reduce) { .azgo .azpg { transition: none; } }
+
+/* ---------- Round 4 (real-site review) ---------- */
+/* Search field: the placeholder is a hint, not a headline. */
+.input::placeholder { font-family: var(--font-body); font-size: 18px; letter-spacing: 0; color: rgba(17, 17, 17, .6); }
+
+/* Popular tiles: one 70% box per device, centred, the same baseline (as on the home page). */
+.hfi { position: relative; }
+.hf img, .hf img.silver, .hf img.knee, .hf img.nail, .hf img.lift { position: absolute; left: 15%; top: 15%; width: 70%; height: 70%; max-width: none; object-fit: contain; rotate: none; scale: none; }
+.hf img.silver { transform: rotate(-24deg) scale(1.3); }
+.hf img.knee { transform: scale(.92); }
+.hf img.nail { transform: rotate(-38deg) scale(1.3); filter: saturate(.35) drop-shadow(0 18px 22px rgba(0, 0, 0, .55)); }
+@media (hover: hover) { .hf:hover img { scale: 1.04; transform-origin: center; } }
+.hfn { align-items: flex-start; min-height: 2.6em; }
+
+/* Key and row chips: a "Page" chip on rows with a device page; a chevron on rows with a note. */
+.chip { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 999px; background: rgba(138, 0, 0, .08); color: var(--maroon); font-size: 12.5px; font-weight: 600; white-space: nowrap; transition: background-color .15s ease, color .15s ease; }
+.azkey .chip { margin-right: 2px; }
+@media (hover: hover) { .azgo:hover .chip { background: var(--maroon); color: #fff; } }
+
+/* Letter groups: whole letters in three balanced columns; smaller letters, tighter gaps. */
+.azcols { columns: auto; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 48px; align-items: start; margin-top: 24px; }
+@media (max-width: 999px) { .azcols { grid-template-columns: minmax(0, 1fr); } }
+.azg { padding: 0 0 28px; }
+.azgs { list-style: none; display: flex; align-items: baseline; gap: 12px; cursor: default; }
+.azgs::-webkit-details-marker { display: none; }
+.azgh { font-size: 40px; }
+.azcount { display: none; font-size: 14px; color: var(--ink-2); }
+.azrule { margin: 8px 0 10px; }
+
+@media (max-width: 560px) {
+  /* Phone: each letter is a heading with its count; tap to open. */
+  .azgs { cursor: pointer; align-items: center; min-height: 52px; padding: 4px 0; border-bottom: 1px solid var(--line); }
+  .azgh { font-size: 26px; margin: 0; min-width: 28px; }
+  .azcount { display: inline; flex: 1 1 auto; }
+  .azgs::after { content: ''; width: 9px; height: 9px; margin-right: 8px; border-right: 2px solid var(--ink-2); border-bottom: 2px solid var(--ink-2); rotate: 45deg; translate: 0 -3px; transition: rotate .2s ease; }
+  .azg[open] .azgs::after { rotate: 225deg; translate: 0 3px; }
+  .azg[open] .azgs { border-bottom: 0; }
+  .azgs:focus-visible { outline: 2px solid var(--maroon); outline-offset: 2px; border-radius: 8px; }
+  .azg { padding-bottom: 0; }
+  .azg[open] { padding-bottom: 16px; }
+  .azg:not([open]) .azrule { display: none; }
+  /* Letter bar: scrolls sideways with snap; a fade shows on each side that has more letters. */
+  .azbar { scroll-snap-type: x mandatory; scroll-padding: 0 4px; }
+  .azbar[data-at='start'] { -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 40px), transparent); mask-image: linear-gradient(90deg, #000 calc(100% - 40px), transparent); }
+  .azbar[data-at='mid'] { -webkit-mask-image: linear-gradient(90deg, transparent, #000 40px, #000 calc(100% - 40px), transparent); mask-image: linear-gradient(90deg, transparent, #000 40px, #000 calc(100% - 40px), transparent); }
+  .azbar[data-at='end'] { -webkit-mask-image: linear-gradient(90deg, transparent, #000 40px); mask-image: linear-gradient(90deg, transparent, #000 40px); }
+  .azl { flex: 0 0 44px; width: 44px; }
+  .chip { padding: 4px 10px; }
+  .azkey { font-size: 13.5px; line-height: 1.5; }
+}
+@media (prefers-reduced-motion: reduce) { .chip, .azgs::after { transition: none; } }
+
+/* ---------- Round 5 (real-site review) ---------- */
+/* Popular cards: the device fills about 70% of the card on a soft warm glow (isolated-device look). */
+.hfi { height: clamp(150px, 13vw, 196px); background: radial-gradient(52% 58% at 50% 52%, rgba(255, 196, 160, .22) 0%, rgba(214, 120, 90, .08) 46%, rgba(255, 244, 236, 0) 74%); }
+.hf img, .hf img.silver, .hf img.knee, .hf img.nail, .hf img.lift { left: 7%; top: 7%; width: 86%; height: 86%; }
+.hf img.lift { transform: scale(1.12); filter: brightness(1.55) contrast(1.25) drop-shadow(0 0 1px rgba(255, 255, 255, .85)) drop-shadow(0 0 6px rgba(255, 226, 205, .35)) drop-shadow(0 18px 22px rgba(0, 0, 0, .55)); }
+
+/* Heading block: the section's job, then one block of guidance. */
+.azhead { display: block; margin: 0 0 14px; }
+.azdeps { margin: 8px 0 0; font-size: 17px; color: var(--ink-2); }
+.azguide { margin: 0 0 14px; }
+.azguide .azkey { margin: 0 0 4px; }
+.azguide .chip { vertical-align: 1px; }
+
+/* Letter bar: the full A to Z across the container; letters with no device show faint. */
+.azbar { flex: 1 1 auto; width: auto; justify-content: space-between; }
+.azl.azoff { color: rgba(17, 17, 17, .38); }
+/* The list ends at the normal section gap before the ask band. */
+.az { padding-bottom: 8px; }
+
+@media (max-width: 999px) { .hfi { height: 132px; } }
+@media (max-width: 560px) {
+  /* Phone: short cards, so search and the A to Z start sooner. */
+  .hfi { height: 90px; }
+  .hfn { min-height: 0; font-size: 13px; }
+  /* Phone: the department chips wrap like desktop; nothing is cut. */
+  .dchips { flex-wrap: wrap; overflow: visible; margin-right: 0; padding-right: 0; -webkit-mask-image: none; mask-image: none; }
+  /* Phone: the rail scrolls the letters only; "back to top" becomes a floating button. */
+  .azbar { justify-content: flex-start; }
+  .azl.azoff { display: none; }
+  .aztop { display: none; }
+  .fab { right: 16px; }
+  /* A folded letter shows its first two names, so the list has content before any tap. */
+  .azcount { font-size: 13.5px; line-height: 1.35; color: var(--ink-2); padding: 6px 0; }
+  .azg[open] .azcount { display: none; }
+  .azguide .azkey { font-size: 14px; line-height: 1.45; }
+}
+@media (min-width: 1000px) {
+  /* Shorter cards (the device still fills them), so the two hero columns finish on one line without a dead band. */
+  .hfi { height: clamp(136px, 10.5vw, 156px); }
+  .hf { padding: 12px 12px 14px; gap: 8px; }
+  .hfn { min-height: 0; }
+  .hleft { justify-content: space-between; }
+  .hsearch { margin-top: 32px; }
+}
+@media (max-width: 560px) { .azg[open] .azgs::after { margin-left: auto; } }
+
+/* ---------- Round 6 (real-site review) ---------- */
+/* Most asked for: each device stands on a lit ground with a contact shadow (isolated object, not a thumbnail). */
+.hfi { overflow: hidden; background: radial-gradient(58% 62% at 50% 46%, rgba(255, 232, 218, .20) 0%, rgba(255, 214, 190, .07) 52%, rgba(255, 244, 236, .02) 78%); }
+.hfi :global(.stg-floor) { bottom: 9%; width: 56%; height: 18px; z-index: 0; }
+.hf img, .hf img.silver, .hf img.knee, .hf img.nail, .hf img.lift { z-index: 1; left: 10%; top: 4%; width: 80%; height: 82%; }
+.hf img.lift { transform: scale(1.35); }
+.hf img.nail { transform: rotate(-30deg) scale(1.55); }
+.hf img.silver { transform: rotate(-24deg) scale(1.2); }
+.hf img.knee { transform: scale(1); }
+
+/* A to Z: CSS columns of whole letters, balanced by real height, so the three column bottoms line up. */
+.azcols { display: block; columns: 3; column-gap: 48px; column-fill: balance; }
+.azcols .azg { display: block; break-inside: avoid; -webkit-column-break-inside: avoid; }
+@media (max-width: 999px) { .azcols { columns: 1; } }
+
+/* Key line: one line, 14px in the body colour. */
+.azguide .azkey { font-size: 14px; color: var(--ink-2); }
+
+/* Phone hero: the four device tiles come before the department chips, so a photo shows on the first screen. */
+@media (max-width: 999px) {
+  .hgrid { display: flex; flex-direction: column; gap: 0; }
+  .hleft, .hsearch { display: contents; }
+  .hleft > div:first-child { order: 1; }
+  .hsearch > .lbl:first-child { order: 2; }
+  .form { order: 3; }
+  .hfig { order: 4; margin-top: 24px; }
+  .hsearch > p#dch, .hsearch > .lbl:not(:first-child) { order: 5; }
+  .dchips { order: 6; }
+}
+/* Phone chips: four departments, then "See all 16". */
+@media (max-width: 560px) {
+  .dcut li:nth-child(n+5):not(.dkeep):not(.dmoreLi) { display: none; }
+}
+/* Phone letter rows: the first device in dark weight, the rest as a small count pill; every row one line. */
+.azcount b { font-weight: 600; color: var(--ink); }
+.azmore { display: inline-block; margin-left: 8px; padding: 1px 8px; border-radius: 999px; background: rgba(17, 17, 17, .06); color: var(--ink-2); font-size: 12.5px; font-weight: 500; white-space: nowrap; }
+@media (max-width: 560px) {
+  .azcount { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+  /* Letter strip: a wider fade at the right edge says "more letters this way". */
+  .azbar[data-at='start'] { -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 72px), transparent); mask-image: linear-gradient(90deg, #000 calc(100% - 72px), transparent); }
+  .azbar[data-at='mid'] { -webkit-mask-image: linear-gradient(90deg, transparent, #000 48px, #000 calc(100% - 72px), transparent); mask-image: linear-gradient(90deg, transparent, #000 48px, #000 calc(100% - 72px), transparent); }
+}
+
+/* ---------- Round 7 (real-site review) ---------- */
+/* Breadcrumb above the eyebrow, as on every inner page. */
+.crumb { margin: 0 0 6px; }
+/* Hero: the search block sits 40px under the sub-line, centred against the four tiles. */
+@media (min-width: 1000px) {
+  .hleft { justify-content: center; }
+  .hsearch { margin-top: 0; }
+  .hsearch > .lbl:first-child { margin-top: 40px; }
+}
+/* Most asked for: one rule for all four tiles. Each photo is trimmed to its device, sits in the same box
+   (12% side padding), and stands on one shared floor shadow line. No per-device scaling. */
+.hfi :global(.stg-floor) { bottom: 10%; width: 58%; height: 16px; }
+.hf img, .hf img.silver, .hf img.knee, .hf img.nail, .hf img.lift {
+  left: 12%; top: 12%; width: 76%; height: 74%; max-width: none;
+  object-fit: contain; object-position: 50% 100%; transform: none; rotate: none; scale: none;
+}
+.hf img.silver { filter: grayscale(1) brightness(1.02) contrast(1.05) drop-shadow(0 14px 16px rgba(0, 0, 0, .55)); }
+.hf img.knee { filter: drop-shadow(0 14px 16px rgba(0, 0, 0, .55)); }
+/* The two tall cut-outs: a lower box, so the whole device (its top too) shows. */
+.hf img.lift, .hf img.nail { top: 18%; height: 68%; }
+.hf img.lift { filter: brightness(1.45) contrast(1.2) drop-shadow(0 0 1px rgba(255, 255, 255, .8)) drop-shadow(0 14px 16px rgba(0, 0, 0, .55)); }
+.hf img.nail { filter: saturate(.35) drop-shadow(0 14px 16px rgba(0, 0, 0, .55)); transform: rotate(-32deg) scale(1.2); transform-origin: 50% 55%; }
+@media (hover: hover) { .hf:hover img { scale: 1.03; transform-origin: 50% 100%; } }
+/* Captions: two lines tall on every tile, so the four arrows line up. */
+.hfn, .hf .hfn { min-height: calc(2 * 1.3em); align-items: flex-start; }
+@media (max-width: 560px) { .hfn, .hf .hfn { min-height: calc(2 * 1.3em); } }
+
+/* A to Z key: the same round arrow the rows carry. */
+.azpg, .azpgKey { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; background: rgba(138, 0, 0, .08); color: var(--maroon); }
+.azpgKey { width: 24px; height: 24px; vertical-align: -6px; margin: 0 2px; }
+.azpgKey svg { width: 12px; height: 12px; }
+
+/* Letter bar: 44px letters everywhere; "Back to top" only once the bar is stuck. */
+.navTop { display: block; height: 1px; }
+.azl { min-height: 44px; height: 44px; }
+.aztop { display: none; }
+@media (min-width: 561px) {
+  .stuck .aztop { display: inline-flex; }
+}
+
+/* Phone: every letter starts open, so every name shows; the folded row reads "S  12 devices". */
+@media (max-width: 560px) {
+  .azcount { white-space: nowrap; font-size: 14px; color: var(--ink-2); }
+  /* Letter strip: a 24px fade on the right edge; half of the next letter stays readable. */
+  .azbar, .azbar[data-at='start'] { scroll-padding-inline: 4px 24px; -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 24px), transparent); mask-image: linear-gradient(90deg, #000 calc(100% - 24px), transparent); }
+  .azbar[data-at='mid'] { -webkit-mask-image: linear-gradient(90deg, transparent, #000 24px, #000 calc(100% - 24px), transparent); mask-image: linear-gradient(90deg, transparent, #000 24px, #000 calc(100% - 24px), transparent); }
+  .azbar[data-at='end'] { -webkit-mask-image: linear-gradient(90deg, transparent, #000 24px); mask-image: linear-gradient(90deg, transparent, #000 24px); }
+}
+
+/* ---------- Round 8 (real-site review) ---------- */
+/* "Devices with their own page" tiles: a 20% taller picture and 14px labels. */
+.hfi { height: clamp(170px, 12.6vw, 188px); }
+.hfn, .hf .hfn { font-size: 14px; }
+.hf img.photo { left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; transform: none; filter: saturate(.8); border-radius: 14px; }
+@media (max-width: 999px) { .hfi { height: 158px; } }
+@media (max-width: 560px) { .hfi { height: 108px; } }
+/* Letter bar: letters grouped at the left, larger and medium weight. */
+.azbar { flex: 0 1 auto; width: max-content; justify-content: flex-start; }
+.azl { font-size: 17px; font-weight: 500; }
+/* Three columns, balanced by row count in DevicesAZ.tsx. */
+.azcols { display: grid; columns: auto; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 48px; align-items: start; }
+.azcol { min-width: 0; }
+@media (max-width: 999px) { .azcols { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 560px) {
+  /* Every letter in view: a wrapped grid of 32 x 44 cells, no sideways scroll. */
+  .azbar, .azbar[data-at='start'], .azbar[data-at='mid'], .azbar[data-at='end'] { flex-wrap: wrap; overflow: visible; width: auto; border-radius: 22px; -webkit-mask-image: none; mask-image: none; }
+  .azl { flex: 0 0 32px; width: 32px; height: 44px; font-size: 16px; }
+  /* Letter rows 48px tall, letter inline at 20px; device rows about 10px shorter. */
+  .azgs { min-height: 48px; padding: 0; }
+  .azgh { font-size: 20px; }
+  .azrule { display: none; }
+  .azgo, .azx summary { min-height: 44px; padding: 4px 0; }
+  .azc { width: 28px; height: 28px; }
+  /* Department chips: one row that scrolls, faded at the right edge. */
+  .dchips { flex-wrap: nowrap; overflow-x: auto; margin-right: calc(-1 * var(--gutter)); padding-right: 48px; -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 64px), transparent); mask-image: linear-gradient(90deg, #000 calc(100% - 64px), transparent); }
+}
+
+/* ---------- Round 9 (real-site review) ---------- */
+/* Desktop letter bar: the letters spread across the whole bar, no empty white strip at the end. */
+@media (min-width: 561px) { .azbar { flex: 1 1 auto; width: auto; max-width: none; justify-content: space-between; } }
+/* Phone rows: at least 44px tall. */
+.azgo { min-height: 48px; }
+/* Phone: the letter grid stays in view under the top of the screen while the list scrolls. */
+@media (max-width: 560px) { .aznav { position: sticky; top: 0; z-index: 6; } }
+
+/* ---------- Round 10 (real-site review, round 9 notes) ---------- */
+/* Most asked tiles: each device fills about 70% of its card. */
+.hf img.silver { transform: rotate(-24deg) scale(1.65); }
+.hf img.knee { transform: scale(1.18); }
+.hf img.lift, .hf img.nail { top: 8%; height: 84%; }
+.hf img.lift { transform: scale(1.4); }
+.hf img.nail { transform: rotate(-32deg) scale(1.35); }
+@media (max-width: 560px) { .hfi { height: 120px; } }
+/* A to Z: a name with its own page is red; the "opens more" chevron is quieter. */
+.azgo .azn { color: var(--maroon); }
+.azc { color: #8F8983; }
+/* The legend arrow matches the row arrow. */
+.azpgKey { width: 28px; height: 28px; vertical-align: -8px; }
+.azpgKey svg { width: 14px; height: 14px; }
+/* Department chips on a phone: chip-by-chip snapping and a right-edge fade. */
+.dchips { scroll-snap-type: x mandatory; scroll-padding-inline: 0 16px; }
+.hf img.lift { transform: scale(1.12); }
+.azpgKey { vertical-align: middle; }
+
+/* ---------- Round 11 (real-site review, round 10 notes) ---------- */
+/* A to Z: one flow of whole letters in CSS columns, balanced by real height (no empty block at the end of one column). */
+.azcols { display: block; columns: 3; column-gap: 48px; column-fill: balance; }
+.azcols .azg { display: block; break-inside: avoid; -webkit-column-break-inside: avoid; }
+@media (max-width: 999px) { .azcols { columns: 1; } }
+/* Letters with no device: 3:1 grey with a strike, so the bar reads as deliberate. */
+.azl.azoff { color: #8C8781; text-decoration: line-through; text-decoration-thickness: 1px; }
+/* Phone letter grid: real 44px targets (7 or 8 per row). */
+@media (max-width: 560px) { .azl { flex: 0 0 44px; width: 44px; height: 44px; } }
+/* Most asked tiles: one ground for all four, each device centred at one visual size, the label near the picture. */
+.hfi { background: radial-gradient(58% 62% at 50% 48%, rgba(255, 232, 218, .16) 0%, rgba(255, 214, 190, .05) 55%, rgba(255, 244, 236, 0) 80%); }
+.hf img, .hf img.silver, .hf img.knee, .hf img.nail, .hf img.lift, .hf img.photo { left: 14%; top: 10%; width: 72%; height: 80%; object-fit: contain; object-position: 50% 50%; border-radius: 0; }
+.hf img.silver { transform: rotate(-24deg) scale(1.35); filter: grayscale(1) brightness(1.02) contrast(1.05) drop-shadow(0 14px 16px rgba(0, 0, 0, .55)); }
+.hf img.knee { transform: scale(1.05); }
+.hf img.lift { transform: rotate(-24deg) scale(1.05); filter: grayscale(1) brightness(1.5) contrast(1.15) drop-shadow(0 14px 16px rgba(0, 0, 0, .55)); }
+.hf img.nail { transform: rotate(-32deg) scale(1.2); filter: grayscale(1) brightness(1.1) drop-shadow(0 14px 16px rgba(0, 0, 0, .55)); }
+.hf { gap: 6px; }
+@media (max-width: 560px) { .hfi { height: 110px; } }
+/* Breadcrumb: "Home" lines up with the eyebrow and the H1. */
+.crumb li:first-child a { margin-left: -6px; }

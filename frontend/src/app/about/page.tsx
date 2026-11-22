@@ -1,115 +1,130 @@
-"use client";
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import { site, og, waLink } from '@/content/site';
+import { AskBand } from '@/components/SiteChrome';
+import { departments } from '@/content/departments';
+import { breadcrumb, faqPage, graph, orgRef, organization, url, webPage } from '@/content/schema';
+import JsonLd from '@/components/JsonLd';
+import Breadcrumb from '@/components/Breadcrumb';
+import s from './info.module.css';
 
-import React from 'react';
-import Image from 'next/image';
-import PremiumHeader from '../../components/PremiumHeader';
-import PartnershipTimeline from '../../components/PartnershipTimeline';
-import CertificationsWall from '../../components/CertificationsWall';
-import TrustStrip from '../../components/TrustStrip';
-import { motion } from 'framer-motion';
+const path = '/about';
+const deptCount = departments.length;
+const mail = (subject: string) => `mailto:${site.email}?subject=${encodeURIComponent(subject)}`;
 
-export default function AboutPage() {
+export const metadata: Metadata = {
+  title: { absolute: `About ${site.name} (${site.legalName})` },
+  description: `${site.name} is the trading name of ${site.legalName}, a medical device distributor in Hyderabad. We supply hospitals and labs in Telangana.`,
+  alternates: { canonical: path },
+  openGraph: og(path, `About ${site.name} (${site.legalName})`, undefined, { url: '/images/og/og-about.jpg', width: 1200, height: 630, alt: 'Surgical instrument sets in their trays, and the Agile Healthcare logo' }),
+};
+
+// Papers purchase teams can ask for.
+const papers = [
+  { name: 'Drug licence', no: `DL No. ${site.drugLicence}` },
+  { name: 'GST certificate', no: `GSTIN ${site.gstin}` },
+  { name: 'Company incorporation certificate', no: `CIN ${site.cin}` },
+  { name: 'Udyam (MSME) certificate', no: site.udyam },
+];
+
+// What we do for the buyer, then why they can trust us (facts from site.ts). The legal name line stays in the footer.
+// Why we exist, in two lines: what goes wrong for a theatre, and what we do instead.
+const why = 'Without a distributor, a case can stop for one missing size, or for a set left at the hospital gate.';
+const promise = 'We collect the set after the case and bill only what was used.';
+const whatText = `${why} ${promise} We supply devices for ${deptCount} departments, to hospitals and labs in Telangana only. We do not make devices or give medical advice.`;
+const asOf = '2026-11-14'; // the date in site.numbersSource
+
+// How we work: four promises. The papers have their own section below; the grievance officer is on Contact.
+const how: { k: string; v: React.ReactNode }[] = [
+  { k: 'A printed set list in every set', v: 'Every set travels with its printed set list, so your theatre staff can check each size and instrument before the case.' },
+  { k: 'Two dispatch points', v: 'Sets leave our dispatch centre in LB Nagar or our second dispatch point in Miyapur, Hyderabad.' },
+  { k: 'Telangana only', v: 'We supply hospitals and labs in Telangana, and nowhere else.' },
+  { k: 'We tell you plainly', v: 'If we do not have a device, we tell you plainly, so your team can plan the case.' },
+];
+
+const faq = [
+  { q: `What is ${site.name}?`, a: whatText },
+  { q: 'Which papers can purchase teams get?', a: `Ask, and we send you copies of these papers. ${papers.map(p => `${p.name}: ${p.no}.`).join(' ')}` },
+];
+
+const DocIcon = () => (
+  <svg aria-hidden="true" width="24" height="29" viewBox="0 0 28 34" fill="none" stroke="#8A0000" strokeWidth="1.8">
+    <path d="M2 2h16l8 8v22H2z" /><path d="M18 2v8h8M7 17h14M7 22h14M7 27h9" />
+  </svg>
+);
+
+export default function About() {
   return (
-    <main className="min-h-screen bg-[#050816] text-white selection:bg-primary/30 font-body">
-      <PremiumHeader />
-      <TrustStrip />
+    <>
+      <JsonLd data={graph(organization, webPage(path, `About ${site.name}`, 'AboutPage', { dateModified: asOf, about: orgRef, mainEntity: orgRef, breadcrumb: { '@id': `${url(path)}#breadcrumb` } }), breadcrumb(path, [{ name: 'Home', path: '/' }, { name: 'About', path }]), faqPage(path, faq))} />
 
-      {/* Hero Section */}
-      <section className="relative pt-48 pb-32 overflow-hidden px-4">
-        <div className="absolute inset-0 z-0">
-           <Image 
-             src="/images/surgeon-team.png" 
-             alt="Surgical Infrastructure" 
-             fill
-             className="object-cover grayscale opacity-20"
-           />
-           <div className="absolute inset-0 bg-gradient-to-b from-[#050816] via-transparent to-[#050816]" />
-        </div>
-
-        <div className="relative z-10 max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1 }}
-          >
-            <div className="text-primary font-black uppercase tracking-[0.4em] text-xs mb-8">Clinical Infrastructure</div>
-            <h1 className="text-6xl md:text-9xl font-black tracking-tighter uppercase italic mb-12">
-               The Surgical<br />
-               <span className="text-primary">Backbone.</span>
-            </h1>
-            <p className="max-w-2xl text-2xl text-muted-foreground leading-tight">
-               Agile Healthcare collapses the distance between global medtech innovation and district-level operating theatres. 
-               Serving as the authorized Master Franchise for Meril Life Sciences across all 33 districts of Telangana.
-            </p>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Operational Philosophy */}
-      <section className="py-32 bg-white/[0.02] border-y border-white/5 px-4">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
-             <div>
-                <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter mb-8 italic">Operationally <span className="text-primary">Reliable.</span></h2>
-                <p className="text-xl text-white/60 leading-relaxed mb-8">
-                   We believe that surgical hardware is only as effective as the logistics network that delivers it. 
-                   Our philosophy merges clinical intelligence with an obsession for OT-speed logistics.
-                </p>
-                <div className="space-y-6">
-                   <div className="flex items-start gap-4">
-                      <div className="h-2 w-2 rounded-full bg-primary mt-3" />
-                      <div>
-                        <div className="font-bold uppercase tracking-widest text-sm mb-1">Statewide Integration</div>
-                        <div className="text-white/40 text-sm">Deeply embedded in the hospital ecosystem of every district.</div>
-                      </div>
-                   </div>
-                   <div className="flex items-start gap-4">
-                      <div className="h-2 w-2 rounded-full bg-primary mt-3" />
-                      <div>
-                        <div className="font-bold uppercase tracking-widest text-sm mb-1">Clinical Governance</div>
-                        <div className="text-white/40 text-sm">Strict adherence to international standards and quality control.</div>
-                      </div>
-                   </div>
-                </div>
-             </div>
-             <div className="relative aspect-square rounded-[40px] overflow-hidden border border-white/5">
-                <Image 
-                   src="/images/meril-partnership.png" 
-                   alt="Strategic Partnership" 
-                   fill
-                   className="object-cover opacity-60"
-                />
-             </div>
+      <section aria-labelledby="about-h1" className={s.hero}>
+        <div className={s.glow} aria-hidden="true" />
+        <div className={s.grain} aria-hidden="true" />
+        <div className={`wrap ${s.heroGrid} ${s.rise}`}>
+          <div>
+            <Breadcrumb crumbs={[{ name: 'Home', path: '/' }, { name: 'About', path }]} />
+            <p className={s.eyebrow}>About {site.name}, Hyderabad, Telangana</p>
+            <h1 id="about-h1" className={s.display}>Your device distributor in Hyderabad.{' '}<br />{`Since ${site.foundingDate}.`}</h1>
+            <p className={s.lead}>Licensed to supply medical devices to hospitals and labs in Telangana.</p>
+            <div className={s.acts}>
+              <a className={s.btnRose} href={waLink()}>Ask on WhatsApp <span className={s.nowrap}>{site.whatsapp.display} <span aria-hidden="true">&rarr;</span></span></a>
+            </div>
           </div>
+          <figure className={s.heroPhoto}>
+            <img src="/images/operating-theatre.jpg" width={1600} height={1200} alt="An operating theatre, ready for a case (stock photo)" fetchPriority="high" decoding="async" />
+          </figure>
+          {/* Phone: the three numbers in one row, then the photo as a short strip. */}
+          <ul role="list" className={s.heroStats}>
+            {site.numbers.slice(0, 3).map(n => <li key={n.label}><b>{n.value}</b> <span>{n.label}</span></li>)}
+          </ul>
+          <p className={s.heroSrc}>{site.numbersSource}</p>
         </div>
       </section>
 
-      {/* Timeline Section */}
-      <section className="py-32 px-4">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-24">
-             <h2 className="text-4xl md:text-7xl font-black uppercase tracking-tighter mb-4 italic">Our <span className="text-primary">Growth.</span></h2>
-             <p className="text-white/40">The evolution of a surgical powerhouse.</p>
+      <section aria-labelledby="what" className={`wrap ${s.what}`}>
+        <div>
+          <h2 id="what" className={s.h2}>What is {site.name}?</h2>
+          <p className={s.whatP}>
+            {why} {promise} We supply devices for <Link className={s.tl} href="/#departments">{deptCount} departments</Link>, to hospitals and labs
+            in Telangana only. We do not make devices or give medical advice.
+          </p>
+        </div>
+        <div>
+          <dl className={`${s.stats} ${s.statsMain}`}>
+            {site.numbers.slice(0, 3).map(n => <div key={n.label}><dt>{n.label}</dt><dd>{n.value}</dd></div>)}
+          </dl>
+          <p className={s.statsSrc}>{site.numbersSource}</p>
+        </div>
+      </section>
+
+      <section aria-labelledby="how-h" className={`wrap ${s.sec} ${s.how}`}>
+        <h2 id="how-h" className={s.h2}>How we work</h2>
+        <ol role="list" className={s.steps}>
+          {how.map((h, i) => <li key={h.k}><span className={s.howN} aria-hidden="true">{String(i + 1).padStart(2, '0')}</span><h3 className={s.k}>{h.k}</h3><p className={s.v}>{h.v}</p></li>)}
+        </ol>
+      </section>
+
+      <section id="papers" aria-labelledby="papers-h" className={`wrap ${s.sec} ${s.papers}`}>
+        <div className={s.papersHead}>
+          <div>
+            <h2 id="papers-h" className={s.h2} style={{ marginBottom: 14 }}>Which papers can purchase teams get?</h2>
+            <p className={s.body} style={{ margin: 0, maxWidth: 640 }}>Ask, and we send you copies of these papers.</p>
           </div>
-          <PartnershipTimeline />
+          <a className={s.pill} href={mail('Vendor papers')}>Ask for all papers by email</a>
         </div>
+        <ul role="list" className={s.docs}>
+          {papers.map(p => (
+            <li key={p.name} className={s.doc}>
+              <DocIcon />
+              <p className={s.nm}>{p.name}</p>
+              <p className={s.no}>{p.no}</p>
+              <a className={s.tl} href={mail(`Copy of ${p.name.toLowerCase()}`)} aria-label={`Ask for a copy of the ${p.name.toLowerCase()}`}>Ask for a copy</a>
+            </li>
+          ))}
+        </ul>
       </section>
-
-      {/* Certifications */}
-      <section className="py-32 bg-[#0F172A]/30 px-4">
-        <div className="max-w-7xl mx-auto">
-           <div className="text-center mb-24">
-             <h2 className="text-4xl md:text-7xl font-black uppercase tracking-tighter mb-4 italic">Clinical <span className="text-primary">Governance.</span></h2>
-             <p className="text-white/40">Certifications and trust markers validated for hospital procurement.</p>
-          </div>
-          <CertificationsWall />
-        </div>
-      </section>
-
-      {/* Global Footer Placeholder */}
-      <footer className="py-32 border-t border-white/5 bg-black text-center">
-         <div className="text-2xl font-black tracking-tighter uppercase italic text-white/20">Agile Healthcare Infrastructure</div>
-      </footer>
-    </main>
+      <AskBand title={<>Want our papers <br />or a first case? <span className="nb">WhatsApp us.</span></>} sos />
+    </>
   );
 }

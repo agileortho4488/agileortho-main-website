@@ -1,0 +1,251 @@
+/* Department template. Ported from the approved Department design. */
+@keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+.rise { animation: rise .7s cubic-bezier(.2, .7, .1, 1) both; }
+
+/* Hero */
+.hero { position: relative; overflow: hidden; background: var(--stage); color: var(--stage-ink); }
+.heroLight { position: absolute; inset: 0; background: radial-gradient(44% 56% at 60% 34%, rgba(176, 96, 64, 0.20) 0%, rgba(70, 34, 22, 0.12) 44%, rgba(11, 10, 10, 0) 74%); }
+.heroIn { position: relative; z-index: 2; max-width: var(--wrap); margin: 0 auto; padding: clamp(48px, 6vw, 88px) var(--gutter); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr)); gap: 24px; align-items: center; }
+.heroIn > div { min-width: 0; }
+.crumb { font-size: 13px; color: var(--stage-ink-2); margin-bottom: 4px; }
+.crumb ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; align-items: center; }
+.crumb a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 6px; color: var(--stage-ink-2); text-decoration: none; transition: color .15s ease; }
+.crumb li:first-child a { margin-left: -6px; }
+.crumb a:focus-visible { color: var(--stage-ink); outline-color: var(--stage-ink); }
+.h1 { margin: 0 0 20px; font-weight: 500; font-size: clamp(38px, 4.6vw, 66px); line-height: 1.02; letter-spacing: -0.035em; max-width: 15ch; text-wrap: balance; animation-delay: .1s; }
+.lead { margin: 0; max-width: 46ch; line-height: 1.5; font-size: 17px; color: #CFCAC4; animation-delay: .2s; }
+.cta { display: inline-flex; align-items: center; gap: 10px; min-height: 52px; margin-top: 26px; padding: 0 24px; border-radius: 999px; background: var(--rose); color: #160B09; text-decoration: none; font-weight: 600; font-size: 16px; animation-delay: .25s; transition: background-color .18s ease-out, transform .12s ease-out; }
+.cta:active { transform: scale(.98); }
+.cta:focus-visible, .tel:focus-visible { outline-color: var(--stage-ink); }
+.acts { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; margin-top: 26px; animation-delay: .25s; }
+.acts .cta { margin-top: 0; }
+.sosBar { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 16px 0 9px; border-radius: 999px; background: rgba(255, 244, 236, .06); border: 1px solid rgba(255, 236, 224, .14); color: var(--stage-ink) !important; text-decoration: none; font-size: 14px; }
+.sosBar .ic { flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; background: rgba(233, 162, 140, .18); color: var(--rose); }
+.sosBar .lb { color: #CFC4BB; }
+.sosBar b { font-weight: 600; white-space: nowrap; }
+.sosBar:focus-visible { outline-color: var(--stage-ink); }
+@media (hover: hover) { .sosBar:hover { background: rgba(255, 244, 236, .10); } }
+@media (max-width: 640px) { .acts { align-items: stretch; } .acts .cta { justify-content: center; font-size: 15px; } .sosBar { padding: 6px 16px 6px 9px; font-size: 13px; } .sosBar .lb { flex: 1 1 auto; line-height: 1.3; } }
+.tel { display: inline-flex; align-items: center; min-height: 44px; color: var(--stage-ink); font-weight: 600; text-decoration-color: rgba(242, 240, 237, .45); text-underline-offset: 3px; }
+.stage { position: relative; height: clamp(340px, 38vw, 460px); }
+.dev { position: absolute; left: 50%; top: 50%; translate: -50% -50%; z-index: 2; animation: rise 1s cubic-bezier(.2, .7, .1, 1) .2s both; }
+.dev img { display: block; height: 100%; width: auto; max-width: none; filter: brightness(1.12) contrast(1.06) drop-shadow(0 22px 26px rgba(0, 0, 0, .55)) drop-shadow(0 4px 6px rgba(0, 0, 0, .35)); }
+@media (max-width: 900px) { .stage { height: 200px; margin: 0; } .heroIn { padding-top: 24px; padding-bottom: 8px; gap: 8px; } }
+
+/* Families */
+.body { max-width: var(--wrap); margin: 0 auto; padding: 0 var(--gutter) 24px; }
+.intro { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(380px, 100%), 1fr)); gap: 18px clamp(32px, 5vw, 72px); align-items: end; padding: clamp(56px, 7vw, 104px) 0 clamp(20px, 3vw, 32px); }
+.h2 { margin: 0; max-width: 620px; font-weight: 500; font-size: clamp(30px, 3.6vw, 48px); line-height: 1.05; letter-spacing: -0.03em; text-wrap: balance; }
+.introP { margin: 0; max-width: 560px; font-size: 17px; color: #3A3632; }
+.chips { position: sticky; top: 0; z-index: 4; background: rgba(244, 243, 240, .94); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: 0 1px 0 rgba(17, 17, 17, 0.10); }
+.chips ul { list-style: none; margin: 0; padding: 12px 40px 12px 0; display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; scroll-snap-type: x proximity; -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 56px), transparent); mask-image: linear-gradient(90deg, #000 calc(100% - 56px), transparent); }
+.chips ul::-webkit-scrollbar { display: none; }
+.chips li { scroll-snap-align: start; }
+@media (min-width: 1200px) { .chips ul { -webkit-mask-image: none; mask-image: none; } }
+@media (max-width: 860px) { .chips { top: 0; margin-right: calc(-1 * var(--gutter)); } .chips ul { -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 72px), transparent); mask-image: linear-gradient(90deg, #000 calc(100% - 72px), transparent); } }
+.chips a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid rgba(17, 17, 17, 0.16); background: #fff; color: var(--ink); font-size: 14px; font-weight: 500; white-space: nowrap; text-decoration: none; transition: border-color .15s ease; }
+
+.fam { display: grid; grid-template-columns: minmax(280px, 416px) minmax(0, 1fr); gap: 24px 56px; padding: 56px 0; border-bottom: 1px solid rgba(17, 17, 17, 0.10); scroll-margin-top: 140px; }
+.fhead { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.num { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-size: 13px; font-weight: 600; letter-spacing: .12em; color: var(--maroon); }
+.num::before { content: ''; display: block; width: 8px; height: 1px; background: var(--maroon); }
+.h3 { margin: 0 0 12px; font-weight: 500; font-size: clamp(24px, 2.2vw, 30px); letter-spacing: -0.03em; }
+.def { margin: 0; color: #3A3632; font-size: 16px; }
+.tile { display: block; width: 100%; aspect-ratio: 16 / 9; margin-top: 24px; border-radius: var(--radius); object-fit: cover; background: #0F0D0C; opacity: .8; filter: saturate(.55); }
+.tileContain { object-fit: contain; padding: 8px; }
+.ftog { display: none; }
+
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: 0 28px; align-items: start; }
+.cards > :last-child:nth-child(odd) { grid-column: 1 / -1; }
+.row { position: relative; display: flex; align-items: flex-start; gap: 14px; border-top: 1px solid rgba(17, 17, 17, 0.10); padding: 16px 0 18px; min-height: 64px; color: var(--ink); text-decoration: none; }
+a.row { transition: padding-left .2s cubic-bezier(.2, .7, .1, 1), box-shadow .2s ease; }
+a.row:focus-visible { outline: none; box-shadow: inset 2px 0 0 var(--maroon); padding-left: 12px; }
+.rowTxt { display: flex; flex-direction: column; gap: 6px; min-width: 0; flex: 1; }
+.nmw { display: flex; align-items: center; gap: 10px; }
+.nm { font-family: var(--font-head); font-weight: 600; font-size: 18px; letter-spacing: -0.02em; line-height: 1.3; }
+a.row .nm { text-decoration: underline; text-decoration-color: rgba(17, 17, 17, .35); text-underline-offset: 4px; transition: text-decoration-color .15s ease; }
+a.row:focus-visible .nm { text-decoration-color: var(--ink); }
+.ar { flex: 0 0 auto; color: var(--maroon); transition: transform .2s cubic-bezier(.2, .7, .1, 1); }
+a.row:focus-visible .ar { transform: translateX(3px); }
+.desc { display: block; font-size: 15px; color: #3A3632; }
+.also { display: block; font-size: 14px; color: var(--ink-2); }
+.oneLine { margin: 0; font-size: 16px; line-height: 1.5; color: #3A3632; }
+.allRows { display: none; }
+.moreDef { display: none; }
+.lbl { margin: 0 0 6px; font-size: 14px; font-weight: 600; color: var(--ink); }
+.thumb { filter: saturate(.15); flex: 0 0 auto; width: 64px; height: 64px; border-radius: 14px; object-fit: contain; background: #fff; box-shadow: 0 0 0 1px rgba(17, 17, 17, 0.08); padding: 4px; }
+
+.send { margin-top: 20px; border-top: 1px solid rgba(17, 17, 17, 0.10); }
+.send summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 56px; cursor: pointer; list-style: none; font-weight: 600; font-size: 16px; color: var(--ink); }
+.send summary::-webkit-details-marker { display: none; }
+.send summary::after { content: '+'; font-size: 22px; font-weight: 400; color: var(--maroon); transition: transform .2s ease; }
+.send[open] summary::after { transform: rotate(45deg); }
+.sendin { padding: 4px 0 22px; }
+.sendin ul { margin: 0; padding-left: 18px; font-size: 16px; line-height: 1.5; color: #3A3632; columns: 2 280px; column-gap: 40px; }
+.sendin li { margin: 0 0 6px; break-inside: avoid; }
+.sendin a { display: inline-flex; align-items: center; min-height: 44px; color: var(--maroon); font-weight: 600; }
+
+.empty { padding: 32px 0; color: var(--ink-2); }
+.note { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 12px clamp(24px, 4vw, 56px); align-items: start; margin: 48px 0 0; padding: clamp(24px, 3vw, 36px); border-radius: var(--radius); background: var(--card); box-shadow: 0 0 0 1px rgba(17, 17, 17, 0.08); }
+.note h2 { margin: 0; font-size: clamp(22px, 2vw, 26px); font-weight: 500; letter-spacing: -0.02em; }
+.note p { margin: 0; color: #3A3632; }
+.gwa { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; margin-top: 12px; font-size: 15px; font-weight: 600; color: var(--maroon); text-decoration: underline; text-decoration-color: rgba(138, 0, 0, .35); text-underline-offset: 4px; }
+.checked { margin: 12px 0 0; font-size: 13px; color: var(--ink-2); }
+.cssd { margin: 2px 0 0; }
+.cssd .gwa { margin: 0; font-size: 14px; min-height: 44px; }
+
+/* Floating WhatsApp button on phones, shown after the hero button scrolls away */
+.fwa { display: none; }
+
+@media (hover: hover) {
+  .crumb a:hover { color: var(--stage-ink); }
+  .cta:hover { background: #F0B7A4; }
+  .tel:hover { text-decoration-color: var(--stage-ink); }
+  .chips a:hover { border-color: var(--maroon); }
+  a.row:hover { box-shadow: inset 2px 0 0 var(--maroon); padding-left: 12px; }
+  a.row:hover .nm { text-decoration-color: var(--ink); }
+  a.row:hover .ar { transform: translateX(3px); }
+  .gwa:hover { text-decoration-color: var(--maroon); }
+}
+
+/* Wide screens: the family name and its drawing stay in view beside a long device list. */
+@media (min-width: 900px) { .fam > div:first-child { position: sticky; top: 84px; align-self: start; } }
+
+@media (max-width: 899px) {
+  :global(html[data-js]) .fam:not([data-all]) [data-extra] { display: none; }
+  .allRows { display: inline-flex; align-items: center; min-height: 44px; margin-top: 4px; padding: 0 16px; border: 1px solid rgba(17, 17, 17, 0.16); border-radius: 999px; background: #fff; font: 500 14px var(--font-body); color: var(--ink); cursor: pointer; }
+  :global(html:not([data-js])) .allRows { display: none; }
+  .fam { grid-template-columns: minmax(0, 1fr); padding: 24px 0; gap: 12px; }
+  .h3 { margin-bottom: 0; }
+  .tile { display: none; }
+  .row { padding: 12px 0 14px; }
+  .longDef:not([data-full]) .def { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .moreDef { display: inline-flex; align-items: center; min-height: 44px; padding: 0; border: 0; background: none; font: 600 14px var(--font-body); color: var(--maroon); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+  .ftog { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; margin-top: 18px; padding: 0 14px; border: 1px solid rgba(17, 17, 17, 0.16); border-radius: 999px; background: #fff; font: 500 14px var(--font-body); color: var(--ink); white-space: nowrap; cursor: pointer; }
+  .ftog::after { content: '+'; font-size: 18px; line-height: 1; color: var(--maroon); transition: transform .2s ease; }
+  .fam:not([data-shut]) .ftog::after { transform: rotate(45deg); }
+  .fam[data-shut] .fbody { display: none; }
+  :global(html[data-fwa]) .fwa { display: flex; align-items: center; justify-content: center; gap: 8px; position: fixed; left: 16px; right: 16px; bottom: max(12px, env(safe-area-inset-bottom)); z-index: 8; min-height: 52px; border-radius: 999px; background: var(--rose); color: #160B09; font-weight: 600; font-size: 16px; text-decoration: none; box-shadow: 0 10px 28px rgba(0, 0, 0, .28); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rise, .dev { animation: none; }
+  .crumb a, .cta, .chips a, a.row, a.row .nm, .ar, .send summary::after, .ftog::after { transition: none; }
+  .cta:active { transform: none; }
+  a.row:hover .ar, a.row:focus-visible .ar { transform: none; }
+}
+
+/* Cut-out on a dark tile; the "In the set / Tell us" panel in two columns. */
+.tileCut { object-fit: contain; padding: 14px; opacity: 1; filter: none; background: radial-gradient(60% 70% at 50% 50%, #2A2320 0%, #0F0D0C 100%); }
+.two { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 8px 40px; }
+.two ul { columns: auto; }
+
+/* ---------- Round 8 (real-site review) ---------- */
+/* Breadcrumb links underlined, as on the device pages. */
+.crumb a { text-decoration: underline; text-decoration-color: rgba(185, 180, 174, .35); text-underline-offset: 3px; }
+/* Hero art: about 40px of dark space above the device, so it never runs into the header or off the edge. */
+.stage { margin-top: 40px; height: clamp(320px, 34vw, 420px); }
+@media (max-width: 900px) { .stage { margin: 8px 0 24px; height: 200px; } }
+/* Group art: full strength (photos and drawings), no grey wash. */
+.tile { opacity: 1; filter: none; }
+.famSmall .tile { aspect-ratio: 21 / 9; }
+.arrowKey { display: flex; align-items: center; gap: 6px; margin: 12px 0 0; font-size: 14px; color: var(--ink-2); }
+.arrowKey svg { color: var(--maroon); }
+/* One group only: no divider under it, and less air before the closing card. */
+.famSolo { border-bottom: 0; padding-bottom: 8px; }
+.fthumb { display: none; }
+@media (max-width: 899px) {
+  /* Closed group rows: a 64px picture at the left, the count beside the title, about 30% less height. */
+  .fam { padding: 16px 0; }
+  .fhead { align-items: center; justify-content: flex-start; }
+  .fthumb { display: block; flex: 0 0 64px; width: 64px; height: 64px; border-radius: 12px; object-fit: cover; background: #0F0D0C; }
+  .fthumbContain { object-fit: contain; padding: 6px; background: radial-gradient(60% 70% at 50% 50%, #2A2320 0%, #0F0D0C 100%); }
+  .ftitle { flex: 1 1 auto; min-width: 0; display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 10px; }
+  .num { margin: 0; }
+  .ftog { margin-top: 0; margin-left: auto; }
+  .moreDef { padding: 12px 0; }
+  .famSolo { padding-bottom: 0; }
+  .body { padding-bottom: 0; }
+  /* Chip row: a clear fade at the right edge, so it reads as a scroller. */
+  .chips ul { -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 96px), rgba(0, 0, 0, .1)); mask-image: linear-gradient(90deg, #000 calc(100% - 96px), rgba(0, 0, 0, .1)); }
+}
+
+/* ---------- Round 9 (real-site review) ---------- */
+/* Intro: the right column starts level with the question. */
+.intro { align-items: start; }
+/* Rows with no page of their own read as plain text, not as links. */
+div.row .nm { font-family: var(--font-body); font-weight: 500; font-size: 17px; letter-spacing: -0.01em; }
+/* Desktop: the group picture card stays no taller than a short device list. */
+@media (min-width: 900px) { .famSmall .tile { aspect-ratio: 5 / 2; } }
+@media (max-width: 900px) {
+  /* Phone hero: the device fills a 200px stage, with no dead band under it. */
+  .stage { margin: 4px 0 0; height: 200px; }
+  .heroIn { padding-bottom: 20px; }
+}
+/* Phone: one way to read the group text (no clamp, no "More"); short titles stay on one line. */
+@media (max-width: 899px) { .def { display: block !important; -webkit-line-clamp: none !important; overflow: visible !important; } }
+@media (max-width: 400px) { .h3 { font-size: 20px; } .ftog { padding: 0 10px; } }
+@media (max-width: 899px) { .fthumb { object-fit: contain; } }
+@media (max-width: 400px) { .h3 { font-size: 18px; } .ftog { font-size: 13px; gap: 6px; } .fhead { gap: 10px; } .fthumb { flex-basis: 56px; width: 56px; height: 56px; } }
+
+/* ---------- Round 10 (real-site review, round 9 notes) ---------- */
+/* Line drawings: the whole drawing shows (no crop), on the same dark ground. */
+.tile[src$=".svg"], .fthumb[src$=".svg"] { object-fit: contain; padding: 0; background: #0F0D0C; }
+/* One group only (cardiology): the photo card, a little taller. */
+.famSolo .tile { aspect-ratio: 4 / 3; object-position: 50% 40%; }
+/* Desktop: less air between groups, so the picture card and the list read as one block. */
+@media (min-width: 900px) { .fam { padding: 40px 0; } }
+/* Chip row: snaps chip by chip, with the right-edge fade. */
+.chips ul { scroll-snap-type: x mandatory; scroll-padding-inline: 16px; }
+/* Arrow note: beside the first device list, at the size of the row arrows. */
+.arrowKey { margin: 0 0 8px; font-size: 14px; }
+/* "Tell us" alone: one column, short lines. */
+.oneCol { max-width: 60ch; }
+.oneCol ul { columns: auto; }
+@media (max-width: 899px) {
+  /* Closed group rows: the number on line 1, the name on line 2, in every row. */
+  .ftitle { flex-direction: column; flex-wrap: nowrap; align-items: flex-start; row-gap: 2px; }
+  .famSolo .h3 { margin-bottom: 6px; }
+}
+
+/* ---------- Round 11 (real-site review, round 10 notes) ---------- */
+/* Hero light: a wide, soft falloff with no hard edge; the device sits closer to the headline column. */
+.heroLight { background: radial-gradient(70% 90% at 62% 40%, rgba(176, 96, 64, 0.16) 0%, rgba(70, 34, 22, 0.08) 45%, rgba(11, 10, 10, 0) 85%); }
+@media (min-width: 901px) { .heroArt { translate: -80px 0; } }
+/* Phone: the device shows first, small, above the H1 (as on the device pages). */
+@media (max-width: 900px) {
+  .heroArt { order: -1; }
+  .heroArt .stage { height: 160px; margin: 0; }
+  .heroIn { padding-top: 12px; }
+}
+/* Group number: no leading dash ("01 / 08"). */
+.num::before { display: none; }
+/* Chip row: darker borders, a filled chip on hover and focus, and more air before the first group. */
+.chips { margin-bottom: 8px; }
+.chips a { border-color: rgba(17, 17, 17, .42); color: #111111; }
+.chips a:focus-visible { background: #161211; color: #F2F0ED; border-color: #161211; }
+@media (hover: hover) { .chips a:hover { background: #161211; color: #F2F0ED; border-color: #161211; } }
+@media (min-width: 900px) { .chips { top: 0; } }
+/* Groups with one or two devices: a compact picture column, the card no taller than its content. */
+@media (min-width: 900px) {
+  .famSmall { grid-template-columns: minmax(240px, 320px) minmax(0, 1fr); }
+  .famSmall .tile { aspect-ratio: 16 / 9; max-height: 180px; }
+}
+/* Cut-out photos on the group card: the real device on the dark tile. */
+.tileCut { padding: 18px; background: radial-gradient(60% 70% at 50% 50%, #332A26 0%, #0F0D0C 100%); }
+/* Phone thumbnails: a lighter ground, and the device about 20% larger. */
+@media (max-width: 899px) {
+  .fthumb, .fthumbContain, .fthumb[src$=".svg"] { background: radial-gradient(70% 70% at 50% 50%, #4A3E38 0%, #221C1A 100%); }
+  .fthumb[src$=".svg"] { object-fit: cover; }
+  .fthumbContain { padding: 2px; }
+}
+/* Rows with no page: an "Ask on WhatsApp" action, so every name has a next step. */
+.rowAskRow { align-items: flex-start; justify-content: space-between; }
+.rowAsk { flex: 0 0 auto; display: inline-flex; align-items: center; min-height: 44px; margin-top: -10px; color: var(--maroon); font-size: 14px; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; white-space: nowrap; }
+.rowAsk:focus-visible { outline: 2px solid var(--maroon); outline-offset: 2px; }
+/* "What comes, and what to tell us": short lines (about 60ch), the "Tell us" list in two columns. */
+.sendin { max-width: 76ch; }
+.oneCol { max-width: 76ch; }
+.oneCol ul { columns: 2 240px; column-gap: 40px; }
+/* Metal cut-outs read as steel, not gold (the knee keeps its colour). */
+.tile[src*="distal-radius"], .fthumb[src*="distal-radius"], .tile[src*="femoral-nail"], .fthumb[src*="femoral-nail"] { filter: saturate(.15) brightness(1.06) contrast(1.05); }

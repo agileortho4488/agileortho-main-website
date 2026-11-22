@@ -78,11 +78,8 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "start:cra": "craco start",
-    "build:cra": "craco build",
-    "test": "craco test"
+    "build": "next build && node scripts/scan-banned.mjs && node scripts/check-redirects.mjs",
+    "start": "npx serve out"
   },
   "browserslist": {
     "production": [

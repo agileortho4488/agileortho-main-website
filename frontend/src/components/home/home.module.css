@@ -1,0 +1,290 @@
+/* Home page only. Ported from the approved Main and Slider designs. */
+
+/* ---------- Light sheet over the opening ---------- */
+.sheet { position: relative; z-index: 5; margin-top: -28px; border-radius: 28px 28px 0 0; background: var(--bg); }
+.h2 { margin: 0; font-family: var(--font-head); font-weight: 500; font-size: clamp(30px, 3.6vw, 48px); line-height: 1.05; letter-spacing: -0.03em; text-wrap: balance; }
+.h2s { margin: 0 0 20px; font-family: var(--font-head); font-weight: 500; font-size: clamp(22px, 2.2vw, 28px); letter-spacing: -0.02em; }
+.azLink { margin: 10px 0 0; font-size: 15px; }
+.azLink a { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; }
+.link { color: var(--maroon); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+
+/* ---------- Departments ---------- */
+@keyframes openin { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes figin { from { opacity: 0; } to { opacity: 1; } }
+.deps { padding: clamp(72px, 9vw, 128px) 0 clamp(48px, 6vw, 96px); scroll-margin-top: 72px; }
+.depHead { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(380px, 100%), 1fr)); gap: 18px clamp(32px, 5vw, 72px); align-items: end; margin-bottom: clamp(28px, 4vw, 48px); }
+.depHead .h2 { max-width: 560px; }
+.answer { margin: 0; max-width: 440px; font-size: 17px; color: #3A3733; }
+.depGrid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: clamp(20px, 3vw, 40px); align-items: stretch; }
+.tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: 1fr; gap: 10px; }
+.tile { display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 8px; min-height: 84px; padding: 14px 16px 16px; border: 0; border-radius: 18px; background: #FFFFFF; color: #111111; text-align: left; cursor: pointer; font-family: var(--font-head); font-weight: 500; font-size: 17px; line-height: 1.2; letter-spacing: -0.015em; transition: background-color .2s ease, color .2s ease; }
+.tile > span:last-child { min-height: 2.4em; }
+.num { font-family: var(--font-body); font-size: 12px; font-weight: 600; color: var(--maroon); }
+.tile.tOn { background: #161211; color: #F2F0ED; }
+.tile.tOn .num { color: #E9A28C; }
+.tile:active { transform: scale(.985); }
+.detail { background: #161211; color: #F2F0ED; border-radius: 22px; overflow: hidden; scroll-margin-top: 88px; }
+.detail a:focus-visible { outline-color: #F2F0ED; }
+.fig { position: relative; margin: 0; aspect-ratio: 16 / 10; display: flex; align-items: center; justify-content: center; background-repeat: no-repeat; background-position: center; animation: figin .28s ease-out both; }
+.big { font-family: var(--font-head); font-weight: 500; font-size: clamp(72px, 9vw, 128px); line-height: 1; letter-spacing: -0.05em; color: #E9A28C; opacity: .9; }
+.pan { display: none; padding: 24px clamp(20px, 2.4vw, 32px) 28px; }
+.pan.pOn { display: block; animation: openin .28s cubic-bezier(.2, .7, .1, 1) both; }
+.pan h3 { margin: 0 0 12px; font-weight: 500; font-size: clamp(22px, 2.2vw, 28px); letter-spacing: -0.02em; }
+.pan p { margin: 0 0 22px; font-size: 17px; line-height: 1.55; color: #DAD5CF; max-width: 540px; }
+.btnW { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 20px; border-radius: 999px; background: #FFFFFF; color: var(--maroon) !important; text-decoration: none; font-weight: 600; font-size: 14px; transition: background-color .18s ease, transform .1s ease; }
+.btnW.lt { background: #F2F0ED; color: #111111 !important; min-height: 48px; padding: 0 24px; }
+.btnW:active { transform: scale(.98); }
+
+@media (max-width: 960px) { .depGrid { grid-template-columns: 1fr; } .tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 560px) {
+  /* Two whole tiles and a clear part of the third, faded at the right edge: the row reads as a scroller, not a cut. */
+  .tiles { grid-template-columns: none; grid-auto-flow: column; grid-template-rows: repeat(2, auto); grid-auto-rows: auto; grid-auto-columns: calc((100% - 16px) / 2.35); gap: 8px; overflow-x: auto; scroll-snap-type: x mandatory; margin: 0 -16px; padding: 0 16px 6px; scroll-padding: 0 16px; scrollbar-width: none; -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 56px), transparent); mask-image: linear-gradient(90deg, #000 calc(100% - 56px), transparent); }
+  .tiles::-webkit-scrollbar { display: none; }
+  .tile { flex-direction: column; align-items: flex-start; justify-content: center; min-height: 64px; padding: 10px 12px; font-size: 14.5px; gap: 2px; border-radius: 14px; scroll-snap-align: start; hyphens: none; }
+  .tile > span:last-child { min-height: 0; }
+  .depGrid { gap: 16px; }
+}
+
+/* ---------- Devices hospitals ask for often ---------- */
+.popsSec { padding: 0 0 clamp(56px, 7vw, 96px); }
+.pops { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.pop { display: flex; flex-direction: column; background: #FFFFFF; border-radius: 20px; overflow: hidden; color: #111111 !important; text-decoration: none; transition: background-color .18s ease; }
+.popi { position: relative; display: block; aspect-ratio: 4 / 3; background: radial-gradient(60% 60% at 50% 50%, #FFFFFF 0%, #EEEBE7 100%); }
+/* One image box for every device: 70% of the tile, centred, contain. */
+.popi img { position: absolute; left: 15%; top: 15%; width: 70%; height: 70%; object-fit: contain; }
+.popn { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; min-height: calc(2 * 1.3em + 30px); padding: 14px 16px 16px; font-family: var(--font-head); font-weight: 500; font-size: 16px; line-height: 1.3; letter-spacing: -0.01em; }
+.popn > span:last-child { color: var(--maroon); }
+@media (max-width: 860px) { .pops { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; } .popn { font-size: 15px; padding: 10px 12px 12px; min-height: calc(2 * 1.3em + 22px); } }
+
+/* ---------- How do you deliver a set? ---------- */
+.delSec { padding: 0 16px; }
+.band { position: relative; overflow: hidden; max-width: 1392px; margin: 0 auto; border-radius: 28px; background: #0B0A0A; color: #F2F0ED; padding: clamp(48px, 6vw, 88px) clamp(20px, 4vw, 56px) clamp(36px, 4vw, 56px); }
+.band a:focus-visible { outline-color: #F2F0ED; }
+.glow { position: absolute; inset: 0; background: radial-gradient(70% 40% at 60% 100%, rgba(214, 150, 118, .18), rgba(11, 10, 10, 0) 70%); }
+.grain { position: absolute; inset: 0; opacity: .07; mix-blend-mode: overlay; pointer-events: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+.delGrid { position: relative; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr)); gap: clamp(28px, 4vw, 56px); align-items: stretch; }
+.delGrid .h2 { margin-bottom: 24px; }
+.steps { list-style: none; margin: 0 0 28px; padding: 0; max-width: 520px; border-top: 1px solid rgba(242, 240, 237, .14); }
+.steps li { display: flex; gap: 18px; align-items: baseline; padding: 16px 0; border-bottom: 1px solid rgba(242, 240, 237, .14); font-size: 18px; line-height: 1.45; color: #CFCAC4; }
+.sn { flex: 0 0 auto; font-family: var(--font-head); font-weight: 500; font-size: 14px; color: #E9A28C; }
+.delFig { margin: 0; position: relative; align-self: center; aspect-ratio: 16 / 11; width: 100%; border-radius: 16px; overflow: hidden; background: #2A2421 linear-gradient(160deg, #3A2E2A, #1E1816); }
+.delFig img { width: 100%; height: 100%; object-fit: cover; display: block; filter: saturate(.75) sepia(.12) contrast(1.05); }
+.stats { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px clamp(24px, 4vw, 64px); align-items: start; margin: clamp(36px, 5vw, 56px) 0 0; padding-top: clamp(28px, 3.5vw, 40px); border-top: 1px solid rgba(242, 240, 237, .14); }
+.stat { display: flex; flex-direction: column; }
+.stat dt { margin: 8px 0 0; font-size: 13px; color: #B9B4AE; max-width: 240px; }
+.stat dt::first-letter { text-transform: uppercase; }
+.stat dd { order: -1; margin: 0; font-family: var(--font-head); font-weight: 500; font-size: clamp(44px, 5vw, 72px); line-height: 1; letter-spacing: -0.04em; color: #F2F0ED; }
+.src { grid-column: 1 / -1; margin: 0; font-size: 13px; color: #A39D96; }
+@media (max-width: 860px) { .delFig { aspect-ratio: 4 / 3; height: auto; min-height: 0; } }
+
+/* ---------- Papers for purchase teams ---------- */
+.trustSec { padding: clamp(56px, 7vw, 96px) 0 clamp(40px, 5vw, 64px); }
+.trust { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)) auto; gap: 20px 32px; align-items: end; margin: 0; padding: 48px 0; border-top: 1px solid #DCD8D2; border-bottom: 1px solid #DCD8D2; }
+.trust dt { margin: 0 0 6px; font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: #6B6660; }
+.trust dd { margin: 0; font-family: var(--font-head); font-weight: 500; font-size: 17px; letter-spacing: -0.01em; color: #111111; white-space: nowrap; }
+.tl a { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; font-size: 15px; white-space: nowrap; }
+@media (max-width: 1080px) { .trust { grid-template-columns: repeat(2, minmax(0, 1fr)); } .tl { grid-column: 1 / -1; } }
+
+@media (max-width: 560px) {
+  .stats { grid-template-columns: 1fr; gap: 0; }
+  .stat { flex-direction: row; align-items: center; gap: 16px; padding: 14px 0; border-bottom: 1px solid rgba(242, 240, 237, .10); }
+  .band { padding-left: 16px; padding-right: 16px; }
+  .stat { gap: 12px; }
+  .stat dd { flex: 0 0 84px; font-size: 31px; }
+  .stat dt { margin: 0; max-width: none; font-size: 13.5px; line-height: 1.4; }
+  .src { padding-top: 14px; }
+  .delFig { order: -1; height: 190px; aspect-ratio: auto; }
+  .trust { gap: 14px 16px; padding: 20px 0 8px; }
+  .trustSec { padding: 24px 0 8px; }
+  .trust dd { font-size: 15px; }
+  .cin { grid-column: 1 / -1; }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .tile:hover { background: #EAE6E1; }
+  .tile.tOn:hover { background: #161211; }
+  .pop:hover { background: #F8F6F3; }
+  .btnW:hover { background: #EFE9E4; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fig, .pan.pOn { animation: none; }
+  .tile, .btnW, .pop { transition: none; }
+  .tile:active, .btnW:active { transform: none; }
+}
+
+/* Round 3: inline text links get a 44px tap area. */
+.link { display: inline-flex; align-items: center; min-height: 44px; }
+
+/* ---------- Round 4 (real-site review) ---------- */
+/* Phone: the delivery card is shorter: tighter steps and number rows. */
+@media (max-width: 560px) {
+  .steps li { padding: 12px 0; font-size: 16px; }
+  .stat { padding: 10px 0; }
+  .stat dd { font-size: 28px; flex-basis: 76px; }
+}
+
+/* ---------- Round 5 (real-site review) ---------- */
+@media (max-width: 640px) {
+  /* Department rail: about 2.3 tiles, so the cut lands on a tile edge, with a clear fade at the end. */
+  .tiles { grid-auto-columns: calc((100% - 16px) / 2.3); -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 72px), transparent); mask-image: linear-gradient(90deg, #000 calc(100% - 72px), transparent); }
+  /* Featured department card: a short photo; the text and the button carry it. */
+  .fig { aspect-ratio: auto; height: 160px; }
+  /* Licence block: one column of label and value rows. */
+  .trust { grid-template-columns: minmax(0, 1fr); gap: 0; padding: 8px 0; }
+  .trust > div { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 12px 0; border-top: 1px solid #E5E1DB; }
+  .trust > div:first-child { border-top: 0; }
+  .trust dt { margin: 0; }
+  .trust dd { white-space: normal; text-align: right; overflow-wrap: anywhere; }
+  .cin { grid-column: auto; }
+}
+
+/* ---------- Round 6 (real-site review) ---------- */
+/* Phone department strip: one row, so 01, 02, 03 read left to right; a short fade so the third label shows whole words. */
+@media (max-width: 560px) {
+  .tiles { grid-template-rows: auto; grid-auto-flow: column; grid-auto-columns: calc((100% - 16px) / 2.3); -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 32px), transparent); mask-image: linear-gradient(90deg, #000 calc(100% - 32px), transparent); }
+  .tile { min-height: 72px; }
+}
+/* Popular cards: the whole card is the link; the label row has room for two lines, so the arrows line up. */
+@media (max-width: 860px) { .popn { align-items: flex-start; min-height: calc(2 * 1.3em + 22px); } }
+
+/* ---------- Round 7 (real-site review) ---------- */
+@media (max-width: 560px) {
+  /* Department strip: half of the third tile shows under a 56px fade, so the strip reads as a scroller. */
+  .tiles { grid-auto-columns: calc((100% - 16px) / 2.5); padding-right: 32px; scroll-padding-inline: 16px 32px; -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 56px), transparent); mask-image: linear-gradient(90deg, #000 calc(100% - 56px), transparent); }
+  /* Delivery band numbers: three small figures in one row, caption under each. */
+  .stats { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 12px; padding-top: 18px; margin-top: 28px; }
+  .stat, .stat:last-of-type { flex-direction: column; align-items: flex-start; gap: 4px; padding: 0; border-bottom: 0; }
+  .stat dd { flex: none; font-size: 28px; line-height: 1; }
+  .stat dt { margin: 0; font-size: 12.5px; line-height: 1.3; }
+  .src { grid-column: 1 / -1; margin-top: 14px; }
+  /* Popular cards: the whole card is the link, so the arrow goes on a phone. */
+  .popn > span:last-child { display: none; }
+}
+@media (max-width: 480px) {
+  /* Licence facts: label over value, read straight down. */
+  .trust > div { flex-direction: column; align-items: flex-start; gap: 2px; }
+  .trust dd { text-align: left; }
+}
+
+/* ---------- Round 8 (real-site review) ---------- */
+.swipe { display: none; }
+/* Department tiles: shorter, number and name together at the foot of the tile. */
+.tile { justify-content: flex-end; min-height: 64px; padding: 12px 14px; gap: 2px; font-size: 16px; }
+.tile > span:last-child { min-height: 0; }
+.tiles { grid-auto-rows: auto; align-content: start; }
+/* Delivery band numbers: the three figures and the source note share the four columns. */
+.stats { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.src { grid-column: auto; align-self: end; line-height: 1.5; }
+.srcLink { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; color: #F2F0ED; font-weight: 600; text-underline-offset: 3px; }
+@media (max-width: 860px) { .stats { grid-template-columns: repeat(3, minmax(0, 1fr)); } .src { grid-column: 1 / -1; } }
+/* Papers strip to the closing card: the normal section gap, not two paddings stacked. */
+.trustSec { padding-bottom: 0; }
+@media (max-width: 560px) {
+  /* Licence facts: two label/value pairs per row. */
+  .trust { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 16px; }
+  .trust > div, .trust > div:first-child { flex-direction: column; align-items: flex-start; gap: 2px; border-top: 1px solid #E5E1DB; }
+  .trust > div:nth-child(-n+2) { border-top: 0; }
+  .trust dd { text-align: left; }
+  .tl { grid-column: 1 / -1; }
+  /* Department strip: a stronger fade at the right edge, so the cut tile reads as "more this way". */
+  .tiles { -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 88px), rgba(0, 0, 0, .15) calc(100% - 8px)); mask-image: linear-gradient(90deg, #000 calc(100% - 88px), rgba(0, 0, 0, .15) calc(100% - 8px)); }
+  .swipe { display: block; margin: -6px 0 0; font-size: 13px; color: #5F5A54; }
+  .trust dd { font-size: 14px; white-space: nowrap; }
+  .cin dd { letter-spacing: -0.02em; }
+}
+/* Wide screens: four rows of short tiles, then a "find by name" card fills the rest of the height beside the dark card. */
+.azTile { display: none; }
+@media (min-width: 961px) {
+  .tiles { grid-template-rows: repeat(4, minmax(72px, auto)) minmax(0, 1fr); align-content: stretch; }
+  .azTile { grid-column: 1 / -1; display: flex; align-items: center; gap: 16px; padding: 24px 28px; border-radius: 18px; border: 1px dashed #C9C4BE; color: #111111 !important; text-decoration: none; transition: border-color .18s ease, background-color .18s ease; }
+  .azTile > span:nth-child(2) { flex: 1 1 auto; display: flex; flex-direction: column; gap: 4px; }
+  .azTile b { font-family: var(--font-head); font-weight: 500; font-size: 22px; letter-spacing: -0.02em; }
+  .azTile b + span { font-size: 15px; color: var(--maroon); font-weight: 600; }
+  .azTile > span:last-child { color: var(--maroon); font-size: 20px; }
+  .azTile svg { color: var(--maroon); }
+  .azLink { display: none; }
+}
+@media (hover: hover) and (min-width: 961px) { .azTile:hover { border-color: var(--maroon); background: #FFFFFF; } }
+@media (prefers-reduced-motion: reduce) { .azTile { transition: none; } }
+
+/* ---------- Round 9 (real-site review) ---------- */
+/* "Know the device name?": one solid row as tall as a tile row, hairline border; the tile rows stretch so the grid ends with the dark card. */
+@media (min-width: 961px) {
+  .tiles { grid-template-rows: repeat(4, minmax(72px, 1fr)) 64px; }
+  .azTile { min-height: 64px; padding: 0 22px; gap: 14px; border: 1px solid #DCD8D2; background: #FFFFFF; }
+  .azTile > span:nth-child(2) { flex-direction: row; align-items: baseline; gap: 12px; }
+  .azTile b { font-size: 18px; }
+  .azTile b + span { font-size: 14px; }
+}
+/* Phone strip: the last tile can scroll fully clear of the edge fade. */
+@media (max-width: 560px) { .tiles { padding-right: 88px; scroll-padding-inline: 16px 88px; } }
+/* Popular devices: one centred box, 70% of the tile height, for every object. */
+.popi img { left: 0; right: 0; top: 15%; width: 100%; height: 70%; }
+/* Licence strip: half the air above and below. */
+.trustSec { padding-top: clamp(28px, 3.5vw, 48px); }
+.trust { padding: 24px 0; }
+
+/* ---------- Round 10 (real-site review, round 9 notes) ---------- */
+/* Department tiles on a phone: all 16 in a two-column grid, no cut-off scroller. */
+@media (max-width: 560px) {
+  .tiles { grid-auto-flow: row; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: none; grid-auto-columns: auto; overflow: visible; margin: 0; padding: 0; scroll-snap-type: none; -webkit-mask-image: none; mask-image: none; gap: 8px; }
+  .tile { min-height: 56px; padding: 10px 12px; scroll-snap-align: none; }
+}
+/* Featured department photo: short on a phone. */
+@media (max-width: 480px) { .fig { height: 150px; max-height: 180px; } }
+/* Popular devices: the device fills the tile. Cut-outs fit a box with 8% air; photos are cropped to fill. */
+.popi { overflow: hidden; }
+.popi img { left: 8%; top: 8%; width: 84%; height: 84%; }
+.popCover img { left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; }
+.popn { min-height: 0; padding-bottom: 4px; }
+.popd { display: block; padding: 0 16px 18px; font-size: 14px; line-height: 1.45; color: #57524C; }
+.popd b { display: block; margin-bottom: 2px; font-size: 13px; font-weight: 600; color: var(--maroon); }
+@media (max-width: 860px) {
+  .popi img { left: 12px; top: 12px; width: calc(100% - 24px); height: calc(100% - 24px); }
+  .popCover img { left: 0; top: 0; width: 100%; height: 100%; }
+  .popn { min-height: 0; }
+  .popd { padding: 0 12px 14px; font-size: 13px; }
+}
+/* Delivery band: no numbers row now, so the band ends with the steps and photo. */
+.band { padding-bottom: clamp(48px, 6vw, 88px); }
+/* Licence line: a white rounded card at the width of the dark bands. */
+.trustSec { padding: clamp(28px, 3.5vw, 48px) 16px 0; }
+.trustCard { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 32px; max-width: 1392px; margin: 0 auto; padding: 20px clamp(20px, 4vw, 56px); border-radius: 28px; background: #FFFFFF; border: 1px solid #E5E1DB; }
+.trustDl { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; margin: 0; }
+.trustDl dt { font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: #6B6660; }
+.trustDl dd { margin: 0; font-family: var(--font-head); font-weight: 500; font-size: 18px; letter-spacing: -0.01em; color: #111111; overflow-wrap: anywhere; }
+.trustCard .link { gap: 6px; font-size: 15px; }
+@media (max-width: 560px) { .trustCard { padding: 16px 20px; border-radius: 20px; } .trustDl { flex-direction: column; gap: 2px; } }
+
+/* ---------- Round 11 (real-site review, round 10 notes) ---------- */
+/* Department tiles: about 25% shorter, so the grid carries the same weight as the dark card. */
+@media (min-width: 961px) {
+  .tiles { grid-template-rows: repeat(4, minmax(54px, 1fr)) 56px; }
+  .tile { min-height: 54px; padding: 10px 14px; justify-content: center; }
+  .azTile { min-height: 56px; }
+}
+/* Phone: the first 8 tiles, then "Show all 16". */
+.more { display: none; }
+@media (max-width: 560px) {
+  .tile { min-height: 52px; padding: 8px 12px; justify-content: center; }
+  .tiles:not(.all) .tile:nth-of-type(n+9) { display: none; }
+  .more { grid-column: 1 / -1; display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; border: 1px solid #C9C4BE; border-radius: 14px; background: transparent; color: var(--maroon); font: 600 15px/1 var(--font-body); cursor: pointer; }
+  .tiles.all .more { display: none; }
+}
+/* Popular devices: one warm off-white stage with a soft vignette; every device centred at one scale. */
+.popi { background: radial-gradient(70% 70% at 50% 46%, #F7F3EE 0%, #EFE9E2 70%, #E3DBD1 100%); }
+.popi img { left: 14%; top: 14%; width: 72%; height: 72%; object-fit: contain; }
+/* Delivery band: the billing promise on its own line; the licence closes the band. */
+.pay { margin: -8px 0 28px; font-family: var(--font-head); font-size: 20px; font-weight: 500; letter-spacing: -0.01em; color: #F2F0ED; }
+.bandFoot { position: relative; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px 24px; margin-top: clamp(32px, 4vw, 48px); padding-top: 16px; border-top: 1px solid rgba(242, 240, 237, .14); }
+.bandFoot p { margin: 0; font-size: 15px; color: #CFCAC4; }
+.bfK { margin-right: 10px; font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: #A9A39C; }
+@media (max-width: 560px) { .pay { font-size: 18px; margin-bottom: 22px; } }
+/* Wide screens: each tile carries a small picture of its department at the top left, so the top of the tile is not empty. */
+.tthumb { display: none; }
+@media (min-width: 961px) {
+  .tile { justify-content: flex-start; }
+  .tthumb { display: block; width: 36px; height: 36px; margin-bottom: auto; border-radius: 10px; background: #1D1817 center / cover no-repeat; filter: saturate(.6); }
+  .tile.tOn .tthumb { box-shadow: 0 0 0 1px rgba(242, 240, 237, .25); }
+}
