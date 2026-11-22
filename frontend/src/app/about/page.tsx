@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   title: { absolute: `About ${site.name} (${site.legalName})` },
   description: `${site.name} is the trading name of ${site.legalName}, a medical device distributor in Hyderabad. We supply hospitals and labs in Telangana.`,
   alternates: { canonical: path },
-  openGraph: og(path, `About ${site.name} (${site.legalName})`, undefined, { url: '/images/og/og-about.jpg', width: 1200, height: 630, alt: 'Surgical instrument sets in their trays, and the Agile Healthcare logo' }),
+  openGraph: og(path, `About ${site.name} (${site.legalName})`, undefined, { url: '/images/og/og-about.jpg', width: 1200, height: 630, alt: 'Surgical instrument sets, ready for a case' }),
 };
 
 // Papers purchase teams can ask for.

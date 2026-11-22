@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { departments, getDepartment } from '@/content/departments';
-import { devices, slugify, type Device } from '@/content/devices';
+import { devices, slugify, lowerName, article, type Device } from '@/content/devices';
 import { site, waLink, og } from '@/content/site';
 import { familySets, bullets } from '@/content/department-sets';
 import { AskBand } from '@/components/SiteChrome';
@@ -11,7 +11,7 @@ import JsonLd from '@/components/JsonLd';
 import Breadcrumb from '@/components/Breadcrumb';
 import DarkStage from '@/components/DarkStage';
 import FamilyToggles from '@/components/department/FamilyToggles';
-import { familyPic, heroDevice, ogImage } from '@/components/department/media';
+import { familyPic, heroDevice, heroPhoto, ogImage } from '@/components/department/media';
 import s from '@/components/department/department.module.css';
 
 export const dynamicParams = false;
@@ -25,7 +25,7 @@ const COPY: Record<string, { h1: string; lead: string; intro: string; adj: strin
   orthopaedics: {
     h1: 'Orthopaedic implants and instruments',
     lead: 'Plates, screws, nails, wires and joint replacement parts, packed as a full set, brought to your theatre and collected after the case.',
-    intro: 'We supply eight groups of orthopaedic devices. Each set comes with the instruments to place it, and our rider collects the set after the case.',
+    intro: 'We supply {n} groups of orthopaedic devices. Each set comes with the instruments to place it, and our rider collects the set after the case.',
     adj: 'orthopaedic',
   },
   cardiology: {
@@ -37,9 +37,12 @@ const COPY: Record<string, { h1: string; lead: string; intro: string; adj: strin
 };
 
 /** "Orthopaedics" -> "orthopaedics", but "ENT" and "OT and ..." stay as written. */
-const lower = (n: string) => (/^[A-Z]{2}/.test(n) ? n : n[0].toLowerCase() + n.slice(1));
+const lower = lowerName;
+const NUM = ['no', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve'];
+const CSSD = 'Implants in sealed sterile packs are used as packed. They are never re-sterilised. Your CSSD sterilises the reusable instruments and any implants supplied non-sterile, before the case. Check each label.';
+/** Departments where nothing is sterilised before use, so the CSSD line does not apply. */
+const NO_CSSD = new Set(['laboratory-diagnostics', 'sleep-respiratory']);
 const cap = (t: string) => t[0].toUpperCase() + t.slice(1);
-const article = (t: string) => (/^[aeiou]/i.test(t) ? 'an' : 'a');
 /** Phone: a long family shows this many devices, then a "Show all" button. */
 const SHOW = 2;
 const rowHref = (x: Device) => (x.faq.length ? `/devices/${x.slug}` : `/devices#dev-${x.slug}`);
@@ -79,6 +82,7 @@ export default async function DepartmentPage({ params }: Props) {
     .filter(f => f.rows.length > 0);
   const total = String(families.length).padStart(2, '0');
   const hero = heroDevice[d.slug];
+  const photo = heroPhoto[d.slug];
   const showCssd = /\bsets?\b/i.test(definition);
   const copy = COPY[d.slug];
   const adj = copy?.adj ?? lower(d.name);
@@ -129,6 +133,11 @@ export default async function DepartmentPage({ params }: Props) {
               </DarkStage>
             </div>
           )}
+          {!hero && photo && (
+            <div className={s.heroArt}>
+              <img className={s.heroPhoto} src={photo.src} alt={photo.alt} width={photo.width} height={photo.height} style={{ objectPosition: photo.pos }} fetchPriority="high" decoding="async" />
+            </div>
+          )}
         </section>
       </div>
 
@@ -136,8 +145,7 @@ export default async function DepartmentPage({ params }: Props) {
         <div className={s.intro}>
           <h2 id="find" className={s.h2}>Which {adj} devices do you supply?</h2>
           <div>
-            {(copy?.intro || definition) && <p className={s.introP}>{copy?.intro ?? definition}</p>}
-            <p className={s.checked}>{site.checkedBy}</p>
+            {(copy?.intro || definition) && <p className={s.introP}>{(copy?.intro ?? definition).replace('{n}', NUM[families.length] ?? String(families.length))}</p>}
             {showCssd && <p className={s.cssd}><Link className={s.gwa} href="/how-we-deliver#h-packed">Who sterilises what <span aria-hidden="true">&#8594;</span></Link></p>}
           </div>
         </div>
@@ -214,6 +222,7 @@ export default async function DepartmentPage({ params }: Props) {
                           {f.set.supplied
                             ? <p className={s.oneLine}>{cap(f.set.inSet)}</p>
                             : <ul>{bullets(f.set.inSet).map(t => <li key={t}>{t}</li>)}</ul>}
+                          {f.set.note && <p className={s.oneLine}>{f.set.note}</p>}
                         </div>
                       )}
                       <div>
@@ -228,6 +237,8 @@ export default async function DepartmentPage({ params }: Props) {
           );
         })}
         {families.length === 0 && <p className={s.empty}>The device list for this department is being written.</p>}
+        {/* The CSSD line, word for word (MASTER_SPEC G), once under the families. */}
+        {families.length > 0 && !NO_CSSD.has(d.slug) && <p className={s.introP} style={{ marginTop: 32 }}>{CSSD}</p>}
 
       </section>
 

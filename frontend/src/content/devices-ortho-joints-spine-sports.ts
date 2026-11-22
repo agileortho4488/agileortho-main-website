@@ -3,7 +3,8 @@
 import type { Device } from './devices';
 
 const STERILE =
-  'Joint implants come in sealed sterile packs and are single use. They are never re-sterilised, even if a pack is opened and the implant is not used. Your CSSD sterilises the reusable instruments and trials before the case. Check each label.';
+  'Joint implants come in sealed sterile packs and are single use. Implants in sealed sterile packs are used as packed. They are never re-sterilised. Your CSSD sterilises the reusable instruments and any implants supplied non-sterile, before the case. Check each label.';
+const CSSD = 'Implants in sealed sterile packs are used as packed. They are never re-sterilised. Your CSSD sterilises the reusable instruments and any implants supplied non-sterile, before the case. Check each label.';
 
 export const devicesorthoJointsSpineSports: Device[] = [
   {
@@ -14,7 +15,7 @@ export const devicesorthoJointsSpineSports: Device[] = [
     family: 'Joint replacement',
     short: 'A total knee implant replaces the worn surfaces of the knee joint.',
     whyUsed: [
-      'A total knee implant is used when the knee joint surfaces are worn or damaged, for example by arthritis, and other treatment has not helped enough.',
+      'A total knee implant is used when the knee joint surfaces are worn or damaged, for example by arthritis.',
       'The treating surgeon decides if a knee replacement is needed, and which design to use.',
     ],
     howUsed: [
@@ -63,7 +64,7 @@ export const devicesorthoJointsSpineSports: Device[] = [
       { q: 'What is a total knee implant?',
         a: 'A total knee implant replaces the worn surfaces of the knee joint. It has three main parts: a metal femoral component on the thigh bone, a metal tibial base plate on the shin bone, and a plastic insert between them. The surgeon may also fit a plastic patella button behind the kneecap.' },
       { q: 'When is a total knee implant used?',
-        a: 'A total knee implant is used when the knee joint surfaces are worn or damaged, for example by arthritis, and other treatment has not helped enough. The treating surgeon decides if a knee replacement is needed, and which design to use.' },
+        a: 'A total knee implant is used when the knee joint surfaces are worn or damaged, for example by arthritis. The treating surgeon decides if a knee replacement is needed, and which design to use.' },
       { q: 'What comes in a total knee implant set?',
         a: 'Implants: femoral components and tibial base plates in a range of sizes; plastic inserts in a range of sizes and thicknesses, for the planned design; patella buttons, if planned. Instruments: alignment rods and cutting guides; sizers and trial components; insertion and impaction instruments. If asked: bone cement, for a cemented case. Paperwork: printed set list; lot stickers, one per implant used.' },
       { q: 'How is the size of a total knee implant chosen?',
@@ -72,7 +73,7 @@ export const devicesorthoJointsSpineSports: Device[] = [
       { q: 'Can one total knee set cover both knees?',
         a: 'Ask us when you book. Many knee systems make the femoral component for the left or the right knee. Tell us the side, the design (CR or PS) and the planned size, so we can check that they are in the set.' },
     ],
-    related: ['hip-femoral-stem', 'bipolar-hip-prosthesis', 'acetabular-cup', 'bone-cement'],
+    related: ['knee-replacement-instrument-set', 'unicompartmental-knee-implant', 'revision-knee-implant', 'bone-cement'],
     tellUs: 'Tell us: side (left or right), design (CR or PS), cemented or cementless, planned size if known, patella button yes or no, and the surgeon\'s system if there is one.',
   },
 
@@ -137,7 +138,7 @@ export const devicesorthoJointsSpineSports: Device[] = [
         a: 'The head must fit the stem taper, and the head diameter must match the cup liner. Mixing parts from different systems is not done unless the makers state they fit together. Tell us the cup system, so we send a stem and heads that fit it.' },
       { q: 'Does the hip femoral stem set come sterile?', a: STERILE },
     ],
-    related: ['acetabular-cup', 'bipolar-hip-prosthesis', 'bone-cement'],
+    related: ['total-hip-implant', 'femoral-head', 'acetabular-cup', 'hip-replacement-instrument-set'],
     tellUs: 'Tell us: cemented or cementless, planned stem size if known, head diameter, head material (metal or ceramic), the cup system, and total hip or bipolar.',
   },
 
@@ -200,7 +201,7 @@ export const devicesorthoJointsSpineSports: Device[] = [
         a: 'Tell us the side, cemented or cementless stem, and the expected head size from the X-ray if the surgeon has it. Case date and time also matter, since many of these are hip fracture cases booked at short notice.' },
       { q: 'Does the bipolar hip prosthesis set come sterile?', a: STERILE },
     ],
-    related: ['hip-femoral-stem', 'bone-cement', 'acetabular-cup'],
+    related: ['hip-femoral-stem', 'femoral-head', 'bone-cement', 'cement-restrictor'],
     tellUs: 'Tell us: side (left or right), cemented or cementless stem, expected head size from the X-ray if known, and the surgeon\'s system if there is one.',
   },
 
@@ -212,7 +213,7 @@ export const devicesorthoJointsSpineSports: Device[] = [
     family: 'Spinal implants',
     short: 'A pedicle screw goes through the pedicle into the vertebral body and holds a rod, to keep the spine still while it fuses.',
     whyUsed: [
-      'Pedicle screws are used to hold part of the spine still, for example after a break, for a slipped vertebra, for spinal deformity, or with an interbody cage in a fusion operation.',
+      'Pedicle screws are used to hold part of the spine still. Examples are after a break, for a slipped vertebra, for spinal deformity, or with an interbody cage in a fusion operation.',
       'The treating surgeon decides which levels to fix and which screw type to use.',
     ],
     howUsed: [
@@ -259,13 +260,13 @@ export const devicesorthoJointsSpineSports: Device[] = [
       { q: 'What is a pedicle screw?',
         a: 'A pedicle screw is a metal screw that goes through the pedicle, the narrow bridge of bone at the back of a vertebra, into the vertebral body. Screws on two or more vertebrae are joined by rods, held in the screw heads by set screws. Together they keep that part of the spine still while the bones fuse.' },
       { q: 'When are pedicle screws used?',
-        a: 'Pedicle screws are used to hold part of the spine still, for example after a break, for a slipped vertebra, for spinal deformity, or with an interbody cage in a fusion operation. The treating surgeon decides which levels to fix and which screw type to use. In theatre, the surgeon makes a track down each pedicle, puts in the screws, then joins them with rods.' },
+        a: 'Pedicle screws are used to hold part of the spine still. Examples are after a break, for a slipped vertebra, for spinal deformity, or with an interbody cage in a fusion operation. The treating surgeon decides which levels to fix and which screw type to use. In theatre, the surgeon makes a track down each pedicle, puts in the screws, then joins them with rods.' },
       { q: 'What comes in a pedicle screw set?',
         a: 'Implants: pedicle screws in a range of diameters and lengths; set screws, one per screw; rods in the system diameter; cross-connectors, if planned. Instruments: awl, probe and feeler; taps; screwdrivers; rod bender, holder and pusher; final tightening handle and counter-torque; guide wires and cannulated instruments for a minimally invasive case. Paperwork: printed set list; lot stickers, one per implant used.' },
       { q: 'How are pedicle screw sizes and the number of screws decided?',
         a: 'The surgeon plans screw diameter and length on X-ray, CT or MRI, and confirms them in theatre. Screws come by diameter and length in mm. Usually two screws go in each vertebra fixed, so a one-level fusion often uses four screws and two rods. The set carries sizes either side of the plan.' },
       { q: 'Are pedicle screws supplied sterile?',
-        a: 'It depends on the system. Many pedicle screws come non-sterile in the set, and some come in sterile packs. Check each label. Book the case early enough for your CSSD to sterilise the set before the case.' },
+        a: 'It depends on the system. Many pedicle screws come non-sterile in the set, and some come in sterile packs. ' + CSSD + ' Book the case early, so your CSSD has time.' },
     ],
     related: ['spinal-rod', 'interbody-cage'],
     tellUs: 'Tell us: levels to fix, open or minimally invasive, screw type (polyaxial, monoaxial or reduction), expected screw diameters, rod diameter, and the surgeon\'s system if there is one.',
@@ -279,7 +280,7 @@ export const devicesorthoJointsSpineSports: Device[] = [
     family: 'Sports medicine',
     short: 'A suture anchor fixes a tendon or ligament back to bone.',
     whyUsed: [
-      'A suture anchor is used to fix soft tissue back to bone, for example in a rotator cuff repair or a labrum repair in the shoulder, and in some knee, elbow, hip, hand, foot and ankle repairs.',
+      'A suture anchor is used to fix soft tissue back to bone, for example in a rotator cuff or labrum repair in the shoulder. It is also used in some knee, elbow, hip, hand, foot and ankle repairs.',
       'The treating surgeon decides the number of anchors and the type.',
     ],
     howUsed: [
@@ -320,15 +321,15 @@ export const devicesorthoJointsSpineSports: Device[] = [
       { q: 'What is a suture anchor?',
         a: 'A suture anchor is a small implant that is fixed into bone and carries one or more sutures. The surgeon passes the sutures through a torn tendon or ligament and ties it back onto the bone. Anchors are made of metal, PEEK, bioabsorbable or biocomposite material, or suture only. Each comes sterile on its own inserter.' },
       { q: 'When is a suture anchor used?',
-        a: 'A suture anchor is used to fix soft tissue back to bone, for example in a rotator cuff repair or a labrum repair in the shoulder, and in some knee, elbow, hip, hand, foot and ankle repairs. The treating surgeon decides the number of anchors and the type. The repair is done through a scope (arthroscopy) or through an open cut.' },
+        a: 'A suture anchor is used to fix soft tissue back to bone, for example in a rotator cuff or labrum repair in the shoulder. It is also used in some knee, elbow, hip, hand, foot and ankle repairs. The treating surgeon decides the number of anchors and the type. The repair is done through a scope (arthroscopy) or through an open cut.' },
       { q: 'How are the suture anchor size and type chosen?',
         a: 'The surgeon chooses by the joint and the repair. Small joints take small anchors, and the shoulder takes larger ones. Anchors come by diameter in mm, material, knotted or knotless, and number of sutures. Tell us the surgeon\'s choice. If it is not yet known, tell us the joint and the repair, and we send a range.' },
       { q: 'How many suture anchors should we book?',
         a: 'The surgeon plans the number. A small repair may use one or two anchors, and a large rotator cuff repair may use more. Ask for one or two more than the plan. Anchors not opened go back with the set, and we bill only what was used.' },
       { q: 'Are suture anchors supplied sterile?',
-        a: 'Yes. Suture anchors come in sealed sterile packs and are single use. They are never re-sterilised. The reusable instruments, such as suture passers and the knot pusher, are sterilised by your CSSD before the case.' },
+        a: 'Yes. Suture anchors come in sealed sterile packs and are single use. ' + CSSD + '' },
     ],
-    related: ['interference-screw', 'arthroscopy-shaver-blade'],
+    related: ['interference-screw', 'arthroscopy-shaver-blade', 'suture-passer', 'arthroscope'],
     tellUs: 'Tell us: joint and repair (for example rotator cuff), anchor diameter, material, knotted or knotless, number of sutures, and how many anchors.',
   },
 
@@ -384,9 +385,11 @@ export const devicesorthoJointsSpineSports: Device[] = [
       { q: 'How is the size of an interference screw chosen?',
         a: 'The screw diameter is chosen by the tunnel diameter, and the tunnel is set by the graft size measured in theatre. So the final size is often known only during the case. Ask for screws one size above and below the expected size. Screws come by diameter and length in mm.' },
       { q: 'What should we tell you about interference screws for an ACL case?',
-        a: 'Tell us the graft type if known (hamstring or patellar tendon), the expected tunnel diameter, the screw material, and whether the screw is for the femoral side, the tibial side or both. If the surgeon uses a different device on one side, tell us that too.' },
+        a: 'Tell us the graft type if known (hamstring or patellar tendon), the expected tunnel diameter and the screw material. Also tell us if the screw is for the femoral side, the tibial side or both. If the surgeon uses a different device on one side, tell us that too.' },
+      { q: 'Are interference screws sterile?',
+        a: 'Yes. Each interference screw comes in a sealed sterile pack and is single use. ' + CSSD },
     ],
-    related: ['suture-anchor', 'arthroscopy-shaver-blade'],
+    related: ['suture-anchor', 'arthroscopy-shaver-blade', 'suspensory-fixation-button', 'meniscal-repair-device'],
     tellUs: 'Tell us: graft type, expected tunnel diameter, screw material, femoral side, tibial side or both, and the surgeon\'s system if there is one.',
   },
 ];

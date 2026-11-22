@@ -10,6 +10,26 @@ export const heroDevice: Record<string, Pic & { rotate: number; size: string }> 
   cardiology: { src: '/images/coronary-stent.webp', alt: 'Coronary stent', width: 1177, height: 1717, rotate: -30, size: '84%' },
 };
 
+/** Real photo in a rounded frame, for departments with no cut-out. `pos` = CSS object-position for the crop. */
+const ph = (slug: string, alt: string, width: number, height: number, pos = 'center') =>
+  ({ src: `/images/departments/${slug}.webp`, alt, width, height, pos });
+export const heroPhoto: Record<string, Pic & { pos: string }> = {
+  spine: ph('spine', 'Pedicle screws fitted to a spine model', 1050, 1400, 'center 40%'),
+  'cardiac-surgery': ph('cardiac-surgery', 'Mechanical heart valve', 1400, 1246),
+  neurosurgery: ph('neurosurgery', 'Cranial plate fitted to a skull model', 1400, 1052, '25% 30%'),
+  vascular: ph('vascular', 'Vascular graft', 1400, 1050),
+  'endo-surgery': { src: '/images/hernia-mesh-dark.jpg', alt: 'Hernia mesh', width: 1920, height: 1282, pos: 'center' },
+  'plastic-surgery': ph('plastic-surgery', 'Silicone breast implant on a stand', 1400, 913),
+  gynaecology: ph('gynaecology', 'Vaginal speculum', 1400, 1050),
+  urology: ph('urology', 'Ureteral stent', 1400, 927),
+  ent: ph('ent', 'Otoscope', 1280, 960),
+  'critical-care': ph('critical-care', 'IV cannula', 1400, 1050),
+  'ot-infection-control': ph('ot-infection-control', 'Surgical gloves', 1400, 1000),
+  'wound-care': ph('wound-care', 'Ostomy pouch', 1400, 873),
+  'sleep-respiratory': ph('sleep-respiratory', 'CPAP nasal mask with headgear', 1400, 1050),
+  'laboratory-diagnostics': ph('laboratory-diagnostics', 'Rapid test cassette', 1640, 1079),
+};
+
 /** Small photo beside a family name, keyed by family name. */
 export const familyPic: Record<string, Pic> = {
   // Real cut-out photos where we have them (isolated devices); line drawings only for groups with no photo.
@@ -24,7 +44,7 @@ export const familyPic: Record<string, Pic> = {
   // Cardiology has one group and no group picture: the hero already shows the stents.
   'Hernia repair': { src: '/images/hernia-mesh-light.jpg', alt: 'Hernia mesh', width: 673, height: 357 },
   'Vessel ligation': { src: '/images/ligating-clip-cartridges.jpg', alt: 'Ligating clip cartridges', width: 701, height: 240, contain: true },
-  'Laparoscopic access': { src: '/images/trocar-set.jpg', alt: 'Trocar set', width: 293, height: 495, contain: true },
+  'Laparoscopic access': { src: '/images/trocar-set.jpg', alt: 'Trocar and cannula', width: 293, height: 495, contain: true },
   'Wound closure': { src: '/images/suture-needle-holder.jpg', alt: 'Suture held in a needle holder', width: 867, height: 707 },
   'Lab analysers': { src: '/images/lab-analyser.jpg', alt: 'Lab analyser', width: 1600, height: 1067 },
   'Sample collection': { src: '/images/lab-centrifuge-tubes.jpg', alt: 'Sample tubes in a lab centrifuge', width: 1600, height: 1068 },

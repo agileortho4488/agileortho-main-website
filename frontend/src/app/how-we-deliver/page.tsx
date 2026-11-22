@@ -16,18 +16,14 @@ export const metadata: Metadata = {
   title,
   description,
   alternates: { canonical: path },
-  openGraph: og(path, `${title} | ${site.name}`, description, { url: '/images/og/og-how-we-deliver.jpg', width: 1200, height: 630, alt: 'Surgical instrument sets in their trays' }),
+  openGraph: og(path, `${title} | ${site.name}`, description, { url: '/images/og/og-how-we-deliver.jpg', width: 1200, height: 630, alt: 'Surgical instrument sets, ready for a case' }),
 };
 
 // Page copy. The FAQPage JSON-LD is built from the same strings, so visible text and schema match word for word.
 const packed = 'Each set has the sizes on its printed set list and the instruments to place each device. The printed set list travels with the set, so your theatre staff can check it.';
 // Who sterilises what: two rows, then one line. The FAQ answer is built from the same strings.
-const who = [
-  { k: 'Implant in a sealed sterile pack', v: 'Used as packed. Never re-sterilised.' },
-  { k: 'Instruments, and implants that come non-sterile', v: 'Your CSSD sterilises them before the case.' },
-];
-const checkLabel = 'Check each label before the case.';
-const sterilise = `${checkLabel} ${who.map(w => `${w.k}: ${w.v}`).join(' ')}`;
+// The CSSD line, word for word (MASTER_SPEC G).
+const sterilise = 'Implants in sealed sterile packs are used as packed. They are never re-sterilised. Your CSSD sterilises the reusable instruments and any implants supplied non-sterile, before the case. Check each label.';
 const delivered = [
   'Sets leave from our dispatch centre in LB Nagar, Hyderabad, or our second dispatch point in Miyapur. Our rider brings the set to your CSSD or operating theatre, as your hospital asks. We do not leave it at the hospital gate.',
 ];
@@ -112,8 +108,8 @@ export default function HowWeDeliver() {
             </div>
           </div>
           <figure className={`${s.photo} ${s.r3}`}>
-            <img src="/images/orthopaedic-instrument-trays.jpg" width={1600} height={1067} alt="Surgical instrument sets packed in their trays, ready for a case" />
-            <figcaption className={s.photoCap}>A packed set: every size on the list, in its trays.</figcaption>
+            <img src="/images/orthopaedic-instrument-trays.jpg" width={1600} height={1067} alt="Surgical instrument sets, ready for a case" />
+            <figcaption className={s.photoCap}>A packed set: every size on the printed set list.</figcaption>
           </figure>
         </section>
       </div>
@@ -131,10 +127,7 @@ export default function HowWeDeliver() {
               </div>
               <div className={s.side}>
                 <h3 className={s.h3s}>{faq[1].q}</h3>
-                <p className={s.whoCap}>{checkLabel}</p>
-                <dl className={s.who}>
-                  {who.map(w => <div key={w.k}><dt>{w.k}</dt><dd>{w.v}</dd></div>)}
-                </dl>
+                <p className={s.whoCap}>{sterilise}</p>
               </div>
             </div>
           </section>

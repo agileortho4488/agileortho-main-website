@@ -43,7 +43,6 @@ export const site = {
   emergencyLine: 'Emergency case, any hour: dispatch centre 74168 18183',
   disclaimer:
     'Information for healthcare professionals. Not medical advice. Not an offer for sale. All trademarks belong to their owners.',
-  checkedBy: 'Checked by the Agile Healthcare product team. Not a clinical review.',
 };
 
 /** WhatsApp link with the device name filled in, the same pattern on every page. */

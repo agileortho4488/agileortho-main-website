@@ -249,3 +249,7 @@ div.row .nm { font-family: var(--font-body); font-weight: 500; font-size: 17px; 
 .oneCol ul { columns: 2 240px; column-gap: 40px; }
 /* Metal cut-outs read as steel, not gold (the knee keeps its colour). */
 .tile[src*="distal-radius"], .fthumb[src*="distal-radius"], .tile[src*="femoral-nail"], .fthumb[src*="femoral-nail"] { filter: saturate(.15) brightness(1.06) contrast(1.05); }
+
+/* Real photo for departments with no cut-out: a rounded frame, like the About page hero. */
+.heroPhoto { display: block; width: 100%; height: clamp(300px, 32vw, 420px); object-fit: cover; border-radius: 22px; }
+@media (max-width: 900px) { .heroPhoto { height: 220px; border-radius: 16px; } }

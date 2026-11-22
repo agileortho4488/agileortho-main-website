@@ -3,7 +3,7 @@
 
 export const departmentTextorthoJointsSpineSports: Record<string, { definition: string; families: { name: string; definition: string }[] }> = {
   orthopaedics: {
-    definition: 'Orthopaedics deals with bones, joints, ligaments and tendons. Orthopaedic devices fix broken bones, replace worn joints and repair torn soft tissue. Most come as a set of implants in a range of sizes, with the instruments to place them. Agile Healthcare supplies them to hospitals in Telangana.',
+    definition: 'Orthopaedics deals with bones, joints, ligaments and tendons. Orthopaedic devices fix broken bones, replace worn joints and repair torn soft tissue. Most come as a set of implants in a range of sizes, with the instruments to place them.',
     families: [
       { name: 'Trauma plates', definition: 'Trauma plates are metal plates fixed to the outside of a broken bone with screws. They hold the pieces in line while the bone heals.' },
       { name: 'Trauma screws', definition: 'Trauma screws hold bone pieces together, or fix a plate to bone. They come by type, diameter and length in mm.' },
@@ -16,9 +16,10 @@ export const departmentTextorthoJointsSpineSports: Record<string, { definition: 
     ],
   },
   spine: {
-    definition: 'Spine devices are used in operations on the spine. They hold vertebrae still, keep the space between them, or both, while the bones fuse. They come as a set of implants with the instruments to place them. Agile Healthcare supplies them to hospitals in Telangana.',
+    definition: 'Spine devices are used in operations on the spine. They hold vertebrae still, keep the space between them, or both, while the bones fuse. They come as a set of implants with the instruments to place them.',
     families: [
       { name: 'Spinal implants', definition: 'Spinal implants are pedicle screws, rods, set screws and interbody cages. Screws and rods hold the vertebrae still. A cage holds the space between two vertebrae while they fuse.' },
+      { name: 'Vertebral augmentation', definition: 'Bone tamps make a space inside a collapsed vertebra, so bone cement can go in.' },
     ],
   },
 };

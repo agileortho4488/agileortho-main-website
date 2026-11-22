@@ -11,9 +11,11 @@ export const departmentTextorthoTrauma: Record<string, { definition: string; fam
       { name: 'Trauma nails', definition: 'An intramedullary nail is a rod that runs along the inside of a long bone, such as the thigh or shin bone. Interlocking screws through the nail hold the bone in line, at the right length and rotation.' },
       { name: 'Wires and pins', definition: 'Thin wires and thicker pins hold bone pieces in place, or guide a cannulated screw in.' },
       { name: 'External fixators', definition: 'An external fixator holds a broken bone from outside the body with pins, clamps and rods.' },
-      { name: 'Joint replacement', definition: 'Joint replacement parts take the place of a worn or broken knee or hip joint. The surgeon chooses each size from trial parts during the case.' },
+      { name: 'Joint replacement', definition: 'Joint replacement parts take the place of a worn or broken knee or hip joint. The surgeon chooses each size from trial parts during the case. This group also includes bone cement and the theatre equipment used in joint replacement.' },
       { name: 'Bone graft substitutes', definition: 'A bone graft substitute comes as granules, blocks or putty. It fills a gap in bone, such as after a break or where bone was removed.' },
-      { name: 'Sports medicine', definition: 'Sports medicine devices fix tendons, ligaments and ligament grafts to bone, or trim tissue inside a joint during keyhole surgery.' },
+      { name: 'Sports medicine', definition: 'Sports medicine devices fix tendons, ligaments and ligament grafts to bone, or trim tissue inside a joint during keyhole surgery (arthroscopy). This group also includes the scope and the theatre equipment for arthroscopy.' },
+      { name: 'Instrument sets', definition: 'An instrument set holds the reusable instruments to place one group of implants, such as nails, plates, or a knee or hip. Your CSSD sterilises the set before the case. Our rider collects it after the case.' },
+      { name: 'Theatre equipment', definition: 'Equipment used in the operating theatre during a joint replacement, such as a leg positioner or a robotic system. It is not an implant.' },
     ],
   },
 };

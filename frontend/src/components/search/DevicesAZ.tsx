@@ -231,7 +231,7 @@ export default function DevicesAZ({ rows, depts, popular }: { rows: AzRow[]; dep
           <p className={s.azdeps}>{rows.length} devices in {depts.length} departments</p>
         </div>
         <div className={s.azguide}>
-          <p className={s.azkey}>Names in red with an arrow <span className={s.azpgKey} aria-hidden="true"><Arrow /></span> have their own page. Open any other name to see what it is and which department uses it.</p>
+          <p className={s.azkey}>Open any name to see what it is and how it is supplied.</p>
         </div>
         <span ref={navTop} aria-hidden="true" className={s.navTop} />
         <nav aria-label="Jump to letter" className={`${s.aznav} ${stuck ? s.stuck : ''}`} id="az-letters">

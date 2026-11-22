@@ -128,7 +128,15 @@ export function Footer() {
               <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>; Frank C. Mueller,{' '}
               <a href="https://creativecommons.org/licenses/by-sa/2.5/">CC BY-SA 2.5</a>; Bullenwaechter,{' '}
               <a href="https://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a> (Wikimedia Commons; cropped, cut out
-              or recoloured, shared under the same licence). Scene photos: Unsplash and Pexels.
+              or recoloured, shared under the same licence). Department photos (Wikimedia Commons, resized and cropped): Avi7691,{' '}
+              <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>; Stif Komar,{' '}
+              <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>; Kuroczynski,{' '}
+              <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>; ErwinMeier,{' '}
+              <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>; Grook Da Oger,{' '}
+              <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>; Nadina Wiórkiewicz,{' '}
+              <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>; Joe Mabel,{' '}
+              <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>; Saltanat ebli, CC0; Saltanat, DCwom and
+              the U.S. Food and Drug Administration, public domain. Rapid test photo: adrian vieriu, Pexels. Scene photos: Unsplash and Pexels.
             </p>
           </details>
         </div>

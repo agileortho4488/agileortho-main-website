@@ -6,7 +6,7 @@ import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { site, waLink, og } from '@/content/site';
 import { getDepartment } from '@/content/departments';
-import { devicePages, getDevice, deviceHref, slugify, type Device, type FaqItem } from '@/content/devices';
+import { devicePages, getDevice, deviceHref, slugify, lowerName, article, type Device, type FaqItem } from '@/content/devices';
 import { breadcrumb, faqPage, graph, medicalDevice, orgRef, url, webPage } from '@/content/schema';
 import JsonLd from '@/components/JsonLd';
 import FaqList from '@/components/FaqList';
@@ -41,6 +41,11 @@ const MIRROR = new Set(['total-knee-implant']);
 const ARRIVE_TELL: Record<string, string> = {
   'total-knee-implant': 'Tell us the same day if the design (CR or PS) or the size is wrong.',
 };
+const CSSD = 'Implants in sealed sterile packs are used as packed. They are never re-sterilised. Your CSSD sterilises the reusable instruments and any implants supplied non-sterile, before the case. Check each label.';
+/** Families where an implant fits one side only, so the closing line asks about the side. */
+const SIDED = new Set(['Trauma plates', 'Trauma nails', 'Joint replacement']);
+/** Uncountable names: "What is bone cement?", not "What is a bone cement?". */
+const MASS = new Set(['bone-cement', 'bone-wax', 'hand-rub', 'skin-adhesive', 'surgical-hand-scrub', 'skin-preparation-solution', 'instrument-disinfectant', 'surface-disinfectant', 'nasal-packing']);
 /** One fold order on every device page. */
 const GROUP_ORDER = [/implant|device|mesh|stent|suture/i, /instrument/i, /paper/i, /if asked|optional|on request/i];
 const groupRank = (title: string) => { const k = GROUP_ORDER.findIndex(re => re.test(title)); return k < 0 ? 1.5 : k; };
@@ -57,7 +62,6 @@ const titleFor = (name: string, aka: string[]) => {
 };
 const esc = (t: string) => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 const sentences = (t: string) => t.split(/(?<=[.?!])\s+/).filter(Boolean);
-const article = (t: string) => (/^[aeiou]/i.test(t) ? 'an' : 'a');
 /** Flattened 1200x630 share picture for a cut-out device (a transparent PNG previews badly). */
 const ogFile = (slug: string) => `/images/og/og-${slug}.jpg`;
 const hasOg = (slug: string) => existsSync(join(process.cwd(), 'public', ogFile(slug)));
@@ -65,10 +69,10 @@ const hasOg = (slug: string) => existsSync(join(process.cwd(), 'public', ogFile(
 /** The four standard questions become page sections; the rest go under "More questions". */
 function sortFaq(faq: FaqItem[]) {
   const take = (re: RegExp) => faq.find(f => re.test(f.q));
-  const what = take(/^What is /i);
+  const what = take(/^What (is|are) /i);
   const when = take(/^When (is|are) /i);
   const set = take(/^What comes in /i);
-  const size = take(/^How (is|are) .*(size|length)/i);
+  const size = take(/^How (is|are) .*(size|length|chosen)/i);
   const used = [what, when, set, size];
   return { what, when, set, size, rest: faq.filter(f => !used.includes(f)) };
 }
@@ -124,13 +128,25 @@ export default async function DevicePage({ params }: Props) {
   ];
 
   const q = sortFaq(d.faq);
+  // "a K-wire", "an ENT laser", "bone cement", "embolisation particles".
+  const nm = lowerName(d.name);
+  const plural = /[^s]s$/.test(d.name);
+  const np = MASS.has(d.slug) || plural ? nm : `${article(d.name)} ${nm}`;
+  const isAre = plural ? 'are' : 'is';
+  // Machines have parts, not sizes; lab supplies, machines and disinfectants are not sterilised and not used "in a case".
+  const machine = d.inSet.some(g => /^(Machine|Equipment|Pump)/.test(g.title));
+  const noSterile = d.inSet.some(g => g.title === 'Machine') || d.department === 'laboratory-diagnostics' || /disinfectant|hand-rub|hand-scrub/.test(d.slug);
+  const noCase = noSterile || d.department === 'sleep-respiratory';
+  const noSize = machine || noCase || MASS.has(d.slug) || plural;
   const related = d.related.map(getDevice).filter(Boolean) as Device[];
   const wa = waLink(d.name);
   const sos = site.emergencyLine.replace(site.dispatch.display, '').trim();
   // Hero line without "A <name> is", as in the design: "A thin metal plate ...".
   const lede = d.short.replace(new RegExp(`^an? ${esc(d.name)} is `, 'i'), '').replace(/^./, c => c.toUpperCase());
   // "What is" answer, minus the sentences the hero already says.
-  const whatText = q.what ? sentences(q.what.a).filter(t => !d.short.includes(t)).join(' ') : '';
+  // If what is left starts with "It ..." or "They ...", keep the whole answer so the pronoun has its noun.
+  const whatLeft = q.what ? sentences(q.what.a).filter(t => !d.short.includes(t)).join(' ') : '';
+  const whatText = q.what && /^(It|They|This|These|Its)\b/.test(whatLeft) ? q.what.a : whatLeft;
   const whenText = q.when ? q.when.a : [...d.whyUsed, ...d.howUsed].join(' ');
   const img = HERO[d.slug] ?? d.image;
   const cutOut = !!img && /\.(png|webp)$/i.test(img.src);
@@ -150,7 +166,7 @@ export default async function DevicePage({ params }: Props) {
   ) : null;
   // Instruments in the list make it a set; single packs (mesh, sutures) are "sent with".
   const isSet = d.inSet.some(g => /instrument/i.test(g.title));
-  const setTitle = q.set ? q.set.q : isSet ? `What comes in ${article(d.name)} ${d.name.toLowerCase()} set?` : `What comes with ${d.name.toLowerCase()}?`;
+  const setTitle = q.set ? q.set.q : isSet ? `What comes in ${article(d.name)} ${nm} set?` : 'What comes with each order?';
   const sizeRows = d.sizes;
   // Ask card: label and the short option list (first clause of each size row), as in the design.
   // Two set columns: the first group, then the rest. Groups move from the end of the second column into the first
@@ -193,7 +209,7 @@ export default async function DevicePage({ params }: Props) {
             <div className={`${s.acts} ${s.rise} ${s.d4} ${s.noprint}`}>
               <a className={s.hcta} href={wa}>
                 <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12a8.5 8.5 0 0 1-12.6 7.4L3 21l1.6-5.2A8.5 8.5 0 1 1 21 12z" /></svg>
-                Ask on WhatsApp {site.whatsapp.display}
+                Ask for this device
               </a>
               <a className={s.chip} href={`tel:${site.dispatch.tel}`}>
                 <span className={s.ic} aria-hidden="true">
@@ -237,11 +253,11 @@ export default async function DevicePage({ params }: Props) {
       <section aria-labelledby="what" className={s.sheet}>
         <div className={`${s.split} ${s.center} ${figure ? '' : s.solo}`}>
           <div className={s.cell}>
-            <h2 id="what" className={s.h2}>{q.what ? q.what.q : `What is a ${d.name.toLowerCase()}?`}</h2>
+            <h2 id="what" className={s.h2}>{q.what ? q.what.q : `What ${isAre} ${np}?`}</h2>
             {whatText && <p className={s.body}>{whatText}</p>}
             {whenText && (
               <>
-                <h3 id="when" className={s.h3}>{q.when ? q.when.q : `When is a ${d.name.toLowerCase()} used?`}</h3>
+                <h3 id="when" className={s.h3}>{q.when ? q.when.q : `When ${isAre} ${np} used?`}</h3>
                 <p className={s.body}>{whenText}</p>
               </>
             )}
@@ -268,7 +284,7 @@ export default async function DevicePage({ params }: Props) {
                 </div>
               ))}
             </div>
-            {sizeRows.length > 0 && <p className={s.toSize}><a href="#size">How the size is chosen <span aria-hidden="true">&#8595;</span></a></p>}
+            {sizeRows.length > 0 && <p className={s.toSize}><a href="#size">{q.size || !noSize ? 'How the size is chosen' : 'What to tell us'} <span aria-hidden="true">&#8595;</span></a></p>}
             <SetFolds />
           </div>
         </section>
@@ -279,7 +295,7 @@ export default async function DevicePage({ params }: Props) {
           <div className={s.cell}>
             {sizeRows.length > 0 && (
               <section aria-labelledby="size" className={s.sizeSec}>
-                <h2 id="size" className={s.h2}>{q.size ? q.size.q : `How is the size of a ${d.name.toLowerCase()} chosen?`}</h2>
+                <h2 id="size" className={s.h2}>{q.size ? q.size.q : noSize ? 'What to tell us when you ask' : `How is the size of ${np} chosen?`}</h2>
                 {sizeLead && <p className={s.body}>{sizeLead}</p>}
                 <ul role="list" className={s.sz}>
                   {sizeRows.map(z => <li key={z.label}><b>{z.label}</b><span>{z.value}</span></li>)}
@@ -295,10 +311,13 @@ export default async function DevicePage({ params }: Props) {
                   </ul>
                 </>
               )}
+              {/* The CSSD line, word for word (MASTER_SPEC G), once per set page. */}
+              {isSet && !noSterile && <p className={s.body} style={{ marginTop: 20 }}>{CSSD}</p>}
               <p className={s.body} style={{ marginTop: 20, fontWeight: 500 }}>
-                {isSet
-                  ? <>{ARRIVE_TELL[d.slug] ?? 'Tell us the same day if the side or size is wrong.'} <Link href="/contact#recall">Who to call <span aria-hidden="true">&#8594;</span></Link></>
-                  : <>Tell us the same day if a pack is wrong. Keep it sealed. <Link href="/contact#recall">Who to call <span aria-hidden="true">&#8594;</span></Link></>}
+                {machine ? 'Tell us the same day if a part is missing or damaged.'
+                  : isSet ? ARRIVE_TELL[d.slug] ?? (SIDED.has(d.family) ? 'Tell us the same day if the side or size is wrong.' : 'Tell us the same day if a size or an item is wrong.')
+                  : 'Tell us the same day if a pack is wrong. Keep it sealed.'}{' '}
+                <Link href="/contact#recall">Who to call <span aria-hidden="true">&#8594;</span></Link>
               </p>
             </section>
             {q.rest.length > 0 && (
@@ -309,19 +328,18 @@ export default async function DevicePage({ params }: Props) {
             )}
             {/* One plain link row (it was a lone card beside the questions), with the checked note under it. */}
             <div className={s.afterRow}>
-              <ul role="list" className={s.go}>
-                <li><Link href="/how-we-deliver#h-packed">Who sterilises what <span aria-hidden="true">&#8594;</span></Link></li>
-              </ul>
-              <p className={s.note}>
-                {d.checkedOn ? `Checked by the Agile Healthcare product team on ${d.checkedOn}. Not a clinical review.` : site.checkedBy}
-              </p>
+              {!noSterile && (
+                <ul role="list" className={s.go}>
+                  <li><Link href="/how-we-deliver#h-packed">Who sterilises what <span aria-hidden="true">&#8594;</span></Link></li>
+                </ul>
+              )}
             </div>
           </div>
           <div className={s.rail}>
             {sizeRows.length > 0 && (
               <aside className={`${s.side} ${s.noprint}`} aria-labelledby="side-h">
                 <h2 id="side-h" className={s.sideH}>Ask for this device</h2>
-                <p className={s.sideP}>Send the {sizeRows.length} details in this table on WhatsApp.</p>
+                <p className={s.sideP}>Send these {sizeRows.length} details on WhatsApp. <Link href="/contact#h-send">What else to send <span aria-hidden="true">&#8594;</span></Link></p>
                 <a className={s.cta} href={wa}>Ask on WhatsApp {site.whatsapp.display}</a>
                 <p className={s.sos}>{sos.replace(/ dispatch centre$/, '')} <a href={`tel:${site.dispatch.tel}`}>{site.dispatch.display}</a></p>
               </aside>
@@ -349,7 +367,7 @@ export default async function DevicePage({ params }: Props) {
         </section>
       )}
 
-      <AskBand title={`Need ${article(d.name)} ${d.name.toLowerCase()} for a case?`} wa={wa} />
+      <AskBand title={noCase || machine ? `Need ${np}?` : `Need ${np} for a case?`} wa={wa} />
     </>
   );
 }
