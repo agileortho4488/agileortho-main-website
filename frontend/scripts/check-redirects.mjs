@@ -8,7 +8,7 @@ const root = new URL('..', import.meta.url);
 const OUT = fileURLToPath(new URL('out/', root));
 const CACHE = fileURLToPath(new URL('.cache/old-sitemap-paths.txt', root));
 const OLD_SITEMAP = process.env.OLD_SITEMAP_URL || 'https://www.agilehealthcare.in/sitemap.xml';
-const { redirects = [] } = JSON.parse(readFileSync(fileURLToPath(new URL('../vercel.json', root)), 'utf8'));
+const { redirects = [] } = JSON.parse(readFileSync(fileURLToPath(new URL('vercel.json', root)), 'utf8'));
 
 // Vercel source (path-to-regexp style) -> RegExp. Handles literals, :name, :name*, :name(regex).
 export function sourceToRegExp(src) {
